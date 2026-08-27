@@ -1,0 +1,927 @@
+/**
+ * 職種別デモサイトの見た目（`/demosite/<職種>`）。
+ *
+ * Tailwind を使わず、`.ds` の中だけで完結する素のCSSにしています。理由は2つ。
+ *  1. 本サイトは暗いテーマなので、明るい配色の「お客様のホームページ」を作るには
+ *     すべての色を上書きすることになり、かえって記述量が増える。
+ *  2. デモサイトはページ単位で読み込まれるため、CSSも小さく独立しているほうが速い。
+ *
+ * 配色は `data-theme` で切り替えます（職種の「らしさ」はほぼここで決まります）。
+ * 変数だけを差し替え、レイアウトのCSSは全職種で共有します
+ *  ＝ WordPressのテーマ1つで、内容だけ職種ごとに変えているのと同じ構造です。
+ */
+
+.ds {
+  /* 既定（clean） */
+  --ds-bg: #ffffff;
+  --ds-alt: #f4f7fb;
+  --ds-surface: #ffffff;
+  --ds-ink: #16202e;
+  --ds-muted: #5b6a7e;
+  --ds-line: #dfe6ef;
+  --ds-accent: #1667c8;
+  --ds-accent-dark: #0f4c96;
+  --ds-accent-ink: #ffffff;
+  --ds-accent-soft: #e8f1fc;
+  --ds-hero-from: #eef4fc;
+  --ds-hero-to: #dbe8f8;
+  --ds-radius: 10px;
+  --ds-head-font: var(--font-geist-sans), system-ui, sans-serif;
+  --ds-body-font: var(--font-geist-sans), system-ui, sans-serif;
+  --ds-head-weight: 700;
+  --ds-head-spacing: 0.01em;
+
+  background: var(--ds-bg);
+  color: var(--ds-ink);
+  font-family: var(--ds-body-font);
+  line-height: 1.9;
+  font-size: 15px;
+  min-height: 100vh;
+  /* 本サイト側の暗い背景・演出が透けないように、デモサイトが全面を占める */
+  position: relative;
+  isolation: isolate;
+}
+
+.ds[data-theme="warm"] {
+  --ds-bg: #fffdf8;
+  --ds-alt: #f7f0e4;
+  --ds-ink: #2c2118;
+  --ds-muted: #6f6152;
+  --ds-line: #e7dcc9;
+  --ds-accent: #a8642a;
+  --ds-accent-dark: #834a17;
+  --ds-accent-soft: #f6ebdb;
+  --ds-hero-from: #f8f1e5;
+  --ds-hero-to: #eddfc7;
+  --ds-radius: 4px;
+  --ds-head-font: "Hiragino Mincho ProN", "Yu Mincho", serif;
+  --ds-head-spacing: 0.08em;
+}
+
+.ds[data-theme="care"] {
+  --ds-bg: #ffffff;
+  --ds-alt: #eef8f5;
+  --ds-ink: #17302c;
+  --ds-muted: #547069;
+  --ds-line: #d8ebe5;
+  --ds-accent: #178f74;
+  --ds-accent-dark: #0e6d58;
+  --ds-accent-soft: #e2f4ef;
+  --ds-hero-from: #eafaf5;
+  --ds-hero-to: #d3efe6;
+  --ds-radius: 16px;
+}
+
+.ds[data-theme="bold"] {
+  --ds-bg: #ffffff;
+  --ds-alt: #14181f;
+  --ds-ink: #14181f;
+  --ds-muted: #5d6673;
+  --ds-line: #dde1e7;
+  --ds-accent: #e2472b;
+  --ds-accent-dark: #b8351d;
+  --ds-accent-soft: #fdeae6;
+  --ds-hero-from: #1b2028;
+  --ds-hero-to: #0d1116;
+  --ds-radius: 2px;
+  --ds-head-spacing: 0.02em;
+  --ds-head-weight: 800;
+}
+
+.ds[data-theme="elegant"] {
+  --ds-bg: #fffdfd;
+  --ds-alt: #f6f1f2;
+  --ds-ink: #2a2126;
+  --ds-muted: #6d5f66;
+  --ds-line: #e6dcdf;
+  --ds-accent: #8b5f75;
+  --ds-accent-dark: #6c4459;
+  --ds-accent-soft: #f4ebef;
+  --ds-hero-from: #f8f2f4;
+  --ds-hero-to: #ece0e5;
+  --ds-radius: 0px;
+  --ds-head-font: "Hiragino Mincho ProN", "Yu Mincho", serif;
+  --ds-head-spacing: 0.12em;
+  --ds-head-weight: 600;
+}
+
+.ds[data-theme="trust"] {
+  --ds-bg: #ffffff;
+  --ds-alt: #f2f5f9;
+  --ds-ink: #1b2432;
+  --ds-muted: #5a6779;
+  --ds-line: #dde4ed;
+  --ds-accent: #17497e;
+  --ds-accent-dark: #0f3560;
+  --ds-accent-soft: #e7eef7;
+  --ds-hero-from: #eaf0f8;
+  --ds-hero-to: #d5e1f0;
+  --ds-radius: 6px;
+}
+
+/* ---------------- 共通の骨格 ---------------- */
+
+.ds :where(h1, h2, h3, h4) {
+  font-family: var(--ds-head-font);
+  font-weight: var(--ds-head-weight);
+  letter-spacing: var(--ds-head-spacing);
+  line-height: 1.5;
+  color: var(--ds-ink);
+}
+
+.ds a {
+  color: inherit;
+  text-decoration: none;
+}
+
+.ds-wrap {
+  width: min(1120px, calc(100% - 2.5rem));
+  margin-inline: auto;
+}
+
+.ds-section {
+  padding-block: clamp(3.5rem, 8vw, 6rem);
+}
+
+.ds-section--alt {
+  background: var(--ds-alt);
+}
+
+.ds[data-theme="bold"] .ds-section--alt {
+  background: var(--ds-alt);
+  color: #f3f5f8;
+}
+
+.ds[data-theme="bold"] .ds-section--alt :where(h2, h3, h4) {
+  color: #ffffff;
+}
+
+.ds[data-theme="bold"] .ds-section--alt .ds-lead,
+.ds[data-theme="bold"] .ds-section--alt .ds-card p {
+  color: #b9c1cd;
+}
+
+.ds[data-theme="bold"] .ds-section--alt .ds-card {
+  background: #1d232c;
+  border-color: #2c333e;
+}
+
+.ds-head {
+  max-width: 46rem;
+  margin-bottom: clamp(2rem, 4vw, 3rem);
+}
+
+.ds-head--center {
+  margin-inline: auto;
+  text-align: center;
+}
+
+.ds-eyebrow {
+  display: inline-block;
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--ds-accent);
+  margin-bottom: 0.75rem;
+}
+
+.ds-h2 {
+  font-size: clamp(1.5rem, 3.4vw, 2.15rem);
+}
+
+.ds-lead {
+  margin-top: 0.9rem;
+  color: var(--ds-muted);
+  font-size: 0.95rem;
+}
+
+/* ---------------- 上部のデモ告知バー ---------------- */
+
+.ds-bar {
+  position: sticky;
+  top: 0;
+  z-index: 60;
+  background: #0d1220;
+  color: #e6ecf7;
+  font-size: 0.76rem;
+  line-height: 1.6;
+}
+
+.ds-bar-inner {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem 1rem;
+  padding-block: 0.5rem;
+}
+
+.ds-bar strong {
+  color: #7fd4ff;
+  font-weight: 700;
+}
+
+.ds-bar-link {
+  margin-left: auto;
+  border: 1px solid rgba(255, 255, 255, 0.35);
+  border-radius: 999px;
+  padding: 0.15rem 0.8rem;
+  white-space: nowrap;
+}
+
+.ds-bar-link:hover {
+  background: rgba(255, 255, 255, 0.12);
+}
+
+/* ---------------- ヘッダー ---------------- */
+
+.ds-header {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  background: color-mix(in srgb, var(--ds-bg) 92%, transparent);
+  backdrop-filter: blur(8px);
+  border-bottom: 1px solid var(--ds-line);
+}
+
+.ds-header-inner {
+  display: flex;
+  align-items: center;
+  gap: 1.25rem;
+  padding-block: 0.85rem;
+}
+
+.ds-brand {
+  display: flex;
+  align-items: baseline;
+  gap: 0.6rem;
+  min-width: 0;
+}
+
+.ds-brand b {
+  font-family: var(--ds-head-font);
+  font-size: 1.12rem;
+  letter-spacing: var(--ds-head-spacing);
+  white-space: nowrap;
+}
+
+.ds-brand span {
+  font-size: 0.62rem;
+  letter-spacing: 0.2em;
+  color: var(--ds-muted);
+  text-transform: uppercase;
+}
+
+.ds-nav {
+  display: none;
+  gap: 1.15rem;
+  margin-left: auto;
+  font-size: 0.86rem;
+}
+
+.ds-nav a:hover {
+  color: var(--ds-accent);
+}
+
+.ds-header-cta {
+  display: none;
+  align-items: center;
+  gap: 0.9rem;
+}
+
+.ds-tel {
+  font-family: var(--ds-head-font);
+  font-size: 1.02rem;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.ds-tel small {
+  display: block;
+  font-size: 0.6rem;
+  letter-spacing: 0.14em;
+  color: var(--ds-muted);
+  font-weight: 400;
+}
+
+/* スマートフォン用のメニュー。JSを使わず details で開閉する */
+.ds-menu {
+  margin-left: auto;
+}
+
+.ds-menu > summary {
+  list-style: none;
+  cursor: pointer;
+  border: 1px solid var(--ds-line);
+  border-radius: var(--ds-radius);
+  padding: 0.45rem 0.8rem;
+  font-size: 0.8rem;
+  font-weight: 700;
+}
+
+.ds-menu > summary::-webkit-details-marker {
+  display: none;
+}
+
+.ds-menu[open] > summary {
+  background: var(--ds-accent);
+  color: var(--ds-accent-ink);
+  border-color: var(--ds-accent);
+}
+
+.ds-menu-panel {
+  position: absolute;
+  top: 100%;
+  inset-inline: 0;
+  background: var(--ds-bg);
+  border-bottom: 1px solid var(--ds-line);
+  padding: 0.75rem 0 1.25rem;
+  box-shadow: 0 14px 30px rgba(15, 23, 42, 0.12);
+}
+
+.ds-menu-panel a {
+  display: block;
+  padding: 0.7rem 0;
+  border-bottom: 1px solid var(--ds-line);
+  font-size: 0.92rem;
+}
+
+@media (min-width: 900px) {
+  .ds-nav,
+  .ds-header-cta {
+    display: flex;
+  }
+  .ds-menu {
+    display: none;
+  }
+}
+
+/* ---------------- ヒーロー ---------------- */
+
+.ds-hero {
+  background: linear-gradient(160deg, var(--ds-hero-from), var(--ds-hero-to));
+  padding-block: clamp(3rem, 8vw, 5.5rem);
+  position: relative;
+  overflow: hidden;
+}
+
+.ds[data-theme="bold"] .ds-hero {
+  color: #f4f6f9;
+}
+
+.ds[data-theme="bold"] .ds-hero h1,
+.ds[data-theme="bold"] .ds-hero .ds-hero-lead {
+  color: #ffffff;
+}
+
+.ds-hero-grid {
+  display: grid;
+  gap: clamp(2rem, 5vw, 3.5rem);
+  align-items: center;
+}
+
+@media (min-width: 900px) {
+  .ds-hero-grid {
+    grid-template-columns: 1.05fr 0.95fr;
+  }
+}
+
+.ds-hero h1 {
+  font-size: clamp(1.85rem, 5.2vw, 3.1rem);
+  line-height: 1.42;
+}
+
+.ds-hero-lead {
+  margin-top: 1.3rem;
+  color: var(--ds-muted);
+  font-size: 0.97rem;
+  max-width: 32rem;
+}
+
+.ds[data-theme="bold"] .ds-hero-lead {
+  color: #c2cad6;
+}
+
+.ds-hero-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  margin-top: 1.9rem;
+}
+
+.ds-points {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem 1.4rem;
+  margin-top: 1.9rem;
+  padding-top: 1.4rem;
+  border-top: 1px solid color-mix(in srgb, var(--ds-ink) 14%, transparent);
+  font-size: 0.83rem;
+  font-weight: 600;
+}
+
+.ds-points li {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.ds-points li::before {
+  content: "";
+  width: 0.45rem;
+  height: 0.45rem;
+  border-radius: 50%;
+  background: var(--ds-accent);
+}
+
+/* 写真の代わりに置く枠。実案件ではここにお客様の写真が入ります */
+.ds-photo {
+  position: relative;
+  border-radius: var(--ds-radius);
+  overflow: hidden;
+  background:
+    radial-gradient(120% 90% at 20% 10%, color-mix(in srgb, var(--ds-accent) 26%, transparent), transparent 60%),
+    linear-gradient(140deg, color-mix(in srgb, var(--ds-accent) 16%, #ffffff), color-mix(in srgb, var(--ds-ink) 12%, #ffffff));
+  border: 1px solid var(--ds-line);
+  display: grid;
+  place-items: center;
+  aspect-ratio: 4 / 3;
+  color: var(--ds-muted);
+  font-size: 0.72rem;
+  letter-spacing: 0.1em;
+  text-align: center;
+  padding: 1rem;
+}
+
+.ds-photo::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(color-mix(in srgb, var(--ds-ink) 6%, transparent) 1px, transparent 1px),
+    linear-gradient(90deg, color-mix(in srgb, var(--ds-ink) 6%, transparent) 1px, transparent 1px);
+  background-size: 22px 22px;
+  pointer-events: none;
+}
+
+.ds-photo span {
+  position: relative;
+  z-index: 1;
+  background: color-mix(in srgb, var(--ds-bg) 82%, transparent);
+  border-radius: 999px;
+  padding: 0.3rem 0.9rem;
+}
+
+.ds-photo--wide {
+  aspect-ratio: 16 / 9;
+}
+
+/* ---------------- ボタン ---------------- */
+
+.ds-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  border-radius: var(--ds-radius);
+  padding: 0.85rem 1.6rem;
+  font-size: 0.9rem;
+  font-weight: 700;
+  border: 1px solid transparent;
+  cursor: pointer;
+  transition: background-color 0.15s ease, color 0.15s ease, border-color 0.15s ease;
+}
+
+.ds-btn--primary {
+  background: var(--ds-accent);
+  color: var(--ds-accent-ink);
+}
+
+.ds-btn--primary:hover {
+  background: var(--ds-accent-dark);
+}
+
+.ds-btn--ghost {
+  border-color: color-mix(in srgb, var(--ds-ink) 24%, transparent);
+  color: var(--ds-ink);
+  background: color-mix(in srgb, var(--ds-bg) 70%, transparent);
+}
+
+.ds[data-theme="bold"] .ds-hero .ds-btn--ghost {
+  color: #ffffff;
+  border-color: rgba(255, 255, 255, 0.4);
+  background: transparent;
+}
+
+.ds-btn--sm {
+  padding: 0.5rem 1.05rem;
+  font-size: 0.8rem;
+}
+
+/* ---------------- お知らせ ---------------- */
+
+.ds-news {
+  border-bottom: 1px solid var(--ds-line);
+  padding-block: 1.25rem;
+}
+
+.ds-news-list {
+  display: grid;
+  gap: 0.55rem;
+}
+
+.ds-news-list li {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0.5rem 0.9rem;
+  font-size: 0.86rem;
+}
+
+.ds-news-list time {
+  color: var(--ds-muted);
+  font-variant-numeric: tabular-nums;
+  font-size: 0.8rem;
+}
+
+.ds-tag {
+  display: inline-block;
+  border: 1px solid var(--ds-accent);
+  color: var(--ds-accent);
+  border-radius: 999px;
+  font-size: 0.66rem;
+  font-weight: 700;
+  padding: 0.05rem 0.65rem;
+  white-space: nowrap;
+}
+
+/* ---------------- カード・グリッド ---------------- */
+
+.ds-grid {
+  display: grid;
+  gap: 1.25rem;
+}
+
+.ds-grid--2 {
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 21rem), 1fr));
+}
+
+.ds-grid--3 {
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 17rem), 1fr));
+}
+
+.ds-card {
+  background: var(--ds-surface);
+  border: 1px solid var(--ds-line);
+  border-radius: var(--ds-radius);
+  padding: 1.6rem;
+}
+
+.ds-card h3 {
+  font-size: 1.05rem;
+}
+
+.ds-card p {
+  margin-top: 0.7rem;
+  color: var(--ds-muted);
+  font-size: 0.88rem;
+}
+
+.ds-num {
+  font-family: var(--ds-head-font);
+  font-size: 1.9rem;
+  font-weight: 700;
+  color: color-mix(in srgb, var(--ds-accent) 42%, transparent);
+  line-height: 1;
+  display: block;
+  margin-bottom: 0.6rem;
+}
+
+/* ---------------- メニュー（サービス一覧） ---------------- */
+
+.ds-menu-list {
+  display: grid;
+  gap: 0;
+  border-top: 1px solid var(--ds-line);
+}
+
+.ds-menu-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0.4rem 1rem;
+  padding-block: 1.05rem;
+  border-bottom: 1px solid var(--ds-line);
+}
+
+.ds-menu-row b {
+  font-size: 1rem;
+  font-weight: 700;
+}
+
+.ds-menu-row .ds-cat {
+  font-size: 0.72rem;
+  color: var(--ds-muted);
+  border: 1px solid var(--ds-line);
+  border-radius: 999px;
+  padding: 0.05rem 0.6rem;
+}
+
+.ds-price {
+  margin-left: auto;
+  font-family: var(--ds-head-font);
+  font-weight: 700;
+  font-size: 1.02rem;
+  white-space: nowrap;
+}
+
+.ds-price small {
+  font-size: 0.7rem;
+  font-weight: 400;
+  color: var(--ds-muted);
+  margin-left: 0.2rem;
+}
+
+/* ---------------- 事例 ---------------- */
+
+.ds-work h3 {
+  margin-top: 0.9rem;
+  font-size: 1rem;
+}
+
+.ds-work p {
+  margin-top: 0.5rem;
+  color: var(--ds-muted);
+  font-size: 0.86rem;
+}
+
+/* ---------------- お客様の声 ---------------- */
+
+.ds-voice {
+  background: var(--ds-surface);
+  border: 1px solid var(--ds-line);
+  border-radius: var(--ds-radius);
+  padding: 1.5rem;
+}
+
+.ds-voice p {
+  font-size: 0.9rem;
+}
+
+.ds-voice footer {
+  margin-top: 1rem;
+  font-size: 0.78rem;
+  color: var(--ds-muted);
+}
+
+.ds-stars {
+  color: var(--ds-accent);
+  letter-spacing: 0.12em;
+  font-size: 0.85rem;
+}
+
+/* ---------------- 流れ ---------------- */
+
+.ds-flow {
+  display: grid;
+  gap: 1rem;
+  counter-reset: step;
+}
+
+@media (min-width: 760px) {
+  .ds-flow {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+.ds-flow li {
+  counter-increment: step;
+  background: var(--ds-surface);
+  border: 1px solid var(--ds-line);
+  border-radius: var(--ds-radius);
+  padding: 1.35rem;
+}
+
+.ds-flow li::before {
+  content: "STEP " counter(step);
+  display: block;
+  font-size: 0.64rem;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  color: var(--ds-accent);
+  margin-bottom: 0.55rem;
+}
+
+.ds-flow h3 {
+  font-size: 0.98rem;
+}
+
+.ds-flow p {
+  margin-top: 0.5rem;
+  font-size: 0.84rem;
+  color: var(--ds-muted);
+}
+
+/* ---------------- FAQ ---------------- */
+
+.ds-faq {
+  border-top: 1px solid var(--ds-line);
+}
+
+.ds-faq details {
+  border-bottom: 1px solid var(--ds-line);
+}
+
+.ds-faq summary {
+  cursor: pointer;
+  list-style: none;
+  padding-block: 1.15rem;
+  font-weight: 700;
+  font-size: 0.95rem;
+  display: flex;
+  gap: 0.75rem;
+  align-items: flex-start;
+}
+
+.ds-faq summary::-webkit-details-marker {
+  display: none;
+}
+
+.ds-faq summary::before {
+  content: "Q";
+  color: var(--ds-accent);
+  font-family: var(--ds-head-font);
+  font-weight: 700;
+}
+
+.ds-faq p {
+  padding: 0 0 1.3rem 1.6rem;
+  color: var(--ds-muted);
+  font-size: 0.89rem;
+}
+
+/* ---------------- アクセス ---------------- */
+
+.ds-info {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.89rem;
+}
+
+.ds-info th,
+.ds-info td {
+  text-align: left;
+  vertical-align: top;
+  padding: 0.85rem 0;
+  border-bottom: 1px solid var(--ds-line);
+}
+
+.ds-info th {
+  width: 7.5rem;
+  font-weight: 700;
+  color: var(--ds-ink);
+}
+
+.ds-info td {
+  color: var(--ds-muted);
+}
+
+/* ---------------- 問い合わせ ---------------- */
+
+.ds-form {
+  display: grid;
+  gap: 1rem;
+}
+
+.ds-field {
+  display: grid;
+  gap: 0.4rem;
+}
+
+.ds-field label {
+  font-size: 0.8rem;
+  font-weight: 700;
+}
+
+.ds-field input,
+.ds-field select,
+.ds-field textarea {
+  font: inherit;
+  font-size: 0.9rem;
+  color: var(--ds-ink);
+  background: var(--ds-bg);
+  border: 1px solid var(--ds-line);
+  border-radius: var(--ds-radius);
+  padding: 0.7rem 0.85rem;
+  width: 100%;
+}
+
+.ds-field input:focus-visible,
+.ds-field select:focus-visible,
+.ds-field textarea:focus-visible {
+  outline: 2px solid var(--ds-accent);
+  outline-offset: 1px;
+}
+
+.ds-form-note {
+  font-size: 0.76rem;
+  color: var(--ds-muted);
+}
+
+.ds-form-done {
+  border: 1px solid var(--ds-accent);
+  background: var(--ds-accent-soft);
+  color: var(--ds-accent-dark);
+  border-radius: var(--ds-radius);
+  padding: 1rem 1.1rem;
+  font-size: 0.86rem;
+}
+
+/* ---------------- 機能デモ ---------------- */
+
+.ds-feature {
+  border: 1px solid var(--ds-line);
+  border-radius: var(--ds-radius);
+  background: var(--ds-surface);
+  overflow: hidden;
+}
+
+.ds-feature-head {
+  padding: 1.5rem;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.9rem 1.25rem;
+  align-items: flex-start;
+}
+
+.ds-feature-head h3 {
+  font-size: 1.05rem;
+}
+
+.ds-feature-head p {
+  margin-top: 0.55rem;
+  font-size: 0.87rem;
+  color: var(--ds-muted);
+  max-width: 44rem;
+}
+
+.ds-feature-actions {
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}
+
+/* デモ本体は本サイトの暗い部品なので、明るい面から浮かせて置く */
+.ds-feature-body {
+  border-top: 1px solid var(--ds-line);
+  background: #070b16;
+  padding: 1rem;
+}
+
+.ds-feature-hint {
+  font-size: 0.74rem;
+  color: var(--ds-muted);
+}
+
+/* ---------------- フッター ---------------- */
+
+.ds-footer {
+  background: #10141c;
+  color: #c7ced9;
+  padding-block: 3rem 2rem;
+  font-size: 0.85rem;
+}
+
+.ds-footer h2 {
+  color: #ffffff;
+  font-size: 1.1rem;
+}
+
+.ds-footer a:hover {
+  color: #ffffff;
+}
+
+.ds-footer-grid {
+  display: grid;
+  gap: 2rem;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 15rem), 1fr));
+}
+
+.ds-footer-note {
+  margin-top: 2.5rem;
+  padding-top: 1.25rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.12);
+  font-size: 0.74rem;
+  color: #8a93a1;
+  line-height: 1.8;
+}
+
+/* ---------------- 動きを減らす設定への配慮 ---------------- */
+
+@media (prefers-reduced-motion: reduce) {
+  .ds * {
+    transition-duration: 0.01ms !important;
+    animation-duration: 0.01ms !important;
+  }
+}

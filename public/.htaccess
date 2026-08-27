@@ -1,0 +1,181 @@
+# さくらのレンタルサーバ（Apache）向け設定。
+# out/ 配下ごとアップロードされ、静的書き出しのサイトを正しく配信するために使う。
+# ※ GitHub Pages では無視されるため、置いてあっても害はない。
+
+# ※ さくらのレンタルサーバは .htaccess での Options ディレクティブを許可しておらず、
+#   書くと 500 になる（AllowOverride に Options が含まれていない）。絶対に足さないこと。
+DirectoryIndex index.html
+
+# RSCペイロード用に ai/ や demo/3dcg/ といった同名ディレクトリが出力されるため、
+# これを切らないと mod_dir が /ai → /ai/ へ301し、index.html が無いので403になる。
+# 切ったうえで下の RewriteRule に ai.html を返させる。
+<IfModule mod_dir.c>
+  DirectorySlash Off
+</IfModule>
+
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+
+  # --- ホスト名の正規化（www あり を正とする）---
+  # 正規URLは https://www.yebisusoft.jp。www なしで来たら www ありへ301。
+  # ホスト名を完全一致で見ているので、旧ドメイン（ebisusoft.sakura.ne.jp）は対象外。
+  # 旧ドメインは「新ドメインへの移行を確認するまで」そのまま見えてよい（閉鎖はさくら側で行う）。
+  # ※ https への強制はさくらのコントロールパネル側の「HTTPSに転送」に任せる。
+  #   nginx がフロントに立つ構成で %{HTTPS} が当てにならず、ここで書くとループの危険がある。
+  RewriteCond %{HTTP_HOST} ^yebisusoft\.jp$ [NC]
+  RewriteRule ^(.*)$ https://www.yebisusoft.jp/$1 [R=301,L]
+
+  # 【重要】事前圧縮（.br / .gz）の出し分けは、さくらでは動かないことが確認済み。
+  #
+  #   犯人は前段のWAF（レスポンスヘッダー Via: ss20xx.guard.sakura.ne.jp /
+  #   EG Secure Solutions siteguard_http_01）。これが Accept-Encoding だけを
+  #   狙って削除しており、Apache には届かない。WAFが本文を検査するために
+  #   平文を要求する、よくある挙動。mod_deflate が効かなかった原因も同じ。
+  #   そのため下の RewriteCond %{HTTP:Accept-Encoding} は常に不成立になり、
+  #   圧縮版は一切選ばれない（2026-08-03 に実測して確認）。
+  #
+  #   確認方法：_hdrprobe.php を一時的に置いて $_SERVER をダンプすると、
+  #   HTTP_ACCEPT_ENCODING だけが存在しない（HTTP_ACCEPT や独自の X-Test は届く）。
+  #   HTTP/1.1・HTTP/2、ブラウザUA、いずれでも同じ。
+  #
+  #   .br ファイル自体は直接URLを叩けば AddEncoding が効いて
+  #   Content-Encoding: br 付きで正しく配信されることまで確認済み。
+  #   → さくらのコントロールパネルで WAF を無効化すれば、下のルールはそのまま動く。
+  #
+  # 【運用方針・2026-08-04 決定】**WAF は有効のまま運用する**。
+  #   そのため下の圧縮ルールは常に不成立で、実際には無圧縮で配信されている
+  #   （トップHTMLで約 422KB）。転送量を減らすには HTML/JS 自体を削るしかない。
+  #   ルール本体は、WAFを外した場合やサーバー移設時にそのまま効くよう残してある。
+  #
+  # 【重要】このサーバーでは多段リライトも当てにしないこと。
+  # /ai → /ai.html → /ai.html.br のように段階的に解決させる書き方は動かない
+  # （per-directory 文脈の2巡目に進まない）。下のルールはすべて
+  # 「1回のリライトで最終ファイルまで到達させる」形にしてある。
+  #
+  # Content-Type / Content-Encoding は下の AddEncoding が付ける（.br を無視して
+  # .html から text/html を決め、encoding だけ足す）ので、ここでは触らない。
+
+  # --- ルート ---
+  RewriteCond %{HTTP:Accept-Encoding} (^|,)\s*br($|[,;])
+  RewriteCond %{REQUEST_FILENAME}index.html.br -f
+  RewriteRule ^$ /index.html.br [L]
+
+  RewriteCond %{HTTP:Accept-Encoding} (^|,)\s*gzip($|[,;])
+  RewriteCond %{REQUEST_FILENAME}index.html.gz -f
+  RewriteRule ^$ /index.html.gz [L]
+
+  RewriteRule ^$ /index.html [L]
+
+  # --- 拡張子なしのURL（/ai, /company など）---
+  # Next.js の静的書き出しは trailingSlash: false のため ai.html の形で出力される。
+  # ※ ai.html と並んで RSCペイロード用の ai/ ディレクトリも出力されるため、
+  #   !-d（ディレクトリでない）を条件にすると /ai がリライトされず mod_dir が
+  #   /ai/ へ301 → index.html が無く403になる。よってディレクトリでも .html を優先する。
+  # ※ さくらは nginx がフロントに立つ構成のため %{DOCUMENT_ROOT} が期待どおり解決されない。
+  #   実パスが取れる %{REQUEST_FILENAME} を使うこと。
+  RewriteCond %{HTTP:Accept-Encoding} (^|,)\s*br($|[,;])
+  RewriteCond %{REQUEST_FILENAME} !-f
+  RewriteCond %{REQUEST_FILENAME}.html.br -f
+  RewriteRule ^(.+)$ /$1.html.br [L]
+
+  RewriteCond %{HTTP:Accept-Encoding} (^|,)\s*gzip($|[,;])
+  RewriteCond %{REQUEST_FILENAME} !-f
+  RewriteCond %{REQUEST_FILENAME}.html.gz -f
+  RewriteRule ^(.+)$ /$1.html.gz [L]
+
+  RewriteCond %{REQUEST_FILENAME} !-f
+  RewriteCond %{REQUEST_FILENAME}.html -f
+  RewriteRule ^(.+)$ /$1.html [L]
+
+  # --- 実ファイル（.js / .css / .txt など）を圧縮版に差し替える ---
+  # ※ sitemap.xml と robots.txt だけは常に素のまま返す。
+  #   クローラ向けのファイルは配信経路を単純に保つほうが事故が少なく、
+  #   数KBなので圧縮しなくても転送量に影響しない。
+  #   （過去に sitemap.xml.gz が application/x-gzip で配信され、GSCが
+  #     「サイトマップを読み込めませんでした」になった経緯がある。
+  #     下の RemoveType .gz で解消済みだが、再発の芽を残さない。）
+  RewriteCond %{HTTP:Accept-Encoding} (^|,)\s*br($|[,;])
+  RewriteCond %{REQUEST_URI} !^/(sitemap\.xml|robots\.txt)$
+  RewriteCond %{REQUEST_FILENAME} -f
+  RewriteCond %{REQUEST_FILENAME}.br -f
+  RewriteRule ^(.+)$ /$1.br [L]
+
+  RewriteCond %{HTTP:Accept-Encoding} (^|,)\s*gzip($|[,;])
+  RewriteCond %{REQUEST_URI} !^/(sitemap\.xml|robots\.txt)$
+  RewriteCond %{REQUEST_FILENAME} -f
+  RewriteCond %{REQUEST_FILENAME}.gz -f
+  RewriteRule ^(.+)$ /$1.gz [L]
+
+  # 末尾スラッシュ付きでアクセスされたら、スラッシュなしへ正規化（canonical と揃える）
+  RewriteRule ^(.+)/$ /$1 [R=301,L]
+</IfModule>
+
+ErrorDocument 404 /404.html
+
+# ------------------------------------------------------------------
+# 転送量の削減（表示速度に直結する。Lighthouse はこの有無で大きく変わる）
+# ------------------------------------------------------------------
+# 事前圧縮ファイル（index.html.br など）に Content-Encoding を付ける。
+# mod_mime は拡張子を右から解釈し、知らない .br / .gz は型判定では無視するため、
+# Content-Type は元の拡張子（.html → text/html）のまま encoding だけが足される。
+<IfModule mod_mime.c>
+  # 【重要】さくらの Apache は既定で AddType application/x-gzip .gz を持っており、
+  # .gz は「未知の拡張子」ではなく型を持つ拡張子として解釈される。その結果
+  # sitemap.xml.gz が Content-Type: application/x-gzip で配信され、
+  # Google Search Console が「サイトマップを読み込めませんでした」になった
+  # （HTMLも同様に text/html ではなく x-gzip になっていた）。
+  # RemoveType で .gz の型定義を消すと、.br と同じく元の拡張子
+  # （.xml → application/xml）で型が決まり、encoding だけが足される。
+  RemoveType .gz
+  AddEncoding br .br
+  AddEncoding gzip .gz
+</IfModule>
+
+# 同じURLが Accept-Encoding によって別の中身を返すので、キャッシュに必ず知らせる。
+<IfModule mod_headers.c>
+  Header merge Vary Accept-Encoding
+</IfModule>
+
+# さくらには mod_deflate が入っていないため、この節は実際には効かない
+# （Content-Encoding が返らないことを初回デプロイで確認済み）。
+# 将来モジュールが有効化された場合や他サーバーへ移した場合の保険として残す。
+# 実際の圧縮は上の「事前圧縮ファイルの配信」が担当する。
+<IfModule mod_deflate.c>
+  AddOutputFilterByType DEFLATE text/html text/plain text/xml text/css
+  AddOutputFilterByType DEFLATE application/javascript application/x-javascript
+  AddOutputFilterByType DEFLATE application/json application/xml
+  AddOutputFilterByType DEFLATE image/svg+xml
+</IfModule>
+
+# ------------------------------------------------------------------
+# キャッシュ。ハッシュ付きの静的アセットは長期、HTML は都度確認。
+# ------------------------------------------------------------------
+<IfModule mod_expires.c>
+  ExpiresActive On
+  ExpiresDefault "access plus 1 hour"
+  ExpiresByType text/css "access plus 1 year"
+  ExpiresByType application/javascript "access plus 1 year"
+  ExpiresByType font/woff2 "access plus 1 year"
+  ExpiresByType image/svg+xml "access plus 1 month"
+  ExpiresByType image/png "access plus 1 month"
+  ExpiresByType text/html "access plus 0 seconds"
+</IfModule>
+
+<IfModule mod_headers.c>
+  # _next/static はファイル名にハッシュが入るため、内容が変われば別URLになる
+  # ※ 実際に配信されるのは事前圧縮した .js.br / .css.br なので、
+  #   (\.(br|gz))? を付けて圧縮版にも同じキャッシュ指定が効くようにする。
+  <FilesMatch "\.(js|css|woff2)(\.(br|gz))?$">
+    Header set Cache-Control "public, max-age=31536000, immutable"
+  </FilesMatch>
+  <FilesMatch "\.(html|txt|xml)(\.(br|gz))?$">
+    Header set Cache-Control "public, max-age=0, must-revalidate"
+  </FilesMatch>
+
+  # セキュリティヘッダー（静的書き出しでは next.config の headers() が効かないため、ここで付与）
+  Header always set X-Content-Type-Options "nosniff"
+  Header always set X-Frame-Options "SAMEORIGIN"
+  Header always set Referrer-Policy "strict-origin-when-cross-origin"
+  Header always set Permissions-Policy "camera=(self), microphone=(self), geolocation=()"
+  Header always set Strict-Transport-Security "max-age=63072000; includeSubDomains; preload"
+</IfModule>

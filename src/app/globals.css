@@ -1,0 +1,1954 @@
+@import "tailwindcss";
+
+/*
+ * デザイントークン（Tailwind v4 @theme）。
+ *
+ * テーマ：**デザイン案 03「AI STUDIO」＝未来を試作するラボ**。
+ * 漆黒パープル（#07050e）の実験室に、クロームの核と紫の光。
+ * アクセントは紫の発光（brand #b67eff）／淡いラベンダー（accent）／ミント（gold の枠を転用）。
+ *
+ * ※ このリポジトリはデザイン案の検討用フォークです。本番サイト（www.yebisusoft.jp）とは
+ *    別物で、ここでの変更が本番へ反映されることはありません。
+ * ※ 会社ロゴだけは本番とまったく同じシアンのまま（Logo.tsx / CompanyLogo.tsx で色を直接指定）。
+ */
+@theme {
+  /* ラテン文字は Geist（next/font で自己ホスト）、日本語はOSの高品質フォントに自動フォールバック。
+     Webフォントのダウンロードを最小化し、Core Web Vitals（CLS/LCP）を最優先にしています。 */
+  --font-sans:
+    var(--font-geist-sans), "Hiragino Sans", "Hiragino Kaku Gothic ProN", "Noto Sans JP",
+    "Yu Gothic", Meiryo, system-ui, sans-serif;
+  /* 見出し・数値・英字ラベル用のディスプレイフォント（近未来的な幾何学サンセリフ） */
+  --font-display:
+    var(--font-orbitron), var(--font-geist-sans), "Hiragino Sans", system-ui, sans-serif;
+
+  /* ブランドカラー：紫の発光（デザイン案 03 のアクセント #b67eff） */
+  --color-brand: #b67eff;
+  --color-brand-dark: #5a2f96;
+  --color-brand-light: #e5d6ff;
+  /* サブアクセント：淡いラベンダー（クロームの反射に載る色） */
+  --color-accent: #c4a0ff;
+  --color-accent-light: #ddc9ff;
+  /* 第2アクセント：ミント（ラボの計測値・OK表示に使う。ゴールドの枠を転用） */
+  --color-gold: #aaffdc;
+  --color-gold-light: #d6fff0;
+  /* ブランドネイビー：ロゴのメインカラー（信頼・堅実）。
+     サイト本体は漆黒ネイビー基調のため、ロゴ地色として使うのはアイコン・OG画像など
+     明るい面に置かれる場面が中心です。 */
+  --color-navy: #0f2e5f;
+  --color-navy-light: #1d4e89;
+  /* ダーク基調色：漆黒パープル（ai-hero / ai-flow / ai-console の3層） */
+  --color-ink: #07050e;
+  --color-ink-2: #0c0815;
+  --color-ink-3: #151022;
+  /* 罫線・境界（紫を透かした線。ai-panel の border に相当） */
+  --color-line: rgba(182, 126, 255, 0.18);
+
+  /* ---------------------------------------------------------------
+   * 本文グレーの色味そのものを差し替える。
+   * 各ページは text-slate-300 / text-slate-400、border-slate-800 などを
+   * 多用しているため、ランプごと紫寄りに振ると全ページが一括でテーマに乗る。
+   * （個々のページのクラス名を書き換えて回る必要がない）
+   * ------------------------------------------------------------- */
+  --color-slate-200: #e6dff0;
+  --color-slate-300: #cdc2dd;
+  --color-slate-400: #a393af;
+  --color-slate-500: #8a7c98;
+  --color-slate-600: #6b5f79;
+  --color-slate-700: #4c4258;
+  --color-slate-800: #2a2338;
+  --color-slate-900: #171125;
+  --color-slate-950: #0c0815;
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    /* 固定ヘッダー分のアンカーオフセット */
+    scroll-padding-top: 5rem;
+    -webkit-text-size-adjust: 100%;
+  }
+
+  body {
+    font-family: var(--font-sans);
+    background-color: var(--color-ink);
+    color: #cdc2dd; /* 紫寄りの明るいグレー：漆黒パープル背景での本文色 */
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+    /* 日本語の約物（句読点・括弧）のアキを詰めて読みやすく */
+    font-feature-settings: "palt";
+  }
+
+  ::selection {
+    background-color: var(--color-gold);
+    color: #07050e;
+  }
+
+  /* ---------------------------------------------------------------
+   * iOS Safari は 16px 未満の入力欄にフォーカスすると、ページを自動で拡大する。
+   * 拡大は自動では戻らないため、以降ずっと「幅が合っていない」状態に見えてしまう。
+   * 狭い画面では入力欄の文字を 16px 下限にして、拡大自体を起こさせない。
+   * ------------------------------------------------------------- */
+  @media (max-width: 767px) {
+    input,
+    textarea,
+    select {
+      font-size: max(16px, 1em);
+    }
+  }
+
+  /* 大見出しは行末のバランスを整え、本文は孤立行（1語だけ残る行）を避ける。
+     組版の質感が上がるうえ、対応していないブラウザでは単に無視される。 */
+  h1,
+  h2 {
+    text-wrap: balance;
+  }
+  /* 小見出し（カードの見出しなど）は balance を使わない。
+     行の長さを揃えることを優先すると、「AI機能その／ものを開発している」のように
+     文節を無視した位置で折れてしまうため。 */
+  h3,
+  h4,
+  p {
+    text-wrap: pretty;
+  }
+
+  /* ---------------------------------------------------------------
+   * 語の途中で改行させない。どの語を守るかは src/lib/typography.tsx の ja() が決め、
+   * ここではその語を折り返し禁止にするだけ。
+   *
+   * display は inline のままにすること。inline-block にすると語が地の文から
+   * 切り離された「箱」になり、「Webサイト／をつくります」のように助詞だけが
+   * 次の行へ落ちる。狭い画面での溢れは、長すぎる語を包まないことで防いでいる。
+   *
+   * `word-break: auto-phrase`（文節での折り返し）は使わない。CSS.supports() は
+   * true を返すのに折り返し位置は何も変わらず、カタカナすら「ソフトウェ／ア」と
+   * 割れることを実測で確認している（2026-08-03）。
+   * ------------------------------------------------------------- */
+  .nb,
+  .nb-strict {
+    white-space: nowrap;
+  }
+
+  /* ディスプレイフォントの数値は等幅に（カウントアップや価格が横に揺れない） */
+  .font-display {
+    font-variant-numeric: tabular-nums;
+  }
+
+  /* ---------------------------------------------------------------
+   * アクセシビリティ：キーボード操作時のフォーカスを必ず見えるようにする。
+   * マウス操作では出さない（:focus-visible）ため、見た目を損なわない。
+   * ------------------------------------------------------------- */
+  :focus-visible {
+    outline: 2px solid var(--color-brand);
+    outline-offset: 3px;
+    border-radius: 4px;
+  }
+  /* main へスキップした直後に枠が出続けるのを防ぐ */
+  main:focus {
+    outline: none;
+  }
+
+  /* スクロールバーも世界観に合わせる */
+  * {
+    scrollbar-width: thin;
+    scrollbar-color: rgba(182, 126, 255, 0.35) rgba(12, 8, 21, 0.9);
+  }
+  ::-webkit-scrollbar {
+    width: 10px;
+  }
+  ::-webkit-scrollbar-track {
+    background: var(--color-ink-2);
+  }
+  ::-webkit-scrollbar-thumb {
+    background: linear-gradient(180deg, rgba(182, 126, 255, 0.5), rgba(196, 160, 255, 0.5));
+    border-radius: 8px;
+  }
+}
+
+/* ---------------------------------------------------------------
+ * トップページ：デザイン案 03「AI STUDIO」＝未来を試作するラボ
+ *
+ * 提案案（EbisSoft-Design-Proposals の /proposal/ai-studio）の構成・寸法・配色を
+ * そのまま踏襲しています。変えたのは次の2点だけ：
+ *   1. H1 を英語から日本語主体へ。英語はキッカーへ降ろした
+ *      （AI検索／AEO では、答えになるのは日本語の見出しのため）
+ *   2. 日本語は英語ほど巨大化に耐えないので、H1 の上限を 11rem → 5.6rem に落とした
+ *      （字送り・行間は提案案の詰まった質感を維持）
+ * ------------------------------------------------------------- */
+.ai-home {
+  --ai-glow: #b67eff;
+  --ai-dim: #ba9bd3;
+  --ai-muted: #a393af;
+  background: #07050e;
+  color: #f4effa;
+  overflow: hidden;
+}
+
+/* ---- ヒーロー：中央のクローム核を、文字が囲む ---- */
+.ai-hero {
+  min-height: min(940px, calc(100vh - 4rem));
+  position: relative;
+  padding: clamp(5rem, 9vw, 9rem) clamp(1rem, 4vw, 4rem) 4rem;
+  display: grid;
+  align-content: center;
+  background: radial-gradient(circle at 52% 50%, #321357 0, #12091f 32%, #07050e 64%);
+}
+.ai-hero-kicker {
+  position: relative;
+  z-index: 4;
+  text-align: center;
+  font-family: var(--font-display);
+  font-size: 0.57rem;
+  letter-spacing: 0.2em;
+  color: var(--ai-dim);
+}
+.ai-hero h1 {
+  position: relative;
+  z-index: 4;
+  margin: 2.5rem 0 0;
+  text-align: center;
+  font-size: clamp(2.3rem, 5.4vw, 5.6rem);
+  line-height: 1.04;
+  letter-spacing: -0.045em;
+  font-weight: 600;
+  color: #f4effa;
+  /* 中央のクローム核の上に乗るので、核の明るい面でも文字が読めるよう影を敷く */
+  text-shadow: 0 0 2.5rem rgba(7, 5, 14, 0.85), 0 0 6rem rgba(7, 5, 14, 0.7);
+}
+.ai-hero h1 em {
+  font-style: normal;
+  color: #b28cff;
+}
+/* 提案案の英語見出しは、日本語H1の下に一段小さく残す（世界観の記号として） */
+.ai-hero-en {
+  position: relative;
+  z-index: 4;
+  margin-top: 1.4rem;
+  text-align: center;
+  font-family: var(--font-display);
+  font-size: clamp(0.72rem, 1.5vw, 1.05rem);
+  letter-spacing: 0.14em;
+  color: #8f7ba6;
+}
+
+/* 核と文字のあいだに敷くスクリム。
+   提案案は英語の細い文字なので核の上に直接載せても読めるが、日本語は画数が多く、
+   核の白い突起と重なると潰れる。核（z:2）と文字（z:4）のあいだに一枚挟んで、
+   中央だけを沈める。核の輪郭とスケール感はそのまま残る。 */
+.ai-hero-scrim {
+  position: absolute;
+  z-index: 3;
+  inset: 0;
+  pointer-events: none;
+  background: radial-gradient(
+    46% 34% at 50% 47%,
+    rgba(7, 5, 14, 0.82) 0,
+    rgba(7, 5, 14, 0.55) 45%,
+    transparent 78%
+  );
+}
+
+/* クロームの核（提案案の .chrome-core をそのまま） */
+.chrome-core {
+  position: absolute;
+  z-index: 2;
+  width: min(36vw, 34rem);
+  aspect-ratio: 1;
+  left: 50%;
+  top: 51%;
+  transform: translate(-50%, -50%);
+  filter: drop-shadow(0 0 4rem rgba(163, 95, 255, 0.53));
+  opacity: 0.9;
+}
+.chrome-core > i:first-child {
+  position: absolute;
+  inset: 0;
+  background: conic-gradient(from 35deg, #f9f6ff, #2e2939, #bd8eff, #fff, #17131f, #e5d6ff);
+  clip-path: polygon(
+    50% 0, 61% 35%, 88% 12%, 65% 39%, 100% 50%, 65% 61%, 88% 88%, 61% 65%,
+    50% 100%, 39% 65%, 12% 88%, 35% 61%, 0 50%, 35% 39%, 12% 12%, 39% 35%
+  );
+  animation: ai-turn 18s linear infinite;
+}
+.chrome-core > i:nth-child(2) {
+  position: absolute;
+  inset: 35%;
+  background: #0b0711;
+  border-radius: 50%;
+  box-shadow: inset 0 0 2rem #b38aff;
+}
+@keyframes ai-turn {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* 星（提案案は18個。座標も同じ配置則で散らす） */
+.ai-stars i {
+  position: absolute;
+  width: 2px;
+  height: 2px;
+  background: #fff;
+  border-radius: 50%;
+  opacity: 0.8;
+}
+.ai-stars i:nth-child(3n) {
+  width: 4px;
+  height: 4px;
+  box-shadow: 0 0 1rem #c38aff;
+}
+.ai-stars i:nth-child(1) { left: 8%; top: 20%; }
+.ai-stars i:nth-child(2) { left: 17%; top: 70%; }
+.ai-stars i:nth-child(3) { left: 28%; top: 15%; }
+.ai-stars i:nth-child(4) { left: 76%; top: 18%; }
+.ai-stars i:nth-child(5) { left: 89%; top: 61%; }
+.ai-stars i:nth-child(6) { left: 69%; top: 78%; }
+.ai-stars i:nth-child(7) { left: 12%; top: 44%; }
+.ai-stars i:nth-child(8) { left: 34%; top: 86%; }
+.ai-stars i:nth-child(9) { left: 58%; top: 9%; }
+.ai-stars i:nth-child(10) { left: 93%; top: 33%; }
+.ai-stars i:nth-child(11) { left: 46%; top: 92%; }
+.ai-stars i:nth-child(12) { left: 5%; top: 78%; }
+
+/* CTA（提案案の .ai-final a と同じ、細い紫の枠） */
+.ai-hero-actions {
+  position: relative;
+  z-index: 5;
+  margin-top: clamp(2.5rem, 6vw, 4.5rem);
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.9rem;
+}
+.ai-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 1.4rem;
+  padding: 1rem 1.4rem;
+  font-family: var(--font-display);
+  font-size: 0.62rem;
+  letter-spacing: 0.16em;
+  transition: background 0.3s ease, color 0.3s ease, box-shadow 0.3s ease;
+}
+.ai-btn-solid {
+  background: #b67eff;
+  color: #0b0711;
+}
+.ai-btn-solid:hover {
+  background: #e5d6ff;
+  box-shadow: 0 0 2.5rem rgba(182, 126, 255, 0.55);
+}
+.ai-btn-line {
+  border: 1px solid #b67eff;
+  color: #f4effa;
+}
+.ai-btn-line:hover {
+  background: rgba(182, 126, 255, 0.14);
+}
+.ai-hero-aside {
+  position: absolute;
+  z-index: 5;
+  right: 4%;
+  bottom: 5%;
+  width: 18rem;
+  text-align: left;
+}
+.ai-hero-aside b {
+  display: block;
+  font-family: var(--font-display);
+  font-size: 0.55rem;
+  letter-spacing: 0.16em;
+  color: var(--ai-dim);
+  margin-bottom: 0.9rem;
+}
+.ai-hero-aside p {
+  line-height: 1.85;
+  font-size: 0.78rem;
+  color: var(--ai-muted);
+}
+
+/* ---- ONE CONTINUOUS FLIGHT：01〜04 の縦連続（提案案 .ai-flight） ---- */
+.ai-flight {
+  padding: clamp(4rem, 7vw, 7rem) clamp(1rem, 4vw, 4rem);
+  background: #090611;
+}
+.ai-flight > header {
+  display: flex;
+  justify-content: space-between;
+  gap: 2rem;
+  font-family: var(--font-display);
+  font-size: 0.55rem;
+  letter-spacing: 0.16em;
+  color: #b68bda;
+  border-top: 1px solid rgba(184, 137, 218, 0.28);
+  padding-top: 1rem;
+}
+.ai-flight article {
+  min-height: min(80vh, 46rem);
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  align-items: center;
+  gap: 6vw;
+  border-bottom: 1px solid rgba(184, 137, 218, 0.2);
+}
+/* 偶数番は絵と文字を入れ替え、一本の飛行として左右に振る */
+.ai-flight article:nth-child(even) .ai-flight-object {
+  order: 2;
+}
+.ai-flight-object {
+  width: min(42vw, 32rem);
+  aspect-ratio: 1;
+  position: relative;
+  margin: auto;
+}
+.ai-flight-object::before {
+  content: "";
+  position: absolute;
+  inset: 16%;
+  border-radius: 50%;
+  background: radial-gradient(circle, #fff, #8e68db 12%, transparent 62%);
+  box-shadow: 0 0 4rem #8755d8;
+}
+.ai-flight-1::before {
+  border-radius: 8%;
+  background: conic-gradient(#fff, #7543be, #181022, #fff);
+  clip-path: polygon(50% 0, 65% 35%, 100% 50%, 65% 65%, 50% 100%, 35% 65%, 0 50%, 35% 35%);
+}
+.ai-flight-2::before {
+  background: transparent;
+  border: 2px dotted #b684f5;
+  transform: scaleY(0.4) rotate(35deg);
+}
+.ai-flight-3::before {
+  background: radial-gradient(circle, #aaffdc 0 2%, #7d55cc 10%, transparent 60%);
+}
+.ai-flight-label {
+  font-family: var(--font-display);
+  font-size: 0.55rem;
+  letter-spacing: 0.15em;
+  color: #b68bda;
+}
+.ai-flight-label b {
+  margin-right: 2rem;
+  font-weight: 400;
+}
+.ai-flight h2 {
+  font-size: clamp(1.9rem, 3.6vw, 3.4rem);
+  line-height: 1.14;
+  letter-spacing: -0.045em;
+  margin: 1.6rem 0;
+  color: #f4effa;
+  font-weight: 600;
+}
+.ai-flight article p {
+  color: var(--ai-muted);
+  max-width: 28rem;
+  line-height: 1.95;
+  font-size: 0.92rem;
+}
+.ai-flight-more {
+  display: inline-flex;
+  align-items: center;
+  gap: 1rem;
+  margin-top: 2.2rem;
+  font-family: var(--font-display);
+  font-size: 0.58rem;
+  letter-spacing: 0.16em;
+  color: #f4effa;
+  border-bottom: 1px solid rgba(182, 126, 255, 0.55);
+  padding-bottom: 0.55rem;
+}
+.ai-flight-more:hover {
+  color: #e5d6ff;
+}
+
+/* ---- LIVE MODULES：できること一覧（提案案 .ai-console） ---- */
+.ai-console {
+  padding: clamp(4rem, 8vw, 8rem) clamp(1rem, 4vw, 4rem);
+  background: #151022;
+  display: grid;
+  grid-template-columns: 0.8fr 1.5fr;
+  gap: 5vw;
+  align-items: start;
+}
+.ai-console-label {
+  font-family: var(--font-display);
+  font-size: 0.55rem;
+  letter-spacing: 0.16em;
+  color: #b67eff;
+}
+.ai-console h2 {
+  margin: 1.4rem 0 1.6rem;
+  font-size: clamp(1.9rem, 3.4vw, 3.2rem);
+  line-height: 1.14;
+  letter-spacing: -0.04em;
+  font-weight: 600;
+  color: #f4effa;
+}
+.ai-console > div > p {
+  color: var(--ai-muted);
+  line-height: 1.95;
+  font-size: 0.92rem;
+}
+.ai-console-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1px;
+  background: rgba(182, 126, 255, 0.27);
+}
+.ai-console-grid article {
+  min-height: 12rem;
+  background: #0c0815;
+  padding: 1.1rem;
+  display: flex;
+  flex-direction: column;
+  transition: background 0.3s ease;
+}
+.ai-console-grid a:hover article {
+  background: #151022;
+}
+.ai-console-grid span,
+.ai-console-grid small {
+  font-family: var(--font-display);
+  font-size: 0.48rem;
+  letter-spacing: 0.12em;
+  color: #a98bc0;
+}
+.ai-console-grid i {
+  width: 3rem;
+  height: 3rem;
+  border-radius: 50%;
+  border: 1px solid #b67eff;
+  margin: auto;
+  box-shadow: 0 0 1.5rem #b67eff;
+}
+.ai-console-grid b {
+  font-size: 0.8rem;
+  color: #f4effa;
+  font-weight: 600;
+}
+
+/* ---- 締め（提案案 .ai-final） ---- */
+.ai-final {
+  min-height: min(70vh, 40rem);
+  padding: clamp(4rem, 8vw, 8rem) 1.5rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  gap: 1.6rem;
+  background: #07050e;
+}
+.chrome-core.mini {
+  position: relative;
+  left: auto;
+  top: auto;
+  transform: none;
+  width: 11rem;
+  margin-bottom: 1rem;
+}
+.ai-final h2 {
+  font-size: clamp(1.9rem, 4vw, 3.6rem);
+  line-height: 1.16;
+  letter-spacing: -0.045em;
+  font-weight: 600;
+  color: #f4effa;
+}
+.ai-final p {
+  color: var(--ai-muted);
+  font-size: 0.9rem;
+}
+
+/* ---- 狭い画面（提案案のブレークポイントに合わせる） ---- */
+@media (max-width: 900px) {
+  .chrome-core {
+    width: min(70vw, 23rem);
+    top: 52%;
+  }
+  .ai-hero-aside {
+    position: static;
+    width: auto;
+    margin-top: 3rem;
+    text-align: center;
+  }
+  .ai-flight article {
+    grid-template-columns: 1fr;
+    min-height: 0;
+    padding: 3.5rem 0;
+    gap: 2rem;
+  }
+  .ai-flight article:nth-child(even) .ai-flight-object {
+    order: 0;
+  }
+  .ai-flight-object {
+    width: min(84vw, 24rem);
+  }
+  .ai-console {
+    grid-template-columns: 1fr;
+    gap: 3rem;
+  }
+  .ai-console-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .chrome-core > i:first-child {
+    animation: none;
+  }
+}
+@media (max-width: 800px) { .home-hero-inner { width:calc(100% - 2rem); grid-template-columns:1fr; padding-top:3rem; }.home-hero-art { grid-column:1; grid-row:2; min-height:20rem; margin:-1rem auto 1rem; width:min(90vw,24rem); }.home-hero-copy { grid-column:1; }.home-hero h1 { font-size:clamp(3.2rem,15vw,6rem); }.home-scroll { display:none; }.home-intro,.home-proof { width:calc(100% - 2rem); grid-template-columns:1fr; gap:2rem; }.home-section-head { align-items:start; flex-direction:column; }.home-section-head > p { text-align:left; }.home-card-grid { grid-template-columns:1fr; }.home-discipline-card { min-height:30rem; }.home-proof-stamp { width:8rem; height:8rem; }.home-metrics { margin-top:1rem; } }
+
+/* Multi-route design study pages. */
+.design-proposal { min-height:100vh; background:#101116; color:#f1ede5; padding:1.25rem max(1.25rem,env(safe-area-inset-left)) 0; }
+.proposal-switcher { max-width:1180px; margin:auto; display:flex; justify-content:space-between; align-items:center; gap:2rem; border-bottom:1px solid rgba(255,255,255,.16); padding:.4rem 0 1rem; }
+.proposal-switcher-home,.proposal-switcher-links a,.proposal-index-back { color:#9b9da5; font-size:.65rem; letter-spacing:.16em; text-transform:uppercase; }
+.proposal-switcher-links { display:flex; gap:1rem; }.proposal-switcher-links a { display:grid; grid-template-columns:auto auto; gap:0 .5rem; padding:.35rem 0; }.proposal-switcher-links b { grid-row:span 2; color:#c8ff4d; font-size:1rem; }.proposal-switcher-links small { font-size:.5rem; letter-spacing:.04em; color:#6e7078; }.proposal-switcher-links .is-current span,.proposal-switcher-links a:hover span { color:#fff; }
+.proposal-hero { max-width:1180px; margin:auto; min-height:36rem; display:grid; grid-template-columns:1fr .9fr; align-items:center; gap:3rem; }.proposal-label,.proposal-index-kicker { color:#a5a7ae; font-size:.62rem; letter-spacing:.22em; text-transform:uppercase; }.proposal-label:before { content:""; display:inline-block; width:.45rem; height:.45rem; background:#c8ff4d; border-radius:50%; margin-right:.6rem; }.proposal-hero h1 { font-size:clamp(3.5rem,8vw,7.5rem); letter-spacing:-.08em; line-height:.92; margin:2rem 0 1rem; font-weight:500; }.proposal-hero h1 span { display:block; }.proposal-accent { font-size:1.1rem; color:#c8ff4d; }.proposal-intro { color:#9b9da5; max-width:27rem; line-height:1.8; margin-top:1.5rem; }.proposal-actions { display:flex; gap:1.5rem; align-items:center; margin-top:2rem; flex-wrap:wrap; }.proposal-actions a:first-child { background:#c8ff4d; color:#101116; padding:.9rem 1.1rem; }.proposal-actions a:last-child { color:#9b9da5; font-size:.75rem; border-bottom:1px solid #555861; padding-bottom:.4rem; }.proposal-actions span { margin-left:1.5rem; }
+.proposal-art { width:min(33rem,80vw); aspect-ratio:1; position:relative; display:grid; place-items:center; justify-self:end; }.proposal-art-core { width:45%; aspect-ratio:1; border-radius:50%; display:grid; place-items:center; font-size:clamp(2rem,8vw,6rem); font-weight:600; background:radial-gradient(circle at 30% 25%,#fff,#aebda1 28%,#34383a 68%,#101116 70%); color:#101116; box-shadow:0 0 7rem rgba(200,255,77,.11); }.proposal-art-ring { position:absolute; inset:10%; border:1px solid rgba(200,255,77,.5); border-radius:50%; transform:rotate(-25deg) scaleY(.3); animation:proposal-spin 18s linear infinite; }.proposal-art-ring.ring-b { inset:3%; border-color:rgba(255,255,255,.18); transform:rotate(53deg) scaleY(.5); animation-duration:27s; animation-direction:reverse; }.proposal-art-note { position:absolute; bottom:8%; right:2%; color:#767982; font-size:.55rem; letter-spacing:.16em; }
+.proposal-services { max-width:1180px; margin:auto; padding:4rem 0 7rem; border-top:1px solid rgba(255,255,255,.14); }.proposal-service-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:1rem; margin-top:2rem; }.proposal-service-grid article { min-height:12rem; border:1px solid rgba(255,255,255,.14); padding:1.25rem; }.proposal-service-grid b { color:#c8ff4d; font-size:.7rem; }.proposal-service-grid h2 { margin:3.2rem 0 .5rem; font-size:1.7rem; }.proposal-service-grid p { color:#90929b; font-size:.8rem; line-height:1.6; }.proposal-footer { max-width:1180px; margin:auto; display:flex; justify-content:space-between; gap:2rem; padding:1.5rem 0 5rem; color:#9b9da5; font-size:.78rem; }.proposal-footer a { color:#c8ff4d; }
+.proposal-index { min-height:calc(100vh - 4rem); background:#eee9df; color:#17181c; padding:clamp(4rem,10vw,9rem) max(1.25rem,env(safe-area-inset-left)); text-align:center; }.proposal-index-kicker { color:#73747a; }.proposal-index h1 { font-size:clamp(3rem,7vw,7rem); letter-spacing:-.08em; line-height:.95; font-weight:500; margin:2rem 0; }.proposal-index h1 em { color:#8c5147; font-style:normal; }.proposal-index > p:not(.proposal-index-kicker) { max-width:32rem; margin:0 auto; color:#73747a; line-height:1.8; }.proposal-index-grid { max-width:980px; margin:4rem auto 3rem; display:grid; grid-template-columns:repeat(3,1fr); gap:1rem; text-align:left; }.proposal-index-card { min-height:17rem; padding:1.3rem; position:relative; display:flex; flex-direction:column; justify-content:flex-end; transition:transform .3s; }.proposal-index-card:hover { transform:translateY(-8px); }.proposal-index-card b { position:absolute; top:1.3rem; left:1.3rem; font-size:2rem; }.proposal-index-card span { font-size:2rem; letter-spacing:-.05em; }.proposal-index-card small { margin-top:.4rem; opacity:.65; }.proposal-index-card i { position:absolute; top:1.3rem; right:1.3rem; font-size:1.5rem; font-style:normal; }.proposal-index-editorial { background:#17181c; color:#eee9df; }.proposal-index-craft { background:#c75b45; color:#fff4e7; }.proposal-index-signal { background:#b9dfe5; color:#112c3a; }.proposal-index-back { color:#73747a; border-bottom:1px solid #aaa; padding-bottom:.4rem; }
+.proposal-craft { background:#241d1a; }.proposal-craft .proposal-art-core { background:radial-gradient(circle at 30% 25%,#fff4e7,#c75b45 46%,#241d1a 70%); }.proposal-craft .proposal-art-ring { border-color:#df765e; }.proposal-craft .proposal-label:before,.proposal-craft .proposal-art-note,.proposal-craft .proposal-accent { color:#df765e; background:#df765e; }.proposal-craft .proposal-actions a:first-child { background:#df765e; color:#fff4e7; }.proposal-craft .proposal-service-grid article { border-color:rgba(255,244,231,.2); }
+.proposal-signal { background:#071a2a; }.proposal-signal .proposal-art-core { border-radius:1rem; background:linear-gradient(135deg,#9fe9f3,#176c8a 52%,#071a2a); }.proposal-signal .proposal-art-ring { border-color:#64e3f0; }.proposal-signal .proposal-label:before,.proposal-signal .proposal-art-note,.proposal-signal .proposal-accent { color:#64e3f0; background:#64e3f0; }.proposal-signal .proposal-actions a:first-child { background:#64e3f0; color:#071a2a; }.proposal-signal .proposal-service-grid article { border-color:rgba(100,227,240,.25); }
+@keyframes proposal-spin { from { transform:rotate(0) scaleY(.3); } to { transform:rotate(360deg) scaleY(.3); } }
+@media (max-width:800px) { .proposal-switcher { align-items:flex-start; flex-direction:column; gap:1rem; }.proposal-switcher-links { width:100%; justify-content:space-between; }.proposal-hero { grid-template-columns:1fr; min-height:auto; padding:4rem 0; }.proposal-art { order:-1; justify-self:center; width:min(24rem,85vw); }.proposal-hero h1 { font-size:clamp(3.4rem,15vw,6rem); }.proposal-service-grid,.proposal-index-grid { grid-template-columns:1fr; }.proposal-service-grid article { min-height:10rem; }.proposal-footer { flex-direction:column; }.proposal-index { padding-top:4rem; } }
+@layer components {
+  /* ---------------------------------------------------------------
+   * ページ共通の左右余白。
+   * 横向きのiPhoneではノッチ側にセーフエリアが生じるため、
+   * 通常の余白と env() の大きいほうを採る（非対応環境では env() は 0）。
+   * ------------------------------------------------------------- */
+  .gutter-x {
+    padding-left: max(1.25rem, env(safe-area-inset-left));
+    padding-right: max(1.25rem, env(safe-area-inset-right));
+  }
+  @media (min-width: 640px) {
+    .gutter-x {
+      padding-left: max(1.5rem, env(safe-area-inset-left));
+      padding-right: max(1.5rem, env(safe-area-inset-right));
+    }
+  }
+  @media (min-width: 1024px) {
+    .gutter-x {
+      padding-left: max(2rem, env(safe-area-inset-left));
+      padding-right: max(2rem, env(safe-area-inset-right));
+    }
+  }
+
+  /* ---------------------------------------------------------------
+   * パネル（カード）：ガラス質感＋繊細な境界線。
+   * .panel-hover を足すとホバーでシアンに発光しながら浮き上がる。
+   * .panel-corners を足すとHUD風のゴールドのコーナーアクセントが付く。
+   * ------------------------------------------------------------- */
+  .panel {
+    position: relative;
+    /* グリッド／フレックスの子は既定（min-width:auto）だと中身の最小幅まで広がる。
+       折り返し禁止の語（.nb）を含む行はChromeが最小幅を大きめに見積もるため、
+       狭い端末でカードがトラック幅を超えて横スクロールが出ていた。 */
+    min-width: 0;
+    border-radius: 1rem;
+    border: 1px solid var(--color-line);
+    background:
+      linear-gradient(165deg, rgba(255, 255, 255, 0.055), rgba(255, 255, 255, 0.015) 55%),
+      rgba(12, 8, 21, 0.76);
+    /* backdrop-filter はページ内に数十枚あると合成コストが跳ね上がり、
+       スクロールがもたつく原因になる。背景を濃くして見た目を保ったうえで、
+       余裕のある環境（広い画面＋マウス操作）でのみ、すりガラスを有効にする。 */
+    /* 上辺に髪の毛一本ぶんの光を入れる（ガラスの厚みが出て安っぽさが消える） */
+    box-shadow:
+      inset 0 1px 0 rgba(255, 255, 255, 0.07),
+      inset 0 -1px 0 rgba(0, 0, 0, 0.25);
+    transition:
+      border-color 0.4s ease,
+      box-shadow 0.4s ease,
+      transform 0.4s ease,
+      background-color 0.4s ease;
+  }
+  .panel-hover:hover {
+    transform: translateY(-4px);
+    border-color: rgba(182, 126, 255, 0.45);
+    box-shadow:
+      inset 0 1px 0 rgba(255, 255, 255, 0.1),
+      0 0 0 1px rgba(182, 126, 255, 0.12),
+      0 18px 50px -18px rgba(182, 126, 255, 0.25),
+      0 8px 30px -10px rgba(0, 0, 0, 0.6);
+  }
+  /* スポットライト：ホバー中、マウス位置（--mx/--my は PointerFx が設定）を
+     中心にシアンの光が追従する（Awwwards系サイトの定番表現） */
+  .panel:hover {
+    background:
+      radial-gradient(
+        520px circle at var(--mx, 50%) var(--my, 50%),
+        rgba(182, 126, 255, 0.09),
+        transparent 45%
+      ),
+      linear-gradient(165deg, rgba(255, 255, 255, 0.055), rgba(255, 255, 255, 0.015) 55%),
+      rgba(12, 8, 21, 0.55);
+  }
+  .panel-corners::before,
+  .panel-corners::after {
+    content: "";
+    position: absolute;
+    width: 18px;
+    height: 18px;
+    pointer-events: none;
+    transition: border-color 0.4s ease, width 0.4s ease, height 0.4s ease;
+  }
+  .panel-corners::before {
+    top: -1px;
+    left: -1px;
+    border-top: 1.5px solid rgba(170, 255, 220, 0.65);
+    border-left: 1.5px solid rgba(170, 255, 220, 0.65);
+    border-top-left-radius: 1rem;
+  }
+  .panel-corners::after {
+    bottom: -1px;
+    right: -1px;
+    border-bottom: 1.5px solid rgba(170, 255, 220, 0.65);
+    border-right: 1.5px solid rgba(170, 255, 220, 0.65);
+    border-bottom-right-radius: 1rem;
+  }
+  .panel-corners:hover::before,
+  .panel-corners:hover::after {
+    width: 34px;
+    height: 34px;
+    border-color: var(--color-gold);
+  }
+
+  /* ---------------------------------------------------------------
+   * ボタン：コーナーカット（クリップパス）＋ホバー時のシーン（光の帯）掃引。
+   * box-shadow はクリップされるため、発光は filter: drop-shadow で表現。
+   * ------------------------------------------------------------- */
+  .btn {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    overflow: hidden;
+    isolation: isolate;
+    font-weight: 700;
+    letter-spacing: 0.02em;
+    clip-path: polygon(
+      14px 0,
+      100% 0,
+      100% calc(100% - 14px),
+      calc(100% - 14px) 100%,
+      0 100%,
+      0 14px
+    );
+    transition: transform 0.3s ease, filter 0.3s ease, background-color 0.3s ease, color 0.3s ease;
+  }
+  .btn:active {
+    transform: scale(0.97);
+  }
+  /* 光の帯（シーン）：ホバーで左から右へ掃引 */
+  .btn::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    background: linear-gradient(
+      105deg,
+      transparent 30%,
+      rgba(255, 255, 255, 0.35) 48%,
+      rgba(255, 255, 255, 0.12) 52%,
+      transparent 70%
+    );
+    transform: translateX(-120%);
+    transition: transform 0.7s cubic-bezier(0.2, 0.7, 0.3, 1);
+  }
+  .btn:hover::after {
+    transform: translateX(120%);
+  }
+
+  .btn-primary {
+    color: #041018;
+    background:
+      linear-gradient(120deg, var(--color-brand) 0%, #4cc4f5 45%, var(--color-accent) 130%);
+    filter: drop-shadow(0 0 14px rgba(182, 126, 255, 0.35));
+  }
+  .btn-primary:hover {
+    filter: drop-shadow(0 0 24px rgba(182, 126, 255, 0.6));
+  }
+
+  .btn-secondary {
+    color: var(--color-gold-light);
+    background:
+      linear-gradient(165deg, rgba(255, 255, 255, 0.07), rgba(255, 255, 255, 0.02)),
+      rgba(12, 8, 21, 0.7);
+    /* クリップパスに追従する擬似ボーダー */
+    box-shadow: inset 0 0 0 1px rgba(170, 255, 220, 0.45);
+  }
+  .btn-secondary:hover {
+    color: #07050e;
+    background: linear-gradient(120deg, var(--color-gold-light), var(--color-gold));
+    filter: drop-shadow(0 0 18px rgba(170, 255, 220, 0.45));
+  }
+
+  .btn-ghost {
+    color: #e6edf7;
+    background: rgba(255, 255, 255, 0.06);
+    box-shadow: inset 0 0 0 1px rgba(148, 163, 184, 0.35);
+  }
+  .btn-ghost:hover {
+    background: rgba(255, 255, 255, 0.12);
+    box-shadow: inset 0 0 0 1px rgba(182, 126, 255, 0.5);
+  }
+
+  /* ---------------------------------------------------------------
+   * フォーム入力：ダークガラス＋フォーカスでシアン発光。
+   * ------------------------------------------------------------- */
+  .field {
+    margin-top: 0.4rem;
+    display: block;
+    width: 100%;
+    border-radius: 0.6rem;
+    border: 1px solid rgba(148, 163, 184, 0.22);
+    background: rgba(7, 5, 14, 0.6);
+    padding: 0.66rem 0.9rem;
+    color: #eef2f9;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease, background-color 0.3s ease;
+  }
+  .field::placeholder {
+    color: rgba(148, 163, 184, 0.55);
+  }
+  .field:focus {
+    outline: none;
+    border-color: rgba(182, 126, 255, 0.7);
+    background: rgba(8, 12, 26, 0.85);
+    box-shadow:
+      0 0 0 3px rgba(182, 126, 255, 0.16),
+      0 0 22px -4px rgba(182, 126, 255, 0.45);
+  }
+
+  /* 英字のセクションラベル（アイ・キャッチ） */
+  .eyebrow {
+    font-family: var(--font-display);
+    font-size: 0.78rem;
+    font-weight: 700;
+    letter-spacing: 0.42em;
+    text-transform: uppercase;
+    color: var(--color-brand);
+    text-shadow: 0 0 18px rgba(182, 126, 255, 0.55);
+  }
+
+  /* アニメーションするグラデーション見出し文字 */
+  .text-gradient {
+    background: linear-gradient(
+      110deg,
+      var(--color-brand-light),
+      var(--color-brand) 28%,
+      var(--color-accent-light) 60%,
+      var(--color-gold) 90%
+    );
+    background-size: 220% 100%;
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    animation: gradient-pan 7s ease-in-out infinite alternate;
+  }
+
+  /* ---------------------------------------------------------------
+   * オーロラ（アンビエント光）：画面全体をごくゆっくり流れる色の層。
+   * 3D背景の上に重ねることで、暗い画面が「黒い板」に見えなくなる。
+   * 巨大なぼかしを毎フレーム再計算させないよう、transform だけを動かす。
+   * ------------------------------------------------------------- */
+  /* 広い画面かつマウス操作の環境だけ、パネルをすりガラスにする */
+  @media (min-width: 1024px) and (hover: hover) {
+    .panel {
+      background:
+        linear-gradient(165deg, rgba(255, 255, 255, 0.055), rgba(255, 255, 255, 0.015) 55%),
+        rgba(12, 8, 21, 0.55);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+    }
+  }
+
+  .aurora {
+    position: fixed;
+    inset: -25%;
+    z-index: -10;
+    pointer-events: none;
+    background:
+      radial-gradient(34% 30% at 20% 16%, rgba(182, 126, 255, 0.11), transparent 70%),
+      radial-gradient(32% 28% at 80% 10%, rgba(196, 160, 255, 0.11), transparent 70%),
+      radial-gradient(30% 26% at 62% 82%, rgba(170, 255, 220, 0.07), transparent 70%);
+    will-change: transform;
+    animation: aurora-drift 32s ease-in-out infinite alternate;
+  }
+  /* 狭い画面では動かさない（常時アニメーションはバッテリーと発熱に響く） */
+  @media (max-width: 767px) {
+    .aurora {
+      animation: none;
+      will-change: auto;
+    }
+  }
+  @keyframes aurora-drift {
+    from {
+      transform: translate3d(-2%, -1.5%, 0) scale(1);
+    }
+    to {
+      transform: translate3d(3%, 2%, 0) scale(1.09);
+    }
+  }
+
+  /* ---------------------------------------------------------------
+   * カーソルライト：マウス位置に薄い光を置く（座標は CursorGlow が設定）。
+   * タッチ端末と reduced-motion では出さない。
+   * ------------------------------------------------------------- */
+  .cursor-orb {
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: -5;
+    width: 34rem;
+    height: 34rem;
+    margin: -17rem 0 0 -17rem;
+    border-radius: 9999px;
+    pointer-events: none;
+    background: radial-gradient(
+      circle,
+      rgba(182, 126, 255, 0.1),
+      rgba(196, 160, 255, 0.05) 45%,
+      transparent 70%
+    );
+    transform: translate3d(var(--cursor-x, 50vw), var(--cursor-y, 50vh), 0);
+    opacity: 0;
+    transition: opacity 0.6s ease;
+  }
+  .cursor-orb[data-active] {
+    opacity: 1;
+  }
+  @media (hover: none), (prefers-reduced-motion: reduce) {
+    .cursor-orb {
+      display: none;
+    }
+  }
+
+  /* ---------------------------------------------------------------
+   * セクションナビ（右端のHUDインジケーター）。
+   * いま読んでいる位置が分かり、任意のセクションへ飛べる。
+   * 画面が広いときだけ表示する。
+   * ------------------------------------------------------------- */
+  /* ---------------------------------------------------------------
+   * ページ内メニュー（PageNav）：ヘッダー（h-16）の直下に貼り付く帯。
+   * ヘッダーと同じ「不透明な地＋発光ライン」の作りで揃えている
+   * （すりガラスは動く背景の上だと重いので使わない）。
+   * ------------------------------------------------------------- */
+  .pagenav {
+    position: sticky;
+    top: 4rem; /* ヘッダーの高さ */
+    z-index: 40;
+    background: var(--color-ink);
+    border-bottom: 1px solid var(--color-line);
+  }
+  .pagenav::after {
+    /* 下辺の発光ライン（ヘッダーと同じ表情） */
+    content: "";
+    position: absolute;
+    inset-inline: 0;
+    bottom: -1px;
+    height: 1px;
+    background: linear-gradient(
+      90deg,
+      transparent,
+      rgba(182, 126, 255, 0.35) 30%,
+      rgba(170, 255, 220, 0.45) 50%,
+      rgba(196, 160, 255, 0.35) 70%,
+      transparent
+    );
+  }
+  .pagenav nav {
+    scrollbar-width: none; /* 横スクロールできるが、バーは出さない */
+  }
+  .pagenav nav::-webkit-scrollbar {
+    display: none;
+  }
+  /* 左端のHUDマーク（右のドットナビと世界観を合わせる） */
+  .pagenav-mark {
+    flex: none;
+    width: 7px;
+    height: 7px;
+    margin-right: 0.6rem;
+    border-radius: 9999px;
+    background: linear-gradient(180deg, var(--color-brand), var(--color-accent));
+    box-shadow: 0 0 10px rgba(182, 126, 255, 0.85);
+  }
+  .pagenav-item {
+    position: relative;
+    flex: none;
+    border-radius: 0.55rem;
+    padding: 0.45rem 0.8rem;
+    font-size: 0.82rem;
+    font-weight: 600;
+    white-space: nowrap;
+    color: #94a3b8;
+    transition:
+      color 0.25s ease,
+      background-color 0.25s ease;
+  }
+  .pagenav-item:hover {
+    color: #fff;
+    background: rgba(255, 255, 255, 0.06);
+  }
+  .pagenav-item[data-current] {
+    color: var(--color-brand-light);
+    background: rgba(182, 126, 255, 0.1);
+    box-shadow: inset 0 0 0 1px rgba(182, 126, 255, 0.3);
+  }
+  /* 現在地のアンダーライン（帯の下辺に沿って光る） */
+  .pagenav-item[data-current]::after {
+    content: "";
+    position: absolute;
+    inset-inline: 0.55rem;
+    bottom: -0.55rem;
+    height: 2px;
+    border-radius: 2px;
+    background: linear-gradient(90deg, var(--color-brand), var(--color-accent));
+    box-shadow: 0 0 10px rgba(182, 126, 255, 0.75);
+  }
+  /* ページ内メニューがあるページは、アンカー移動の余白を1段深くする
+     （:has 非対応の古い環境では、既定の scroll-padding-top 5rem のまま） */
+  main:has(.pagenav) [id] {
+    scroll-margin-top: 8.5rem;
+  }
+
+  .dotnav {
+    position: fixed;
+    top: 50%;
+    right: 1.1rem;
+    z-index: 40;
+    display: none;
+    flex-direction: column;
+    gap: 0.7rem;
+    transform: translateY(-50%);
+  }
+  @media (min-width: 1280px) {
+    .dotnav {
+      display: flex;
+    }
+  }
+  .dotnav-item {
+    position: relative;
+    display: block;
+    width: 9px;
+    height: 9px;
+    border-radius: 9999px;
+    background: rgba(148, 163, 184, 0.3);
+    transition:
+      height 0.35s cubic-bezier(0.2, 0.7, 0.3, 1),
+      background-color 0.35s ease,
+      box-shadow 0.35s ease;
+  }
+  .dotnav-item:hover {
+    background: var(--color-brand-light);
+  }
+  .dotnav-item[data-current] {
+    height: 26px;
+    background: linear-gradient(180deg, var(--color-brand), var(--color-accent));
+    box-shadow: 0 0 14px rgba(182, 126, 255, 0.8);
+  }
+  /* ラベルはホバー時だけ左に出す */
+  .dotnav-label {
+    position: absolute;
+    top: 50%;
+    right: 1.6rem;
+    transform: translateY(-50%) translateX(6px);
+    white-space: nowrap;
+    border-radius: 0.4rem;
+    border: 1px solid var(--color-line);
+    background: rgba(12, 8, 21, 0.9);
+    padding: 0.25rem 0.55rem;
+    font-size: 0.65rem;
+    letter-spacing: 0.12em;
+    color: #cbd5e1;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.25s ease, transform 0.25s ease;
+  }
+  .dotnav-item:hover .dotnav-label,
+  .dotnav-item:focus-visible .dotnav-label {
+    opacity: 1;
+    transform: translateY(-50%) translateX(0);
+  }
+
+  /* ---------------------------------------------------------------
+   * ヒーロー見出しの行送り。行ごとに下から立ち上げる（映画のタイトル的な出方）。
+   * 文字を span で分割していないため、折り返し・コピー・読み上げに影響しない。
+   * ------------------------------------------------------------- */
+  .hero-line {
+    display: block;
+    overflow: hidden;
+    /* 下端が切れないよう、はみ出しぶんの余白を確保して見た目上は打ち消す */
+    padding-bottom: 0.14em;
+    margin-bottom: -0.14em;
+  }
+  .hero-line > span {
+    display: inline-block;
+    animation: hero-line 1s cubic-bezier(0.2, 0.7, 0.25, 1) both;
+    animation-delay: var(--line-delay, 0s);
+  }
+  @keyframes hero-line {
+    from {
+      transform: translateY(104%);
+      opacity: 0;
+    }
+    to {
+      transform: none;
+      opacity: 1;
+    }
+  }
+
+  /* ゴールドの静的グラデーション文字（高級感の差し色） */
+  .text-gold {
+    background: linear-gradient(120deg, var(--color-gold-light), var(--color-gold) 55%, #b78f45);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+}
+
+@layer utilities {
+  /* 微細なグリッド線（HUD風の空間装飾） */
+  .bg-grid {
+    background-image:
+      linear-gradient(rgba(148, 163, 184, 0.07) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(148, 163, 184, 0.07) 1px, transparent 1px);
+    background-size: 44px 44px;
+  }
+
+  /* セクション間の発光する区切り線 */
+  .divider-glow {
+    height: 1px;
+    background: linear-gradient(
+      90deg,
+      transparent,
+      rgba(182, 126, 255, 0.4) 30%,
+      rgba(170, 255, 220, 0.5) 50%,
+      rgba(196, 160, 255, 0.4) 70%,
+      transparent
+    );
+  }
+
+  .animate-float {
+    animation: float 7s ease-in-out infinite;
+  }
+  .animate-pulse-glow {
+    animation: pulse-glow 3.2s ease-in-out infinite;
+  }
+
+  /* 微細なフィルムノイズ（高級サイトの質感演出。GPU負荷ほぼゼロのSVG） */
+  .bg-noise {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)' opacity='0.5'/%3E%3C/svg%3E");
+  }
+}
+
+/* ---------------------------------------------------------------
+ * テックマーキー：技術スタックが無限ループで流れる帯。
+ * トラックは同一リストを2周ぶん並べ、-50% までの平行移動を繰り返す。
+ * ------------------------------------------------------------- */
+.marquee {
+  overflow: hidden;
+  mask-image: linear-gradient(90deg, transparent, black 12%, black 88%, transparent);
+  -webkit-mask-image: linear-gradient(90deg, transparent, black 12%, black 88%, transparent);
+}
+.marquee-track {
+  display: flex;
+  width: max-content;
+  gap: 3.5rem;
+  animation: marquee 36s linear infinite;
+}
+.marquee:hover .marquee-track {
+  animation-play-state: paused;
+}
+@keyframes marquee {
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+/* ---------------------------------------------------------------
+ * スクロールリビール：RevealInit（IntersectionObserver）が
+ * data-revealed 属性を付与する。CSSのみで出現アニメーションを表現。
+ * ------------------------------------------------------------- */
+[data-reveal] {
+  opacity: 0;
+  transform: translateY(28px);
+  filter: blur(6px);
+  transition:
+    opacity 0.9s cubic-bezier(0.2, 0.65, 0.3, 1),
+    transform 0.9s cubic-bezier(0.2, 0.65, 0.3, 1),
+    filter 0.9s ease;
+  transition-delay: var(--reveal-delay, 0s);
+  /* 保険：JSが遅い・落ちた・無効でも、2.5秒後には必ず表示する。
+     これがないと RevealInit の読み込み完了まで本文が透明のままになり、
+     低速回線ではLCP（最大コンテンツの描画）がその分だけ遅れる。 */
+  animation: reveal-fallback 0.01s linear 2.5s forwards;
+}
+@keyframes reveal-fallback {
+  to {
+    opacity: 1;
+    transform: none;
+    filter: none;
+  }
+}
+[data-reveal][data-revealed] {
+  opacity: 1;
+  transform: none;
+  filter: none;
+}
+
+/* ---------------------------------------------------------------
+ * スクロール駆動アニメーション（CSS Scroll-driven Animations）。
+ * JavaScriptを一切使わず、スクロール位置そのものをタイムラインにする。
+ * 対応ブラウザだけで動き、非対応環境では単に静止した状態で表示される。
+ * ------------------------------------------------------------- */
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    /* 見出し下のラインが、スクロールに合わせて左から引かれる */
+    .scroll-line {
+      transform-origin: left center;
+      animation: scroll-line linear both;
+      animation-timeline: view();
+      animation-range: entry 8% cover 38%;
+    }
+    /* 中央寄せの見出しでは、中心から左右に広がるほうが自然に見える */
+    .scroll-line-center {
+      transform-origin: center;
+    }
+    @keyframes scroll-line {
+      from {
+        transform: scaleX(0);
+        opacity: 0.15;
+      }
+      to {
+        transform: scaleX(1);
+        opacity: 1;
+      }
+    }
+  }
+}
+
+/* ===============================================================
+ * デモ（できること）用のスタイル。
+ * 外部アニメーションライブラリを使わず、CSSのみで実装しています。
+ * ============================================================= */
+
+/* --- 折りたたみの注記（デモの前提・補足）。読みたい人だけが開く --- */
+.demo-note {
+  border-radius: 0.75rem;
+  border: 1px solid rgba(170, 255, 220, 0.25);
+  background: rgba(170, 255, 220, 0.06);
+  padding: 0.9rem 1.1rem;
+}
+.demo-note > summary {
+  cursor: pointer;
+  list-style: none;
+  font-size: 0.75rem;
+  color: #94a3b8;
+  transition: color 0.2s ease;
+}
+.demo-note > summary::-webkit-details-marker {
+  display: none;
+}
+.demo-note > summary::after {
+  content: "＋";
+  float: right;
+  color: var(--color-gold);
+}
+.demo-note[open] > summary::after {
+  content: "−";
+}
+.demo-note > summary:hover {
+  color: #e2e8f0;
+}
+
+/* --- スライダー（レンジ入力） --- */
+.demo-range {
+  -webkit-appearance: none;
+  appearance: none;
+  height: 4px;
+  border-radius: 999px;
+  background: linear-gradient(90deg, rgba(182, 126, 255, 0.7), rgba(196, 160, 255, 0.6));
+  outline: none;
+}
+.demo-range::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 16px;
+  height: 16px;
+  border-radius: 999px;
+  background: #e6f6ff;
+  border: 2px solid var(--color-brand);
+  box-shadow: 0 0 12px rgba(182, 126, 255, 0.7);
+  cursor: pointer;
+}
+.demo-range::-moz-range-thumb {
+  width: 14px;
+  height: 14px;
+  border-radius: 999px;
+  background: #e6f6ff;
+  border: 2px solid var(--color-brand);
+  box-shadow: 0 0 12px rgba(182, 126, 255, 0.7);
+  cursor: pointer;
+}
+
+/* --- SVGパスの描画アニメーション --- */
+.svg-draw {
+  stroke-dasharray: 400;
+  stroke-dashoffset: 400;
+  animation: svg-draw 2s cubic-bezier(0.25, 0.8, 0.35, 1) forwards;
+}
+@keyframes svg-draw {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+.svg-dot {
+  opacity: 0;
+  animation: svg-dot 0.45s ease-out forwards;
+}
+@keyframes svg-dot {
+  from {
+    opacity: 0;
+    transform: scale(0.2);
+    transform-origin: center;
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* --- クリック時の波紋 --- */
+.demo-ripple {
+  position: absolute;
+  width: 12px;
+  height: 12px;
+  margin: -6px 0 0 -6px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.85);
+  transform: scale(0);
+  animation: demo-ripple 0.65s ease-out forwards;
+  pointer-events: none;
+}
+@keyframes demo-ripple {
+  to {
+    transform: scale(22);
+    opacity: 0;
+  }
+}
+
+/* --- 3Dフリップカード --- */
+.demo-flip {
+  perspective: 900px;
+}
+.demo-flip-inner {
+  position: relative;
+  display: block;
+  width: 100%;
+  height: 100%;
+  transform-style: preserve-3d;
+  transition: transform 0.7s cubic-bezier(0.2, 0.7, 0.3, 1);
+}
+.demo-flip-inner.is-flipped {
+  transform: rotateY(180deg);
+}
+.demo-flip-face {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  border-radius: 0.9rem;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+}
+.demo-flip-back {
+  transform: rotateY(180deg);
+}
+
+/* --- 時間差で現れるブロック --- */
+.stagger-item {
+  opacity: 0;
+  animation: stagger-in 0.55s cubic-bezier(0.2, 0.7, 0.3, 1) forwards;
+}
+@keyframes stagger-in {
+  from {
+    opacity: 0;
+    transform: translateY(14px) scale(0.9);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* --- 有機的に変形し続けるブロブ --- */
+.blob-morph {
+  border-radius: 62% 38% 46% 54% / 55% 42% 58% 45%;
+  animation: blob-morph 9s ease-in-out infinite;
+}
+@keyframes blob-morph {
+  0%,
+  100% {
+    border-radius: 62% 38% 46% 54% / 55% 42% 58% 45%;
+    transform: rotate(0deg);
+  }
+  33% {
+    border-radius: 38% 62% 63% 37% / 41% 63% 37% 59%;
+    transform: rotate(16deg);
+  }
+  66% {
+    border-radius: 55% 45% 33% 67% / 62% 35% 65% 38%;
+    transform: rotate(-12deg);
+  }
+}
+
+/* --- SNSフィードに新着が差し込まれるときの出現 --- */
+.sns-post {
+  animation: sns-in 0.5s cubic-bezier(0.2, 0.7, 0.3, 1);
+}
+@keyframes sns-in {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* --- 連携パイプラインを流れるデータ --- */
+.pipe-flow {
+  background-image: linear-gradient(
+    90deg,
+    rgba(182, 126, 255, 0.15) 0%,
+    var(--color-brand) 50%,
+    rgba(182, 126, 255, 0.15) 100%
+  );
+  background-size: 200% 100%;
+  animation: pipe-flow 1.1s linear infinite;
+}
+@keyframes pipe-flow {
+  to {
+    background-position: -200% 0;
+  }
+}
+
+/* --- イベントログの行が流れ込む --- */
+.log-line {
+  animation: log-in 0.3s ease-out;
+}
+@keyframes log-in {
+  from {
+    opacity: 0;
+    transform: translateX(-6px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes gradient-pan {
+  from {
+    background-position: 0% 50%;
+  }
+  to {
+    background-position: 100% 50%;
+  }
+}
+
+@keyframes float {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-12px);
+  }
+}
+
+@keyframes pulse-glow {
+  0%,
+  100% {
+    opacity: 0.55;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+
+/* ---------------------------------------------------------------
+ * ページ遷移のクロスフェード（View Transitions API）。
+ * 対応していないブラウザでは、単に通常の遷移になる。
+ * ------------------------------------------------------------- */
+::view-transition-old(root) {
+  animation: vt-out 0.22s cubic-bezier(0.4, 0, 1, 1) both;
+}
+::view-transition-new(root) {
+  animation: vt-in 0.32s cubic-bezier(0, 0, 0.2, 1) both;
+}
+@keyframes vt-out {
+  to {
+    opacity: 0;
+    transform: translateY(-6px);
+  }
+}
+@keyframes vt-in {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+}
+
+/* 動きを抑えたい設定のユーザーにはアニメーションを無効化（アクセシビリティ） */
+@media (prefers-reduced-motion: reduce) {
+  ::view-transition-old(root),
+  ::view-transition-new(root) {
+    animation: none;
+  }
+  html {
+    scroll-behavior: auto;
+  }
+  [data-reveal] {
+    opacity: 1;
+    transform: none;
+    filter: none;
+    transition: none;
+    animation: none;
+  }
+  .aurora,
+  .hero-line > span,
+  .text-gradient,
+  .animate-float,
+  .animate-pulse-glow,
+  .marquee-track,
+  .btn::after,
+  .blob-morph,
+  .pipe-flow,
+  .sns-post,
+  .log-line,
+  .stagger-item,
+  .svg-draw,
+  .svg-dot,
+  .demo-ripple {
+    animation: none;
+    transition: none;
+  }
+  /* アニメーションを止めても内容が見えるようにする */
+  .stagger-item,
+  .svg-dot {
+    opacity: 1;
+  }
+  .svg-draw {
+    stroke-dashoffset: 0;
+  }
+  .demo-flip-inner {
+    transition: none;
+  }
+}
+
+/* ---------------------------------------------------------------
+ * サイト内AIアシスタント（右下のドット絵キャラクター＋チャット）。
+ * 実装は src/components/assistant/。デモ（/demo/ai-chatbot）とは別の常設機能。
+ * ------------------------------------------------------------- */
+.mascot {
+  display: block;
+}
+/* 起動ボタンで、3Dが立ち上がるまで（および WebGL 非対応環境で）出しておく顔。
+   3Dの初期化に成功したら React 側が .is-hidden を付けて消す。 */
+.assistant-launcher-face {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  filter: drop-shadow(0 0 6px rgba(182, 126, 255, 0.5));
+  transition: opacity 0.4s ease;
+}
+.assistant-launcher-face.is-hidden {
+  opacity: 0;
+}
+/* まばたき（目のグループだけを縦に潰す） */
+.mascot-eyes {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: mascot-blink 5.4s steps(1, end) infinite;
+}
+@keyframes mascot-blink {
+  0%,
+  93%,
+  100% {
+    transform: scaleY(1);
+  }
+  95%,
+  97% {
+    transform: scaleY(0.12);
+  }
+}
+
+.assistant-root {
+  position: fixed;
+  right: max(1rem, env(safe-area-inset-right));
+  bottom: max(1rem, env(safe-area-inset-bottom));
+  /* ヘッダー(50)・ドットナビ(40)より上、スクロール進捗(60)と同列 */
+  z-index: 60;
+  /* 起動ボタンの寸法（絵が 20×24 なので 5:6）。
+     スマホではこの大きさが最適なので基準にし、広い画面だけ下で拡大する。 */
+  --launcher-w: 4rem;
+  --launcher-h: 4.8rem;
+}
+/* PCなど広い画面ではロボットを1.5倍に（スマホの見え方は変えない） */
+@media (min-width: 1024px) {
+  .assistant-root {
+    --launcher-w: 6rem;
+    --launcher-h: 7.2rem;
+  }
+}
+
+/* ---- 起動ボタン（3DCGキャラクター CHROMA。四角い枠は持たせない） ----
+ * 枠や背景板を描かず、キャラクターの輪郭だけを浮かせています。
+ * 背景（3D演出）に埋もれないよう、影は輪郭に沿う drop-shadow で付け、
+ * 足元の楕円影と背後のほのかな光で「床に立っている」ように見せます。 */
+.assistant-launcher {
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: var(--launcher-w);
+  height: var(--launcher-h);
+  border: 0;
+  background: none;
+  transition: transform 0.3s cubic-bezier(0.2, 0.7, 0.3, 1);
+}
+/* 背後のほのかな光（輪郭を背景から分離する） */
+.assistant-launcher::before {
+  content: "";
+  position: absolute;
+  inset: -12% -30% 4%;
+  border-radius: 50%;
+  background: radial-gradient(60% 55% at 50% 45%, rgba(182, 126, 255, 0.28), transparent 72%);
+  filter: blur(4px);
+  transition: opacity 0.3s ease;
+}
+/* 足元の影 */
+.assistant-launcher::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  bottom: -0.15rem;
+  /* ボタン幅に対する比率にしておくと、拡大時も足元の影がずれない */
+  width: 65%;
+  height: 0.5rem;
+  transform: translateX(-50%);
+  border-radius: 50%;
+  background: radial-gradient(closest-side, rgba(0, 0, 0, 0.6), transparent);
+  transition: opacity 0.3s ease;
+}
+.assistant-launcher:hover {
+  transform: translateY(-3px);
+}
+.assistant-launcher:hover::before {
+  opacity: 1.4;
+}
+.assistant-launcher:hover::after {
+  opacity: 0.6;
+}
+.assistant-launcher:active {
+  transform: translateY(-1px) scale(0.97);
+}
+/* キャラクター本体（WebGLキャンバス）。
+   浮遊も回転も 3D 側でやっているので、CSSの上下動は掛けない（二重に揺れる）。
+   ここで足すのは、背景から輪郭を分離するための光と影だけ。 */
+.assistant-launcher-art {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  filter:
+    drop-shadow(0 0 6px rgba(182, 126, 255, 0.5))
+    drop-shadow(0 3px 5px rgba(0, 0, 0, 0.75));
+  transition: filter 0.3s ease;
+}
+.assistant-launcher:hover .assistant-launcher-art {
+  filter:
+    drop-shadow(0 0 12px rgba(182, 126, 255, 0.85))
+    drop-shadow(0 4px 6px rgba(0, 0, 0, 0.8));
+}
+/* 「話しかけられます」を示す小さな光点（挙げた手と重ならないよう頭の左上へ） */
+.assistant-launcher-ping {
+  position: absolute;
+  top: 4%;
+  left: 8%;
+  width: 0.45rem;
+  height: 0.45rem;
+  border-radius: 9999px;
+  background: var(--color-brand);
+  box-shadow: 0 0 10px var(--color-brand);
+  animation: pulse-glow 2.4s ease-in-out infinite;
+}
+.assistant-root[data-open="true"] .assistant-launcher-ping {
+  display: none;
+}
+
+/* ---- 吹き出し（初回の気づき用） ---- */
+.assistant-hint {
+  position: absolute;
+  right: 0.25rem;
+  bottom: calc(100% + 0.65rem);
+  display: flex;
+  align-items: stretch;
+  width: max-content;
+  max-width: min(15rem, calc(100vw - 2.5rem));
+  border-radius: 0.85rem;
+  border: 1px solid rgba(170, 255, 220, 0.4);
+  background: rgba(12, 8, 21, 0.95);
+  box-shadow: 0 12px 30px -12px rgba(0, 0, 0, 0.9);
+  animation: assistant-pop 0.35s cubic-bezier(0.2, 0.9, 0.3, 1.2) both;
+}
+.assistant-hint::after {
+  /* 吹き出しの尻尾 */
+  content: "";
+  position: absolute;
+  right: 1.6rem;
+  bottom: -0.32rem;
+  width: 0.6rem;
+  height: 0.6rem;
+  transform: rotate(45deg);
+  border-right: 1px solid rgba(170, 255, 220, 0.4);
+  border-bottom: 1px solid rgba(170, 255, 220, 0.4);
+  background: rgba(12, 8, 21, 0.95);
+}
+.assistant-hint-body {
+  padding: 0.6rem 0.35rem 0.6rem 0.85rem;
+  text-align: left;
+  font-size: 0.75rem;
+  line-height: 1.5;
+  color: var(--color-gold-light);
+  word-break: keep-all;
+}
+.assistant-hint-close {
+  display: grid;
+  place-items: center;
+  padding-inline: 0.5rem;
+  color: rgba(148, 163, 184, 0.8);
+  transition: color 0.2s ease;
+}
+.assistant-hint-close:hover {
+  color: #fff;
+}
+
+/* ---- チャット本体 ---- */
+.assistant-slot {
+  position: absolute;
+  right: 0;
+  bottom: calc(var(--launcher-h) + 0.85rem);
+  width: min(23rem, calc(100vw - 2rem));
+  height: min(32rem, calc(100dvh - 9.5rem));
+  transform-origin: bottom right;
+  transition:
+    opacity 0.25s ease,
+    transform 0.25s cubic-bezier(0.2, 0.8, 0.3, 1),
+    visibility 0.25s;
+}
+.assistant-root[data-open="false"] .assistant-slot {
+  visibility: hidden;
+  pointer-events: none;
+  opacity: 0;
+  transform: translateY(10px) scale(0.96);
+}
+.assistant-root[data-open="true"] .assistant-slot {
+  visibility: visible;
+  opacity: 1;
+  transform: none;
+}
+.assistant-panel {
+  width: 100%;
+  height: 100%;
+  background:
+    linear-gradient(165deg, rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0.012) 55%),
+    rgba(6, 9, 20, 0.97);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.07),
+    0 24px 60px -20px rgba(0, 0, 0, 0.95),
+    0 0 30px -14px rgba(182, 126, 255, 0.5);
+}
+/* 質問例の横スクロールバーは隠す（指・トラックパッドで流す想定） */
+.assistant-chips {
+  scrollbar-width: none;
+}
+.assistant-chips::-webkit-scrollbar {
+  display: none;
+}
+
+/* 狭い画面ではほぼ全画面にして、起動ボタンは引っ込める */
+@media (max-width: 480px) {
+  .assistant-slot {
+    position: fixed;
+    right: max(0.75rem, env(safe-area-inset-right));
+    left: max(0.75rem, env(safe-area-inset-left));
+    bottom: max(0.75rem, env(safe-area-inset-bottom));
+    width: auto;
+    height: min(34rem, calc(100dvh - 5.5rem));
+  }
+  .assistant-root[data-open="true"] .assistant-launcher {
+    opacity: 0;
+    pointer-events: none;
+  }
+}
+
+@keyframes assistant-pop {
+  from {
+    opacity: 0;
+    transform: translateY(6px) scale(0.94);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .mascot-eyes,
+  .assistant-launcher-art,
+  .assistant-launcher:hover .assistant-launcher-art,
+  .assistant-launcher-ping,
+  .assistant-hint {
+    animation: none;
+  }
+  .assistant-slot {
+    transition: none;
+  }
+}
+
+/* ------------------------------------------------------------------
+ * デモサイト（/showcase）の読み込み待機画面
+ * ドット絵ロボットがお辞儀して「待ち時間である」ことを伝えます。
+ * ---------------------------------------------------------------- */
+
+.demo-boot-bow {
+  transform-origin: 50% 100%;
+  animation: demo-bow 2.2s ease-in-out infinite;
+}
+
+/* 上体を前に倒して戻す（ドット絵なので、縦の潰しと傾きだけでお辞儀に見せる） */
+@keyframes demo-bow {
+  0%,
+  55%,
+  100% {
+    transform: rotate(0deg) scaleY(1) translateY(0);
+  }
+  20% {
+    transform: rotate(-3deg) scaleY(0.9) translateY(4%);
+  }
+  35% {
+    transform: rotate(-3deg) scaleY(0.9) translateY(4%);
+  }
+}
+
+/* 進捗率が分からないので、割合ではなく「動いている」ことだけを示すバー */
+.demo-boot-bar {
+  animation: demo-boot-bar 1.4s ease-in-out infinite;
+}
+
+@keyframes demo-boot-bar {
+  0% {
+    transform: translateX(-110%);
+  }
+  100% {
+    transform: translateX(320%);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .demo-boot-bow,
+  .demo-boot-bar {
+    animation: none;
+  }
+}
+
+/* ---------------------------------------------------------------
+ * スマートフォン向けの固定CTAバー（`site/MobileCta.tsx`）
+ *
+ * スマホでは問い合わせ導線がページ末尾にしかなく、読んでいる途中で動けませんでした。
+ * 画面下端に「電話」と「無料で相談する」を常駐させます。lg 以上では出しません。
+ * ⚠️ 高さを変えるときは `--mobile-cta-h` だけを直すこと。
+ *    本文末尾の余白と、常駐アシスタントの持ち上げ量が同じ値を参照しています。
+ * --------------------------------------------------------------- */
+:root {
+  --mobile-cta-h: 3.9rem;
+}
+
+/* ⚠️ 表示・非表示を Tailwind の `lg:hidden` に任せないこと。
+   このブロックは @layer の外にあり、非レイヤーのCSSは @layer utilities より強い（Tailwind v4）。
+   `lg:hidden` の display:none が負けて、PCでもバーが出てしまう。切替はここで書く。 */
+.mobile-cta,
+.mobile-cta-spacer {
+  display: none;
+}
+
+.mobile-cta {
+  position: fixed;
+  inset-inline: 0;
+  bottom: 0;
+  z-index: 55; /* ヘッダー(50)より上、常駐アシスタント(60)より下 */
+  gap: 0.5rem;
+  padding: 0.5rem max(0.75rem, env(safe-area-inset-left)) calc(0.5rem + env(safe-area-inset-bottom))
+    max(0.75rem, env(safe-area-inset-right));
+  background-color: rgba(7, 5, 14, 0.92);
+  border-top: 1px solid rgba(148, 163, 184, 0.16);
+  /* backdrop-filter は使わない：背後で3D背景が動き続けるため再合成が走って重い（ヘッダーと同じ理由） */
+}
+
+.mobile-cta-btn {
+  display: flex;
+  flex: 1 1 0;
+  min-width: 0;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  border-radius: 0.625rem;
+  padding: 0.45rem 0.5rem;
+  font-size: 0.8125rem;
+  font-weight: 700;
+  line-height: 1.25;
+  text-align: left;
+}
+
+.mobile-cta-sub {
+  display: block;
+  font-size: 0.6875rem;
+  font-weight: 500;
+  opacity: 0.75;
+  font-variant-numeric: tabular-nums;
+}
+
+.mobile-cta-tel {
+  border: 1px solid rgba(182, 126, 255, 0.35);
+  background-color: rgba(182, 126, 255, 0.1);
+  color: var(--color-brand-light);
+}
+
+.mobile-cta-main {
+  background-image: linear-gradient(120deg, var(--color-brand), var(--color-accent));
+  color: #07050e;
+}
+
+/* 本文の末尾がバーに隠れないよう、同じ高さの余白を通常フローに置く。
+   ⚠️ body の padding では効かせない：globals.css は職種別デモサイト
+   （バーを出さない `/demosite/*`）にも読まれるため、そちらに余白だけが残る。 */
+.mobile-cta-spacer {
+  height: calc(var(--mobile-cta-h) + env(safe-area-inset-bottom));
+}
+
+@media (max-width: 1023px) {
+  .mobile-cta {
+    display: flex;
+  }
+  .mobile-cta-spacer {
+    display: block;
+  }
+  /* 常駐アシスタントをバーの上へ逃がす（重なると起動ボタンが押せない） */
+  .assistant-root {
+    bottom: calc(var(--mobile-cta-h) + max(0.75rem, env(safe-area-inset-bottom)));
+  }
+}

@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 64 64" role="img" aria-label="エビスソフト">
+  <!--
+    小サイズ用のマーク（ブラウザのタブ・SNSアイコン）。
+    ロゴ本体は "YEBISU SOFT" のワードマークだが、16〜32px では6文字が潰れるため
+    頭2文字 "YE" に縮めている。Eの中央バーだけをシアンにして、
+    どのサイズでもブランドカラーが残るようにしている。
+    3D・グラデーション・影は使わない（フラット統一）。
+  -->
+  <rect width="64" height="64" rx="14" fill="#0f2e5f" />
+  <!-- Y：斜め2本＋縦の軸。線の太さと高さはEに揃える -->
+  <g fill="none" stroke="#ffffff" stroke-width="6" stroke-linejoin="miter">
+    <path d="M12 17 L21 30 L30 17" />
+    <path d="M21 30V47" />
+  </g>
+  <!-- E：横棒3本。中央だけシアン -->
+  <g fill="#ffffff">
+    <rect x="36" y="17" width="6" height="30" />
+    <rect x="36" y="17" width="16" height="6" />
+    <rect x="36" y="41" width="16" height="6" />
+  </g>
+  <rect x="36" y="29" width="13" height="6" fill="#22d3ee" />
+</svg>
