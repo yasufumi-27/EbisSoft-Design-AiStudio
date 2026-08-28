@@ -123,6 +123,7 @@ export default function CompanyPage() {
       <Breadcrumbs items={crumbs} />
 
       <PageHeader
+        art={2}
         eyebrow="Company"
         title={
           <>
@@ -214,10 +215,10 @@ export default function CompanyPage() {
               style={{ "--reveal-delay": `${i * 0.1}s` } as React.CSSProperties}
             >
               <div className="flex items-center gap-3">
-                <span className="grid size-12 place-items-center rounded-xl border border-brand/30 bg-brand/10 text-brand-light shadow-[0_0_20px_rgba(182, 126, 255,0.2)]">
+                <span className="grid size-12 place-items-center rounded-none border border-brand/30 bg-brand/10 text-brand-light shadow-[0_0_20px_rgba(182,126,255,0.2)]">
                   <Icon name={a.icon} className="size-6" />
                 </span>
-                <span className="font-display rounded-md border border-gold/30 bg-gold/10 px-2.5 py-1 text-xs font-bold tracking-wider text-gold-light">
+                <span className="font-display rounded-none border border-gold/30 bg-gold/10 px-2.5 py-1 text-xs font-bold tracking-wider text-gold-light">
                   {a.label}
                 </span>
               </div>
@@ -252,7 +253,7 @@ export default function CompanyPage() {
               data-reveal
               style={{ "--reveal-delay": `${(i % 2) * 0.1}s` } as React.CSSProperties}
             >
-              <span className="grid size-11 place-items-center rounded-xl border border-brand/30 bg-brand/10 text-brand-light">
+              <span className="grid size-11 place-items-center rounded-none border border-brand/30 bg-brand/10 text-brand-light">
                 <Icon name={p.icon} className="size-5" />
               </span>
               <h3 className="mt-4 text-lg font-bold text-white">{ja(p.title)}</h3>
@@ -287,7 +288,7 @@ export default function CompanyPage() {
                 {techStack.map((t) => (
                   <li
                     key={t}
-                    className="rounded-md border border-white/10 bg-white/5 px-2.5 py-1 text-xs font-medium text-slate-300"
+                    className="rounded-none border border-white/10 bg-white/5 px-2.5 py-1 text-xs font-medium text-slate-300"
                   >
                     {t}
                   </li>
@@ -307,7 +308,7 @@ export default function CompanyPage() {
                 {siteConfig.localAreas.map((a) => (
                   <li
                     key={a}
-                    className="rounded-md border border-gold/25 bg-gold/[0.07] px-2.5 py-1 text-xs text-gold-light"
+                    className="rounded-none border border-gold/25 bg-gold/[0.07] px-2.5 py-1 text-xs text-gold-light"
                   >
                     {a}
                   </li>

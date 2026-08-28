@@ -68,7 +68,7 @@ export function WorkSamples() {
                 <span className="size-2 rounded-full bg-white/20" />
                 <span className="size-2 rounded-full bg-white/20" />
                 <span className="size-2 rounded-full bg-white/20" />
-                <span className="ml-2 min-w-0 flex-1 truncate rounded-md bg-white/[0.06] px-2 py-1 text-[10px] text-slate-500">
+                <span className="ml-2 min-w-0 flex-1 truncate rounded-none bg-white/[0.06] px-2 py-1 text-[10px] text-slate-500">
                   {`ebisusoft.example / ${industry.slug}`}
                 </span>
               </div>
@@ -86,7 +86,7 @@ export function WorkSamples() {
             </div>
 
             <div className="flex flex-1 flex-col p-6">
-              <span className="inline-flex w-fit items-center gap-1.5 rounded-md border border-brand/30 bg-brand/10 px-2 py-1 text-[11px] font-bold text-brand-light">
+              <span className="inline-flex w-fit items-center gap-1.5 rounded-none border border-brand/30 bg-brand/10 px-2 py-1 text-[11px] font-bold text-brand-light">
                 <Icon name={industry.icon} aria-hidden className="size-3.5" />
                 {ja(industry.name)}
               </span>
@@ -125,7 +125,7 @@ export function WorkSamples() {
         <Link
           prefetch={false}
           href="/showcase"
-          className="inline-flex items-center gap-2 rounded-lg border border-gold/40 bg-gold/10 px-5 py-3 text-sm font-semibold text-gold-light transition-colors hover:bg-gold/20"
+          className="inline-flex items-center gap-2 rounded-none border border-gold/40 bg-gold/10 px-5 py-3 text-sm font-semibold text-gold-light transition-colors hover:bg-gold/20"
         >
           {ja("18業種すべてのサンプルを見る")}
           <Icon name="arrowRight" className="size-4" />

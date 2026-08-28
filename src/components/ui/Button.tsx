@@ -8,16 +8,18 @@ import { jaNode } from "@/lib/typography";
 type Variant = "primary" | "secondary" | "ghost";
 type Size = "md" | "lg";
 
-// 見た目の本体は globals.css の .btn / .btn-* （コーナーカット＋発光＋シーン掃引）
+// 見た目の本体は globals.css の .btn / .btn-*（直角＋ベタ塗り／1pxの枠）
 const variants: Record<Variant, string> = {
   primary: "btn-primary focus-visible:outline-brand",
   secondary: "btn-secondary focus-visible:outline-gold",
   ghost: "btn-ghost focus-visible:outline-slate-400",
 };
 
+// 見た目の本体は globals.css の .btn / .btn-*。
+// display フォント＋広い字間になったぶん、字を一段落として横に伸ばしている。
 const sizes: Record<Size, string> = {
-  md: "h-11 px-6 text-sm",
-  lg: "h-13 px-8 text-base",
+  md: "h-11 px-6 text-[0.62rem]",
+  lg: "h-13 px-8 text-[0.72rem]",
 };
 
 const baseClass =

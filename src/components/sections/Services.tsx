@@ -35,7 +35,7 @@ export function Services({
             data-reveal
             style={{ "--reveal-delay": `${(i % 3) * 0.1}s` } as React.CSSProperties}
           >
-            <span className="grid size-12 place-items-center rounded-xl bg-gradient-to-br from-brand/80 to-accent/80 text-ink shadow-[0_0_22px_rgba(182, 126, 255,0.35)] transition-shadow group-hover:shadow-[0_0_32px_rgba(182, 126, 255,0.6)]">
+            <span className="grid size-12 place-items-center rounded-none bg-gradient-to-br from-brand/80 to-accent/80 text-ink shadow-[0_0_22px_rgba(182,126,255,0.35)] transition-shadow group-hover:shadow-[0_0_32px_rgba(182,126,255,0.6)]">
               <Icon name={s.icon} className="size-6" />
             </span>
             <h3 className="mt-5 text-xl font-bold text-white">{ja(s.title)}</h3>

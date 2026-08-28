@@ -68,6 +68,7 @@ export default function ColumnsIndexPage() {
       <Breadcrumbs items={crumbs} />
 
       <PageHeader
+        art={0}
         eyebrow="Columns"
         title={
           <>
@@ -98,7 +99,7 @@ export default function ColumnsIndexPage() {
               style={{ "--reveal-delay": `${i * 0.08}s` } as React.CSSProperties}
             >
               <div className="flex flex-wrap items-center gap-x-3 gap-y-2 text-xs">
-                <span className="inline-flex items-center gap-1.5 rounded-md border border-brand/30 bg-brand/10 px-2.5 py-1 font-bold text-brand-light">
+                <span className="inline-flex items-center gap-1.5 rounded-none border border-brand/30 bg-brand/10 px-2.5 py-1 font-bold text-brand-light">
                   <Icon name={c.icon} className="size-3.5" />
                   {ja(c.category)}
                 </span>

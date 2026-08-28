@@ -22,7 +22,7 @@ export function Pricing() {
               key={plan.name}
               className={
                 featured
-                  ? "panel panel-corners relative border-gold/50 p-8 shadow-[0_0_60px_-15px_rgba(170, 255, 220,0.35)] lg:-mt-4 lg:pb-12"
+                  ? "panel panel-corners relative border-gold/50 p-8 shadow-[0_0_60px_-15px_rgba(170,255,220,0.35)] lg:-mt-4 lg:pb-12"
                   : "panel panel-hover relative p-8"
               }
               data-reveal

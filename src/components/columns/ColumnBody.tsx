@@ -59,7 +59,7 @@ function Block({ block }: { block: ColumnBlock }) {
         <ol className="space-y-4">
           {block.items.map((item, i) => (
             <li key={item.title} className="panel flex gap-4 p-5">
-              <span className="font-display grid size-8 shrink-0 place-items-center rounded-lg border border-brand/30 bg-brand/10 text-sm font-bold text-brand-light">
+              <span className="font-display grid size-8 shrink-0 place-items-center rounded-none border border-brand/30 bg-brand/10 text-sm font-bold text-brand-light">
                 {i + 1}
               </span>
               <div className="min-w-0">

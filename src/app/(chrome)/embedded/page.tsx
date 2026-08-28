@@ -115,6 +115,7 @@ export default function EmbeddedPage() {
       <Breadcrumbs items={crumbs} />
 
       <PageHeader
+        art={2}
         eyebrow="Embedded Systems"
         title={
           <>
@@ -160,7 +161,7 @@ export default function EmbeddedPage() {
               data-reveal
               style={{ "--reveal-delay": `${(i % 2) * 0.1}s` } as React.CSSProperties}
             >
-              <span className="grid size-12 place-items-center rounded-xl bg-gradient-to-br from-brand/80 to-accent/80 text-ink shadow-[0_0_22px_rgba(182, 126, 255,0.35)]">
+              <span className="grid size-12 place-items-center rounded-none bg-gradient-to-br from-brand/80 to-accent/80 text-ink shadow-[0_0_22px_rgba(182,126,255,0.35)]">
                 <Icon name={d.icon} className="size-6" />
               </span>
               <h3 className="mt-5 text-xl font-bold text-white">{ja(d.title)}</h3>
@@ -195,7 +196,7 @@ export default function EmbeddedPage() {
               data-reveal
               style={{ "--reveal-delay": `${(i % 3) * 0.1}s` } as React.CSSProperties}
             >
-              <span className="grid size-11 place-items-center rounded-xl border border-gold/30 bg-gold/10 text-gold-light">
+              <span className="grid size-11 place-items-center rounded-none border border-gold/30 bg-gold/10 text-gold-light">
                 <Icon name={o.icon} className="size-5" />
               </span>
               <h3 className="mt-4 text-lg font-bold text-white">{ja(o.title)}</h3>
@@ -259,7 +260,7 @@ export default function EmbeddedPage() {
               data-reveal
               style={{ "--reveal-delay": `${i * 0.1}s` } as React.CSSProperties}
             >
-              <span className="grid size-12 place-items-center rounded-xl border border-brand/30 bg-brand/10 text-brand-light shadow-[0_0_20px_rgba(182, 126, 255,0.2)]">
+              <span className="grid size-12 place-items-center rounded-none border border-brand/30 bg-brand/10 text-brand-light shadow-[0_0_20px_rgba(182,126,255,0.2)]">
                 <Icon name={s.icon} className="size-6" />
               </span>
               <h3 className="mt-5 text-lg font-bold text-white">{ja(s.title)}</h3>
@@ -320,7 +321,7 @@ export default function EmbeddedPage() {
               style={{ "--reveal-delay": `${(i % 3) * 0.1}s` } as React.CSSProperties}
             >
               <div className="flex items-center gap-4">
-                <span className="font-display grid size-11 shrink-0 place-items-center rounded-full border border-brand/40 bg-brand/10 text-base font-bold text-brand-light shadow-[0_0_18px_rgba(182, 126, 255,0.25)]">
+                <span className="font-display grid size-11 shrink-0 place-items-center rounded-full border border-brand/40 bg-brand/10 text-base font-bold text-brand-light shadow-[0_0_18px_rgba(182,126,255,0.25)]">
                   {String(i + 1).padStart(2, "0")}
                 </span>
                 <h3 className="text-lg font-bold text-white">{ja(step.title)}</h3>

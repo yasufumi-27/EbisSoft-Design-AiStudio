@@ -9,7 +9,7 @@ import { industries, getIndustry } from "@/lib/showcaseData";
 import { getDemoSite } from "@/lib/demoSiteData";
 import { siteConfig, absoluteUrl } from "@/lib/site";
 import { Section } from "@/components/ui/Section";
-import { PageHeader } from "@/components/ui/PageHeader";
+import { PageHeader, artFor } from "@/components/ui/PageHeader";
 import { Breadcrumbs } from "@/components/site/Breadcrumbs";
 import { ButtonLink } from "@/components/ui/Button";
 import { Icon } from "@/components/ui/icons";
@@ -103,7 +103,9 @@ export default async function IndustryShowcasePage({
 
       <Breadcrumbs items={crumbs} />
 
+      {/* art：職種ごとに形が変わるよう、スラッグから決める（同じ職種は常に同じ形） */}
       <PageHeader
+        art={artFor(industry)}
         eyebrow={data.eyebrow}
         title={
           <>

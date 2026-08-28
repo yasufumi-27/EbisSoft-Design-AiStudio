@@ -28,7 +28,7 @@ export function RelatedPages({ hrefs }: { hrefs: string[] }) {
               data-reveal
               style={{ "--reveal-delay": `${(i % 3) * 0.08}s` } as React.CSSProperties}
             >
-              <span className="grid size-10 shrink-0 place-items-center rounded-xl border border-brand/30 bg-brand/10 text-brand-light">
+              <span className="grid size-10 shrink-0 place-items-center rounded-none border border-brand/30 bg-brand/10 text-brand-light">
                 <Icon name={p.icon} className="size-5" />
               </span>
               <span className="min-w-0">

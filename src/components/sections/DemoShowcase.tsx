@@ -43,10 +43,10 @@ export function DemoShowcase({
               className={`absolute inset-x-0 top-0 h-0.5 bg-gradient-to-r ${c.gradient} opacity-70`}
             />
             <span className="flex items-center justify-between gap-2">
-              <span className="grid size-11 place-items-center rounded-xl border border-white/10 bg-white/5 text-brand-light transition-colors group-hover:border-brand/50 group-hover:bg-brand/15">
+              <span className="grid size-11 place-items-center rounded-none border border-white/10 bg-white/5 text-brand-light transition-colors group-hover:border-brand/50 group-hover:bg-brand/15">
                 <Icon name={c.icon} className="size-5" />
               </span>
-              <span className="font-display rounded-md border border-gold/30 bg-gold/10 px-2 py-1 text-[10px] font-bold tracking-wider text-gold-light">
+              <span className="font-display rounded-none border border-gold/30 bg-gold/10 px-2 py-1 text-[10px] font-bold tracking-wider text-gold-light">
                 {c.buildTime}
               </span>
             </span>
@@ -71,7 +71,7 @@ export function DemoShowcase({
         <Link
           prefetch={false}
           href="/demo"
-          className="inline-flex items-center gap-2 rounded-lg border border-gold/40 bg-gold/10 px-5 py-3 text-sm font-semibold text-gold-light transition-colors hover:bg-gold/20"
+          className="inline-flex items-center gap-2 rounded-none border border-gold/40 bg-gold/10 px-5 py-3 text-sm font-semibold text-gold-light transition-colors hover:bg-gold/20"
         >
           {ja("15領域すべてのデモを見る")}
           <Icon name="arrowRight" className="size-4" />

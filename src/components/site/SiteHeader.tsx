@@ -54,7 +54,7 @@ export function SiteHeader() {
               {item.label}
               <span
                 aria-hidden
-                className="absolute inset-x-0 -bottom-0.5 h-px origin-left scale-x-0 bg-gradient-to-r from-brand to-accent shadow-[0_0_8px_rgba(182, 126, 255,0.8)] transition-transform duration-300 group-hover:scale-x-100"
+                className="absolute inset-x-0 -bottom-0.5 h-px origin-left scale-x-0 bg-gradient-to-r from-brand to-accent shadow-[0_0_8px_rgba(182,126,255,0.8)] transition-transform duration-300 group-hover:scale-x-100"
               />
             </SmartLink>
           ))}
@@ -69,7 +69,7 @@ export function SiteHeader() {
         {/* モバイル：ハンバーガー */}
         <button
           type="button"
-          className="inline-flex size-10 items-center justify-center rounded-lg text-slate-200 transition-colors hover:bg-white/10 xl:hidden"
+          className="inline-flex size-10 items-center justify-center rounded-none text-slate-200 transition-colors hover:bg-white/10 xl:hidden"
           aria-expanded={open}
           aria-controls="mobile-menu"
           aria-label={open ? "メニューを閉じる" : "メニューを開く"}
@@ -101,7 +101,7 @@ export function SiteHeader() {
               <SmartLink
                 key={item.href}
                 href={item.href}
-                className="rounded-lg px-2 py-3 text-base font-medium text-slate-200 transition-colors hover:bg-white/5 hover:text-brand-light"
+                className="rounded-none px-2 py-3 text-base font-medium text-slate-200 transition-colors hover:bg-white/5 hover:text-brand-light"
                 onClick={() => setOpen(false)}
               >
                 {item.label}
@@ -119,7 +119,7 @@ export function SiteHeader() {
                 クリックの計測は ContactLinkTracker がイベント委譲で拾うため onClick は不要。 */}
             <a
               href={`tel:${siteConfig.contact.telephone}`}
-              className="mt-2 inline-flex items-center justify-center gap-2 rounded-lg border border-brand/30 bg-brand/10 px-4 py-3 text-sm font-bold text-brand-light"
+              className="mt-2 inline-flex items-center justify-center gap-2 rounded-none border border-brand/30 bg-brand/10 px-4 py-3 text-sm font-bold text-brand-light"
               onClick={() => setOpen(false)}
             >
               <Icon name="phone" aria-hidden className="size-4" />

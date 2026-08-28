@@ -20,7 +20,7 @@ export function Process() {
             style={{ "--reveal-delay": `${(i % 3) * 0.1}s` } as React.CSSProperties}
           >
             <div className="flex items-center gap-4">
-              <span className="font-display grid size-11 shrink-0 place-items-center rounded-full border border-brand/40 bg-brand/10 text-base font-bold text-brand-light shadow-[0_0_18px_rgba(182, 126, 255,0.25)]">
+              <span className="font-display grid size-11 shrink-0 place-items-center rounded-full border border-brand/40 bg-brand/10 text-base font-bold text-brand-light shadow-[0_0_18px_rgba(182,126,255,0.25)]">
                 {String(i + 1).padStart(2, "0")}
               </span>
               <h3 className="text-lg font-bold text-white">{ja(step.title)}</h3>

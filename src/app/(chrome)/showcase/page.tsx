@@ -81,6 +81,7 @@ export default function ShowcaseIndexPage() {
       <Breadcrumbs items={crumbs} />
 
       <PageHeader
+        art={3}
         eyebrow="Industry Showcase"
         title={
           <>
@@ -110,7 +111,7 @@ export default function ShowcaseIndexPage() {
               data-reveal
               style={{ "--reveal-delay": `${(idx % 3) * 0.08}s` } as React.CSSProperties}
             >
-              <span className="grid size-11 place-items-center rounded-xl border border-brand/30 bg-brand/10 text-brand-light">
+              <span className="grid size-11 place-items-center rounded-none border border-brand/30 bg-brand/10 text-brand-light">
                 <Icon name={i.icon} className="size-5" />
               </span>
               <span className="font-display mt-4 text-[10px] tracking-[0.2em] text-slate-500 uppercase">
@@ -145,7 +146,7 @@ export default function ShowcaseIndexPage() {
 
       <Section bg="deep">
         <div className="panel panel-corners mx-auto max-w-3xl p-8 text-center sm:p-12" data-reveal>
-          <span className="grid mx-auto size-12 place-items-center rounded-xl border border-gold/30 bg-gold/10 text-gold-light">
+          <span className="grid mx-auto size-12 place-items-center rounded-none border border-gold/30 bg-gold/10 text-gold-light">
             <Icon name="sparkles" className="size-6" />
           </span>
           <h2 className="mt-5 text-2xl font-bold text-white sm:text-3xl">

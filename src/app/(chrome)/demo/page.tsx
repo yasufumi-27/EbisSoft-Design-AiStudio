@@ -59,6 +59,7 @@ export default function DemoIndexPage() {
       <Breadcrumbs items={crumbs} />
 
       <PageHeader
+        art={3}
         eyebrow="Capabilities"
         title={
           <>
@@ -90,7 +91,7 @@ export default function DemoIndexPage() {
             >
               <div className="flex items-start gap-4">
                 <span
-                  className={`grid size-12 shrink-0 place-items-center rounded-xl bg-gradient-to-br ${c.gradient} text-ink shadow-[0_0_22px_rgba(182, 126, 255,0.25)]`}
+                  className={`grid size-12 shrink-0 place-items-center rounded-none bg-gradient-to-br ${c.gradient} text-ink shadow-[0_0_22px_rgba(182,126,255,0.25)]`}
                 >
                   <Icon name={c.icon} className="size-6" />
                 </span>
@@ -100,7 +101,7 @@ export default function DemoIndexPage() {
                     <h2 className="text-xl leading-snug font-bold text-white">
                       {ja(c.searchTitle)}
                     </h2>
-                    <span className="font-display rounded-md border border-gold/30 bg-gold/10 px-2 py-0.5 text-[10px] font-bold tracking-wider text-gold-light">
+                    <span className="font-display rounded-none border border-gold/30 bg-gold/10 px-2 py-0.5 text-[10px] font-bold tracking-wider text-gold-light">
                       実装 {c.buildTime}
                     </span>
                   </div>
@@ -141,7 +142,7 @@ export default function DemoIndexPage() {
                 {c.tech.slice(0, 4).map((t) => (
                   <li
                     key={t}
-                    className="rounded-md border border-white/10 bg-white/5 px-2 py-0.5 text-[11px] text-slate-400"
+                    className="rounded-none border border-white/10 bg-white/5 px-2 py-0.5 text-[11px] text-slate-400"
                   >
                     {ja(t)}
                   </li>

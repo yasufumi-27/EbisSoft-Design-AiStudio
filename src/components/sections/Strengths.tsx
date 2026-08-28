@@ -20,7 +20,7 @@ export function Strengths() {
             data-reveal
             style={{ "--reveal-delay": `${i * 0.1}s` } as React.CSSProperties}
           >
-            <span className="grid size-12 place-items-center rounded-xl border border-brand/30 bg-brand/10 text-brand-light shadow-[0_0_20px_rgba(182, 126, 255,0.2)]">
+            <span className="grid size-12 place-items-center rounded-none border border-brand/30 bg-brand/10 text-brand-light shadow-[0_0_20px_rgba(182,126,255,0.2)]">
               <Icon name={s.icon} className="size-6" />
             </span>
             <h3 className="mt-5 text-lg font-bold text-white">{ja(s.title)}</h3>

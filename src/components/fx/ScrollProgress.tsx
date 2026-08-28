@@ -33,7 +33,7 @@ export function ScrollProgress() {
     <div
       ref={barRef}
       aria-hidden
-      className="fixed inset-x-0 top-0 z-[60] h-0.5 origin-left scale-x-0 bg-gradient-to-r from-brand via-accent to-gold shadow-[0_0_10px_rgba(182, 126, 255,0.7)]"
+      className="fixed inset-x-0 top-0 z-[60] h-0.5 origin-left scale-x-0 bg-gradient-to-r from-brand via-accent to-gold shadow-[0_0_10px_rgba(182,126,255,0.7)]"
     />
   );
 }

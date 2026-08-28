@@ -74,7 +74,7 @@ export function AiSearch() {
               data-reveal
               style={{ "--reveal-delay": `${(i % 3) * 0.1}s` } as React.CSSProperties}
             >
-              <span className="grid size-11 place-items-center rounded-xl bg-gradient-to-br from-brand to-accent text-ink shadow-[0_0_20px_rgba(196, 160, 255,0.4)]">
+              <span className="grid size-11 place-items-center rounded-none bg-gradient-to-br from-brand to-accent text-ink shadow-[0_0_20px_rgba(196,160,255,0.4)]">
                 <Icon name={t.icon} className="size-5" />
               </span>
               <h4 className="mt-4 font-bold text-white">{ja(t.title)}</h4>
@@ -95,7 +95,7 @@ export function AiSearch() {
                 {/* ページではなく生成ファイルを含むため、basePath を明示して素の <a> で出す */}
                 <a
                   href={`${BASE_PATH}${item.href}`}
-                  className="inline-flex items-center gap-2 rounded-lg border border-white/10 bg-white/5 px-3 py-2 text-xs text-slate-300 transition-colors hover:border-brand/50 hover:text-white"
+                  className="inline-flex items-center gap-2 rounded-none border border-white/10 bg-white/5 px-3 py-2 text-xs text-slate-300 transition-colors hover:border-brand/50 hover:text-white"
                 >
                   <Icon name="check" className="size-3.5 text-gold" />
                   {ja(item.label)}

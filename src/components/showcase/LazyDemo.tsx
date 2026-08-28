@@ -108,7 +108,7 @@ export function LazyDemo({
     <article className="scroll-mt-32" id={`demo-${slug}`}>
       <header className="panel panel-corners p-6 sm:p-7">
         <div className="flex flex-wrap items-start gap-4">
-          <span className="grid size-12 shrink-0 place-items-center rounded-xl border border-brand/30 bg-brand/10 text-brand-light">
+          <span className="grid size-12 shrink-0 place-items-center rounded-none border border-brand/30 bg-brand/10 text-brand-light">
             <Icon name={meta.icon} className="size-6" />
           </span>
           <div className="min-w-0 flex-1">

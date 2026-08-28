@@ -72,7 +72,7 @@ export function BackgroundFx() {
       {/* 本文の可読性を上げるビネット（中央上部を暗く落とす） */}
       <div
         aria-hidden
-        className="pointer-events-none fixed inset-0 -z-10 bg-[radial-gradient(120%_90%_at_50%_0%,transparent_0%,rgba(7, 5, 14,0.45)_55%,rgba(7, 5, 14,0.85)_100%)]"
+        className="pointer-events-none fixed inset-0 -z-10 bg-[radial-gradient(120%_90%_at_50%_0%,transparent_0%,rgba(7,5,14,0.45)_55%,rgba(7,5,14,0.85)_100%)]"
       />
       {/* フィルムノイズの質感（ごく薄く重ねて安っぽいフラット感を消す） */}
       <div aria-hidden className="bg-noise pointer-events-none fixed inset-0 -z-10 opacity-[0.05]" />

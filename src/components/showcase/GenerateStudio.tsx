@@ -101,7 +101,7 @@ export function GenerateStudio() {
             onChange={(e) => setInput(e.target.value)}
             placeholder="例：ドローン空撮サービス"
             maxLength={40}
-            className="field h-12 min-w-0 flex-1 rounded-lg px-4 text-base text-white placeholder:text-slate-600"
+            className="field h-12 min-w-0 flex-1 rounded-none px-4 text-base text-white placeholder:text-slate-600"
           />
           <button
             type="submit"
@@ -124,7 +124,7 @@ export function GenerateStudio() {
                   setInput(ex);
                   build(ex);
                 }}
-                className="rounded-lg border border-white/10 bg-white/5 px-3 py-1.5 text-xs text-slate-300 transition-colors hover:border-brand/40 hover:text-brand-light"
+                className="rounded-none border border-white/10 bg-white/5 px-3 py-1.5 text-xs text-slate-300 transition-colors hover:border-brand/40 hover:text-brand-light"
               >
                 {ja(ex)}
               </button>

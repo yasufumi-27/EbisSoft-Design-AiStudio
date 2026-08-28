@@ -118,6 +118,7 @@ export default function AiPage() {
       <Breadcrumbs items={crumbs} />
 
       <PageHeader
+        art={0}
         eyebrow="AI Utilization"
         title={
           <>
@@ -158,10 +159,10 @@ export default function AiPage() {
               style={{ "--reveal-delay": `${i * 0.1}s` } as React.CSSProperties}
             >
               <div className="flex items-center gap-3">
-                <span className="grid size-12 place-items-center rounded-xl border border-brand/30 bg-brand/10 text-brand-light shadow-[0_0_20px_rgba(182, 126, 255,0.2)]">
+                <span className="grid size-12 place-items-center rounded-none border border-brand/30 bg-brand/10 text-brand-light shadow-[0_0_20px_rgba(182,126,255,0.2)]">
                   <Icon name={s.icon} className="size-6" />
                 </span>
-                <span className="font-display rounded-md border border-gold/30 bg-gold/10 px-2.5 py-1 text-xs font-bold tracking-wider text-gold-light">
+                <span className="font-display rounded-none border border-gold/30 bg-gold/10 px-2.5 py-1 text-xs font-bold tracking-wider text-gold-light">
                   {s.label}
                 </span>
               </div>

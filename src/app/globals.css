@@ -599,6 +599,139 @@
 }
 @media (max-width: 800px) { .home-hero-inner { width:calc(100% - 2rem); grid-template-columns:1fr; padding-top:3rem; }.home-hero-art { grid-column:1; grid-row:2; min-height:20rem; margin:-1rem auto 1rem; width:min(90vw,24rem); }.home-hero-copy { grid-column:1; }.home-hero h1 { font-size:clamp(3.2rem,15vw,6rem); }.home-scroll { display:none; }.home-intro,.home-proof { width:calc(100% - 2rem); grid-template-columns:1fr; gap:2rem; }.home-section-head { align-items:start; flex-direction:column; }.home-section-head > p { text-align:left; }.home-card-grid { grid-template-columns:1fr; }.home-discipline-card { min-height:30rem; }.home-proof-stamp { width:8rem; height:8rem; }.home-metrics { margin-top:1rem; } }
 
+/* ---------------------------------------------------------------
+ * 下層ページの共通レイアウト（デザイン案 03「AI STUDIO」）
+ *
+ * トップページ（.ai-home 以下）で決めた言語を、そのまま下層へ延長しています。
+ *   - 面は3層：#07050e（素）／#0c0815（沈めた面）／#151022（計器盤）
+ *   - 区切りはカードではなく1pxの紫の罫線
+ *   - 英字ラベルは display フォントの 0.58rem / 字間 0.16em
+ *   - 大見出しは字送り -0.045em、行間 1.14
+ * ------------------------------------------------------------- */
+
+/* ---- ページヘッダー（トップの .ai-hero を縮めたもの） ---- */
+.ai-page-head {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  padding: clamp(3.5rem, 7vw, 6.5rem) 0 clamp(3rem, 6vw, 5.5rem);
+  background: radial-gradient(circle at 50% 42%, #2a1049 0, #110819 38%, #07050e 70%);
+  border-bottom: 1px solid rgba(182, 126, 255, 0.2);
+}
+.ai-page-head-inner {
+  width: min(1220px, calc(100% - 3rem));
+  margin: auto;
+  display: grid;
+  grid-template-columns: minmax(0, 1.25fr) minmax(0, 0.75fr);
+  gap: clamp(2rem, 5vw, 5rem);
+  align-items: center;
+}
+.ai-page-head-copy {
+  position: relative;
+  z-index: 2;
+  max-width: 42rem;
+}
+.ai-page-head h1 {
+  margin: 1.5rem 0 0;
+  font-size: clamp(2rem, 4.2vw, 4rem);
+  line-height: 1.1;
+  letter-spacing: -0.045em;
+  font-weight: 600;
+  color: #f4effa;
+}
+.ai-page-head-lead {
+  margin-top: 1.8rem;
+  max-width: 34rem;
+  font-size: 0.98rem;
+  line-height: 1.95;
+  color: #a393af;
+}
+/* ページヘッダーの CTA は、トップのヒーローと同じ間合いで置く */
+.ai-page-head-copy > :not(p):not(h1) {
+  margin-top: 2.2rem;
+}
+/* 右のオブジェクト（トップの ONE CONTINUOUS FLIGHT と同じ4形状を流用） */
+.ai-page-head-art {
+  position: relative;
+  z-index: 1;
+  width: min(28vw, 20rem);
+  margin: 0 0 0 auto;
+}
+
+@media (max-width: 900px) {
+  .ai-page-head-inner {
+    grid-template-columns: 1fr;
+  }
+  /* 狭い画面ではオブジェクトを背景へ回す（本文の場所を奪わせない） */
+  .ai-page-head-art {
+    position: absolute;
+    inset: auto -6rem -4rem auto;
+    width: 18rem;
+    opacity: 0.5;
+  }
+}
+
+/* ---- セクション（面の3層と区切りの罫線） ---- */
+.ai-section[data-bg="transparent"] + .ai-section[data-bg="transparent"] {
+  border-top: 1px solid rgba(182, 126, 255, 0.16);
+}
+.ai-section[data-bg="deep"] {
+  background: #0c0815;
+  border-top: 1px solid rgba(182, 126, 255, 0.16);
+  border-bottom: 1px solid rgba(182, 126, 255, 0.16);
+}
+
+/* ---- セクション見出し ---- */
+.ai-heading h2 {
+  margin-top: 1.2rem;
+  font-size: clamp(1.7rem, 3.2vw, 2.9rem);
+  line-height: 1.16;
+  letter-spacing: -0.045em;
+  font-weight: 600;
+  color: #f4effa;
+}
+.ai-heading-lead {
+  margin-top: 1.5rem;
+  font-size: 0.95rem;
+  line-height: 1.95;
+  color: #a393af;
+}
+
+/* ---- パンくず ---- */
+.ai-crumbs {
+  border-bottom: 1px solid rgba(182, 126, 255, 0.16);
+  background: #090611;
+}
+.ai-crumbs ol {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.15rem 0.65rem;
+  padding: 0.85rem 0;
+  font-family: var(--font-display);
+  font-size: 0.56rem;
+  letter-spacing: 0.12em;
+  color: #8a7c98;
+}
+.ai-crumbs a:hover {
+  color: #e5d6ff;
+}
+.ai-crumbs [aria-current] {
+  color: #cdc2dd;
+}
+
+/* ---- 本文中の見出し・強調の共通調整 ----
+   各ページは Tailwind の text-2xl / font-bold などで組まれている。
+   この案は「太らせずに詰める」のが特徴なので、下層ページの見出しだけ
+   字送りを詰め、行間を締める。個々のページを書き換えなくても効く。 */
+main h2,
+main h3 {
+  letter-spacing: -0.035em;
+}
+main h3 {
+  color: #f4effa;
+}
+
 /* Multi-route design study pages. */
 .design-proposal { min-height:100vh; background:#101116; color:#f1ede5; padding:1.25rem max(1.25rem,env(safe-area-inset-left)) 0; }
 .proposal-switcher { max-width:1180px; margin:auto; display:flex; justify-content:space-between; align-items:center; gap:2rem; border-bottom:1px solid rgba(255,255,255,.16); padding:.4rem 0 1rem; }
@@ -636,9 +769,14 @@
   }
 
   /* ---------------------------------------------------------------
-   * パネル（カード）：ガラス質感＋繊細な境界線。
-   * .panel-hover を足すとホバーでシアンに発光しながら浮き上がる。
-   * .panel-corners を足すとHUD風のゴールドのコーナーアクセントが付く。
+   * パネル（カード）＝ラボの「モジュール」。
+   *
+   * デザイン案 03「AI STUDIO」の LIVE MODULES（.ai-console-grid）と同じ言語です。
+   * 角丸のガラスカードはやめ、**直角＋1pxの紫の罫線＋沈んだ面**にしています。
+   * 丸みと光沢を落とすことで、計器盤のような密度が出ます。
+   *
+   * .panel-hover を足すとホバーで面が持ち上がり、罫線が発光します。
+   * .panel-corners を足すと左上・右下に見当線（トンボ）が付きます。
    * ------------------------------------------------------------- */
   .panel {
     position: relative;
@@ -646,18 +784,9 @@
        折り返し禁止の語（.nb）を含む行はChromeが最小幅を大きめに見積もるため、
        狭い端末でカードがトラック幅を超えて横スクロールが出ていた。 */
     min-width: 0;
-    border-radius: 1rem;
-    border: 1px solid var(--color-line);
-    background:
-      linear-gradient(165deg, rgba(255, 255, 255, 0.055), rgba(255, 255, 255, 0.015) 55%),
-      rgba(12, 8, 21, 0.76);
-    /* backdrop-filter はページ内に数十枚あると合成コストが跳ね上がり、
-       スクロールがもたつく原因になる。背景を濃くして見た目を保ったうえで、
-       余裕のある環境（広い画面＋マウス操作）でのみ、すりガラスを有効にする。 */
-    /* 上辺に髪の毛一本ぶんの光を入れる（ガラスの厚みが出て安っぽさが消える） */
-    box-shadow:
-      inset 0 1px 0 rgba(255, 255, 255, 0.07),
-      inset 0 -1px 0 rgba(0, 0, 0, 0.25);
+    border-radius: 0;
+    border: 1px solid rgba(182, 126, 255, 0.22);
+    background: #0c0815;
     transition:
       border-color 0.4s ease,
       box-shadow 0.4s ease,
@@ -666,12 +795,8 @@
   }
   .panel-hover:hover {
     transform: translateY(-4px);
-    border-color: rgba(182, 126, 255, 0.45);
-    box-shadow:
-      inset 0 1px 0 rgba(255, 255, 255, 0.1),
-      0 0 0 1px rgba(182, 126, 255, 0.12),
-      0 18px 50px -18px rgba(182, 126, 255, 0.25),
-      0 8px 30px -10px rgba(0, 0, 0, 0.6);
+    border-color: rgba(182, 126, 255, 0.7);
+    box-shadow: 0 0 2.5rem -0.5rem rgba(182, 126, 255, 0.45);
   }
   /* スポットライト：ホバー中、マウス位置（--mx/--my は PointerFx が設定）を
      中心にシアンの光が追従する（Awwwards系サイトの定番表現） */
@@ -679,11 +804,10 @@
     background:
       radial-gradient(
         520px circle at var(--mx, 50%) var(--my, 50%),
-        rgba(182, 126, 255, 0.09),
+        rgba(182, 126, 255, 0.1),
         transparent 45%
       ),
-      linear-gradient(165deg, rgba(255, 255, 255, 0.055), rgba(255, 255, 255, 0.015) 55%),
-      rgba(12, 8, 21, 0.55);
+      #151022;
   }
   .panel-corners::before,
   .panel-corners::after {
@@ -697,16 +821,14 @@
   .panel-corners::before {
     top: -1px;
     left: -1px;
-    border-top: 1.5px solid rgba(170, 255, 220, 0.65);
-    border-left: 1.5px solid rgba(170, 255, 220, 0.65);
-    border-top-left-radius: 1rem;
+    border-top: 1px solid rgba(182, 126, 255, 0.8);
+    border-left: 1px solid rgba(182, 126, 255, 0.8);
   }
   .panel-corners::after {
     bottom: -1px;
     right: -1px;
-    border-bottom: 1.5px solid rgba(170, 255, 220, 0.65);
-    border-right: 1.5px solid rgba(170, 255, 220, 0.65);
-    border-bottom-right-radius: 1rem;
+    border-bottom: 1px solid rgba(182, 126, 255, 0.8);
+    border-right: 1px solid rgba(182, 126, 255, 0.8);
   }
   .panel-corners:hover::before,
   .panel-corners:hover::after {
@@ -716,84 +838,54 @@
   }
 
   /* ---------------------------------------------------------------
-   * ボタン：コーナーカット（クリップパス）＋ホバー時のシーン（光の帯）掃引。
-   * box-shadow はクリップされるため、発光は filter: drop-shadow で表現。
+   * ボタン：直角＋英字ラベル。トップページの .ai-btn と同じ形。
+   *
+   * コーナーカット（クリップパス）と光の帯の掃引はやめました。
+   * デザイン案 03 のボタンは「ベタ塗りの紫」か「1pxの紫の枠」の2種類だけで、
+   * 装飾を足さないことがこの案の質感そのものだからです。
    * ------------------------------------------------------------- */
   .btn {
     position: relative;
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    gap: 0.5rem;
-    overflow: hidden;
-    isolation: isolate;
-    font-weight: 700;
-    letter-spacing: 0.02em;
-    clip-path: polygon(
-      14px 0,
-      100% 0,
-      100% calc(100% - 14px),
-      calc(100% - 14px) 100%,
-      0 100%,
-      0 14px
-    );
-    transition: transform 0.3s ease, filter 0.3s ease, background-color 0.3s ease, color 0.3s ease;
+    gap: 1rem;
+    font-family: var(--font-display);
+    font-weight: 500;
+    letter-spacing: 0.14em;
+    transition: transform 0.3s ease, box-shadow 0.3s ease, background-color 0.3s ease, color 0.3s ease;
   }
   .btn:active {
     transform: scale(0.97);
   }
-  /* 光の帯（シーン）：ホバーで左から右へ掃引 */
-  .btn::after {
-    content: "";
-    position: absolute;
-    inset: 0;
-    z-index: -1;
-    background: linear-gradient(
-      105deg,
-      transparent 30%,
-      rgba(255, 255, 255, 0.35) 48%,
-      rgba(255, 255, 255, 0.12) 52%,
-      transparent 70%
-    );
-    transform: translateX(-120%);
-    transition: transform 0.7s cubic-bezier(0.2, 0.7, 0.3, 1);
-  }
-  .btn:hover::after {
-    transform: translateX(120%);
-  }
 
   .btn-primary {
     color: #0b0711;
-    background:
-      linear-gradient(120deg, var(--color-brand) 0%, #d9b8ff 45%, var(--color-accent) 130%);
-    filter: drop-shadow(0 0 14px rgba(182, 126, 255, 0.35));
+    background: var(--color-brand);
   }
   .btn-primary:hover {
-    filter: drop-shadow(0 0 24px rgba(182, 126, 255, 0.6));
+    background: var(--color-brand-light);
+    box-shadow: 0 0 2.5rem rgba(182, 126, 255, 0.55);
   }
 
   .btn-secondary {
-    color: var(--color-gold-light);
-    background:
-      linear-gradient(165deg, rgba(255, 255, 255, 0.07), rgba(255, 255, 255, 0.02)),
-      rgba(12, 8, 21, 0.7);
-    /* クリップパスに追従する擬似ボーダー */
-    box-shadow: inset 0 0 0 1px rgba(170, 255, 220, 0.45);
+    color: #f4effa;
+    background: transparent;
+    box-shadow: inset 0 0 0 1px var(--color-brand);
   }
   .btn-secondary:hover {
-    color: #07050e;
-    background: linear-gradient(120deg, var(--color-gold-light), var(--color-gold));
-    filter: drop-shadow(0 0 18px rgba(170, 255, 220, 0.45));
+    background: rgba(182, 126, 255, 0.14);
+    box-shadow: inset 0 0 0 1px var(--color-brand-light);
   }
 
   .btn-ghost {
-    color: #e6edf7;
-    background: rgba(255, 255, 255, 0.06);
-    box-shadow: inset 0 0 0 1px rgba(148, 163, 184, 0.35);
+    color: #cdc2dd;
+    background: transparent;
+    box-shadow: inset 0 0 0 1px rgba(244, 239, 250, 0.22);
   }
   .btn-ghost:hover {
-    background: rgba(255, 255, 255, 0.12);
-    box-shadow: inset 0 0 0 1px rgba(182, 126, 255, 0.5);
+    color: #f4effa;
+    box-shadow: inset 0 0 0 1px rgba(182, 126, 255, 0.6);
   }
 
   /* ---------------------------------------------------------------
@@ -803,50 +895,44 @@
     margin-top: 0.4rem;
     display: block;
     width: 100%;
-    border-radius: 0.6rem;
-    border: 1px solid rgba(148, 163, 184, 0.22);
+    border-radius: 0;
+    border: 1px solid rgba(182, 126, 255, 0.28);
     background: rgba(7, 5, 14, 0.6);
     padding: 0.66rem 0.9rem;
     color: #eef2f9;
     transition: border-color 0.3s ease, box-shadow 0.3s ease, background-color 0.3s ease;
   }
   .field::placeholder {
-    color: rgba(148, 163, 184, 0.55);
+    color: rgba(163, 147, 175, 0.7);
   }
   .field:focus {
     outline: none;
-    border-color: rgba(182, 126, 255, 0.7);
-    background: rgba(8, 12, 26, 0.85);
-    box-shadow:
-      0 0 0 3px rgba(182, 126, 255, 0.16),
-      0 0 22px -4px rgba(182, 126, 255, 0.45);
+    border-color: var(--color-brand);
+    background: #151022;
+    box-shadow: 0 0 22px -4px rgba(182, 126, 255, 0.55);
   }
 
-  /* 英字のセクションラベル（アイ・キャッチ） */
+  /* 英字のセクションラベル。
+     トップページの .ai-flight-label / .ai-console-label と同じ寸法・同じ色にして、
+     下層ページでも「同じ計器盤の続き」に見えるようにしています。
+     大きく字間を空けた発光文字（0.78rem / 0.42em）はやめました。 */
   .eyebrow {
     font-family: var(--font-display);
-    font-size: 0.78rem;
-    font-weight: 700;
-    letter-spacing: 0.42em;
+    font-size: 0.58rem;
+    font-weight: 400;
+    letter-spacing: 0.16em;
     text-transform: uppercase;
-    color: var(--color-brand);
-    text-shadow: 0 0 18px rgba(182, 126, 255, 0.55);
+    color: #b68bda;
   }
 
   /* アニメーションするグラデーション見出し文字 */
   .text-gradient {
-    background: linear-gradient(
-      110deg,
-      var(--color-brand-light),
-      var(--color-brand) 28%,
-      var(--color-accent-light) 60%,
-      var(--color-gold) 90%
-    );
-    background-size: 220% 100%;
+    /* トップページの h1 em（#b28cff の単色）と質感を合わせる。
+       4色を流し続けるグラデーションは、この案の静けさに合わないためやめた。 */
+    background: linear-gradient(110deg, #d9b8ff, #b28cff 60%, var(--color-brand));
     -webkit-background-clip: text;
     background-clip: text;
     color: transparent;
-    animation: gradient-pan 7s ease-in-out infinite alternate;
   }
 
   /* ---------------------------------------------------------------
@@ -855,13 +941,13 @@
    * 巨大なぼかしを毎フレーム再計算させないよう、transform だけを動かす。
    * ------------------------------------------------------------- */
   /* 広い画面かつマウス操作の環境だけ、パネルをすりガラスにする */
+  /* 広い画面かつマウス操作の環境だけ、面をわずかに透かして背景の3Dを感じさせる。
+     完全な不透明だと、動いている背景の上でモジュールだけが板に見えてしまう。 */
   @media (min-width: 1024px) and (hover: hover) {
     .panel {
-      background:
-        linear-gradient(165deg, rgba(255, 255, 255, 0.055), rgba(255, 255, 255, 0.015) 55%),
-        rgba(12, 8, 21, 0.55);
-      backdrop-filter: blur(14px);
-      -webkit-backdrop-filter: blur(14px);
+      background: rgba(12, 8, 21, 0.82);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
     }
   }
 
@@ -950,14 +1036,7 @@
     inset-inline: 0;
     bottom: -1px;
     height: 1px;
-    background: linear-gradient(
-      90deg,
-      transparent,
-      rgba(182, 126, 255, 0.35) 30%,
-      rgba(170, 255, 220, 0.45) 50%,
-      rgba(196, 160, 255, 0.35) 70%,
-      transparent
-    );
+    background: rgba(182, 126, 255, 0.28);
   }
   .pagenav nav {
     scrollbar-width: none; /* 横スクロールできるが、バーは出さない */
@@ -968,45 +1047,42 @@
   /* 左端のHUDマーク（右のドットナビと世界観を合わせる） */
   .pagenav-mark {
     flex: none;
-    width: 7px;
-    height: 7px;
-    margin-right: 0.6rem;
-    border-radius: 9999px;
-    background: linear-gradient(180deg, var(--color-brand), var(--color-accent));
-    box-shadow: 0 0 10px rgba(182, 126, 255, 0.85);
+    width: 5px;
+    height: 5px;
+    margin-right: 0.9rem;
+    border-radius: 0;
+    background: var(--color-brand);
+    box-shadow: 0 0 10px rgba(182, 126, 255, 0.9);
   }
+  /* 項目は箱を持たず、文字と下線だけ。丸みのあるピルはこの案の言語ではない。 */
   .pagenav-item {
     position: relative;
     flex: none;
-    border-radius: 0.55rem;
-    padding: 0.45rem 0.8rem;
-    font-size: 0.82rem;
-    font-weight: 600;
+    border-radius: 0;
+    padding: 0.5rem 0.9rem;
+    font-family: var(--font-display);
+    font-size: 0.6rem;
+    font-weight: 400;
+    letter-spacing: 0.1em;
     white-space: nowrap;
-    color: #94a3b8;
-    transition:
-      color 0.25s ease,
-      background-color 0.25s ease;
+    color: #8a7c98;
+    transition: color 0.25s ease;
   }
   .pagenav-item:hover {
-    color: #fff;
-    background: rgba(255, 255, 255, 0.06);
+    color: #f4effa;
   }
   .pagenav-item[data-current] {
-    color: var(--color-brand-light);
-    background: rgba(182, 126, 255, 0.1);
-    box-shadow: inset 0 0 0 1px rgba(182, 126, 255, 0.3);
+    color: #f4effa;
   }
-  /* 現在地のアンダーライン（帯の下辺に沿って光る） */
+  /* 現在地は、帯の下辺に沿った1本の線で示す */
   .pagenav-item[data-current]::after {
     content: "";
     position: absolute;
-    inset-inline: 0.55rem;
-    bottom: -0.55rem;
-    height: 2px;
-    border-radius: 2px;
-    background: linear-gradient(90deg, var(--color-brand), var(--color-accent));
-    box-shadow: 0 0 10px rgba(182, 126, 255, 0.75);
+    inset-inline: 0.9rem;
+    bottom: -0.5rem;
+    height: 1px;
+    background: var(--color-brand);
+    box-shadow: 0 0 10px rgba(182, 126, 255, 0.9);
   }
   /* ページ内メニューがあるページは、アンカー移動の余白を1段深くする
      （:has 非対応の古い環境では、既定の scroll-padding-top 5rem のまま） */
@@ -1119,16 +1195,11 @@
   }
 
   /* セクション間の発光する区切り線 */
+  /* 見出し下のヘアライン。左端から実線で引く（中央で光らせない）。
+     トップページのセクション区切りが単純な1pxの罫線なので、それに合わせています。 */
   .divider-glow {
     height: 1px;
-    background: linear-gradient(
-      90deg,
-      transparent,
-      rgba(182, 126, 255, 0.4) 30%,
-      rgba(170, 255, 220, 0.5) 50%,
-      rgba(196, 160, 255, 0.4) 70%,
-      transparent
-    );
+    background: rgba(182, 126, 255, 0.55);
   }
 
   .animate-float {

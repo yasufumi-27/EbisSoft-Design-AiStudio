@@ -103,12 +103,12 @@ export default async function ColumnPage({ params }: { params: Promise<{ slug: s
         <header className="relative overflow-hidden py-14 sm:py-16">
           <div
             aria-hidden
-            className="pointer-events-none absolute inset-0 -z-10 bg-[radial-gradient(60%_60%_at_50%_-15%,rgba(182, 126, 255,0.12),transparent_70%)]"
+            className="pointer-events-none absolute inset-0 -z-10 bg-[radial-gradient(60%_60%_at_50%_-15%,rgba(182,126,255,0.12),transparent_70%)]"
           />
           <Container>
             <div className="max-w-3xl">
               <div className="flex flex-wrap items-center gap-x-3 gap-y-2 text-xs">
-                <span className="inline-flex items-center gap-1.5 rounded-md border border-brand/30 bg-brand/10 px-2.5 py-1 font-bold text-brand-light">
+                <span className="inline-flex items-center gap-1.5 rounded-none border border-brand/30 bg-brand/10 px-2.5 py-1 font-bold text-brand-light">
                   <Icon name={column.icon} className="size-3.5" />
                   {ja(column.category)}
                 </span>

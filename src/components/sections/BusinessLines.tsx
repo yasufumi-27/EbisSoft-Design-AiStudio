@@ -43,7 +43,7 @@ export function BusinessLines({
             data-reveal
             style={{ "--reveal-delay": `${(i % 3) * 0.1}s` } as React.CSSProperties}
           >
-            <span className="grid size-11 place-items-center rounded-xl border border-gold/30 bg-gold/10 text-gold-light">
+            <span className="grid size-11 place-items-center rounded-none border border-gold/30 bg-gold/10 text-gold-light">
               <Icon name={b.icon} className="size-5" />
             </span>
             <h3 className="mt-4 text-lg font-bold text-white">{ja(b.title)}</h3>

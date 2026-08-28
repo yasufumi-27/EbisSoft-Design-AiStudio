@@ -9,7 +9,7 @@ import { capabilities, getCapability, planForBand } from "@/lib/content";
 import { siteConfig } from "@/lib/site";
 import { Container } from "@/components/ui/Container";
 import { Section, SectionHeading } from "@/components/ui/Section";
-import { PageHeader } from "@/components/ui/PageHeader";
+import { PageHeader, artFor } from "@/components/ui/PageHeader";
 import { Breadcrumbs } from "@/components/site/Breadcrumbs";
 import { ButtonLink } from "@/components/ui/Button";
 import { Icon } from "@/components/ui/icons";
@@ -110,10 +110,11 @@ export default async function DemoDetailPage({
       <Breadcrumbs items={crumbs} />
 
       {/* 見出しは機能名ではなく検索語を主語にする。機能名は eyebrow に退避 */}
-      <PageHeader eyebrow={cap.title} title={cap.searchTitle} lead={cap.searchLead}>
+      {/* できることごとに形が変わるよう、スラッグから決める */}
+      <PageHeader art={artFor(cap.slug)} eyebrow={cap.title} title={cap.searchTitle} lead={cap.searchLead}>
         <p className="mt-5 max-w-2xl text-sm leading-relaxed text-slate-300">{ja(cap.impact)}</p>
         <div className="mt-7 flex flex-wrap items-center gap-3">
-          <span className="font-display inline-flex items-center gap-2 rounded-lg border border-gold/40 bg-gold/10 px-3 py-1.5 text-xs font-bold tracking-wider text-gold-light">
+          <span className="font-display inline-flex items-center gap-2 rounded-none border border-gold/40 bg-gold/10 px-3 py-1.5 text-xs font-bold tracking-wider text-gold-light">
             <Icon name="bolt" className="size-3.5" />
             このデモの実装時間 {cap.buildTime}
           </span>
@@ -323,7 +324,7 @@ export default async function DemoDetailPage({
               {cap.tech.map((t) => (
                 <li
                   key={t}
-                  className="rounded-md border border-white/10 bg-white/5 px-2.5 py-1 text-xs font-medium text-slate-300"
+                  className="rounded-none border border-white/10 bg-white/5 px-2.5 py-1 text-xs font-medium text-slate-300"
                 >
                   {ja(t)}
                 </li>
@@ -353,7 +354,7 @@ export default async function DemoDetailPage({
               data-reveal
               style={{ "--reveal-delay": `${i * 0.08}s` } as React.CSSProperties}
             >
-              <span className="grid size-10 place-items-center rounded-xl border border-white/10 bg-white/5 text-slate-400">
+              <span className="grid size-10 place-items-center rounded-none border border-white/10 bg-white/5 text-slate-400">
                 <Icon name={o.icon} className="size-5" />
               </span>
               <h3 className="mt-4 font-bold text-white">{ja(o.title)}</h3>

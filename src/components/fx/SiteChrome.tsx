@@ -49,7 +49,7 @@ export function SiteChrome() {
           {/* 装飾なしの静かな背景（CSSのみ。描画コストはほぼゼロ） */}
           <div
             aria-hidden
-            className="pointer-events-none fixed inset-0 -z-10 bg-[radial-gradient(120%_90%_at_50%_0%,transparent_0%,rgba(7, 5, 14,0.45)_55%,rgba(7, 5, 14,0.85)_100%)]"
+            className="pointer-events-none fixed inset-0 -z-10 bg-[radial-gradient(120%_90%_at_50%_0%,transparent_0%,rgba(7,5,14,0.45)_55%,rgba(7,5,14,0.85)_100%)]"
           />
           <div
             aria-hidden

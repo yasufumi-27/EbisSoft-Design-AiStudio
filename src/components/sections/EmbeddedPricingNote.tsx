@@ -27,11 +27,11 @@ export function EmbeddedPricingNote({
       : "組み込み開発には定額のプランを設けていません。マイコンの種類、既存コードの有無、通信や実機検証の範囲、必要な期間によって金額が大きく変わるためです。Webサイト制作の料金プランは適用されません。内容をうかがったうえで、個別にお見積もりをお出しします。";
   return (
     <div
-      className={`panel panel-corners border-gold/60 bg-gold/[0.06] p-6 shadow-[0_0_50px_-15px_rgba(170, 255, 220,0.45)] sm:p-7 ${className}`}
+      className={`panel panel-corners border-gold/60 bg-gold/[0.06] p-6 shadow-[0_0_50px_-15px_rgba(170,255,220,0.45)] sm:p-7 ${className}`}
       data-reveal
     >
       <div className="flex flex-col items-start gap-4 sm:flex-row sm:items-center">
-        <span className="grid size-12 shrink-0 place-items-center rounded-xl border border-gold/40 bg-gold/10 text-gold-light">
+        <span className="grid size-12 shrink-0 place-items-center rounded-none border border-gold/40 bg-gold/10 text-gold-light">
           <Icon name="cpu" className="size-6" />
         </span>
         <div className="min-w-0">

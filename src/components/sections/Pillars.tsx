@@ -42,7 +42,7 @@ export function Pillars() {
               className={`pointer-events-none absolute -top-16 -right-16 size-40 rounded-full bg-gradient-to-br ${p.gradient} opacity-15 blur-2xl transition-opacity duration-500 group-hover:opacity-30`}
             />
 
-            <span className="grid size-12 place-items-center rounded-xl border border-brand/30 bg-brand/10 text-brand-light shadow-[0_0_20px_rgba(182, 126, 255,0.2)]">
+            <span className="grid size-12 place-items-center rounded-none border border-brand/30 bg-brand/10 text-brand-light shadow-[0_0_20px_rgba(182,126,255,0.2)]">
               <Icon name={p.icon} className="size-6" />
             </span>
 

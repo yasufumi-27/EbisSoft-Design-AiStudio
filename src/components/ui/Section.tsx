@@ -2,33 +2,39 @@ import type { ReactNode } from "react";
 import { Container } from "@/components/ui/Container";
 import { jaNode } from "@/lib/typography";
 
-/** セクション見出し（英字アイ・キャッチ＋発光ライン＋H2＋リード文）。 */
+/**
+ * セクション見出し。
+ *
+ * デザイン案 03「AI STUDIO」の見出し（.ai-flight h2 / .ai-console h2）と同じ組みです。
+ *   英字ラベル（display・小さく・字間を空ける）
+ *   → 詰まった大見出し（字送り -0.045em、行間 1.14）
+ *   → 左端から引く1本のヘアライン
+ *   → リード文
+ *
+ * 以前あった「両脇に光る線を従えた中央寄せの英字ラベル」はやめました。
+ * この案は装飾を足さないことで密度を出すため、線は見出しの下に1本だけ引きます。
+ *
+ * 既定の寄せも中央から**左**へ変えています。トップページ（.ai-flight / .ai-console）が
+ * すべて左端に基準線を通した組みなので、下層だけ中央寄せだと別のサイトに見えるためです。
+ * 見出しの幅も、左寄せなら本文と同じ基準で読めるので広げています。
+ */
 export function SectionHeading({
   eyebrow,
   title,
   description,
-  align = "center",
+  align = "left",
 }: {
   eyebrow?: string;
   title: ReactNode;
   description?: ReactNode;
+  /** 既定は左寄せ。この案は左端に基準線を通すのが原則で、中央寄せは使わない */
   align?: "center" | "left";
 }) {
-  const alignment = align === "center" ? "mx-auto text-center" : "text-left";
+  const alignment = align === "center" ? "mx-auto max-w-2xl text-center" : "max-w-3xl text-left";
   return (
-    <div className={`max-w-2xl ${alignment}`} data-reveal>
-      {eyebrow ? (
-        <p
-          className={`eyebrow mb-4 flex items-center gap-4 ${
-            align === "center" ? "justify-center" : ""
-          }`}
-        >
-          <span aria-hidden className="h-px w-8 bg-gradient-to-r from-transparent to-brand/70" />
-          {eyebrow}
-          <span aria-hidden className="h-px w-8 bg-gradient-to-l from-transparent to-brand/70" />
-        </p>
-      ) : null}
-      <h2 className="text-3xl font-bold tracking-tight text-white sm:text-4xl">{jaNode(title)}</h2>
+    <div className={`ai-heading ${alignment}`} data-align={align} data-reveal>
+      {eyebrow ? <p className="eyebrow">{eyebrow}</p> : null}
+      <h2>{jaNode(title)}</h2>
       {/* 見出し下のライン。対応ブラウザではスクロールに合わせて引かれる（JS不使用） */}
       <span
         aria-hidden
@@ -36,16 +42,17 @@ export function SectionHeading({
           align === "center" ? "scroll-line-center mx-auto" : ""
         }`}
       />
-      {description ? (
-        <p className="mt-5 text-base leading-relaxed text-slate-400 sm:text-lg">{jaNode(description)}</p>
-      ) : null}
+      {description ? <p className="ai-heading-lead">{jaNode(description)}</p> : null}
     </div>
   );
 }
 
 /**
  * ページの各セクション。id でアンカーナビ対応。
- * 背景は透過が基本（3D背景を活かす）。bg="deep" でひと段階暗い面を敷く。
+ *
+ * 面は3層で構成します（トップページの .ai-hero / .ai-flight / .ai-console と同じ）。
+ *   transparent … 3D背景を透かす素の面。上辺に紫のヘアラインを引いて区切る
+ *   deep        … ひと段沈めた面（#0c0815）。密度の高い一覧や表に使う
  */
 export function Section({
   id,
@@ -58,9 +65,12 @@ export function Section({
   className?: string;
   bg?: "transparent" | "deep";
 }) {
-  const bgClass = bg === "deep" ? "bg-ink-2/70 backdrop-blur-[2px]" : "";
   return (
-    <section id={id} className={`relative scroll-mt-20 py-20 sm:py-28 ${bgClass} ${className}`}>
+    <section
+      id={id}
+      data-bg={bg}
+      className={`ai-section relative scroll-mt-20 py-20 sm:py-28 ${className}`}
+    >
       <Container>{children}</Container>
     </section>
   );

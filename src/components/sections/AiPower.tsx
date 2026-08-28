@@ -52,7 +52,7 @@ export function AiPower() {
             style={{ "--reveal-delay": `${(i % 3) * 0.1}s` } as React.CSSProperties}
           >
             <div className="flex items-center gap-3">
-              <span className="grid size-10 shrink-0 place-items-center rounded-xl border border-brand/30 bg-brand/10 text-brand-light">
+              <span className="grid size-10 shrink-0 place-items-center rounded-none border border-brand/30 bg-brand/10 text-brand-light">
                 <Icon name={step.icon} className="size-5" />
               </span>
               <span className="font-display text-2xl font-bold text-white/15">{step.phase}</span>

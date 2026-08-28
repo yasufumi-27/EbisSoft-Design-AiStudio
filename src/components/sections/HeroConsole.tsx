@@ -82,13 +82,13 @@ export default function HeroConsole() {
   const aiCount = LINES.filter((l) => l.by === "AI").length;
 
   return (
-    <div className="panel panel-corners overflow-hidden shadow-[0_30px_80px_-30px_rgba(182, 126, 255,0.25)]">
+    <div className="panel panel-corners overflow-hidden shadow-[0_30px_80px_-30px_rgba(182,126,255,0.25)]">
       {/* タイトルバー */}
       <div className="flex min-w-0 items-center gap-1.5 border-b border-white/10 px-3 py-3 sm:px-4">
         <span className="size-3 shrink-0 rounded-full bg-rose-400/80" />
         <span className="size-3 shrink-0 rounded-full bg-amber-300/80" />
         <span className="size-3 shrink-0 rounded-full bg-emerald-400/80" />
-        <span className="font-display ml-2 flex h-5 min-w-0 flex-1 items-center overflow-hidden rounded-md bg-white/5 px-2 text-[9px] tracking-[0.06em] text-slate-500 sm:ml-3 sm:text-[10px] sm:tracking-[0.25em]">
+        <span className="font-display ml-2 flex h-5 min-w-0 flex-1 items-center overflow-hidden rounded-none bg-white/5 px-2 text-[9px] tracking-[0.06em] text-slate-500 sm:ml-3 sm:text-[10px] sm:tracking-[0.25em]">
           <span className="truncate">エビスソフト.AI_PIPELINE</span>
         </span>
         <span
@@ -188,7 +188,7 @@ export default function HeroConsole() {
             { label: "人が判断", value: `${TOTAL - aiCount}工程` },
             { label: "制作期間", value: "従来の1/3" },
           ].map((s) => (
-            <div key={s.label} className="rounded-lg border border-white/10 bg-white/[0.03] px-2 py-2.5">
+            <div key={s.label} className="rounded-none border border-white/10 bg-white/[0.03] px-2 py-2.5">
               <dt className="text-[10px] text-slate-500">{s.label}</dt>
               <dd className="font-display mt-0.5 text-xs font-bold text-white">{s.value}</dd>
             </div>

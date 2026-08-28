@@ -78,6 +78,7 @@ export default function RequestPage() {
       <Breadcrumbs items={crumbs} />
 
       <PageHeader
+        art={1}
         eyebrow="Request"
         title={
           <>
@@ -118,7 +119,7 @@ export default function RequestPage() {
               data-reveal
               style={{ "--reveal-delay": `${(i % 3) * 0.1}s` } as React.CSSProperties}
             >
-              <span className="grid size-12 place-items-center rounded-xl bg-gradient-to-br from-brand/80 to-accent/80 text-ink shadow-[0_0_22px_rgba(182, 126, 255,0.35)]">
+              <span className="grid size-12 place-items-center rounded-none bg-gradient-to-br from-brand/80 to-accent/80 text-ink shadow-[0_0_22px_rgba(182,126,255,0.35)]">
                 <Icon name={t.icon} className="size-6" />
               </span>
               <h3 className="mt-5 text-xl font-bold text-white">{ja(t.title)}</h3>
@@ -217,7 +218,7 @@ export default function RequestPage() {
               style={{ "--reveal-delay": `${(i % 4) * 0.1}s` } as React.CSSProperties}
             >
               <div className="flex items-center gap-4">
-                <span className="font-display grid size-11 shrink-0 place-items-center rounded-full border border-brand/40 bg-brand/10 text-base font-bold text-brand-light shadow-[0_0_18px_rgba(182, 126, 255,0.25)]">
+                <span className="font-display grid size-11 shrink-0 place-items-center rounded-full border border-brand/40 bg-brand/10 text-base font-bold text-brand-light shadow-[0_0_18px_rgba(182,126,255,0.25)]">
                   {String(i + 1).padStart(2, "0")}
                 </span>
                 <h3 className="text-lg font-bold text-white">{ja(step.title)}</h3>

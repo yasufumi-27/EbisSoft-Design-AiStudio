@@ -57,7 +57,7 @@ function ChoiceGroup({ group, uid }: { group: InquiryGroup; uid: string }) {
               id={`${uid}-${group.id}-${i}`}
               className="peer sr-only"
             />
-            <span className="inline-flex items-center gap-1.5 rounded-xl border border-white/10 bg-white/5 px-4 py-2.5 text-sm text-slate-300 transition-all hover:border-white/30 peer-checked:border-brand/60 peer-checked:bg-brand/15 peer-checked:text-brand-light peer-checked:shadow-[0_0_16px_rgba(182, 126, 255,0.25)] peer-focus-visible:outline-2 peer-focus-visible:outline-offset-2 peer-focus-visible:outline-brand">
+            <span className="inline-flex items-center gap-1.5 rounded-none border border-white/10 bg-white/5 px-4 py-2.5 text-sm text-slate-300 transition-all hover:border-white/30 peer-checked:border-brand/60 peer-checked:bg-brand/15 peer-checked:text-brand-light peer-checked:shadow-[0_0_16px_rgba(182,126,255,0.25)] peer-focus-visible:outline-2 peer-focus-visible:outline-offset-2 peer-focus-visible:outline-brand">
               {ja(o.value)}
               {o.note ? (
                 <span className="rounded bg-gold/15 px-1.5 py-0.5 text-[10px] font-bold text-gold-light">
@@ -249,7 +249,7 @@ export function InquiryForm() {
           )}
         </p>
 
-        <div className="mt-8 rounded-xl border border-white/10 bg-ink/60 p-4 text-left">
+        <div className="mt-8 rounded-none border border-white/10 bg-ink/60 p-4 text-left">
           <p className="mb-2 text-xs text-slate-500">
             {sent.mode === "api"
               ? ja("控えのメールが届かない場合は、下記をコピーして")
@@ -268,7 +268,7 @@ export function InquiryForm() {
           <button
             type="button"
             onClick={() => navigator.clipboard?.writeText(sent.body)}
-            className="mt-3 rounded-lg border border-white/15 bg-white/5 px-3 py-1.5 text-xs font-semibold text-slate-300 transition-colors hover:border-brand/50 hover:text-brand-light"
+            className="mt-3 rounded-none border border-white/15 bg-white/5 px-3 py-1.5 text-xs font-semibold text-slate-300 transition-colors hover:border-brand/50 hover:text-brand-light"
           >
             内容をコピー
           </button>
@@ -289,9 +289,9 @@ export function InquiryForm() {
   return (
     <form onSubmit={handleSubmit} className="space-y-8" noValidate>
       {/* ① 一番書いてほしいこと。視覚的にも最優先で置く */}
-      <div className="panel panel-corners border-brand/30 p-6 shadow-[0_0_40px_-16px_rgba(182, 126, 255,0.5)] sm:p-8">
+      <div className="panel panel-corners border-brand/30 p-6 shadow-[0_0_40px_-16px_rgba(182,126,255,0.5)] sm:p-8">
         <div className="flex flex-wrap items-center gap-2">
-          <span className="font-display rounded-md bg-gradient-to-r from-brand to-accent px-2 py-1 text-[10px] font-bold tracking-widest text-ink">
+          <span className="font-display rounded-none bg-gradient-to-r from-brand to-accent px-2 py-1 text-[10px] font-bold tracking-widest text-ink">
             STEP 1
           </span>
           <span className="text-xs font-bold text-brand-light">ここだけは、ぜひ</span>
@@ -350,7 +350,7 @@ export function InquiryForm() {
       <details className="panel group p-6 sm:p-8">
         <summary className="grid cursor-pointer list-none grid-cols-[1fr_auto] items-center gap-x-4 [&::-webkit-details-marker]:hidden">
           <span className="col-start-1 flex flex-wrap items-center gap-2">
-            <span className="font-display rounded-md border border-white/20 bg-white/5 px-2 py-1 text-[10px] font-bold tracking-widest text-slate-300">
+            <span className="font-display rounded-none border border-white/20 bg-white/5 px-2 py-1 text-[10px] font-bold tracking-widest text-slate-300">
               STEP 2
             </span>
             <span className="text-xs text-slate-500">すべて任意・ざっくりでOK</span>
@@ -383,7 +383,7 @@ export function InquiryForm() {
       {/* ③ 連絡先 */}
       <div className="panel p-6 sm:p-8">
         <div className="flex flex-wrap items-center gap-2">
-          <span className="font-display rounded-md border border-white/20 bg-white/5 px-2 py-1 text-[10px] font-bold tracking-widest text-slate-300">
+          <span className="font-display rounded-none border border-white/20 bg-white/5 px-2 py-1 text-[10px] font-bold tracking-widest text-slate-300">
             STEP 3
           </span>
         </div>
@@ -497,13 +497,13 @@ export function InquiryForm() {
           {failure ? (
             <div
               role="alert"
-              className="mt-4 rounded-xl border border-amber-400/40 bg-amber-400/10 p-4 text-left"
+              className="mt-4 rounded-none border border-amber-400/40 bg-amber-400/10 p-4 text-left"
             >
               <p className="text-sm leading-relaxed text-amber-200">{ja(failure.message)}</p>
               <button
                 type="button"
                 onClick={() => openMailer(failure.body, failure.subjectName)}
-                className="mt-3 rounded-lg border border-white/20 bg-white/10 px-4 py-2 text-sm font-semibold text-white transition-colors hover:border-brand/50 hover:text-brand-light"
+                className="mt-3 rounded-none border border-white/20 bg-white/10 px-4 py-2 text-sm font-semibold text-white transition-colors hover:border-brand/50 hover:text-brand-light"
               >
                 メールソフトで送る
               </button>

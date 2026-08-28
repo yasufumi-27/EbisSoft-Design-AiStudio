@@ -67,6 +67,7 @@ export default function GeneratePage() {
       <Breadcrumbs items={crumbs} />
 
       <PageHeader
+        art={3}
         eyebrow="Generate"
         title={
           <>

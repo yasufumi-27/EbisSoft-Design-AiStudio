@@ -23,7 +23,7 @@ export function ContactCta() {
       <div aria-hidden className="divider-glow absolute inset-x-0 top-0" />
       <div
         aria-hidden
-        className="pointer-events-none absolute inset-0 -z-10 bg-[radial-gradient(60%_50%_at_50%_0%,rgba(182, 126, 255,0.12),transparent_65%)]"
+        className="pointer-events-none absolute inset-0 -z-10 bg-[radial-gradient(60%_50%_at_50%_0%,rgba(182,126,255,0.12),transparent_65%)]"
       />
       <div
         aria-hidden

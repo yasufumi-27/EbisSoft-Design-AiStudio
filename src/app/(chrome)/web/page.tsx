@@ -120,6 +120,7 @@ export default function WebPage() {
       <Breadcrumbs items={crumbs} />
 
       <PageHeader
+        art={1}
         eyebrow="Web Production"
         title={
           <>
@@ -166,7 +167,7 @@ export default function WebPage() {
               data-reveal
               style={{ "--reveal-delay": `${(i % 2) * 0.1}s` } as React.CSSProperties}
             >
-              <span className="grid size-11 place-items-center rounded-xl border border-brand/30 bg-brand/10 text-brand-light">
+              <span className="grid size-11 place-items-center rounded-none border border-brand/30 bg-brand/10 text-brand-light">
                 <Icon name={p.icon} className="size-5" />
               </span>
               <h3 className="mt-4 text-lg font-bold text-white">{ja(p.title)}</h3>

@@ -29,7 +29,7 @@ export function Hero() {
       {/* 奥行きを強調する光芒（3D背景の上に重ねるCSSグロー） */}
       <div
         aria-hidden
-        className="pointer-events-none absolute inset-0 -z-10 bg-[radial-gradient(55%_50%_at_50%_-10%,rgba(182, 126, 255,0.14),transparent_70%)]"
+        className="pointer-events-none absolute inset-0 -z-10 bg-[radial-gradient(55%_50%_at_50%_-10%,rgba(182,126,255,0.14),transparent_70%)]"
       />
       <div
         aria-hidden
@@ -44,7 +44,7 @@ export function Hero() {
             狭い端末で右端がはみ出すため、必ず縮めるようにしておく */}
         <div className="min-w-0">
           <div className="flex flex-wrap items-center gap-2">
-            <p className="inline-flex items-center gap-2 rounded-full border border-brand/30 bg-brand/10 px-4 py-1.5 text-sm font-semibold text-brand-light shadow-[0_0_18px_rgba(182, 126, 255,0.18)] backdrop-blur">
+            <p className="inline-flex items-center gap-2 rounded-full border border-brand/30 bg-brand/10 px-4 py-1.5 text-sm font-semibold text-brand-light shadow-[0_0_18px_rgba(182,126,255,0.18)] backdrop-blur">
               <Icon name="pin" className="size-4" />
               {/* 語の途中で折れないよう、意味のまとまりごとに折り返す（改行＝空白になるため1行で書く） */}
               {/* prettier-ignore */}
@@ -58,7 +58,7 @@ export function Hero() {
 
           {/* 英字ラベル：見出しの上に置く一本の情報線（HUDの静けさ） */}
           <p className="eyebrow mt-9 flex flex-wrap items-center gap-x-3 gap-y-1 text-[0.62rem]">
-            <span aria-hidden className="size-1.5 rounded-full bg-brand shadow-[0_0_10px_rgba(182, 126, 255,0.9)]" />
+            <span aria-hidden className="size-1.5 rounded-full bg-brand shadow-[0_0_10px_rgba(182,126,255,0.9)]" />
             AI × Web Production
             <span aria-hidden className="h-px w-10 bg-gradient-to-r from-brand/70 to-transparent" />
             Kyoto, Japan
@@ -138,7 +138,7 @@ export function Hero() {
 
           {/* 速度バッジ */}
           <div className="panel absolute -bottom-9 -left-6 hidden p-3 shadow-[0_0_30px_rgba(16,185,129,0.15)] sm:flex sm:items-center sm:gap-3">
-            <span className="grid size-10 place-items-center rounded-lg border border-emerald-400/30 bg-emerald-400/10 text-emerald-300">
+            <span className="grid size-10 place-items-center rounded-none border border-emerald-400/30 bg-emerald-400/10 text-emerald-300">
               <Icon name="gauge" className="size-5" />
             </span>
             <span className="text-sm">

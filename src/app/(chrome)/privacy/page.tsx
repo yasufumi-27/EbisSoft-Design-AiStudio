@@ -104,6 +104,7 @@ export default function PrivacyPage() {
       <Breadcrumbs items={crumbs} />
 
       <PageHeader
+        art={2}
         eyebrow="Privacy Policy"
         title="プライバシーポリシー"
         lead={`${siteConfig.legalName}（以下「当社」）は、お客様の個人情報の重要性を認識し、以下のとおり個人情報保護方針を定め、その適切な取り扱いに努めます。`}

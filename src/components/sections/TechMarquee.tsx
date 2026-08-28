@@ -18,7 +18,7 @@ export function TechMarquee() {
                   key={t}
                   className="font-display flex items-center gap-3 text-sm font-bold tracking-[0.25em] whitespace-nowrap text-slate-500 uppercase"
                 >
-                  <span className="size-1.5 rotate-45 bg-gold/70 shadow-[0_0_8px_rgba(170, 255, 220,0.8)]" />
+                  <span className="size-1.5 rotate-45 bg-gold/70 shadow-[0_0_8px_rgba(170,255,220,0.8)]" />
                   {t}
                 </li>
               ))}

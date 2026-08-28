@@ -92,6 +92,7 @@ export default function FaqPage() {
       <Breadcrumbs items={crumbs} />
 
       <PageHeader
+        art={0}
         eyebrow="FAQ"
         title={
           <>
