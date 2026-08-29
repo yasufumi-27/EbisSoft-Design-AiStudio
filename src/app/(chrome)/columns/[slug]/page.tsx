@@ -100,40 +100,34 @@ export default async function ColumnPage({ params }: { params: Promise<{ slug: s
 
       <article>
         {/* 記事ヘッダー。日付と著者を先に出す（誰がいつ書いたか＝E-E-A-T） */}
-        <header className="relative overflow-hidden py-14 sm:py-16">
-          <div
-            aria-hidden
-            className="pointer-events-none absolute inset-0 -z-10 bg-[radial-gradient(60%_60%_at_50%_-15%,rgba(182,126,255,0.12),transparent_70%)]"
-          />
+        <header className="ai-article-head">
+          <div className="ai-stars" aria-hidden>
+            {Array.from({ length: 6 }).map((_, i) => (
+              <i key={i} />
+            ))}
+          </div>
           <Container>
             <div className="max-w-3xl">
-              <div className="flex flex-wrap items-center gap-x-3 gap-y-2 text-xs">
-                <span className="inline-flex items-center gap-1.5 rounded-none border border-brand/30 bg-brand/10 px-2.5 py-1 font-bold text-brand-light">
+              <div className="ai-article-meta">
+                <span className="ai-article-cat">
                   <Icon name={column.icon} className="size-3.5" />
                   {ja(column.category)}
                 </span>
-                <span className="text-slate-500">
-                  {ja(`公開 ${formatDate(column.published)}`)}
-                </span>
+                <span>{ja(`公開 ${formatDate(column.published)}`)}</span>
                 {column.updated !== column.published ? (
-                  <time dateTime={column.updated} className="text-slate-500">
-                    {ja(`最終更新 ${formatDate(column.updated)}`)}
-                  </time>
+                  <time dateTime={column.updated}>{ja(`最終更新 ${formatDate(column.updated)}`)}</time>
                 ) : null}
-                <span className="text-slate-600">{ja(`約${column.readMinutes}分`)}</span>
-                <span className="text-slate-500">{ja(`著者：${authorDisplayName}`)}</span>
+                <span>{ja(`約${column.readMinutes}分`)}</span>
+                <span>{ja(`著者：${authorDisplayName}`)}</span>
               </div>
 
-              <h1 className="mt-5 text-3xl leading-tight font-bold tracking-tight text-white sm:text-4xl">
-                {ja(column.title)}
-              </h1>
+              <h1>{ja(column.title)}</h1>
 
               {/* 結論ファーストの要約。AI Overviews・音声回答の抜き出し先になる部分 */}
-              <div className="panel panel-corners mt-8 p-6">
-                <p className="text-sm font-bold text-brand-light">{ja(`Q. ${column.question}`)}</p>
-                <p className="speakable mt-3 text-[15px] leading-relaxed text-slate-200">
-                  {ja(column.answer)}
-                </p>
+              <div className="ai-article-summary panel panel-corners mt-8 p-6">
+                <p className="eyebrow">ANSWER / 結論</p>
+                <p className="ai-article-q">{ja(`Q. ${column.question}`)}</p>
+                <p className="speakable ai-article-a">{ja(column.answer)}</p>
               </div>
             </div>
           </Container>
@@ -141,18 +135,15 @@ export default async function ColumnPage({ params }: { params: Promise<{ slug: s
 
         <Container>
           <div className="grid gap-12 pb-16 lg:grid-cols-[minmax(0,1fr)_16rem] lg:gap-14">
-            <div className="min-w-0 max-w-3xl">
+            <div className="ai-article min-w-0 max-w-3xl">
               {/* 目次（モバイルでは本文の前、PCでは右に固定表示） */}
-              <nav aria-label="目次" className="panel mb-10 p-5 lg:hidden">
-                <p className="eyebrow mb-3">目次</p>
-                <ol className="space-y-2 text-sm">
+              <nav aria-label="目次" className="ai-toc panel mb-10 p-5 lg:hidden">
+                <p className="eyebrow mb-3">INDEX / 目次</p>
+                <ol>
                   {toc.map((h, i) => (
                     <li key={h.id}>
-                      <a
-                        href={`#${h.id}`}
-                        className="flex gap-2 text-slate-400 transition-colors hover:text-brand-light"
-                      >
-                        <span className="font-display shrink-0 text-brand/70">{i + 1}.</span>
+                      <a href={`#${h.id}`}>
+                        <span>{String(i + 1).padStart(2, "0")}</span>
                         <span className="min-w-0">{ja(h.text)}</span>
                       </a>
                     </li>
@@ -165,12 +156,7 @@ export default async function ColumnPage({ params }: { params: Promise<{ slug: s
               {/* 記事内FAQ（FAQPage 構造化データと同じ内容） */}
               {column.faqs.length > 0 ? (
                 <section aria-labelledby="column-faq" className="mt-16">
-                  <h2
-                    id="column-faq"
-                    className="border-l-2 border-brand pl-4 text-2xl font-bold text-white"
-                  >
-                    {ja("この記事に関するよくある質問")}
-                  </h2>
+                  <h2 id="column-faq">{ja("この記事に関するよくある質問")}</h2>
                   <div className="mt-6 space-y-4">
                     {column.faqs.map((f) => (
                       <details key={f.question} className="panel group p-5">
@@ -224,22 +210,20 @@ export default async function ColumnPage({ params }: { params: Promise<{ slug: s
 
             {/* PC用の目次。スクロールに追従させ、長い記事でも現在地を見失わないようにする */}
             <aside className="hidden lg:block">
-              <nav aria-label="目次" className="panel sticky top-24 p-5">
-                <p className="eyebrow mb-3">目次</p>
-                <ol className="space-y-2.5 text-sm">
+              <nav aria-label="目次" className="ai-toc panel sticky top-24 p-5">
+                <p className="eyebrow mb-3">INDEX / 目次</p>
+                <ol>
                   {toc.map((h, i) => (
                     <li key={h.id}>
-                      <a
-                        href={`#${h.id}`}
-                        className="flex gap-2 leading-snug text-slate-400 transition-colors hover:text-brand-light"
-                      >
-                        <span className="font-display shrink-0 text-brand/70">{i + 1}.</span>
+                      <a href={`#${h.id}`}>
+                        {/* 本文の見出しと同じ2桁ゼロ埋めにして、番号で照合できるようにする */}
+                        <span>{String(i + 1).padStart(2, "0")}</span>
                         <span className="min-w-0">{ja(h.text)}</span>
                       </a>
                     </li>
                   ))}
                 </ol>
-                <div className="mt-5 border-t border-white/10 pt-5">
+                <div className="mt-5 border-t border-[rgba(182,126,255,0.2)] pt-5">
                   <ButtonLink href="/contact" className="w-full" withArrow>
                     無料で相談する
                   </ButtonLink>
@@ -253,9 +237,10 @@ export default async function ColumnPage({ params }: { params: Promise<{ slug: s
       {/* 他の記事へ（記事同士を結んでトピックのまとまりを作る） */}
       {others.length > 0 ? (
         <Section bg="deep">
-          <h2 className="eyebrow" data-reveal>
-            {ja("Other Columns / ほかのコラム")}
-          </h2>
+          <div className="ai-heading max-w-3xl" data-reveal>
+            <p className="eyebrow">Other Columns</p>
+            <h2>{ja("ほかのコラム")}</h2>
+          </div>
           <div className="mt-6 grid gap-4 sm:grid-cols-2">
             {others.map((c) => (
               <Link

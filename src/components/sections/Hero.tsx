@@ -151,7 +151,7 @@ export function Hero() {
 
       {/* 信頼指標：HUD風の計器パネル */}
       <Container className="pb-20 lg:pb-24">
-        <dl className="panel panel-corners grid grid-cols-2 divide-x divide-white/5 overflow-hidden sm:grid-cols-4">
+        <dl className="panel panel-corners grid grid-cols-2 divide-x divide-brand/12 overflow-hidden sm:grid-cols-4">
           {stats.map((s, i) => (
             <div
               key={s.label}

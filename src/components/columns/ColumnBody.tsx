@@ -10,6 +10,10 @@ import { ja } from "@/lib/typography";
  * 記事はサーバー側で組み立てるので、本文はすべて初期HTMLに含まれます
  * （AIクローラーはJavaScriptを実行しないことがあるため、本文をJSに載せない）。
  * H2 には id を振り、目次・URLのアンカー・構造化データから参照できるようにしています。
+ *
+ * 見出しの組み（通し番号・ヘアライン）と表の罫線は globals.css の `.ai-article` 側に
+ * まとめてあります。デザイン案 03「AI STUDIO」の言語——番号つきの英字ラベルと
+ * 1pxの紫の罫線——を、記事本文にもそのまま延長するためです。
  */
 export function ColumnBody({ blocks }: { blocks: ColumnBlock[] }) {
   return (
@@ -25,16 +29,11 @@ function Block({ block }: { block: ColumnBlock }) {
   switch (block.type) {
     case "h2":
       return (
-        <h2
-          id={block.id}
-          className="!mt-14 border-l-2 border-brand pl-4 text-2xl font-bold text-white sm:text-[1.7rem]"
-        >
-          {ja(block.text)}
-        </h2>
+        <h2 id={block.id}>{ja(block.text)}</h2>
       );
 
     case "h3":
-      return <h3 className="!mt-10 text-lg font-bold text-white">{ja(block.text)}</h3>;
+      return <h3>{ja(block.text)}</h3>;
 
     case "p":
       // 本文の段落は、AIの抜き出し単位そのもの。speakable を付けて読み上げ対象にする
@@ -75,32 +74,21 @@ function Block({ block }: { block: ColumnBlock }) {
       return (
         <figure>
           {/* 狭い画面では表だけを横スクロールさせる（ページ本体は横に溢れさせない） */}
-          <div className="panel overflow-x-auto">
-            <table className="w-full min-w-[34rem] border-collapse text-left text-sm">
-              {block.caption ? (
-                <caption className="px-5 pt-5 text-left text-xs text-slate-500">
-                  {ja(block.caption)}
-                </caption>
-              ) : null}
+          <div className="ai-table panel overflow-x-auto">
+            <table className="w-full min-w-[34rem] border-collapse text-left">
+              {block.caption ? <caption>{ja(block.caption)}</caption> : null}
               <thead>
-                <tr className="border-b border-white/10">
+                <tr>
                   {block.head.map((h) => (
-                    <th key={h} className="px-5 py-3 font-bold text-brand-light">
-                      {ja(h)}
-                    </th>
+                    <th key={h}>{ja(h)}</th>
                   ))}
                 </tr>
               </thead>
               <tbody>
                 {block.rows.map((row) => (
-                  <tr key={row.join("|")} className="border-b border-white/5 last:border-0">
+                  <tr key={row.join("|")}>
                     {row.map((cell, i) => (
-                      <td
-                        key={i}
-                        className={`px-5 py-3 align-top ${
-                          i === 0 ? "font-medium text-white" : "text-slate-300"
-                        }`}
-                      >
+                      <td key={i} data-head={i === 0 ? "" : undefined}>
                         {ja(cell)}
                       </td>
                     ))}

@@ -140,7 +140,7 @@ export default function AssistantPanel({ onClose }: { onClose: () => void }) {
       className="assistant-panel panel flex flex-col overflow-hidden"
     >
       {/* ------------ ヘッダー ------------ */}
-      <div className="flex items-center gap-3 border-b border-white/10 bg-white/[0.03] px-4 py-3">
+      <div className="flex items-center gap-3 border-b border-brand/20 bg-white/[0.03] px-4 py-3">
         <span className="grid size-9 shrink-0 place-items-center rounded-lg border border-brand/30 bg-brand/10">
           <MascotFace className="size-6" />
         </span>
@@ -154,7 +154,7 @@ export default function AssistantPanel({ onClose }: { onClose: () => void }) {
           type="button"
           onClick={onClose}
           aria-label="アシスタントを閉じる"
-          className="grid size-8 shrink-0 place-items-center rounded-lg border border-white/10 bg-white/5 text-slate-400 transition-colors hover:text-white"
+          className="grid size-8 shrink-0 place-items-center rounded-lg border border-brand/20 bg-white/5 text-slate-400 transition-colors hover:text-white"
         >
           <svg viewBox="0 0 24 24" className="size-4" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" aria-hidden="true">
             <path d="M6 6l12 12M18 6L6 18" />
@@ -251,14 +251,14 @@ export default function AssistantPanel({ onClose }: { onClose: () => void }) {
       </div>
 
       {/* ------------ 質問例 ------------ */}
-      <div className="assistant-chips flex gap-2 overflow-x-auto border-t border-white/10 px-3 py-2.5">
+      <div className="assistant-chips flex gap-2 overflow-x-auto border-t border-brand/20 px-3 py-2.5">
         {suggestedQuestions.map((q) => (
           <button
             key={q}
             type="button"
             onClick={() => ask(q)}
             disabled={thinking}
-            className="shrink-0 rounded-full border border-white/10 bg-white/5 px-3 py-1 text-[11px] whitespace-nowrap text-slate-400 transition-colors hover:border-brand/40 hover:text-brand-light disabled:opacity-40"
+            className="shrink-0 rounded-full border border-brand/20 bg-white/5 px-3 py-1 text-[11px] whitespace-nowrap text-slate-400 transition-colors hover:border-brand/40 hover:text-brand-light disabled:opacity-40"
           >
             {q}
           </button>
@@ -271,7 +271,7 @@ export default function AssistantPanel({ onClose }: { onClose: () => void }) {
           e.preventDefault();
           ask(input);
         }}
-        className="flex items-center gap-2 border-t border-white/10 p-3"
+        className="flex items-center gap-2 border-t border-brand/20 p-3"
       >
         <input
           ref={inputRef}
@@ -291,7 +291,7 @@ export default function AssistantPanel({ onClose }: { onClose: () => void }) {
         </button>
       </form>
 
-      <p className="border-t border-white/10 px-4 py-2 text-[10px] leading-relaxed text-slate-500">
+      <p className="border-t border-brand/20 px-4 py-2 text-[10px] leading-relaxed text-slate-500">
         このサイトの掲載内容と、Web・AIの用語解説だけを根拠に回答します。それ以外は答えません。
       </p>
     </div>

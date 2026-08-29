@@ -28,7 +28,7 @@ export function Faq({
   return (
     <Section id="faq" bg={bg}>
       <SectionHeading eyebrow={eyebrow} title={title} description={description} />
-      <div className="panel mx-auto mt-12 max-w-3xl divide-y divide-white/10 overflow-hidden" data-reveal>
+      <div className="panel mx-auto mt-12 max-w-3xl divide-y divide-brand/20 overflow-hidden" data-reveal>
         {items.map((faq) => (
           <details
             key={faq.question}

@@ -126,7 +126,7 @@ export default function FaqPage() {
               align="left"
             />
             <div
-              className="panel mt-10 divide-y divide-white/10 overflow-hidden"
+              className="panel mt-10 divide-y divide-brand/20 overflow-hidden"
               data-reveal
             >
               {items.map((faq) => (

@@ -70,7 +70,7 @@ export function ContactCta() {
           </ul>
 
           {/* 電話・メール派のための直通導線 */}
-          <div className="mt-12 flex flex-wrap items-center justify-center gap-x-8 gap-y-4 border-t border-white/10 pt-8">
+          <div className="mt-12 flex flex-wrap items-center justify-center gap-x-8 gap-y-4 border-t border-brand/20 pt-8">
             <a
               href={`tel:${contact.telephone}`}
               className="flex items-center gap-2.5 text-slate-300 transition-colors hover:text-white"

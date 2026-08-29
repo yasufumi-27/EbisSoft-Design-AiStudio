@@ -324,7 +324,7 @@ export default async function DemoDetailPage({
               {cap.tech.map((t) => (
                 <li
                   key={t}
-                  className="rounded-none border border-white/10 bg-white/5 px-2.5 py-1 text-xs font-medium text-slate-300"
+                  className="rounded-none border border-brand/20 bg-white/5 px-2.5 py-1 text-xs font-medium text-slate-300"
                 >
                   {ja(t)}
                 </li>
@@ -354,7 +354,7 @@ export default async function DemoDetailPage({
               data-reveal
               style={{ "--reveal-delay": `${i * 0.08}s` } as React.CSSProperties}
             >
-              <span className="grid size-10 place-items-center rounded-none border border-white/10 bg-white/5 text-slate-400">
+              <span className="grid size-10 place-items-center rounded-none border border-brand/20 bg-white/5 text-slate-400">
                 <Icon name={o.icon} className="size-5" />
               </span>
               <h3 className="mt-4 font-bold text-white">{ja(o.title)}</h3>

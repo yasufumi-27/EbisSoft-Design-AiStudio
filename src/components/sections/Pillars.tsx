@@ -55,7 +55,7 @@ export function Pillars() {
             <p className="speakable mt-3 font-medium text-slate-200">{ja(p.lead)}</p>
             <p className="mt-3 text-[0.9375rem] leading-relaxed text-slate-400 sm:text-sm">{ja(p.description)}</p>
 
-            <ul className="mt-5 flex-1 space-y-2 border-t border-white/10 pt-5">
+            <ul className="mt-5 flex-1 space-y-2 border-t border-brand/20 pt-5">
               {p.bullets.map((b) => (
                 <li key={b} className="flex items-start gap-2 text-sm text-slate-300">
                   <Icon name="check" className="mt-0.5 size-4 shrink-0 text-gold" />

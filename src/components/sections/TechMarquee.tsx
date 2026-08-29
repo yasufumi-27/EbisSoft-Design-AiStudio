@@ -7,7 +7,7 @@ import { techStack } from "@/lib/content";
 export function TechMarquee() {
   const items = [...techStack];
   return (
-    <div className="relative border-y border-white/5 bg-ink-2/60 py-5 backdrop-blur-sm">
+    <div className="relative border-y border-brand/12 bg-ink-2/60 py-5 backdrop-blur-sm">
       <div aria-hidden className="divider-glow absolute inset-x-0 top-0 opacity-50" />
       <div className="marquee" aria-hidden>
         <div className="marquee-track">

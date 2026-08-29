@@ -63,7 +63,7 @@ export function WorkSamples() {
             style={{ "--reveal-delay": `${(i % 3) * 0.08}s` } as React.CSSProperties}
           >
             {/* ミニプレビュー：ブラウザ窓に見立てた飾り（画像を読まないので表示が遅くならない） */}
-            <div aria-hidden className="border-b border-white/10 bg-white/[0.03] p-4">
+            <div aria-hidden className="border-b border-brand/20 bg-white/[0.03] p-4">
               <div className="flex items-center gap-1.5">
                 <span className="size-2 rounded-full bg-white/20" />
                 <span className="size-2 rounded-full bg-white/20" />
@@ -105,7 +105,7 @@ export function WorkSamples() {
                 {ja(site.brandNote)}
               </p>
 
-              <span className="mt-4 inline-flex items-center gap-1.5 border-t border-white/10 pt-4 text-xs font-bold text-slate-500 transition-colors group-hover:text-brand-light">
+              <span className="mt-4 inline-flex items-center gap-1.5 border-t border-brand/20 pt-4 text-xs font-bold text-slate-500 transition-colors group-hover:text-brand-light">
                 <Icon name="external" className="size-3.5" />
                 デモサイトを別タブで開く
               </span>

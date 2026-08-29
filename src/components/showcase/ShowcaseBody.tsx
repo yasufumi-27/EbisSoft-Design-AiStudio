@@ -119,7 +119,7 @@ export function ShowcaseBody({
             <div className="overflow-x-auto">
               <table className="w-full min-w-[32rem] border-collapse text-left text-sm">
                 <thead>
-                  <tr className="border-y border-white/10">
+                  <tr className="border-y border-brand/20">
                     <th className="px-6 py-2.5 font-bold text-brand-light">名称</th>
                     <th className="px-4 py-2.5 font-bold text-brand-light">区分</th>
                     <th className="px-4 py-2.5 text-right font-bold text-brand-light">金額</th>
@@ -128,7 +128,7 @@ export function ShowcaseBody({
                 </thead>
                 <tbody>
                   {industry.catalog.map((c) => (
-                    <tr key={c.sku} className="border-b border-white/5 last:border-0">
+                    <tr key={c.sku} className="border-b border-brand/12 last:border-0">
                       <td className="px-6 py-2.5 text-white">{ja(c.name)}</td>
                       <td className="px-4 py-2.5 text-slate-400">{ja(c.category)}</td>
                       <td className="px-4 py-2.5 text-right tabular-nums text-slate-300">

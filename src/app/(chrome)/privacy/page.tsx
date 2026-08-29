@@ -127,7 +127,7 @@ export default function PrivacyPage() {
               </section>
             ))}
 
-            <section className="border-t border-white/10 pt-8">
+            <section className="border-t border-brand/20 pt-8">
               <h2 className="text-lg font-bold text-white">お問い合わせ窓口</h2>
               <address className="mt-3 space-y-1 text-sm leading-relaxed text-slate-400 not-italic">
                 <p className="text-slate-200">{siteConfig.legalName}</p>

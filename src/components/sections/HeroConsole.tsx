@@ -84,7 +84,7 @@ export default function HeroConsole() {
   return (
     <div className="panel panel-corners overflow-hidden shadow-[0_30px_80px_-30px_rgba(182,126,255,0.25)]">
       {/* タイトルバー */}
-      <div className="flex min-w-0 items-center gap-1.5 border-b border-white/10 px-3 py-3 sm:px-4">
+      <div className="flex min-w-0 items-center gap-1.5 border-b border-brand/20 px-3 py-3 sm:px-4">
         <span className="size-3 shrink-0 rounded-full bg-rose-400/80" />
         <span className="size-3 shrink-0 rounded-full bg-amber-300/80" />
         <span className="size-3 shrink-0 rounded-full bg-emerald-400/80" />
@@ -119,7 +119,7 @@ export default function HeroConsole() {
                     ? "border-emerald-400/60 bg-emerald-400/20 text-emerald-300"
                     : state === "run"
                       ? "border-brand bg-brand/20 text-brand-light"
-                      : "border-white/15 text-transparent"
+                      : "border-brand/25 text-transparent"
                 }`}
               >
                 {state === "done" ? (
@@ -169,7 +169,7 @@ export default function HeroConsole() {
       </ul>
 
       {/* 進捗とサマリ */}
-      <div className="border-t border-white/10 px-4 py-4">
+      <div className="border-t border-brand/20 px-4 py-4">
         <div className="flex items-center gap-3">
           <span className="h-1.5 flex-1 overflow-hidden rounded-full bg-white/5">
             <span
@@ -188,7 +188,7 @@ export default function HeroConsole() {
             { label: "人が判断", value: `${TOTAL - aiCount}工程` },
             { label: "制作期間", value: "従来の1/3" },
           ].map((s) => (
-            <div key={s.label} className="rounded-none border border-white/10 bg-white/[0.03] px-2 py-2.5">
+            <div key={s.label} className="rounded-none border border-brand/20 bg-white/[0.03] px-2 py-2.5">
               <dt className="text-[10px] text-slate-500">{s.label}</dt>
               <dd className="font-display mt-0.5 text-xs font-bold text-white">{s.value}</dd>
             </div>

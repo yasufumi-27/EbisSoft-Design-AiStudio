@@ -168,7 +168,7 @@ export default function EmbeddedPage() {
               <p className="speakable mt-3 text-sm leading-relaxed text-slate-400">
                 {ja(d.description)}
               </p>
-              <ul className="mt-5 space-y-2 border-t border-white/10 pt-5">
+              <ul className="mt-5 space-y-2 border-t border-brand/20 pt-5">
                 {d.items.map((item) => (
                   <li key={item} className="flex items-start gap-2 text-sm text-slate-300">
                     <Icon name="check" className="mt-0.5 size-4 shrink-0 text-gold" />
@@ -203,7 +203,7 @@ export default function EmbeddedPage() {
               <p className="speakable mt-2 flex-1 text-sm leading-relaxed text-slate-400">
                 {ja(o.description)}
               </p>
-              <ul className="mt-4 space-y-2 border-t border-white/10 pt-4">
+              <ul className="mt-4 space-y-2 border-t border-brand/20 pt-4">
                 {o.items.map((item) => (
                   <li key={item} className="flex items-start gap-2 text-sm text-slate-300">
                     <Icon name="check" className="mt-0.5 size-4 shrink-0 text-gold" />

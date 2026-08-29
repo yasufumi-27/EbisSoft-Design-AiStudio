@@ -35,7 +35,7 @@ const ENDPOINT = `${process.env.NEXT_PUBLIC_BASE_PATH ?? ""}/api/contact.php`;
 function ChoiceGroup({ group, uid }: { group: InquiryGroup; uid: string }) {
   const isMulti = group.type === "multi";
   return (
-    <fieldset className="border-t border-white/10 pt-6">
+    <fieldset className="border-t border-brand/20 pt-6">
       <legend className="flex flex-wrap items-baseline gap-2 pb-1">
         <span className="text-base font-bold text-white">{ja(group.label)}</span>
         <span className="text-[11px] text-slate-500">
@@ -57,7 +57,7 @@ function ChoiceGroup({ group, uid }: { group: InquiryGroup; uid: string }) {
               id={`${uid}-${group.id}-${i}`}
               className="peer sr-only"
             />
-            <span className="inline-flex items-center gap-1.5 rounded-none border border-white/10 bg-white/5 px-4 py-2.5 text-sm text-slate-300 transition-all hover:border-white/30 peer-checked:border-brand/60 peer-checked:bg-brand/15 peer-checked:text-brand-light peer-checked:shadow-[0_0_16px_rgba(182,126,255,0.25)] peer-focus-visible:outline-2 peer-focus-visible:outline-offset-2 peer-focus-visible:outline-brand">
+            <span className="inline-flex items-center gap-1.5 rounded-none border border-brand/20 bg-white/5 px-4 py-2.5 text-sm text-slate-300 transition-all hover:border-brand/45 peer-checked:border-brand/60 peer-checked:bg-brand/15 peer-checked:text-brand-light peer-checked:shadow-[0_0_16px_rgba(182,126,255,0.25)] peer-focus-visible:outline-2 peer-focus-visible:outline-offset-2 peer-focus-visible:outline-brand">
               {ja(o.value)}
               {o.note ? (
                 <span className="rounded bg-gold/15 px-1.5 py-0.5 text-[10px] font-bold text-gold-light">
@@ -249,7 +249,7 @@ export function InquiryForm() {
           )}
         </p>
 
-        <div className="mt-8 rounded-none border border-white/10 bg-ink/60 p-4 text-left">
+        <div className="mt-8 rounded-none border border-brand/20 bg-ink/60 p-4 text-left">
           <p className="mb-2 text-xs text-slate-500">
             {sent.mode === "api"
               ? ja("控えのメールが届かない場合は、下記をコピーして")
@@ -268,7 +268,7 @@ export function InquiryForm() {
           <button
             type="button"
             onClick={() => navigator.clipboard?.writeText(sent.body)}
-            className="mt-3 rounded-none border border-white/15 bg-white/5 px-3 py-1.5 text-xs font-semibold text-slate-300 transition-colors hover:border-brand/50 hover:text-brand-light"
+            className="mt-3 rounded-none border border-brand/25 bg-white/5 px-3 py-1.5 text-xs font-semibold text-slate-300 transition-colors hover:border-brand/50 hover:text-brand-light"
           >
             内容をコピー
           </button>
@@ -350,7 +350,7 @@ export function InquiryForm() {
       <details className="panel group p-6 sm:p-8">
         <summary className="grid cursor-pointer list-none grid-cols-[1fr_auto] items-center gap-x-4 [&::-webkit-details-marker]:hidden">
           <span className="col-start-1 flex flex-wrap items-center gap-2">
-            <span className="font-display rounded-none border border-white/20 bg-white/5 px-2 py-1 text-[10px] font-bold tracking-widest text-slate-300">
+            <span className="font-display rounded-none border border-brand/30 bg-white/5 px-2 py-1 text-[10px] font-bold tracking-widest text-slate-300">
               STEP 2
             </span>
             <span className="text-xs text-slate-500">すべて任意・ざっくりでOK</span>
@@ -365,7 +365,7 @@ export function InquiryForm() {
           {/* 開閉マーク。開くと上向きに反転する */}
           <span
             aria-hidden
-            className="col-start-2 row-span-3 row-start-1 grid size-9 shrink-0 place-items-center self-center rounded-full border border-white/15 bg-white/5 text-slate-400 transition-all group-hover:border-brand/50 group-hover:text-brand-light group-open:rotate-180"
+            className="col-start-2 row-span-3 row-start-1 grid size-9 shrink-0 place-items-center self-center rounded-full border border-brand/25 bg-white/5 text-slate-400 transition-all group-hover:border-brand/50 group-hover:text-brand-light group-open:rotate-180"
           >
             <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
               <path d="M12 17 3 6h18z" />
@@ -383,7 +383,7 @@ export function InquiryForm() {
       {/* ③ 連絡先 */}
       <div className="panel p-6 sm:p-8">
         <div className="flex flex-wrap items-center gap-2">
-          <span className="font-display rounded-none border border-white/20 bg-white/5 px-2 py-1 text-[10px] font-bold tracking-widest text-slate-300">
+          <span className="font-display rounded-none border border-brand/30 bg-white/5 px-2 py-1 text-[10px] font-bold tracking-widest text-slate-300">
             STEP 3
           </span>
         </div>
@@ -503,7 +503,7 @@ export function InquiryForm() {
               <button
                 type="button"
                 onClick={() => openMailer(failure.body, failure.subjectName)}
-                className="mt-3 rounded-none border border-white/20 bg-white/10 px-4 py-2 text-sm font-semibold text-white transition-colors hover:border-brand/50 hover:text-brand-light"
+                className="mt-3 rounded-none border border-brand/30 bg-white/10 px-4 py-2 text-sm font-semibold text-white transition-colors hover:border-brand/50 hover:text-brand-light"
               >
                 メールソフトで送る
               </button>

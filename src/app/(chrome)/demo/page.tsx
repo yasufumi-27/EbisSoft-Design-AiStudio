@@ -142,7 +142,7 @@ export default function DemoIndexPage() {
                 {c.tech.slice(0, 4).map((t) => (
                   <li
                     key={t}
-                    className="rounded-none border border-white/10 bg-white/5 px-2 py-0.5 text-[11px] text-slate-400"
+                    className="rounded-none border border-brand/20 bg-white/5 px-2 py-0.5 text-[11px] text-slate-400"
                   >
                     {ja(t)}
                   </li>

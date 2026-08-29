@@ -63,7 +63,7 @@ export function AiPower() {
               {ja(step.description)}
             </p>
 
-            <dl className="mt-5 space-y-2 border-t border-white/10 pt-4 text-xs">
+            <dl className="mt-5 space-y-2 border-t border-brand/20 pt-4 text-xs">
               <div className="flex gap-2">
                 <dt className="font-display shrink-0 rounded border border-brand/40 bg-brand/10 px-1.5 py-0.5 text-[10px] font-bold tracking-wider text-brand-light">
                   AI

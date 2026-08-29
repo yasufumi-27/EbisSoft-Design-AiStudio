@@ -41,7 +41,7 @@ export function AuthorBox() {
 
       <p className="mt-5 text-sm leading-relaxed text-slate-400">{ja(author.bio)}</p>
 
-      <dl className="mt-5 grid gap-3 border-t border-white/10 pt-5 sm:grid-cols-2">
+      <dl className="mt-5 grid gap-3 border-t border-brand/20 pt-5 sm:grid-cols-2">
         {author.credentials.map((c) => (
           <div key={c.label} className="min-w-0">
             <dt className="text-xs tracking-wider text-slate-500">{ja(c.label)}</dt>
@@ -58,7 +58,7 @@ export function AuthorBox() {
         ))}
       </dl>
 
-      <p className="mt-5 flex items-start gap-2 border-t border-white/10 pt-5 text-xs leading-relaxed text-slate-500">
+      <p className="mt-5 flex items-start gap-2 border-t border-brand/20 pt-5 text-xs leading-relaxed text-slate-500">
         <Icon name="shield" className="mt-0.5 size-3.5 shrink-0 text-slate-600" />
         <span className="min-w-0">
           {ja(

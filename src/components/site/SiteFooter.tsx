@@ -17,7 +17,7 @@ export function SiteFooter() {
   const { contact } = siteConfig;
 
   return (
-    <footer className="relative border-t border-white/5 bg-ink-2/80 text-slate-300 backdrop-blur-md">
+    <footer className="relative border-t border-brand/12 bg-ink-2/80 text-slate-300 backdrop-blur-md">
       {/* 上辺の発光ライン */}
       <div aria-hidden className="divider-glow absolute inset-x-0 top-0" />
 
@@ -38,7 +38,7 @@ export function SiteFooter() {
 
           {/* サイトメニュー */}
           <nav className="lg:col-span-3" aria-label="フッターナビゲーション">
-            <h2 className="font-display text-xs font-bold tracking-[0.3em] text-brand uppercase">
+            <h2 className="eyebrow">
               Menu
             </h2>
             <ul className="mt-4 space-y-3 text-sm">
@@ -65,7 +65,7 @@ export function SiteFooter() {
               ))}
             </ul>
 
-            <h2 className="font-display mt-8 text-xs font-bold tracking-[0.3em] text-brand uppercase">
+            <h2 className="eyebrow mt-8">
               Demo
             </h2>
             <ul className="mt-4 space-y-3 text-sm">
@@ -92,7 +92,7 @@ export function SiteFooter() {
 
           {/* 会社情報・NAP */}
           <div className="lg:col-span-4">
-            <h2 className="font-display text-xs font-bold tracking-[0.3em] text-brand uppercase">
+            <h2 className="eyebrow">
               Company
             </h2>
             <address className="mt-4 space-y-3 text-sm text-slate-400 not-italic">
@@ -119,7 +119,7 @@ export function SiteFooter() {
           </div>
         </div>
 
-        <div className="mt-12 flex flex-col items-center justify-between gap-4 border-t border-white/10 pt-8 text-sm text-slate-500 sm:flex-row">
+        <div className="mt-12 flex flex-col items-center justify-between gap-4 border-t border-brand/20 pt-8 text-sm text-slate-500 sm:flex-row">
           <p className="font-display tracking-widest">
             © {year} {siteConfig.legalName}
           </p>

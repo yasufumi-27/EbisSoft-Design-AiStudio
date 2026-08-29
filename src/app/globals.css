@@ -732,6 +732,279 @@ main h3 {
   color: #f4effa;
 }
 
+/* ---- 料金プラン（トップの LIVE MODULES と同じ「連結した盤」） ---- */
+.ai-plan-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  /* 隙間の色がそのまま罫線に見える。線を引かずに表の密度を出す */
+  gap: 1px;
+  background: rgba(182, 126, 255, 0.27);
+  border: 1px solid rgba(182, 126, 255, 0.27);
+}
+.ai-plan {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  background: #0c0815;
+  padding: clamp(1.5rem, 2.4vw, 2.2rem);
+  transition: background 0.3s ease;
+}
+.ai-plan:hover {
+  background: #151022;
+}
+/* おすすめは面をひと段明るくし、上辺にミントの線を通す */
+.ai-plan[data-featured] {
+  background: #151022;
+}
+.ai-plan[data-featured]::before {
+  content: "";
+  position: absolute;
+  inset: 0 0 auto;
+  height: 2px;
+  background: var(--color-gold);
+  box-shadow: 0 0 1.5rem rgba(170, 255, 220, 0.7);
+}
+.ai-plan-index {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+  font-family: var(--font-display);
+  font-size: 0.5rem;
+  letter-spacing: 0.14em;
+  color: #a98bc0;
+}
+.ai-plan-index b {
+  font-weight: 400;
+  color: var(--color-gold);
+}
+.ai-plan h3 {
+  margin-top: 1.8rem;
+  font-size: 1.05rem;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  color: #f4effa;
+}
+.ai-plan-note {
+  margin-top: 0.35rem;
+  font-size: 0.72rem;
+  color: #8a7c98;
+}
+.ai-plan[data-featured] .ai-plan-note {
+  color: var(--color-gold-light);
+}
+.ai-plan-price {
+  margin-top: 1.2rem;
+  font-family: var(--font-display);
+  font-size: clamp(1.6rem, 2.6vw, 2.1rem);
+  font-weight: 500;
+  letter-spacing: -0.03em;
+  font-variant-numeric: tabular-nums;
+  color: #f4effa;
+}
+.ai-plan[data-featured] .ai-plan-price {
+  color: var(--color-gold);
+}
+.ai-plan-desc {
+  margin-top: 0.9rem;
+  font-size: 0.8rem;
+  line-height: 1.85;
+  color: #a393af;
+}
+.ai-plan-features {
+  margin-top: 1.6rem;
+  padding-top: 1.4rem;
+  border-top: 1px solid rgba(182, 126, 255, 0.2);
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  font-size: 0.8rem;
+  line-height: 1.7;
+  color: #cdc2dd;
+}
+.ai-plan-features li {
+  display: flex;
+  gap: 0.6rem;
+  align-items: flex-start;
+}
+.ai-plan-features svg {
+  color: var(--color-brand);
+}
+.ai-plan[data-featured] .ai-plan-features svg {
+  color: var(--color-gold);
+}
+/* CTA は各セルの下端に揃える。
+   プランごとに項目数が違うので、margin-top:auto で余りを上に寄せて
+   ボタンの上辺を3セルで一直線にする（余白は padding で確保する）。 */
+.ai-plan-cta {
+  margin-top: auto;
+}
+.ai-plan-features + .ai-plan-cta {
+  margin-top: auto;
+}
+.ai-plan .ai-plan-cta {
+  margin-top: auto;
+}
+.ai-plan-features {
+  margin-bottom: 2rem;
+}
+
+@media (max-width: 860px) {
+  .ai-plan-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ---- コラム記事 ------------------------------------------------------------
+ * 見出しに通し番号を振り、区切りは1pxの紫の罫線だけにします。
+ * トップの ONE CONTINUOUS FLIGHT が「01 OBSERVE」で始まるのと同じ組みで、
+ * 記事も「01 …」「02 …」と番号を追って読める形にしています。
+ * ------------------------------------------------------------------------- */
+.ai-article-head {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  padding: clamp(3rem, 6vw, 5rem) 0 clamp(2.5rem, 4vw, 3.5rem);
+  background: radial-gradient(circle at 50% 30%, #2a1049 0, #110819 40%, #07050e 72%);
+  border-bottom: 1px solid rgba(182, 126, 255, 0.2);
+}
+.ai-article-meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.4rem 1.1rem;
+  font-family: var(--font-display);
+  font-size: 0.54rem;
+  letter-spacing: 0.12em;
+  color: #8a7c98;
+}
+.ai-article-cat {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.3rem 0.6rem;
+  border: 1px solid rgba(182, 126, 255, 0.45);
+  color: #e5d6ff;
+}
+.ai-article-head h1 {
+  margin-top: 1.6rem;
+  font-size: clamp(1.7rem, 3.4vw, 3rem);
+  line-height: 1.2;
+  letter-spacing: -0.045em;
+  font-weight: 600;
+  color: #f4effa;
+}
+.ai-article-q {
+  margin-top: 1rem;
+  font-size: 0.88rem;
+  font-weight: 600;
+  color: #e5d6ff;
+}
+.ai-article-a {
+  margin-top: 0.9rem;
+  font-size: 0.95rem;
+  line-height: 1.95;
+  color: #cdc2dd;
+}
+
+/* ---- 本文の見出し（通し番号は CSS カウンタで振る） ---- */
+.ai-article {
+  counter-reset: ai-h2;
+}
+.ai-article h2 {
+  margin-top: 4rem !important;
+  padding-top: 1.4rem;
+  border-top: 1px solid rgba(182, 126, 255, 0.28);
+  font-size: clamp(1.35rem, 2.4vw, 1.75rem);
+  line-height: 1.3;
+  letter-spacing: -0.04em;
+  font-weight: 600;
+  color: #f4effa;
+}
+/* 「01」「02」…（2桁ゼロ埋め）を見出しの上に置く */
+.ai-article h2::before {
+  counter-increment: ai-h2;
+  content: counter(ai-h2, decimal-leading-zero);
+  display: block;
+  margin-bottom: 0.8rem;
+  font-family: var(--font-display);
+  font-size: 0.58rem;
+  font-weight: 400;
+  letter-spacing: 0.16em;
+  color: #b68bda;
+}
+.ai-article h3 {
+  margin-top: 2.6rem !important;
+  font-size: 1.02rem;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  color: #f4effa;
+}
+
+/* ---- 目次 ---- */
+.ai-toc ol {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+.ai-toc a {
+  display: flex;
+  gap: 0.8rem;
+  font-size: 0.82rem;
+  line-height: 1.6;
+  color: #a393af;
+  transition: color 0.25s ease;
+}
+.ai-toc a:hover {
+  color: #f4effa;
+}
+.ai-toc a > span:first-child {
+  flex: none;
+  font-family: var(--font-display);
+  font-size: 0.58rem;
+  letter-spacing: 0.1em;
+  color: #b68bda;
+  padding-top: 0.25rem;
+}
+
+/* ---- 記事内の表 ---- */
+.ai-table caption {
+  padding: 1.1rem 1.2rem 0;
+  text-align: left;
+  font-family: var(--font-display);
+  font-size: 0.52rem;
+  letter-spacing: 0.12em;
+  color: #8a7c98;
+}
+.ai-table th {
+  padding: 0.9rem 1.2rem;
+  border-bottom: 1px solid rgba(182, 126, 255, 0.35);
+  font-family: var(--font-display);
+  font-size: 0.56rem;
+  font-weight: 400;
+  letter-spacing: 0.14em;
+  color: #b68bda;
+  white-space: nowrap;
+}
+.ai-table td {
+  padding: 0.9rem 1.2rem;
+  vertical-align: top;
+  border-bottom: 1px solid rgba(182, 126, 255, 0.14);
+  font-size: 0.84rem;
+  line-height: 1.8;
+  color: #cdc2dd;
+}
+.ai-table tbody tr:last-child td {
+  border-bottom: 0;
+}
+.ai-table td:not([data-head]) {
+  color: #f4effa;
+  font-weight: 500;
+}
+.ai-table tbody tr:hover td {
+  background: rgba(182, 126, 255, 0.05);
+}
+
 /* Multi-route design study pages. */
 .design-proposal { min-height:100vh; background:#101116; color:#f1ede5; padding:1.25rem max(1.25rem,env(safe-area-inset-left)) 0; }
 .proposal-switcher { max-width:1180px; margin:auto; display:flex; justify-content:space-between; align-items:center; gap:2rem; border-bottom:1px solid rgba(255,255,255,.16); padding:.4rem 0 1rem; }

@@ -153,7 +153,7 @@ export default function CompanyPage() {
           align="left"
         />
         <div className="panel panel-corners mt-10 overflow-hidden" data-reveal>
-          <dl className="divide-y divide-white/5">
+          <dl className="divide-y divide-brand/12">
             {profile.map((row) => (
               <div key={row.label} className="grid gap-1 px-6 py-5 sm:grid-cols-4 sm:gap-4">
                 <dt className="text-sm font-bold text-slate-400">{row.label}</dt>
@@ -288,7 +288,7 @@ export default function CompanyPage() {
                 {techStack.map((t) => (
                   <li
                     key={t}
-                    className="rounded-none border border-white/10 bg-white/5 px-2.5 py-1 text-xs font-medium text-slate-300"
+                    className="rounded-none border border-brand/20 bg-white/5 px-2.5 py-1 text-xs font-medium text-slate-300"
                   >
                     {t}
                   </li>

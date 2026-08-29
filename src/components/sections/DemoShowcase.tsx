@@ -43,7 +43,7 @@ export function DemoShowcase({
               className={`absolute inset-x-0 top-0 h-0.5 bg-gradient-to-r ${c.gradient} opacity-70`}
             />
             <span className="flex items-center justify-between gap-2">
-              <span className="grid size-11 place-items-center rounded-none border border-white/10 bg-white/5 text-brand-light transition-colors group-hover:border-brand/50 group-hover:bg-brand/15">
+              <span className="grid size-11 place-items-center rounded-none border border-brand/20 bg-white/5 text-brand-light transition-colors group-hover:border-brand/50 group-hover:bg-brand/15">
                 <Icon name={c.icon} className="size-5" />
               </span>
               <span className="font-display rounded-none border border-gold/30 bg-gold/10 px-2 py-1 text-[10px] font-bold tracking-wider text-gold-light">
@@ -59,7 +59,7 @@ export function DemoShowcase({
             <p className="mt-1 text-sm text-brand-light">{ja(c.tagline)}</p>
             <p className="mt-3 flex-1 text-[0.9375rem] leading-relaxed text-slate-400 sm:text-sm">{ja(c.impact)}</p>
 
-            <span className="mt-4 inline-flex items-center gap-1.5 border-t border-white/10 pt-4 text-xs font-bold text-slate-500 transition-colors group-hover:text-brand-light">
+            <span className="mt-4 inline-flex items-center gap-1.5 border-t border-brand/20 pt-4 text-xs font-bold text-slate-500 transition-colors group-hover:text-brand-light">
               <Icon name="play" className="size-3.5" />
               デモを開く
             </span>

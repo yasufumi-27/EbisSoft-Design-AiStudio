@@ -124,7 +124,7 @@ export function GenerateStudio() {
                   setInput(ex);
                   build(ex);
                 }}
-                className="rounded-none border border-white/10 bg-white/5 px-3 py-1.5 text-xs text-slate-300 transition-colors hover:border-brand/40 hover:text-brand-light"
+                className="rounded-none border border-brand/20 bg-white/5 px-3 py-1.5 text-xs text-slate-300 transition-colors hover:border-brand/40 hover:text-brand-light"
               >
                 {ja(ex)}
               </button>

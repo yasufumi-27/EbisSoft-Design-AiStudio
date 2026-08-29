@@ -124,7 +124,7 @@ export default function RequestPage() {
               </span>
               <h3 className="mt-5 text-xl font-bold text-white">{ja(t.title)}</h3>
               <p className="speakable mt-3 text-sm leading-relaxed text-slate-400">{ja(t.body)}</p>
-              <ul className="mt-5 flex-1 space-y-2 border-t border-white/10 pt-5">
+              <ul className="mt-5 flex-1 space-y-2 border-t border-brand/20 pt-5">
                 {t.items.map((item) => (
                   <li key={item} className="flex items-start gap-2 text-sm text-slate-300">
                     <Icon name="check" className="mt-0.5 size-4 shrink-0 text-gold" />

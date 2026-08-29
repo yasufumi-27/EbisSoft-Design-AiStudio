@@ -90,7 +90,7 @@ export default function ContactPage() {
                   href={`tel:${contact.telephone}`}
                   className="group mt-5 flex items-center gap-3 text-slate-200 transition-colors hover:text-white"
                 >
-                  <span className="grid size-10 shrink-0 place-items-center rounded-none border border-white/15 bg-white/5 transition-all group-hover:border-brand/50 group-hover:shadow-[0_0_16px_rgba(182,126,255,0.3)]">
+                  <span className="grid size-10 shrink-0 place-items-center rounded-none border border-brand/25 bg-white/5 transition-all group-hover:border-brand/50 group-hover:shadow-[0_0_16px_rgba(182,126,255,0.3)]">
                     <Icon name="phone" className="size-5" />
                   </span>
                   <span className="min-w-0">
@@ -108,7 +108,7 @@ export default function ContactPage() {
                   href={`mailto:${contact.email}`}
                   className="group mt-4 flex items-center gap-3 text-slate-200 transition-colors hover:text-white"
                 >
-                  <span className="grid size-10 shrink-0 place-items-center rounded-none border border-white/15 bg-white/5 transition-all group-hover:border-brand/50 group-hover:shadow-[0_0_16px_rgba(182,126,255,0.3)]">
+                  <span className="grid size-10 shrink-0 place-items-center rounded-none border border-brand/25 bg-white/5 transition-all group-hover:border-brand/50 group-hover:shadow-[0_0_16px_rgba(182,126,255,0.3)]">
                     <Icon name="mail" className="size-5" />
                   </span>
                   <span className="min-w-0">
@@ -137,7 +137,7 @@ export default function ContactPage() {
                     </li>
                   ))}
                 </ol>
-                <p className="mt-5 border-t border-white/10 pt-4 text-xs leading-relaxed text-slate-500">
+                <p className="mt-5 border-t border-brand/20 pt-4 text-xs leading-relaxed text-slate-500">
                   {ja("ここまですべて無料です。お見積もりの内容にご納得いただけない場合、お断りいただいて構いません。")}
                 </p>
               </div>

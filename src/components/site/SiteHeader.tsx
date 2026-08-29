@@ -92,7 +92,7 @@ export function SiteHeader() {
 
       {/* モバイルメニュー */}
       {open ? (
-        <div id="mobile-menu" className="border-t border-white/10 bg-ink xl:hidden">
+        <div id="mobile-menu" className="border-t border-brand/20 bg-ink xl:hidden">
           <nav
             className="gutter-x mx-auto flex w-full max-w-6xl flex-col py-3"
             aria-label="モバイルナビゲーション"

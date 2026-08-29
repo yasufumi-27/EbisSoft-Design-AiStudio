@@ -95,7 +95,7 @@ export function AiSearch() {
                 {/* ページではなく生成ファイルを含むため、basePath を明示して素の <a> で出す */}
                 <a
                   href={`${BASE_PATH}${item.href}`}
-                  className="inline-flex items-center gap-2 rounded-none border border-white/10 bg-white/5 px-3 py-2 text-xs text-slate-300 transition-colors hover:border-brand/50 hover:text-white"
+                  className="inline-flex items-center gap-2 rounded-none border border-brand/20 bg-white/5 px-3 py-2 text-xs text-slate-300 transition-colors hover:border-brand/50 hover:text-white"
                 >
                   <Icon name="check" className="size-3.5 text-gold" />
                   {ja(item.label)}
