@@ -38,9 +38,13 @@ export default function Mascot3d({
   onReady?: () => void;
 }) {
   const mountRef = useRef<HTMLDivElement>(null);
-  // onReady が毎レンダー新しい関数でも、3D を作り直さないよう ref 経由で読む
+  // onReady が毎レンダー新しい関数でも、3D を作り直さないよう ref 経由で読む。
+  // 代入は描画中ではなく effect の中で行う（描画中の ref 更新は React の規約違反）。
+  // この effect を下の初期化より先に書いてあるので、初回でも最新の関数が入っている。
   const onReadyRef = useRef(onReady);
-  onReadyRef.current = onReady;
+  useEffect(() => {
+    onReadyRef.current = onReady;
+  }, [onReady]);
 
   useEffect(() => {
     const mount = mountRef.current;

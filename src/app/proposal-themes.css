@@ -1,0 +1,661 @@
+/* ============================================================
+ * デザイン案15種のテーマ（自動生成）
+ *
+ * 生成元 : src/lib/designProposals.ts
+ * 生成 　 : python3 scripts/proposal-themes.py
+ *
+ * **このファイルを直接編集しないこと。** 値は designProposals.ts を直して
+ * 生成し直す（手で直すと、TS側の一覧表示と画面の色がずれる）。
+ *
+ *   .dp-<id> … できることのデモ（/demo/<slug>）が使う変数
+ *   .ds[data-theme="<id>"] … 職種別デモサイト（/demosite/<職種>）が使う変数
+ * ============================================================ */
+
+
+/* 01 Lumora — 静謐なプロダクトスタジオ */
+.dp-lumora {
+  --dp-bg: #0b0c0f;
+  --dp-surface: #17191d;
+  --dp-surface-2: #202329;
+  --dp-line: rgba(238,234,226,0.16);
+  --dp-ink: #eeeae2;
+  --dp-muted: #88898e;
+  --dp-accent: #cfd6a3;
+  --dp-accent-ink: #0b0c0f;
+  --dp-accent-2: #a19f94;
+  --dp-radius: 0px;
+  --dp-head-font: var(--font-geist-sans), system-ui, sans-serif;
+  --dp-head-spacing: -0.05em;
+  --dp-head-weight: 500;
+  --dp-label-spacing: 0.18em;
+  --dp-scheme: dark;
+  color-scheme: dark;
+}
+
+/* 02 Baseline — 信頼を積み上げるクラブ */
+.dp-baseline {
+  --dp-bg: #082b4a;
+  --dp-surface: #0c3559;
+  --dp-surface-2: #e9dfc4;
+  --dp-line: rgba(237,229,203,0.32);
+  --dp-ink: #f0e8d2;
+  --dp-muted: #b6c7cc;
+  --dp-accent: #e9dfc4;
+  --dp-accent-ink: #082b4a;
+  --dp-accent-2: #c5e0de;
+  --dp-radius: 0px;
+  --dp-head-font: "Hiragino Mincho ProN", "Yu Mincho", Georgia, serif;
+  --dp-head-spacing: 0.02em;
+  --dp-head-weight: 400;
+  --dp-label-spacing: 0.16em;
+  --dp-scheme: dark;
+  color-scheme: dark;
+}
+
+/* 03 AI Studio — 未来を試作するラボ */
+.dp-ai-studio {
+  --dp-bg: #07050e;
+  --dp-surface: #0c0815;
+  --dp-surface-2: #151022;
+  --dp-line: rgba(182,126,255,0.27);
+  --dp-ink: #f4effa;
+  --dp-muted: #a393af;
+  --dp-accent: #b67eff;
+  --dp-accent-ink: #0b0711;
+  --dp-accent-2: #aaffdc;
+  --dp-radius: 0px;
+  --dp-head-font: var(--font-orbitron), var(--font-geist-sans), system-ui, sans-serif;
+  --dp-head-spacing: -0.045em;
+  --dp-head-weight: 600;
+  --dp-label-spacing: 0.16em;
+  --dp-scheme: dark;
+  color-scheme: dark;
+}
+
+/* 04 Codescan — 現場を見通す管制室 */
+.dp-codescan {
+  --dp-bg: #050706;
+  --dp-surface: #0a0f0c;
+  --dp-surface-2: #101a14;
+  --dp-line: rgba(125,255,176,0.24);
+  --dp-ink: #cfddd3;
+  --dp-muted: #6f8478;
+  --dp-accent: #7dffb0;
+  --dp-accent-ink: #04140b;
+  --dp-accent-2: #eaff7d;
+  --dp-radius: 0px;
+  --dp-head-font: "SFMono-Regular", Menlo, Consolas, "Courier New", monospace;
+  --dp-head-spacing: 0.02em;
+  --dp-head-weight: 600;
+  --dp-label-spacing: 0.2em;
+  --dp-scheme: dark;
+  color-scheme: dark;
+}
+
+/* 05 Laocoon — 技術を彫刻する工房 */
+.dp-laocoon {
+  --dp-bg: #07161d;
+  --dp-surface: #0d2029;
+  --dp-surface-2: #132b36;
+  --dp-line: rgba(234,219,200,0.22);
+  --dp-ink: #eadbc8;
+  --dp-muted: #93a3a6;
+  --dp-accent: #c98b46;
+  --dp-accent-ink: #07161d;
+  --dp-accent-2: #e5b877;
+  --dp-radius: 0px;
+  --dp-head-font: "Hiragino Mincho ProN", "Yu Mincho", Georgia, serif;
+  --dp-head-spacing: 0.04em;
+  --dp-head-weight: 400;
+  --dp-label-spacing: 0.18em;
+  --dp-scheme: dark;
+  color-scheme: dark;
+}
+
+/* 06 Wanderlust — 遠くまで伴走する開発 */
+.dp-wanderlust {
+  --dp-bg: #151d20;
+  --dp-surface: #1d272a;
+  --dp-surface-2: #263235;
+  --dp-line: rgba(238,233,220,0.18);
+  --dp-ink: #eee9dc;
+  --dp-muted: #98a29b;
+  --dp-accent: #d9b382;
+  --dp-accent-ink: #151d20;
+  --dp-accent-2: #8fa38a;
+  --dp-radius: 2px;
+  --dp-head-font: var(--font-geist-sans), system-ui, sans-serif;
+  --dp-head-spacing: -0.02em;
+  --dp-head-weight: 600;
+  --dp-label-spacing: 0.16em;
+  --dp-scheme: dark;
+  color-scheme: dark;
+}
+
+/* 07 Soda — 触れて選べるソフトウェア */
+.dp-soda {
+  --dp-bg: #ff6b75;
+  --dp-surface: #fff5f0;
+  --dp-surface-2: #ffe3dd;
+  --dp-line: rgba(55,18,29,0.18);
+  --dp-ink: #37121d;
+  --dp-muted: #7a4450;
+  --dp-accent: #77213a;
+  --dp-accent-ink: #fff5f0;
+  --dp-accent-2: #ffc83d;
+  --dp-radius: 999px;
+  --dp-head-font: var(--font-geist-sans), system-ui, sans-serif;
+  --dp-head-spacing: -0.03em;
+  --dp-head-weight: 800;
+  --dp-label-spacing: 0.1em;
+  --dp-scheme: light;
+  color-scheme: light;
+}
+
+/* 08 Vesper — 思考するインターフェース */
+.dp-vesper {
+  --dp-bg: #060713;
+  --dp-surface: #0c1024;
+  --dp-surface-2: #131a33;
+  --dp-line: rgba(110,231,200,0.22);
+  --dp-ink: #edf9f5;
+  --dp-muted: #8697a3;
+  --dp-accent: #6ee7c8;
+  --dp-accent-ink: #04120e;
+  --dp-accent-2: #9db8ff;
+  --dp-radius: 999px;
+  --dp-head-font: var(--font-geist-sans), system-ui, sans-serif;
+  --dp-head-spacing: -0.04em;
+  --dp-head-weight: 600;
+  --dp-label-spacing: 0.16em;
+  --dp-scheme: dark;
+  color-scheme: dark;
+}
+
+/* 09 New Era — 小さな光から大きな変化へ */
+.dp-new-era {
+  --dp-bg: #020714;
+  --dp-surface: #071329;
+  --dp-surface-2: #0f2144;
+  --dp-line: rgba(255,125,53,0.28);
+  --dp-ink: #f1f5ff;
+  --dp-muted: #8592ac;
+  --dp-accent: #ff7d35;
+  --dp-accent-ink: #1a0a02;
+  --dp-accent-2: #4b8fff;
+  --dp-radius: 0px;
+  --dp-head-font: var(--font-orbitron), var(--font-geist-sans), system-ui, sans-serif;
+  --dp-head-spacing: -0.045em;
+  --dp-head-weight: 600;
+  --dp-label-spacing: 0.18em;
+  --dp-scheme: dark;
+  color-scheme: dark;
+}
+
+/* 10 Stride — 事業を前進させる技術 */
+.dp-stride {
+  --dp-bg: #031a49;
+  --dp-surface: #04225d;
+  --dp-surface-2: #082e75;
+  --dp-line: rgba(124,196,255,0.26);
+  --dp-ink: #eef5ff;
+  --dp-muted: #9db4d6;
+  --dp-accent: #7cc4ff;
+  --dp-accent-ink: #031a49;
+  --dp-accent-2: #5ee6a8;
+  --dp-radius: 4px;
+  --dp-head-font: var(--font-geist-sans), system-ui, sans-serif;
+  --dp-head-spacing: -0.04em;
+  --dp-head-weight: 700;
+  --dp-label-spacing: 0.14em;
+  --dp-scheme: dark;
+  color-scheme: dark;
+}
+
+/* 11 Loopstack — 言葉の後ろで咲く仕組み */
+.dp-loopstack {
+  --dp-bg: #030304;
+  --dp-surface: #0d0b10;
+  --dp-surface-2: #171320;
+  --dp-line: rgba(255,255,255,0.18);
+  --dp-ink: #ffffff;
+  --dp-muted: #8d8794;
+  --dp-accent: #e86ab5;
+  --dp-accent-ink: #1a0410;
+  --dp-accent-2: #c8ff4d;
+  --dp-radius: 999px;
+  --dp-head-font: var(--font-geist-sans), system-ui, sans-serif;
+  --dp-head-spacing: -0.06em;
+  --dp-head-weight: 500;
+  --dp-label-spacing: 0.2em;
+  --dp-scheme: dark;
+  color-scheme: dark;
+}
+
+/* 12 Auralis — 変化し続ける開発スタジオ */
+.dp-auralis {
+  --dp-bg: #d8dadb;
+  --dp-surface: #ffffff;
+  --dp-surface-2: #eceeef;
+  --dp-line: rgba(21,23,25,0.18);
+  --dp-ink: #151719;
+  --dp-muted: #5f6669;
+  --dp-accent: #2f3437;
+  --dp-accent-ink: #ffffff;
+  --dp-accent-2: #8b9296;
+  --dp-radius: 999px;
+  --dp-head-font: var(--font-geist-sans), system-ui, sans-serif;
+  --dp-head-spacing: -0.05em;
+  --dp-head-weight: 600;
+  --dp-label-spacing: 0.16em;
+  --dp-scheme: light;
+  color-scheme: light;
+}
+
+/* 13 Altitude — 視界の先まで見通す */
+.dp-altitude {
+  --dp-bg: #071426;
+  --dp-surface: #0c1e35;
+  --dp-surface-2: #132a46;
+  --dp-line: rgba(242,238,226,0.2);
+  --dp-ink: #f2eee2;
+  --dp-muted: #8fa0b3;
+  --dp-accent: #e8a33d;
+  --dp-accent-ink: #071426;
+  --dp-accent-2: #6fa8dc;
+  --dp-radius: 2px;
+  --dp-head-font: var(--font-geist-sans), system-ui, sans-serif;
+  --dp-head-spacing: -0.035em;
+  --dp-head-weight: 600;
+  --dp-label-spacing: 0.18em;
+  --dp-scheme: dark;
+  color-scheme: dark;
+}
+
+/* 14 Forma — 相談から形が立ち上がる */
+.dp-forma {
+  --dp-bg: #b6a2ee;
+  --dp-surface: #f4f1ff;
+  --dp-surface-2: #e3ddfa;
+  --dp-line: rgba(37,23,68,0.18);
+  --dp-ink: #251744;
+  --dp-muted: #5c4f80;
+  --dp-accent: #4a2fa8;
+  --dp-accent-ink: #f4f1ff;
+  --dp-accent-2: #ffb37a;
+  --dp-radius: 12px;
+  --dp-head-font: var(--font-geist-sans), system-ui, sans-serif;
+  --dp-head-spacing: -0.04em;
+  --dp-head-weight: 700;
+  --dp-label-spacing: 0.14em;
+  --dp-scheme: light;
+  color-scheme: light;
+}
+
+/* 15 Vexon — データを競争力へ変える */
+.dp-vexon {
+  --dp-bg: #020304;
+  --dp-surface: #060b08;
+  --dp-surface-2: #0b140f;
+  --dp-line: rgba(0,255,156,0.22);
+  --dp-ink: #effff6;
+  --dp-muted: #6f8a7c;
+  --dp-accent: #00ff9c;
+  --dp-accent-ink: #01130a;
+  --dp-accent-2: #7de3ff;
+  --dp-radius: 0px;
+  --dp-head-font: "SFMono-Regular", Menlo, Consolas, "Courier New", monospace;
+  --dp-head-spacing: 0.01em;
+  --dp-head-weight: 600;
+  --dp-label-spacing: 0.22em;
+  --dp-scheme: dark;
+  color-scheme: dark;
+}
+
+
+/* ---- 職種別デモサイト用（demosite.css の --ds-* へ流し込む） ---- */
+
+/* 01 Lumora — 静謐なプロダクトスタジオ */
+.ds[data-theme="lumora"] {
+  --ds-bg: #0b0c0f;
+  --ds-alt: #17191d;
+  --ds-surface: #17191d;
+  --ds-ink: #eeeae2;
+  --ds-muted: #88898e;
+  --ds-line: rgba(238,234,226,0.16);
+  --ds-accent: #cfd6a3;
+  --ds-accent-dark: #a19f94;
+  --ds-accent-ink: #0b0c0f;
+  --ds-accent-soft: #202329;
+  --ds-hero-from: #17191d;
+  --ds-hero-to: #0b0c0f;
+  --ds-radius: 0px;
+  --ds-radius-pill: 0px;
+  --ds-head-font: var(--font-geist-sans), system-ui, sans-serif;
+  --ds-body-font: var(--font-geist-sans), system-ui, sans-serif;
+  --ds-head-weight: 500;
+  --ds-head-spacing: -0.05em;
+  color-scheme: dark;
+}
+
+/* 02 Baseline — 信頼を積み上げるクラブ */
+.ds[data-theme="baseline"] {
+  --ds-bg: #082b4a;
+  --ds-alt: #0c3559;
+  --ds-surface: #0c3559;
+  --ds-ink: #f0e8d2;
+  --ds-muted: #b6c7cc;
+  --ds-line: rgba(237,229,203,0.32);
+  --ds-accent: #e9dfc4;
+  --ds-accent-dark: #c5e0de;
+  --ds-accent-ink: #082b4a;
+  --ds-accent-soft: #e9dfc4;
+  --ds-hero-from: #0c3559;
+  --ds-hero-to: #082b4a;
+  --ds-radius: 0px;
+  --ds-radius-pill: 0px;
+  --ds-head-font: "Hiragino Mincho ProN", "Yu Mincho", Georgia, serif;
+  --ds-body-font: var(--font-geist-sans), system-ui, sans-serif;
+  --ds-head-weight: 400;
+  --ds-head-spacing: 0.02em;
+  color-scheme: dark;
+}
+
+/* 03 AI Studio — 未来を試作するラボ */
+.ds[data-theme="ai-studio"] {
+  --ds-bg: #07050e;
+  --ds-alt: #0c0815;
+  --ds-surface: #0c0815;
+  --ds-ink: #f4effa;
+  --ds-muted: #a393af;
+  --ds-line: rgba(182,126,255,0.27);
+  --ds-accent: #b67eff;
+  --ds-accent-dark: #aaffdc;
+  --ds-accent-ink: #0b0711;
+  --ds-accent-soft: #151022;
+  --ds-hero-from: #0c0815;
+  --ds-hero-to: #07050e;
+  --ds-radius: 0px;
+  --ds-radius-pill: 0px;
+  --ds-head-font: var(--font-orbitron), var(--font-geist-sans), system-ui, sans-serif;
+  --ds-body-font: var(--font-geist-sans), system-ui, sans-serif;
+  --ds-head-weight: 600;
+  --ds-head-spacing: -0.045em;
+  color-scheme: dark;
+}
+
+/* 04 Codescan — 現場を見通す管制室 */
+.ds[data-theme="codescan"] {
+  --ds-bg: #050706;
+  --ds-alt: #0a0f0c;
+  --ds-surface: #0a0f0c;
+  --ds-ink: #cfddd3;
+  --ds-muted: #6f8478;
+  --ds-line: rgba(125,255,176,0.24);
+  --ds-accent: #7dffb0;
+  --ds-accent-dark: #eaff7d;
+  --ds-accent-ink: #04140b;
+  --ds-accent-soft: #101a14;
+  --ds-hero-from: #0a0f0c;
+  --ds-hero-to: #050706;
+  --ds-radius: 0px;
+  --ds-radius-pill: 0px;
+  --ds-head-font: "SFMono-Regular", Menlo, Consolas, "Courier New", monospace;
+  --ds-body-font: "SFMono-Regular", Menlo, Consolas, "Courier New", monospace;
+  --ds-head-weight: 600;
+  --ds-head-spacing: 0.02em;
+  color-scheme: dark;
+}
+
+/* 05 Laocoon — 技術を彫刻する工房 */
+.ds[data-theme="laocoon"] {
+  --ds-bg: #07161d;
+  --ds-alt: #0d2029;
+  --ds-surface: #0d2029;
+  --ds-ink: #eadbc8;
+  --ds-muted: #93a3a6;
+  --ds-line: rgba(234,219,200,0.22);
+  --ds-accent: #c98b46;
+  --ds-accent-dark: #e5b877;
+  --ds-accent-ink: #07161d;
+  --ds-accent-soft: #132b36;
+  --ds-hero-from: #0d2029;
+  --ds-hero-to: #07161d;
+  --ds-radius: 0px;
+  --ds-radius-pill: 0px;
+  --ds-head-font: "Hiragino Mincho ProN", "Yu Mincho", Georgia, serif;
+  --ds-body-font: var(--font-geist-sans), system-ui, sans-serif;
+  --ds-head-weight: 400;
+  --ds-head-spacing: 0.04em;
+  color-scheme: dark;
+}
+
+/* 06 Wanderlust — 遠くまで伴走する開発 */
+.ds[data-theme="wanderlust"] {
+  --ds-bg: #151d20;
+  --ds-alt: #1d272a;
+  --ds-surface: #1d272a;
+  --ds-ink: #eee9dc;
+  --ds-muted: #98a29b;
+  --ds-line: rgba(238,233,220,0.18);
+  --ds-accent: #d9b382;
+  --ds-accent-dark: #8fa38a;
+  --ds-accent-ink: #151d20;
+  --ds-accent-soft: #263235;
+  --ds-hero-from: #1d272a;
+  --ds-hero-to: #151d20;
+  --ds-radius: 2px;
+  --ds-radius-pill: 2px;
+  --ds-head-font: var(--font-geist-sans), system-ui, sans-serif;
+  --ds-body-font: var(--font-geist-sans), system-ui, sans-serif;
+  --ds-head-weight: 600;
+  --ds-head-spacing: -0.02em;
+  color-scheme: dark;
+}
+
+/* 07 Soda — 触れて選べるソフトウェア */
+.ds[data-theme="soda"] {
+  --ds-bg: #fff5f0;
+  --ds-alt: #ffe3dd;
+  --ds-surface: #ffffff;
+  --ds-ink: #37121d;
+  --ds-muted: #7a4450;
+  --ds-line: rgba(55,18,29,0.18);
+  --ds-accent: #77213a;
+  --ds-accent-dark: #ffc83d;
+  --ds-accent-ink: #fff5f0;
+  --ds-accent-soft: #ffe3dd;
+  --ds-hero-from: #fff5f0;
+  --ds-hero-to: #ff6b75;
+  --ds-radius: 22px;
+  --ds-radius-pill: 999px;
+  --ds-head-font: var(--font-geist-sans), system-ui, sans-serif;
+  --ds-body-font: var(--font-geist-sans), system-ui, sans-serif;
+  --ds-head-weight: 800;
+  --ds-head-spacing: -0.03em;
+  color-scheme: light;
+}
+
+/* 08 Vesper — 思考するインターフェース */
+.ds[data-theme="vesper"] {
+  --ds-bg: #060713;
+  --ds-alt: #0c1024;
+  --ds-surface: #0c1024;
+  --ds-ink: #edf9f5;
+  --ds-muted: #8697a3;
+  --ds-line: rgba(110,231,200,0.22);
+  --ds-accent: #6ee7c8;
+  --ds-accent-dark: #9db8ff;
+  --ds-accent-ink: #04120e;
+  --ds-accent-soft: #131a33;
+  --ds-hero-from: #0c1024;
+  --ds-hero-to: #060713;
+  --ds-radius: 22px;
+  --ds-radius-pill: 999px;
+  --ds-head-font: var(--font-geist-sans), system-ui, sans-serif;
+  --ds-body-font: var(--font-geist-sans), system-ui, sans-serif;
+  --ds-head-weight: 600;
+  --ds-head-spacing: -0.04em;
+  color-scheme: dark;
+}
+
+/* 09 New Era — 小さな光から大きな変化へ */
+.ds[data-theme="new-era"] {
+  --ds-bg: #020714;
+  --ds-alt: #071329;
+  --ds-surface: #071329;
+  --ds-ink: #f1f5ff;
+  --ds-muted: #8592ac;
+  --ds-line: rgba(255,125,53,0.28);
+  --ds-accent: #ff7d35;
+  --ds-accent-dark: #4b8fff;
+  --ds-accent-ink: #1a0a02;
+  --ds-accent-soft: #0f2144;
+  --ds-hero-from: #071329;
+  --ds-hero-to: #020714;
+  --ds-radius: 0px;
+  --ds-radius-pill: 0px;
+  --ds-head-font: var(--font-orbitron), var(--font-geist-sans), system-ui, sans-serif;
+  --ds-body-font: var(--font-geist-sans), system-ui, sans-serif;
+  --ds-head-weight: 600;
+  --ds-head-spacing: -0.045em;
+  color-scheme: dark;
+}
+
+/* 10 Stride — 事業を前進させる技術 */
+.ds[data-theme="stride"] {
+  --ds-bg: #031a49;
+  --ds-alt: #04225d;
+  --ds-surface: #04225d;
+  --ds-ink: #eef5ff;
+  --ds-muted: #9db4d6;
+  --ds-line: rgba(124,196,255,0.26);
+  --ds-accent: #7cc4ff;
+  --ds-accent-dark: #5ee6a8;
+  --ds-accent-ink: #031a49;
+  --ds-accent-soft: #082e75;
+  --ds-hero-from: #04225d;
+  --ds-hero-to: #031a49;
+  --ds-radius: 4px;
+  --ds-radius-pill: 4px;
+  --ds-head-font: var(--font-geist-sans), system-ui, sans-serif;
+  --ds-body-font: var(--font-geist-sans), system-ui, sans-serif;
+  --ds-head-weight: 700;
+  --ds-head-spacing: -0.04em;
+  color-scheme: dark;
+}
+
+/* 11 Loopstack — 言葉の後ろで咲く仕組み */
+.ds[data-theme="loopstack"] {
+  --ds-bg: #030304;
+  --ds-alt: #0d0b10;
+  --ds-surface: #0d0b10;
+  --ds-ink: #ffffff;
+  --ds-muted: #8d8794;
+  --ds-line: rgba(255,255,255,0.18);
+  --ds-accent: #e86ab5;
+  --ds-accent-dark: #c8ff4d;
+  --ds-accent-ink: #1a0410;
+  --ds-accent-soft: #171320;
+  --ds-hero-from: #0d0b10;
+  --ds-hero-to: #030304;
+  --ds-radius: 22px;
+  --ds-radius-pill: 999px;
+  --ds-head-font: var(--font-geist-sans), system-ui, sans-serif;
+  --ds-body-font: var(--font-geist-sans), system-ui, sans-serif;
+  --ds-head-weight: 500;
+  --ds-head-spacing: -0.06em;
+  color-scheme: dark;
+}
+
+/* 12 Auralis — 変化し続ける開発スタジオ */
+.ds[data-theme="auralis"] {
+  --ds-bg: #ffffff;
+  --ds-alt: #eceeef;
+  --ds-surface: #ffffff;
+  --ds-ink: #151719;
+  --ds-muted: #5f6669;
+  --ds-line: rgba(21,23,25,0.18);
+  --ds-accent: #2f3437;
+  --ds-accent-dark: #8b9296;
+  --ds-accent-ink: #ffffff;
+  --ds-accent-soft: #eceeef;
+  --ds-hero-from: #ffffff;
+  --ds-hero-to: #d8dadb;
+  --ds-radius: 22px;
+  --ds-radius-pill: 999px;
+  --ds-head-font: var(--font-geist-sans), system-ui, sans-serif;
+  --ds-body-font: var(--font-geist-sans), system-ui, sans-serif;
+  --ds-head-weight: 600;
+  --ds-head-spacing: -0.05em;
+  color-scheme: light;
+}
+
+/* 13 Altitude — 視界の先まで見通す */
+.ds[data-theme="altitude"] {
+  --ds-bg: #071426;
+  --ds-alt: #0c1e35;
+  --ds-surface: #0c1e35;
+  --ds-ink: #f2eee2;
+  --ds-muted: #8fa0b3;
+  --ds-line: rgba(242,238,226,0.2);
+  --ds-accent: #e8a33d;
+  --ds-accent-dark: #6fa8dc;
+  --ds-accent-ink: #071426;
+  --ds-accent-soft: #132a46;
+  --ds-hero-from: #0c1e35;
+  --ds-hero-to: #071426;
+  --ds-radius: 2px;
+  --ds-radius-pill: 2px;
+  --ds-head-font: var(--font-geist-sans), system-ui, sans-serif;
+  --ds-body-font: var(--font-geist-sans), system-ui, sans-serif;
+  --ds-head-weight: 600;
+  --ds-head-spacing: -0.035em;
+  color-scheme: dark;
+}
+
+/* 14 Forma — 相談から形が立ち上がる */
+.ds[data-theme="forma"] {
+  --ds-bg: #f4f1ff;
+  --ds-alt: #e3ddfa;
+  --ds-surface: #ffffff;
+  --ds-ink: #251744;
+  --ds-muted: #5c4f80;
+  --ds-line: rgba(37,23,68,0.18);
+  --ds-accent: #4a2fa8;
+  --ds-accent-dark: #ffb37a;
+  --ds-accent-ink: #f4f1ff;
+  --ds-accent-soft: #e3ddfa;
+  --ds-hero-from: #f4f1ff;
+  --ds-hero-to: #b6a2ee;
+  --ds-radius: 12px;
+  --ds-radius-pill: 12px;
+  --ds-head-font: var(--font-geist-sans), system-ui, sans-serif;
+  --ds-body-font: var(--font-geist-sans), system-ui, sans-serif;
+  --ds-head-weight: 700;
+  --ds-head-spacing: -0.04em;
+  color-scheme: light;
+}
+
+/* 15 Vexon — データを競争力へ変える */
+.ds[data-theme="vexon"] {
+  --ds-bg: #020304;
+  --ds-alt: #060b08;
+  --ds-surface: #060b08;
+  --ds-ink: #effff6;
+  --ds-muted: #6f8a7c;
+  --ds-line: rgba(0,255,156,0.22);
+  --ds-accent: #00ff9c;
+  --ds-accent-dark: #7de3ff;
+  --ds-accent-ink: #01130a;
+  --ds-accent-soft: #0b140f;
+  --ds-hero-from: #060b08;
+  --ds-hero-to: #020304;
+  --ds-radius: 0px;
+  --ds-radius-pill: 0px;
+  --ds-head-font: "SFMono-Regular", Menlo, Consolas, "Courier New", monospace;
+  --ds-body-font: "SFMono-Regular", Menlo, Consolas, "Courier New", monospace;
+  --ds-head-weight: 600;
+  --ds-head-spacing: 0.01em;
+  color-scheme: dark;
+}

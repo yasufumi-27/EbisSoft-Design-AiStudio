@@ -3,8 +3,10 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 
 import "../demosite.css";
+import "../../proposal-themes.css";
 
 import { demoSiteNav, siteDemoPicks } from "@/lib/demoSite";
+import { industryProposal, proposalById } from "@/lib/designProposals";
 import { demoSites, getDemoSite } from "@/lib/demoSiteData";
 import { getIndustry } from "@/lib/showcaseData";
 import { demoPropsFor } from "@/lib/demoProps";
@@ -71,12 +73,16 @@ export default async function DemoSitePage({ params }: { params: Promise<{ indus
   const data = getIndustry(industry);
   if (!site || !data) notFound();
 
+  // この職種のサイトを、どのデザイン案で作るか
+  const proposal = proposalById(industryProposal[industry]);
+
   const nav = demoSiteNav(site);
   // 中身まで職種のものになっているデモだけを載せる（siteDemoPicks のコメント参照）
   const demos = siteDemoPicks(data.picks);
 
   return (
-    <div className="ds" data-theme={site.theme}>
+    // 職種ごとに割り当てたデザイン案で描く（designProposals.ts の industryProposal）
+    <div className="ds" data-theme={proposal.id}>
       {/* ---------- デモであることの明示（全ページ共通・常時表示） ---------- */}
       <div className="ds-bar">
         <div className="ds-wrap ds-bar-inner">
@@ -86,6 +92,10 @@ export default async function DemoSitePage({ params }: { params: Promise<{ indus
             は架空の事業者で、住所・電話番号・お客様の声もすべて架空です。
             {siteConfig.name}が「{data.name}
             のホームページを作るとこうなる」を見せるために制作しました。
+          </span>
+          <span className="ds-bar-design">
+            DESIGN {proposal.no} / {proposal.name}
+            <i>{proposal.jp}</i>
           </span>
           <a className="ds-bar-link" href={`${siteConfig.url}/showcase/${data.slug}`}>
             この構成の説明を見る →

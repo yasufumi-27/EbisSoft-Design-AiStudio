@@ -17,6 +17,13 @@
  * - 見た目は Tailwind ではなく専用の `demosite.css`（数KB）で作っています。
  *   本サイトの暗いテーマと戦わずに、職種ごとの明るい配色へ切り替えるためです。
  *
+ * 【どのデザイン案で作るか】
+ * 配色と字面は**職種ごとにデザイン案を割り当てて**決めています
+ * （`designProposals.ts` の `industryProposal`）。以前の "clean" / "warm" といった
+ * 汎用プリセットはやめました。同じ内容でも案が変われば別のサイトに見える、という
+ * ことを見せるのがこのページの役目だからです。
+ * どの案で作った画面かは、上部の帯に必ず出すこと。
+ *
  * 【正直さのルール】
  * 掲載している会社名・住所・電話番号・お客様の声は**すべて架空**です。
  * 実在の事業者と誤認されないよう、画面上部の帯とフッターで必ずその旨を出すこと。
@@ -24,9 +31,6 @@
  */
 
 import type { DemoSlug, ShowcasePick } from "@/lib/showcase";
-
-/** 配色と字面のプリセット。職種の「らしさ」はほぼここで決まる */
-export type DemoSiteTheme = "clean" | "warm" | "care" | "bold" | "elegant" | "trust";
 
 export type DemoSiteData = {
   /** `showcaseData.ts` の職種スラッグと対応させる（メニューやデモの中身を引くため） */
@@ -37,7 +41,6 @@ export type DemoSiteData = {
   brandEn: string;
   /** ヘッダー右の一言（キャッチ） */
   brandNote: string;
-  theme: DemoSiteTheme;
   /** ヒーローの大見出し（2行に割るため配列） */
   hero: string[];
   /** ヒーローのリード文 */

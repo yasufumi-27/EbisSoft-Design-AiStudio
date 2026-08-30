@@ -5,6 +5,7 @@ import { ja } from "@/lib/typography";
 import { JsonLd } from "@/components/JsonLd";
 import { breadcrumbJsonLd, capabilitiesJsonLd, webPageJsonLd } from "@/lib/jsonld";
 import { capabilities, planForBand } from "@/lib/content";
+import { demoProposal, proposalById } from "@/lib/designProposals";
 import { siteConfig } from "@/lib/site";
 import { Section } from "@/components/ui/Section";
 import { PageHeader } from "@/components/ui/PageHeader";
@@ -103,6 +104,17 @@ export default function DemoIndexPage() {
                     </h2>
                     <span className="font-display rounded-none border border-gold/30 bg-gold/10 px-2 py-0.5 text-[10px] font-bold tracking-wider text-gold-light">
                       実装 {c.buildTime}
+                    </span>
+                    {/* デモはそれぞれ別のデザイン案で作ってある。どの案かを一覧でも示す */}
+                    <span
+                      className="font-display rounded-none border px-2 py-0.5 text-[10px] font-bold tracking-wider"
+                      style={{
+                        borderColor: proposalById(demoProposal[c.slug]).tokens.accent,
+                        color: proposalById(demoProposal[c.slug]).tokens.accent,
+                      }}
+                    >
+                      DESIGN {proposalById(demoProposal[c.slug]).no}{" "}
+                      {proposalById(demoProposal[c.slug]).name}
                     </span>
                   </div>
                   <p className="mt-1.5 text-sm text-brand-light">

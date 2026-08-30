@@ -4,7 +4,7 @@ import { Section, SectionHeading } from "@/components/ui/Section";
 import { Icon } from "@/components/ui/icons";
 import { industries } from "@/lib/showcaseData";
 import { demoSites } from "@/lib/demoSiteData";
-import type { DemoSiteTheme } from "@/lib/demoSite";
+import { industryProposal, proposalById } from "@/lib/designProposals";
 import { ja } from "@/lib/typography";
 
 /**
@@ -30,14 +30,14 @@ import { ja } from "@/lib/typography";
 const FEATURED = ["clinic", "construction", "restaurant", "manufacturing", "beauty", "realestate"];
 
 /** デモサイトの配色プリセットを、カードのミニプレビューの色に対応させる。 */
-const THEME_SWATCH: Record<DemoSiteTheme, string> = {
-  clean: "from-sky-400 to-blue-500",
-  warm: "from-amber-400 to-orange-500",
-  care: "from-emerald-400 to-teal-500",
-  bold: "from-orange-500 to-rose-500",
-  elegant: "from-fuchsia-400 to-violet-500",
-  trust: "from-cyan-400 to-indigo-500",
-};
+/**
+ * ミニプレビューの見出しバーの色。
+ * 職種ごとに割り当てたデザイン案のアクセント色をそのまま使う
+ * （実際に開いたデモサイトの主色と一致するので、一覧と中身が食い違わない）。
+ */
+function swatchFor(slug: string): string {
+  return proposalById(industryProposal[slug]).tokens.accent;
+}
 
 export function WorkSamples() {
   const items = FEATURED.map((slug) => {
@@ -74,7 +74,8 @@ export function WorkSamples() {
               </div>
               <div className="mt-3 space-y-1.5">
                 <span
-                  className={`block h-2.5 w-2/3 rounded-full bg-gradient-to-r ${THEME_SWATCH[site.theme]}`}
+                  className="block h-2.5 w-2/3 rounded-full"
+                  style={{ background: swatchFor(industry.slug) }}
                 />
                 <span className="block h-1.5 w-full rounded-full bg-white/10" />
                 <span className="block h-1.5 w-4/5 rounded-full bg-white/10" />

@@ -1,4 +1,7 @@
 @import "tailwindcss";
+/* デザイン案15種のテーマ（scripts/proposal-themes.py が生成）。
+   できることのデモを案ごとの見た目に切り替えるために読み込む。 */
+@import "./proposal-themes.css";
 
 /*
  * デザイントークン（Tailwind v4 @theme）。
@@ -1003,6 +1006,338 @@ main h3 {
 }
 .ai-table tbody tr:hover td {
   background: rgba(182, 126, 255, 0.05);
+}
+
+/* ============================================================
+ * できることのデモ：デザイン案ごとの見た目
+ *
+ * 実際の色・角の丸み・書体は `--dp-*`（proposal-themes.css の `.dp-<案ID>`）が
+ * 決めます。ここに書くのは「どの変数をどこに使うか」だけです。
+ * デモを包む要素に `dp-vesper` などを付け替えると、下の指定がまとめて別の案になります。
+ * ============================================================ */
+
+/* デモを置く面。案の地の色をここで敷く（サイト本体の紫は透けさせない） */
+.dp-scope {
+  background: var(--dp-bg);
+  color: var(--dp-ink);
+  border: 1px solid var(--dp-line);
+}
+.dp-scope :where(h1, h2, h3, h4) {
+  font-family: var(--dp-head-font);
+  letter-spacing: var(--dp-head-spacing);
+  font-weight: var(--dp-head-weight);
+  color: var(--dp-ink);
+}
+/* 本文まわりの色。デモ側は Tailwind の text-slate-* を多用しているので、
+   その見え方も案の色に寄せる（個々のデモを書き換えずに済ませるため） */
+.dp-scope :where(.text-slate-300, .text-slate-400, .text-slate-500, .text-slate-600) {
+  color: var(--dp-muted);
+}
+.dp-scope :where(.text-white) {
+  color: var(--dp-ink);
+}
+.dp-scope :where(.text-brand, .text-brand-light, .text-gold, .text-gold-light) {
+  color: var(--dp-accent);
+}
+
+/* ---- デモの外枠 ---- */
+.dp-stage {
+  position: relative;
+  overflow: hidden;
+  min-width: 0;
+  background: var(--dp-surface);
+  border: 1px solid var(--dp-line);
+  border-radius: min(var(--dp-radius), 18px);
+}
+.dp-stage-bar {
+  display: flex;
+  min-width: 0;
+  align-items: center;
+  gap: 0.375rem;
+  padding: 0.75rem;
+  border-bottom: 1px solid var(--dp-line);
+  background: var(--dp-surface-2);
+}
+@media (min-width: 640px) {
+  .dp-stage-bar {
+    padding: 0.75rem 1rem;
+  }
+}
+/* 左上の3つの点。角を丸めない案では四角にして、案の形の言語に合わせる */
+.dp-dot {
+  flex: none;
+  width: 0.55rem;
+  height: 0.55rem;
+  border-radius: min(var(--dp-radius), 999px);
+  background: var(--dp-muted);
+  opacity: 0.55;
+}
+.dp-dot:nth-child(1) {
+  background: var(--dp-accent);
+  opacity: 0.9;
+}
+.dp-dot:nth-child(2) {
+  background: var(--dp-accent-2);
+  opacity: 0.8;
+}
+.dp-stage-label {
+  margin-left: 0.5rem;
+  min-width: 0;
+  flex: 1;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-family: var(--dp-head-font);
+  font-size: 0.56rem;
+  letter-spacing: var(--dp-label-spacing);
+  text-transform: uppercase;
+  color: var(--dp-muted);
+}
+@media (min-width: 640px) {
+  .dp-stage-label {
+    margin-left: 0.75rem;
+    font-size: 0.62rem;
+  }
+}
+.dp-stage-status {
+  min-width: 0;
+  flex-shrink: 1;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-family: var(--dp-head-font);
+  font-size: 0.56rem;
+  letter-spacing: var(--dp-label-spacing);
+  color: var(--dp-accent);
+}
+
+/* ---- 英字ラベル ---- */
+.dp-label {
+  font-family: var(--dp-head-font);
+  font-size: 0.58rem;
+  font-weight: 600;
+  letter-spacing: var(--dp-label-spacing);
+  text-transform: uppercase;
+  color: var(--dp-muted);
+}
+.dp-label-value {
+  color: var(--dp-accent);
+  font-variant-numeric: tabular-nums;
+}
+
+/* ---- 選択チップ ---- */
+.dp-chip {
+  border: 1px solid var(--dp-line);
+  border-radius: min(var(--dp-radius), 999px);
+  background: var(--dp-surface-2);
+  padding: 0.375rem 0.75rem;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--dp-muted);
+  transition: background-color 0.25s ease, color 0.25s ease, border-color 0.25s ease;
+}
+.dp-chip:enabled:hover {
+  color: var(--dp-ink);
+  border-color: var(--dp-accent);
+}
+.dp-chip[data-active] {
+  background: var(--dp-accent);
+  border-color: var(--dp-accent);
+  color: var(--dp-accent-ink);
+}
+.dp-chip:disabled {
+  cursor: not-allowed;
+  opacity: 0.4;
+}
+
+/* ---- スイッチ ---- */
+.dp-switch {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.625rem;
+  border: 1px solid var(--dp-line);
+  border-radius: min(var(--dp-radius), 999px);
+  background: var(--dp-surface-2);
+  padding: 0.375rem 0.75rem;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--dp-ink);
+  transition: border-color 0.25s ease;
+}
+.dp-switch:hover {
+  border-color: var(--dp-accent);
+}
+.dp-switch-track {
+  position: relative;
+  flex: none;
+  width: 2rem;
+  height: 1rem;
+  border-radius: min(var(--dp-radius), 999px);
+  background: var(--dp-line);
+  transition: background-color 0.25s ease;
+}
+.dp-switch-track[data-on] {
+  background: var(--dp-accent);
+}
+.dp-switch-knob {
+  position: absolute;
+  top: 0.125rem;
+  left: 0.125rem;
+  width: 0.75rem;
+  height: 0.75rem;
+  border-radius: min(var(--dp-radius), 999px);
+  background: var(--dp-surface);
+  transition: left 0.25s ease;
+}
+.dp-switch-track[data-on] .dp-switch-knob {
+  left: 1.125rem;
+  background: var(--dp-accent-ink);
+}
+
+/* ---- 注記 ---- */
+.dp-note {
+  border: 1px solid var(--dp-line);
+  border-radius: min(var(--dp-radius), 18px);
+  background: var(--dp-surface);
+  padding: 1rem;
+  font-size: 0.75rem;
+  line-height: 1.8;
+  color: var(--dp-muted);
+}
+.dp-note-label {
+  margin-right: 0.5rem;
+  font-family: var(--dp-head-font);
+  font-size: 0.56rem;
+  font-weight: 700;
+  letter-spacing: var(--dp-label-spacing);
+  text-transform: uppercase;
+  color: var(--dp-accent-2);
+}
+
+/* ---- スライダー（案のアクセント色でつまみを描く） ---- */
+.dp-scope .demo-range {
+  accent-color: var(--dp-accent);
+}
+.dp-scope .demo-range::-webkit-slider-thumb {
+  background: var(--dp-accent);
+  border-color: var(--dp-accent-ink);
+}
+.dp-scope .demo-range::-moz-range-thumb {
+  background: var(--dp-accent);
+  border-color: var(--dp-accent-ink);
+}
+
+/* ---- デモ本体が使っている共通クラスを、案のトークンへ写像する ----
+ * 15のデモは Tailwind のユーティリティ（.panel / .btn / bg-white/5 など）で
+ * 組まれています。デモを1本ずつ書き換えるのではなく、`.dp-scope` の中でだけ
+ * それらの見え方を案の変数に差し替えます（機能には一切触れずに姿だけ変える）。
+ *
+ * クラス名に "/" や "[" を含むもの（bg-brand/[0.07] など）は、属性の部分一致で拾います。
+ * セレクタは2クラス相当なので、Tailwind の単一クラスより必ず優先されます。 */
+.dp-scope .panel {
+  background: var(--dp-surface);
+  border-color: var(--dp-line);
+  border-radius: min(var(--dp-radius), 18px);
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+}
+.dp-scope .panel:hover {
+  background: var(--dp-surface-2);
+}
+.dp-scope .panel-corners::before,
+.dp-scope .panel-corners::after {
+  border-color: var(--dp-accent);
+}
+.dp-scope .btn {
+  font-family: var(--dp-head-font);
+  letter-spacing: var(--dp-label-spacing);
+  border-radius: min(var(--dp-radius), 999px);
+}
+.dp-scope .btn-primary {
+  background: var(--dp-accent);
+  color: var(--dp-accent-ink);
+}
+.dp-scope .btn-primary:hover {
+  background: var(--dp-accent-2);
+  box-shadow: none;
+}
+.dp-scope .btn-secondary,
+.dp-scope .btn-ghost {
+  color: var(--dp-ink);
+  background: transparent;
+  box-shadow: inset 0 0 0 1px var(--dp-accent);
+}
+.dp-scope .btn-secondary:hover,
+.dp-scope .btn-ghost:hover {
+  background: color-mix(in srgb, var(--dp-accent) 14%, transparent);
+  box-shadow: inset 0 0 0 1px var(--dp-accent);
+}
+.dp-scope .field {
+  border-radius: min(var(--dp-radius), 12px);
+  border-color: var(--dp-line);
+  background: var(--dp-surface-2);
+  color: var(--dp-ink);
+}
+.dp-scope .field:focus {
+  border-color: var(--dp-accent);
+  background: var(--dp-surface);
+  box-shadow: 0 0 0 2px color-mix(in srgb, var(--dp-accent) 30%, transparent);
+}
+.dp-scope .demo-note {
+  border-color: var(--dp-line);
+  background: var(--dp-surface);
+  color: var(--dp-muted);
+}
+/* 罫線・面の薄いユーティリティ */
+.dp-scope [class*="border-white/"],
+.dp-scope [class*="border-brand/"],
+.dp-scope [class*="border-gold/"] {
+  border-color: var(--dp-line);
+}
+.dp-scope [class*="border-brand/"] {
+  border-color: var(--dp-accent);
+}
+.dp-scope [class*="bg-white/"] {
+  background-color: var(--dp-surface-2);
+}
+.dp-scope [class*="bg-ink"] {
+  background-color: var(--dp-surface);
+}
+.dp-scope [class*="bg-brand/"],
+.dp-scope [class*="bg-gold/"] {
+  background-color: color-mix(in srgb, var(--dp-accent) 16%, transparent);
+}
+/* 読み込み中の枠も案の面で描く（切り替わる瞬間に色が飛ばないように） */
+.dp-scope .animate-pulse {
+  color: var(--dp-muted);
+}
+
+/* ---- デモに添える「この案で作っています」の帯 ---- */
+.dp-credit {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0.5rem 1rem;
+  padding: 0.85rem 1rem;
+  border: 1px solid var(--dp-line);
+  border-bottom: 0;
+  background: var(--dp-surface-2);
+  font-family: var(--dp-head-font);
+  font-size: 0.56rem;
+  letter-spacing: var(--dp-label-spacing);
+  text-transform: uppercase;
+  color: var(--dp-muted);
+}
+.dp-credit b {
+  font-weight: 700;
+  color: var(--dp-accent);
+}
+.dp-credit span {
+  text-transform: none;
+  letter-spacing: 0.02em;
+  font-family: var(--font-sans);
+  font-size: 0.72rem;
+  color: var(--dp-muted);
 }
 
 /* Multi-route design study pages. */

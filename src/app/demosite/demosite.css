@@ -6,13 +6,17 @@
  *     すべての色を上書きすることになり、かえって記述量が増える。
  *  2. デモサイトはページ単位で読み込まれるため、CSSも小さく独立しているほうが速い。
  *
- * 配色は `data-theme` で切り替えます（職種の「らしさ」はほぼここで決まります）。
+ * 配色は `data-theme` で切り替えます。値は**デザイン案15種のID**で、
+ * 実際の変数は `src/app/proposal-themes.css`（`scripts/proposal-themes.py` が
+ * `designProposals.ts` から生成）が与えます。どの職種にどの案を当てるかは
+ * `designProposals.ts` の `industryProposal` が持っています。
  * 変数だけを差し替え、レイアウトのCSSは全職種で共有します
- *  ＝ WordPressのテーマ1つで、内容だけ職種ごとに変えているのと同じ構造です。
+ *  ＝ テーマ1つで、内容と配色だけ職種ごとに変えているのと同じ構造です。
  */
 
 .ds {
-  /* 既定（clean） */
+  /* 既定。実際には data-theme（デザイン案のID）が必ず上書きするので、
+     ここは案が見つからなかったときの保険。 */
   --ds-bg: #ffffff;
   --ds-alt: #f4f7fb;
   --ds-surface: #ffffff;
@@ -26,6 +30,7 @@
   --ds-hero-from: #eef4fc;
   --ds-hero-to: #dbe8f8;
   --ds-radius: 10px;
+  --ds-radius-pill: 999px;
   --ds-head-font: var(--font-geist-sans), system-ui, sans-serif;
   --ds-body-font: var(--font-geist-sans), system-ui, sans-serif;
   --ds-head-weight: 700;
@@ -42,82 +47,10 @@
   isolation: isolate;
 }
 
-.ds[data-theme="warm"] {
-  --ds-bg: #fffdf8;
-  --ds-alt: #f7f0e4;
-  --ds-ink: #2c2118;
-  --ds-muted: #6f6152;
-  --ds-line: #e7dcc9;
-  --ds-accent: #a8642a;
-  --ds-accent-dark: #834a17;
-  --ds-accent-soft: #f6ebdb;
-  --ds-hero-from: #f8f1e5;
-  --ds-hero-to: #eddfc7;
-  --ds-radius: 4px;
-  --ds-head-font: "Hiragino Mincho ProN", "Yu Mincho", serif;
-  --ds-head-spacing: 0.08em;
-}
 
-.ds[data-theme="care"] {
-  --ds-bg: #ffffff;
-  --ds-alt: #eef8f5;
-  --ds-ink: #17302c;
-  --ds-muted: #547069;
-  --ds-line: #d8ebe5;
-  --ds-accent: #178f74;
-  --ds-accent-dark: #0e6d58;
-  --ds-accent-soft: #e2f4ef;
-  --ds-hero-from: #eafaf5;
-  --ds-hero-to: #d3efe6;
-  --ds-radius: 16px;
-}
 
-.ds[data-theme="bold"] {
-  --ds-bg: #ffffff;
-  --ds-alt: #14181f;
-  --ds-ink: #14181f;
-  --ds-muted: #5d6673;
-  --ds-line: #dde1e7;
-  --ds-accent: #e2472b;
-  --ds-accent-dark: #b8351d;
-  --ds-accent-soft: #fdeae6;
-  --ds-hero-from: #1b2028;
-  --ds-hero-to: #0d1116;
-  --ds-radius: 2px;
-  --ds-head-spacing: 0.02em;
-  --ds-head-weight: 800;
-}
 
-.ds[data-theme="elegant"] {
-  --ds-bg: #fffdfd;
-  --ds-alt: #f6f1f2;
-  --ds-ink: #2a2126;
-  --ds-muted: #6d5f66;
-  --ds-line: #e6dcdf;
-  --ds-accent: #8b5f75;
-  --ds-accent-dark: #6c4459;
-  --ds-accent-soft: #f4ebef;
-  --ds-hero-from: #f8f2f4;
-  --ds-hero-to: #ece0e5;
-  --ds-radius: 0px;
-  --ds-head-font: "Hiragino Mincho ProN", "Yu Mincho", serif;
-  --ds-head-spacing: 0.12em;
-  --ds-head-weight: 600;
-}
 
-.ds[data-theme="trust"] {
-  --ds-bg: #ffffff;
-  --ds-alt: #f2f5f9;
-  --ds-ink: #1b2432;
-  --ds-muted: #5a6779;
-  --ds-line: #dde4ed;
-  --ds-accent: #17497e;
-  --ds-accent-dark: #0f3560;
-  --ds-accent-soft: #e7eef7;
-  --ds-hero-from: #eaf0f8;
-  --ds-hero-to: #d5e1f0;
-  --ds-radius: 6px;
-}
 
 /* ---------------- 共通の骨格 ---------------- */
 
@@ -147,24 +80,9 @@
   background: var(--ds-alt);
 }
 
-.ds[data-theme="bold"] .ds-section--alt {
-  background: var(--ds-alt);
-  color: #f3f5f8;
-}
 
-.ds[data-theme="bold"] .ds-section--alt :where(h2, h3, h4) {
-  color: #ffffff;
-}
 
-.ds[data-theme="bold"] .ds-section--alt .ds-lead,
-.ds[data-theme="bold"] .ds-section--alt .ds-card p {
-  color: #b9c1cd;
-}
 
-.ds[data-theme="bold"] .ds-section--alt .ds-card {
-  background: #1d232c;
-  border-color: #2c333e;
-}
 
 .ds-head {
   max-width: 46rem;
@@ -365,14 +283,7 @@
   overflow: hidden;
 }
 
-.ds[data-theme="bold"] .ds-hero {
-  color: #f4f6f9;
-}
 
-.ds[data-theme="bold"] .ds-hero h1,
-.ds[data-theme="bold"] .ds-hero .ds-hero-lead {
-  color: #ffffff;
-}
 
 .ds-hero-grid {
   display: grid;
@@ -398,9 +309,6 @@
   max-width: 32rem;
 }
 
-.ds[data-theme="bold"] .ds-hero-lead {
-  color: #c2cad6;
-}
 
 .ds-hero-actions {
   display: flex;
@@ -482,7 +390,7 @@
   display: inline-flex;
   align-items: center;
   gap: 0.5rem;
-  border-radius: var(--ds-radius);
+  border-radius: var(--ds-radius-pill, var(--ds-radius));
   padding: 0.85rem 1.6rem;
   font-size: 0.9rem;
   font-weight: 700;
@@ -496,6 +404,18 @@
   color: var(--ds-accent-ink);
 }
 
+/* ボタンはほとんどが <a>。`.ds a { color: inherit }` は要素セレクタを含むぶん
+   `.ds-btn--primary` より詳細度が高く、そのままだとボタンの文字色が効かない
+   （アクセント色の上に地の文字色が乗って読めなくなる）。要素まで書いて上書きする。 */
+.ds a.ds-btn--primary,
+.ds button.ds-btn--primary {
+  color: var(--ds-accent-ink);
+}
+.ds a.ds-btn--ghost,
+.ds button.ds-btn--ghost {
+  color: var(--ds-ink);
+}
+
 .ds-btn--primary:hover {
   background: var(--ds-accent-dark);
 }
@@ -506,11 +426,6 @@
   background: color-mix(in srgb, var(--ds-bg) 70%, transparent);
 }
 
-.ds[data-theme="bold"] .ds-hero .ds-btn--ghost {
-  color: #ffffff;
-  border-color: rgba(255, 255, 255, 0.4);
-  background: transparent;
-}
 
 .ds-btn--sm {
   padding: 0.5rem 1.05rem;
@@ -924,4 +839,27 @@
     transition-duration: 0.01ms !important;
     animation-duration: 0.01ms !important;
   }
+}
+
+/* ---- どのデザイン案で作った画面かを、デモの告知帯に添える ---- */
+.ds-bar-design {
+  display: inline-flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0.5rem;
+  font-family: var(--ds-head-font);
+  font-size: 0.62rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--ds-accent);
+  white-space: nowrap;
+}
+.ds-bar-design i {
+  font-style: normal;
+  font-weight: 400;
+  letter-spacing: 0.02em;
+  text-transform: none;
+  font-size: 0.72rem;
+  color: var(--ds-muted);
 }

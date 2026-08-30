@@ -4,10 +4,20 @@ import type { ReactNode } from "react";
 
 /**
  * デモ共通のUI部品。
- * 各デモで見た目と操作感を統一し、実装（デモ本体）に集中できるようにします。
+ *
+ * 【デザイン案ごとに姿を変える】
+ * ここに書く色・角の丸み・書体は、すべて `--dp-*` というCSS変数から読みます。
+ * 変数の中身は `src/app/proposal-themes.css`（`scripts/proposal-themes.py` が
+ * `src/lib/designProposals.ts` から生成）が、`.dp-<案ID>` クラスで与えます。
+ *
+ * つまり、デモを包む要素に `dp-vesper` などを付け替えるだけで、
+ * 15のデモそれぞれが**別のデザイン案の見た目**になります。
+ * どのデモにどの案を当てるかは `designProposals.ts` の `demoProposal` が持っています。
+ *
+ * デモの機能・文言は案によって変わりません。変わるのは見た目だけです。
  */
 
-/** デモの外枠（HUD風のタイトルバー付きパネル）。 */
+/** デモの外枠（タイトルバー付きのパネル）。 */
 export function DemoStage({
   label,
   status,
@@ -28,20 +38,16 @@ export function DemoStage({
   const main = dot > 0 ? label.slice(dot + 1) : label;
 
   return (
-    <div className={`panel panel-corners overflow-hidden ${className}`}>
-      <div className="flex min-w-0 items-center gap-1.5 border-b border-white/10 px-3 py-3 sm:px-4">
-        <span className="size-2.5 shrink-0 rounded-full bg-rose-400/70" />
-        <span className="size-2.5 shrink-0 rounded-full bg-amber-300/70" />
-        <span className="size-2.5 shrink-0 rounded-full bg-emerald-400/70" />
-        <span className="font-display ml-2 min-w-0 flex-1 truncate text-[9px] tracking-[0.08em] text-slate-500 uppercase sm:ml-3 sm:text-[10px] sm:tracking-[0.25em]">
+    <div className={`dp-stage ${className}`}>
+      <div className="dp-stage-bar">
+        <span className="dp-dot" />
+        <span className="dp-dot" />
+        <span className="dp-dot" />
+        <span className="dp-stage-label">
           {prefix ? <span className="hidden sm:inline">{prefix}</span> : null}
           {main}
         </span>
-        {status ? (
-          <span className="font-display min-w-0 shrink truncate text-[9px] tracking-normal text-brand-light sm:text-[10px] sm:tracking-widest">
-            {status}
-          </span>
-        ) : null}
+        {status ? <span className="dp-stage-status">{status}</span> : null}
       </div>
       {children}
     </div>
@@ -60,15 +66,13 @@ export function ControlGroup({
 }) {
   return (
     <div className={className}>
-      <p className="font-display mb-2 text-[10px] font-bold tracking-[0.25em] text-slate-500 uppercase">
-        {label}
-      </p>
+      <p className="dp-label mb-2">{label}</p>
       <div className="flex flex-wrap gap-2">{children}</div>
     </div>
   );
 }
 
-/** 選択式のトグルボタン（選択中はシアンで発光）。 */
+/** 選択式のトグルボタン（選択中はその案のアクセント色になる）。 */
 export function ChipButton({
   active,
   onClick,
@@ -90,11 +94,8 @@ export function ChipButton({
       title={title}
       disabled={disabled}
       aria-pressed={active}
-      className={`rounded-lg border px-3 py-1.5 text-xs font-semibold transition-all disabled:cursor-not-allowed disabled:opacity-40 ${
-        active
-          ? "border-brand/60 bg-brand/15 text-brand-light shadow-[0_0_16px_rgba(34,211,238,0.28)]"
-          : "border-white/10 bg-white/5 text-slate-400 enabled:hover:border-white/25 enabled:hover:text-slate-200"
-      }`}
+      className="dp-chip"
+      data-active={active ? "" : undefined}
     >
       {children}
     </button>
@@ -117,19 +118,10 @@ export function SwitchButton({
       role="switch"
       aria-checked={checked}
       onClick={() => onChange(!checked)}
-      className="inline-flex items-center gap-2.5 rounded-lg border border-white/10 bg-white/5 px-3 py-1.5 text-xs font-semibold text-slate-300 transition-colors hover:border-white/25"
+      className="dp-switch"
     >
-      <span
-        aria-hidden
-        className={`relative h-4 w-8 shrink-0 rounded-full transition-colors ${
-          checked ? "bg-brand/70" : "bg-white/15"
-        }`}
-      >
-        <span
-          className={`absolute top-0.5 size-3 rounded-full bg-white transition-all ${
-            checked ? "left-4.5 shadow-[0_0_8px_rgba(34,211,238,0.9)]" : "left-0.5"
-          }`}
-        />
+      <span aria-hidden className="dp-switch-track" data-on={checked ? "" : undefined}>
+        <span className="dp-switch-knob" />
       </span>
       {children}
     </button>
@@ -156,9 +148,9 @@ export function RangeControl({
 }) {
   return (
     <label className="block">
-      <span className="font-display mb-2 flex items-center justify-between text-[10px] font-bold tracking-[0.25em] text-slate-500 uppercase">
+      <span className="dp-label mb-2 flex items-center justify-between">
         {label}
-        <span className="text-brand-light">
+        <span className="dp-label-value">
           {value}
           {suffix}
         </span>
@@ -182,10 +174,8 @@ export function RangeControl({
  */
 export function DemoNote({ children }: { children: ReactNode }) {
   return (
-    <p className="rounded-xl border border-gold/25 bg-gold/[0.06] p-4 text-xs leading-relaxed text-slate-400">
-      <span className="font-display mr-2 text-[10px] font-bold tracking-[0.2em] text-gold uppercase">
-        Note
-      </span>
+    <p className="dp-note">
+      <span className="dp-note-label">Note</span>
       {children}
     </p>
   );

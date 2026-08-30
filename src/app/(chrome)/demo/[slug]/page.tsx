@@ -10,6 +10,7 @@ import { siteConfig } from "@/lib/site";
 import { Container } from "@/components/ui/Container";
 import { Section, SectionHeading } from "@/components/ui/Section";
 import { PageHeader, artFor } from "@/components/ui/PageHeader";
+import { demoProposal, proposalById } from "@/lib/designProposals";
 import { Breadcrumbs } from "@/components/site/Breadcrumbs";
 import { ButtonLink } from "@/components/ui/Button";
 import { Icon } from "@/components/ui/icons";
@@ -63,6 +64,9 @@ export default async function DemoDetailPage({
   const { slug } = await params;
   const cap = getCapability(slug);
   if (!cap) notFound();
+
+  // このデモを作ったデザイン案（15のデモに15案を1対1で割り当てている）
+  const proposal = proposalById(demoProposal[cap.slug]);
 
   const others = capabilities.filter((c) => c.slug !== cap.slug);
   const plan = planForBand(cap.priceBand);
@@ -130,10 +134,23 @@ export default async function DemoDetailPage({
         </div>
       </PageHeader>
 
-      {/* ------------- 実際に動くデモ ------------- */}
+      {/* ------------- 実際に動くデモ -------------
+          デモは「できることの見本」なので、サイト本体（03 AI STUDIO）ではなく
+          **デモごとに違うデザイン案**で作ってあります。どの案かは designProposals.ts
+          の demoProposal が持っていて、その案の色・書体・角の丸みは
+          `dp-<案ID>` クラス（proposal-themes.css）が与えます。
+          どの案で作った画面なのかは、必ず上の帯で明示すること。 */}
       <section id="demo" className="scroll-mt-20 pb-4">
         <Container>
-          <DemoLoader slug={cap.slug} />
+          <div className={`dp-scope dp-${proposal.id} p-4 sm:p-6`}>
+            <p className="dp-credit">
+              <b>
+                DESIGN {proposal.no} / {proposal.name}
+              </b>
+              <span>{proposal.jp}｜{proposal.note}</span>
+            </p>
+            <DemoLoader slug={cap.slug} />
+          </div>
 
           <div className="mt-5 grid gap-4 lg:grid-cols-2">
             <div className="panel p-5" data-reveal>
