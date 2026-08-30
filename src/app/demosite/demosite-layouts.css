@@ -1,0 +1,392 @@
+/**
+ * 職種別デモサイトのレイアウト。
+ *
+ * 色だけを差し替えるテーマとは分離し、情報の優先順位・ヒーロー・ナビ・カード・
+ * セクション順を職種ごとに変える。各セレクタは data-industry に閉じ込めること。
+ */
+
+.ds > main {
+  display: flex;
+  flex-direction: column;
+}
+
+.ds-hero { order: -20; }
+.ds-news { order: -10; }
+.ds-block-about { order: 10; }
+.ds-block-menu { order: 20; }
+.ds-block-feature { order: 30; }
+.ds-block-works { order: 40; }
+.ds-block-voices { order: 50; }
+.ds-block-flow { order: 60; }
+.ds-block-faq { order: 70; }
+.ds-block-access { order: 80; }
+.ds-block-contact { order: 90; }
+
+.ds-hero-kicker {
+  display: block;
+  margin-bottom: 1rem;
+  color: var(--ds-accent);
+  font-family: var(--ds-head-font);
+  font-size: 0.66rem;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+}
+
+.ds-hero-copy,
+.ds-hero-visual {
+  min-width: 0;
+}
+
+.ds-visual-mark {
+  position: absolute;
+  z-index: 1;
+  inset: 1rem auto auto 1rem;
+  max-width: calc(100% - 2rem);
+  color: color-mix(in srgb, var(--ds-ink) 60%, transparent);
+  font-family: var(--ds-head-font);
+  font-size: clamp(1rem, 2.4vw, 2rem);
+  letter-spacing: 0.08em;
+  line-height: 1;
+  text-transform: uppercase;
+}
+
+/* 01 小売 — 商品棚を巡るエディトリアルストア */
+.ds[data-industry="retail"] .ds-header-inner { flex-wrap: wrap; padding-block: 1.1rem 0.65rem; }
+.ds[data-industry="retail"] .ds-brand { width: 100%; justify-content: space-between; }
+.ds[data-industry="retail"] .ds-nav { order: 3; width: 100%; justify-content: center; border-top: 1px solid var(--ds-line); padding-top: 0.65rem; }
+.ds[data-industry="retail"] .ds-hero-grid { grid-template-columns: 0.82fr 1.18fr; }
+.ds[data-industry="retail"] .ds-hero-visual { order: -1; aspect-ratio: 5 / 6; }
+.ds[data-industry="retail"] .ds-hero-copy { padding-left: clamp(0rem, 4vw, 4rem); }
+.ds[data-industry="retail"] .ds-menu-list { grid-template-columns: repeat(3, 1fr); gap: 1rem; border: 0; }
+.ds[data-industry="retail"] .ds-menu-row { align-content: space-between; min-height: 11rem; padding: 1.3rem; border: 1px solid var(--ds-line); background: var(--ds-surface); }
+.ds[data-industry="retail"] .ds-menu-row .ds-price { width: 100%; margin: auto 0 0; }
+.ds[data-industry="retail"] .ds-block-works .ds-grid--3 { grid-template-columns: 1.4fr 0.8fr 0.8fr; align-items: start; }
+.ds[data-industry="retail"] .ds-block-menu { order: 1; }
+.ds[data-industry="retail"] .ds-block-about { order: 2; }
+.ds[data-industry="retail"] .ds-block-works { order: 3; }
+.ds[data-industry="retail"] .ds-block-feature { order: 4; }
+
+/* 02 飲食 — お品書きと余白を主役にする割烹 */
+.ds[data-industry="restaurant"] .ds-wrap { width: min(1040px, calc(100% - 3rem)); }
+.ds[data-industry="restaurant"] .ds-header { border-bottom: 0; }
+.ds[data-industry="restaurant"] .ds-header-inner { justify-content: center; padding-block: 1.3rem; }
+.ds[data-industry="restaurant"] .ds-brand { flex-direction: column; align-items: center; gap: 0; margin-right: auto; }
+.ds[data-industry="restaurant"] .ds-hero { padding-block: 0; }
+.ds[data-industry="restaurant"] .ds-hero-grid { width: 100%; max-width: none; grid-template-columns: minmax(18rem, 0.75fr) 1.25fr; gap: 0; }
+.ds[data-industry="restaurant"] .ds-hero-copy { padding: clamp(3rem, 8vw, 8rem) clamp(2rem, 6vw, 6rem); }
+.ds[data-industry="restaurant"] .ds-hero-visual { height: 100%; min-height: 42rem; border: 0; border-radius: 0; aspect-ratio: auto; }
+.ds[data-industry="restaurant"] .ds-hero h1 { font-size: clamp(2.3rem, 5vw, 4.5rem); writing-mode: vertical-rl; min-height: 8em; margin-inline: auto; }
+.ds[data-industry="restaurant"] .ds-points { display: grid; }
+.ds[data-industry="restaurant"] .ds-news { width: min(760px, calc(100% - 3rem)); margin-inline: auto; border: 0; padding-block: 2rem; }
+.ds[data-industry="restaurant"] .ds-menu-list { grid-template-columns: 1fr 1fr; gap: 0 3rem; }
+.ds[data-industry="restaurant"] .ds-menu-row { padding-block: 1.35rem; }
+.ds[data-industry="restaurant"] .ds-block-menu { order: 1; }
+.ds[data-industry="restaurant"] .ds-block-works { order: 2; }
+.ds[data-industry="restaurant"] .ds-block-about { order: 3; }
+
+/* 03 クリニック — 予約と安心を最短で見せる医療ポータル */
+.ds[data-industry="clinic"] .ds-header { box-shadow: 0 8px 30px color-mix(in srgb, var(--ds-accent) 8%, transparent); }
+.ds[data-industry="clinic"] .ds-hero { padding-block: clamp(2rem, 5vw, 4rem); }
+.ds[data-industry="clinic"] .ds-hero-grid { grid-template-columns: 1.08fr 0.92fr; }
+.ds[data-industry="clinic"] .ds-hero-copy { position: relative; z-index: 2; background: var(--ds-surface); border: 1px solid var(--ds-line); border-radius: 2rem; padding: clamp(2rem, 5vw, 4rem); margin-right: -5rem; box-shadow: 0 20px 60px color-mix(in srgb, var(--ds-accent) 12%, transparent); }
+.ds[data-industry="clinic"] .ds-hero-visual { border-radius: 10rem 2rem 2rem 10rem; min-height: 34rem; }
+.ds[data-industry="clinic"] .ds-points li { background: var(--ds-accent-soft); border-radius: 999px; padding: 0.4rem 0.8rem; }
+.ds[data-industry="clinic"] .ds-block-about .ds-card:first-child { grid-column: span 2; display: grid; grid-template-columns: auto 1fr; gap: 1rem; align-items: center; }
+.ds[data-industry="clinic"] .ds-block-about .ds-grid--3 { grid-template-columns: 1fr 1fr; }
+.ds[data-industry="clinic"] .ds-block-flow { order: 1; }
+.ds[data-industry="clinic"] .ds-block-menu { order: 2; }
+.ds[data-industry="clinic"] .ds-block-about { order: 3; }
+.ds[data-industry="clinic"] .ds-block-faq { order: 4; }
+
+/* 04 製造 — 図面と数値で構成する技術管制画面 */
+.ds[data-industry="manufacturing"] { background-image: linear-gradient(var(--ds-line) 1px, transparent 1px), linear-gradient(90deg, var(--ds-line) 1px, transparent 1px); background-size: 44px 44px; }
+.ds[data-industry="manufacturing"] .ds-header-inner { min-height: 5rem; }
+.ds[data-industry="manufacturing"] .ds-brand { border-left: 4px solid var(--ds-accent); padding-left: 1rem; }
+.ds[data-industry="manufacturing"] .ds-nav { font-family: ui-monospace, monospace; text-transform: uppercase; }
+.ds[data-industry="manufacturing"] .ds-hero-grid { grid-template-columns: 0.72fr 1.28fr; align-items: stretch; }
+.ds[data-industry="manufacturing"] .ds-hero-copy { border: 1px solid var(--ds-line); padding: 2rem; background: var(--ds-bg); }
+.ds[data-industry="manufacturing"] .ds-hero-visual { border-radius: 0; min-height: 35rem; }
+.ds[data-industry="manufacturing"] .ds-visual-mark { inset: auto 1rem 1rem auto; font-family: ui-monospace, monospace; }
+.ds[data-industry="manufacturing"] .ds-block-about .ds-grid--3 { display: block; border-top: 1px solid var(--ds-line); }
+.ds[data-industry="manufacturing"] .ds-block-about .ds-card { display: grid; grid-template-columns: 5rem 16rem 1fr; gap: 1rem; border: 0; border-bottom: 1px solid var(--ds-line); border-radius: 0; background: transparent; }
+.ds[data-industry="manufacturing"] .ds-menu-row { font-family: ui-monospace, monospace; }
+.ds[data-industry="manufacturing"] .ds-block-feature { order: 1; }
+.ds[data-industry="manufacturing"] .ds-block-about { order: 2; }
+.ds[data-industry="manufacturing"] .ds-block-menu { order: 3; }
+
+/* 05 不動産 — 物件写真が連なる検索ポータル */
+.ds[data-industry="realestate"] .ds-hero { padding: 0 0 4rem; }
+.ds[data-industry="realestate"] .ds-hero-grid { width: 100%; max-width: none; display: block; }
+.ds[data-industry="realestate"] .ds-hero-visual { aspect-ratio: 21 / 8; border-radius: 0; border-inline: 0; }
+.ds[data-industry="realestate"] .ds-hero-copy { position: relative; z-index: 2; width: min(760px, calc(100% - 3rem)); margin: -7rem auto 0; background: var(--ds-bg); border: 1px solid var(--ds-line); padding: clamp(2rem, 5vw, 4rem); box-shadow: 0 20px 50px rgb(0 0 0 / 14%); }
+.ds[data-industry="realestate"] .ds-points { justify-content: space-between; }
+.ds[data-industry="realestate"] .ds-block-works .ds-grid--3 { grid-template-columns: 1.5fr 1fr; }
+.ds[data-industry="realestate"] .ds-block-works .ds-work:first-child { grid-row: span 2; }
+.ds[data-industry="realestate"] .ds-block-works .ds-work:first-child .ds-photo { aspect-ratio: 4 / 5; }
+.ds[data-industry="realestate"] .ds-menu-list { grid-template-columns: repeat(2, 1fr); gap: 0 2rem; }
+.ds[data-industry="realestate"] .ds-block-works { order: 1; }
+.ds[data-industry="realestate"] .ds-block-menu { order: 2; }
+.ds[data-industry="realestate"] .ds-block-feature { order: 3; }
+
+/* 06 建設 — 大きな番号で工程を刻むプロジェクトボード */
+.ds[data-industry="construction"] .ds-hero { border-bottom: 12px solid var(--ds-accent); }
+.ds[data-industry="construction"] .ds-hero-grid { grid-template-columns: 1.2fr 0.8fr; }
+.ds[data-industry="construction"] .ds-hero h1 { font-size: clamp(2.6rem, 6vw, 5.5rem); line-height: 1.08; text-transform: uppercase; }
+.ds[data-industry="construction"] .ds-hero-visual { transform: rotate(2deg); border: 8px solid var(--ds-surface); box-shadow: 16px 16px 0 var(--ds-accent); }
+.ds[data-industry="construction"] .ds-block-about .ds-grid--3 { display: block; counter-reset: build; }
+.ds[data-industry="construction"] .ds-block-about .ds-card { counter-increment: build; display: grid; grid-template-columns: 8rem 1fr 1.4fr; align-items: center; border-width: 0 0 1px; border-radius: 0; background: transparent; }
+.ds[data-industry="construction"] .ds-block-about .ds-card::before { content: "0" counter(build); font-size: 4rem; font-weight: 900; color: var(--ds-accent); }
+.ds[data-industry="construction"] .ds-block-about .ds-num { display: none; }
+.ds[data-industry="construction"] .ds-flow { display: flex; flex-direction: column; padding-left: 3rem; border-left: 4px solid var(--ds-accent); }
+.ds[data-industry="construction"] .ds-flow li { max-width: 70%; }
+.ds[data-industry="construction"] .ds-flow li:nth-child(even) { margin-left: auto; }
+.ds[data-industry="construction"] .ds-block-works { order: 1; }
+.ds[data-industry="construction"] .ds-block-flow { order: 2; }
+.ds[data-industry="construction"] .ds-block-about { order: 3; }
+
+/* 07 スクール — カードが跳ねるキャンパス案内 */
+.ds[data-industry="school"] .ds-hero-grid { grid-template-columns: 1fr 0.8fr; }
+.ds[data-industry="school"] .ds-hero-visual { border-radius: 48% 52% 42% 58% / 55% 42% 58% 45%; transform: rotate(-3deg); }
+.ds[data-industry="school"] .ds-hero-copy { padding: 2rem; }
+.ds[data-industry="school"] .ds-points { border: 0; }
+.ds[data-industry="school"] .ds-points li { border: 2px solid var(--ds-accent); border-radius: 1rem; padding: 0.5rem 0.9rem; transform: rotate(-1deg); }
+.ds[data-industry="school"] .ds-card { border-width: 2px; box-shadow: 6px 6px 0 var(--ds-accent); }
+.ds[data-industry="school"] .ds-card:nth-child(2) { transform: translateY(2rem) rotate(1deg); }
+.ds[data-industry="school"] .ds-flow { grid-template-columns: 1fr 1fr; }
+.ds[data-industry="school"] .ds-flow li { min-height: 11rem; border-radius: 2rem; }
+.ds[data-industry="school"] .ds-block-about { order: 1; }
+.ds[data-industry="school"] .ds-block-flow { order: 2; }
+.ds[data-industry="school"] .ds-block-feature { order: 3; }
+
+/* 08 士業 — 読ませる紙面型の法律事務所 */
+.ds[data-industry="legal"] .ds-wrap { width: min(920px, calc(100% - 3rem)); }
+.ds[data-industry="legal"] .ds-header-inner { border-inline: 1px solid var(--ds-line); padding-inline: 1.5rem; }
+.ds[data-industry="legal"] .ds-hero-grid { grid-template-columns: 1.25fr 0.75fr; gap: 5rem; }
+.ds[data-industry="legal"] .ds-hero h1 { font-size: clamp(2rem, 4vw, 3.2rem); border-top: 1px solid var(--ds-ink); border-bottom: 1px solid var(--ds-ink); padding-block: 1.5rem; }
+.ds[data-industry="legal"] .ds-hero-visual { aspect-ratio: 3 / 5; border-radius: 0; }
+.ds[data-industry="legal"] .ds-news-list li { display: grid; grid-template-columns: 7rem 6rem 1fr; }
+.ds[data-industry="legal"] .ds-block-about .ds-grid--3 { display: block; columns: 2; column-gap: 4rem; }
+.ds[data-industry="legal"] .ds-block-about .ds-card { break-inside: avoid; border: 0; border-top: 1px solid var(--ds-line); border-radius: 0; background: transparent; padding-inline: 0; }
+.ds[data-industry="legal"] .ds-faq { columns: 2; column-gap: 3rem; border: 0; }
+.ds[data-industry="legal"] .ds-faq details { break-inside: avoid; border-top: 1px solid var(--ds-line); }
+.ds[data-industry="legal"] .ds-block-faq { order: 1; }
+.ds[data-industry="legal"] .ds-block-about { order: 2; }
+.ds[data-industry="legal"] .ds-block-menu { order: 3; }
+
+/* 09 美容 — 写真と大見出しを重ねるファッション誌 */
+.ds[data-industry="beauty"] .ds-header { background: transparent; position: absolute; top: 0; width: 100%; border: 0; }
+.ds[data-industry="beauty"] .ds-hero { padding-block: 0; }
+.ds[data-industry="beauty"] .ds-hero-grid { width: 100%; max-width: none; grid-template-columns: 0.9fr 1.1fr; gap: 0; }
+.ds[data-industry="beauty"] .ds-hero-copy { padding: clamp(7rem, 13vw, 12rem) clamp(2rem, 8vw, 8rem) 5rem; }
+.ds[data-industry="beauty"] .ds-hero h1 { font-size: clamp(3rem, 7vw, 7rem); line-height: 0.98; letter-spacing: -0.07em; }
+.ds[data-industry="beauty"] .ds-hero-visual { order: -1; border: 0; border-radius: 0 0 14rem 0; height: 54rem; aspect-ratio: auto; }
+.ds[data-industry="beauty"] .ds-menu-list { grid-template-columns: repeat(2, 1fr); gap: 2.5rem; border: 0; }
+.ds[data-industry="beauty"] .ds-menu-row { display: grid; grid-template-columns: 1fr auto; padding: 1.5rem 0; }
+.ds[data-industry="beauty"] .ds-menu-row .ds-cat { border: 0; padding: 0; }
+.ds[data-industry="beauty"] .ds-block-works .ds-work:nth-child(2) { margin-top: 5rem; }
+.ds[data-industry="beauty"] .ds-block-works .ds-work:nth-child(3) { margin-top: 10rem; }
+.ds[data-industry="beauty"] .ds-block-works { order: 1; }
+.ds[data-industry="beauty"] .ds-block-menu { order: 2; }
+.ds[data-industry="beauty"] .ds-block-voices { order: 3; }
+
+/* 10 フィットネス — 斜線と高密度なトレーニングボード */
+.ds[data-industry="fitness"] .ds-hero { clip-path: polygon(0 0, 100% 0, 100% 92%, 0 100%); padding-bottom: 8rem; }
+.ds[data-industry="fitness"] .ds-hero-grid { grid-template-columns: 1.3fr 0.7fr; }
+.ds[data-industry="fitness"] .ds-hero h1 { font-size: clamp(3rem, 7vw, 6.5rem); line-height: 0.95; text-transform: uppercase; font-style: italic; }
+.ds[data-industry="fitness"] .ds-hero-visual { transform: skewX(-5deg); border-width: 4px; min-height: 35rem; }
+.ds[data-industry="fitness"] .ds-points { display: grid; grid-template-columns: repeat(3, 1fr); }
+.ds[data-industry="fitness"] .ds-points li { display: block; border-left: 3px solid var(--ds-accent); padding-left: 0.75rem; font-size: 0.75rem; }
+.ds[data-industry="fitness"] .ds-block-about .ds-card { transform: skewX(-2deg); }
+.ds[data-industry="fitness"] .ds-flow { display: flex; gap: 0; }
+.ds[data-industry="fitness"] .ds-flow li { flex: 1; border-radius: 0; border-right: 0; }
+.ds[data-industry="fitness"] .ds-block-feature { order: 1; }
+.ds[data-industry="fitness"] .ds-block-flow { order: 2; }
+.ds[data-industry="fitness"] .ds-block-about { order: 3; }
+
+/* 11 ホテル — 全画面写真と予約バーのラグジュアリーサイト */
+.ds[data-industry="hotel"] .ds-header { position: absolute; top: 0; width: 100%; background: transparent; border: 0; color: var(--ds-ink); }
+.ds[data-industry="hotel"] .ds-header-inner { padding-block: 1.5rem; }
+.ds[data-industry="hotel"] .ds-hero { min-height: 82vh; padding: 0; display: grid; }
+.ds[data-industry="hotel"] .ds-hero-grid { width: 100%; max-width: none; display: grid; grid-template: "stack" 1fr / 1fr; }
+.ds[data-industry="hotel"] .ds-hero-copy, .ds[data-industry="hotel"] .ds-hero-visual { grid-area: stack; }
+.ds[data-industry="hotel"] .ds-hero-visual { border: 0; border-radius: 0; min-height: 82vh; aspect-ratio: auto; }
+.ds[data-industry="hotel"] .ds-hero-visual::before { content: ""; position: absolute; inset: 0; z-index: 1; background: linear-gradient(90deg, color-mix(in srgb, var(--ds-bg) 88%, transparent), transparent 70%); }
+.ds[data-industry="hotel"] .ds-hero-copy { z-index: 2; align-self: center; width: min(1120px, calc(100% - 3rem)); margin-inline: auto; }
+.ds[data-industry="hotel"] .ds-hero h1 { font-size: clamp(3rem, 7vw, 6.5rem); max-width: 9em; }
+.ds[data-industry="hotel"] .ds-points { position: absolute; z-index: 3; inset: auto 5vw 2rem; background: var(--ds-surface); padding: 1.2rem 2rem; justify-content: space-around; border: 1px solid var(--ds-line); }
+.ds[data-industry="hotel"] .ds-block-works .ds-grid--3 { grid-template-columns: 2fr 1fr 1fr; }
+.ds[data-industry="hotel"] .ds-block-works { order: 1; }
+.ds[data-industry="hotel"] .ds-block-menu { order: 2; }
+.ds[data-industry="hotel"] .ds-block-feature { order: 3; }
+
+/* 12 物流 — 稼働状況を並べるオペレーションダッシュボード */
+.ds[data-industry="logistics"] .ds-wrap { width: min(1240px, calc(100% - 2rem)); }
+.ds[data-industry="logistics"] .ds-header-inner { border: 1px solid var(--ds-line); border-top: 0; padding-inline: 1rem; }
+.ds[data-industry="logistics"] .ds-hero { padding-block: 2rem; }
+.ds[data-industry="logistics"] .ds-hero-grid { grid-template-columns: 0.8fr 1.2fr; align-items: stretch; }
+.ds[data-industry="logistics"] .ds-hero-copy, .ds[data-industry="logistics"] .ds-hero-visual { border: 1px solid var(--ds-line); padding: 2rem; background: var(--ds-surface); border-radius: 0; }
+.ds[data-industry="logistics"] .ds-hero-visual { aspect-ratio: auto; min-height: 30rem; background-image: repeating-linear-gradient(90deg, transparent 0 9%, var(--ds-line) 9% 9.2%), repeating-linear-gradient(0deg, transparent 0 14%, var(--ds-line) 14% 14.2%); }
+.ds[data-industry="logistics"] .ds-news { border-block: 1px solid var(--ds-line); background: var(--ds-surface); }
+.ds[data-industry="logistics"] .ds-news-list { grid-template-columns: repeat(3, 1fr); }
+.ds[data-industry="logistics"] .ds-news-list li { display: grid; border-right: 1px solid var(--ds-line); padding-right: 1rem; }
+.ds[data-industry="logistics"] .ds-menu-list { grid-template-columns: repeat(3, 1fr); border-left: 1px solid var(--ds-line); }
+.ds[data-industry="logistics"] .ds-menu-row { display: grid; padding: 1rem; border-right: 1px solid var(--ds-line); }
+.ds[data-industry="logistics"] .ds-menu-row .ds-price { margin: 1rem 0 0; }
+.ds[data-industry="logistics"] .ds-block-feature { order: 1; }
+.ds[data-industry="logistics"] .ds-block-menu { order: 2; }
+.ds[data-industry="logistics"] .ds-block-flow { order: 3; }
+
+/* 13 自動車 — 車体を横長に見せるショールーム */
+.ds[data-industry="auto"] .ds-header-inner { padding-block: 1.4rem; }
+.ds[data-industry="auto"] .ds-hero { padding-top: 5rem; }
+.ds[data-industry="auto"] .ds-hero-grid { display: flex; flex-direction: column; }
+.ds[data-industry="auto"] .ds-hero-copy { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem 6rem; align-items: end; }
+.ds[data-industry="auto"] .ds-hero-copy h1 { grid-row: span 3; font-size: clamp(3rem, 7vw, 7rem); line-height: 0.95; }
+.ds[data-industry="auto"] .ds-hero-kicker { grid-column: 1 / -1; }
+.ds[data-industry="auto"] .ds-hero-visual { width: min(1300px, 100%); aspect-ratio: 21 / 7; border-radius: 0; margin-top: 3rem; }
+.ds[data-industry="auto"] .ds-visual-mark { font-size: clamp(2rem, 7vw, 6rem); opacity: 0.35; }
+.ds[data-industry="auto"] .ds-block-menu .ds-menu-list { grid-template-columns: repeat(2, 1fr); gap: 0 3rem; }
+.ds[data-industry="auto"] .ds-block-feature > .ds-wrap > .ds-grid { grid-template-columns: repeat(2, 1fr); }
+.ds[data-industry="auto"] .ds-block-feature { order: 1; }
+.ds[data-industry="auto"] .ds-block-works { order: 2; }
+.ds[data-industry="auto"] .ds-block-menu { order: 3; }
+
+/* 14 農業 — 畑の区画を思わせる有機的な分割 */
+.ds[data-industry="agriculture"] .ds-hero { border-radius: 0 0 8rem 8rem; }
+.ds[data-industry="agriculture"] .ds-hero-grid { grid-template-columns: 0.9fr 1.1fr; }
+.ds[data-industry="agriculture"] .ds-hero-visual { order: -1; border-radius: 50% 50% 8% 50%; transform: rotate(-2deg); }
+.ds[data-industry="agriculture"] .ds-hero-copy { padding: clamp(1rem, 4vw, 4rem); }
+.ds[data-industry="agriculture"] .ds-card { border-radius: 3rem 0 3rem 0; }
+.ds[data-industry="agriculture"] .ds-menu-list { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1rem; border: 0; }
+.ds[data-industry="agriculture"] .ds-menu-row { min-height: 9rem; align-content: space-between; padding: 1.5rem; background: var(--ds-surface); border: 1px solid var(--ds-line); border-radius: 0 3rem 0 3rem; }
+.ds[data-industry="agriculture"] .ds-block-works .ds-grid--3 { grid-template-columns: 1fr 1.4fr 0.8fr; }
+.ds[data-industry="agriculture"] .ds-block-about { order: 1; }
+.ds[data-industry="agriculture"] .ds-block-works { order: 2; }
+.ds[data-industry="agriculture"] .ds-block-menu { order: 3; }
+
+/* 15 ブライダル — 中央揃えの余白と写真で魅せるウェディング誌 */
+.ds[data-industry="bridal"] .ds-header-inner { justify-content: center; }
+.ds[data-industry="bridal"] .ds-brand { margin-inline: auto; flex-direction: column; align-items: center; }
+.ds[data-industry="bridal"] .ds-nav { position: absolute; left: 1rem; }
+.ds[data-industry="bridal"] .ds-header-cta { position: absolute; right: 1rem; }
+.ds[data-industry="bridal"] .ds-hero { padding-block: 3rem 7rem; text-align: center; }
+.ds[data-industry="bridal"] .ds-hero-grid { display: flex; flex-direction: column; max-width: 980px; }
+.ds[data-industry="bridal"] .ds-hero-copy { max-width: 760px; margin-inline: auto; }
+.ds[data-industry="bridal"] .ds-hero h1 { font-size: clamp(3rem, 7vw, 6rem); }
+.ds[data-industry="bridal"] .ds-hero-lead { margin-inline: auto; }
+.ds[data-industry="bridal"] .ds-hero-actions, .ds[data-industry="bridal"] .ds-points { justify-content: center; }
+.ds[data-industry="bridal"] .ds-hero-visual { order: -1; width: min(620px, 80%); margin-inline: auto; border-radius: 50% 50% 0 0; aspect-ratio: 4 / 5; }
+.ds[data-industry="bridal"] .ds-head { margin-inline: auto; text-align: center; }
+.ds[data-industry="bridal"] .ds-block-works .ds-grid--3 { grid-template-columns: 1fr 1.5fr 1fr; align-items: center; }
+.ds[data-industry="bridal"] .ds-block-works .ds-work:nth-child(2) .ds-photo { aspect-ratio: 3 / 4; }
+.ds[data-industry="bridal"] .ds-block-works { order: 1; }
+.ds[data-industry="bridal"] .ds-block-voices { order: 2; }
+.ds[data-industry="bridal"] .ds-block-menu { order: 3; }
+
+/* 16 介護 — 営業・アクセスを先に出す地域密着案内 */
+.ds[data-industry="care"] { font-size: 17px; }
+.ds[data-industry="care"] .ds-header-inner { min-height: 5.5rem; }
+.ds[data-industry="care"] .ds-hero-grid { grid-template-columns: 1fr 1fr; }
+.ds[data-industry="care"] .ds-hero h1 { font-size: clamp(2.2rem, 5vw, 4.2rem); }
+.ds[data-industry="care"] .ds-hero-visual { border-radius: 2rem; }
+.ds[data-industry="care"] .ds-points { display: grid; grid-template-columns: 1fr; border: 0; }
+.ds[data-industry="care"] .ds-points li { background: var(--ds-surface); border: 1px solid var(--ds-line); border-radius: 0.8rem; padding: 0.7rem 1rem; }
+.ds[data-industry="care"] .ds-block-access .ds-grid--2 { grid-template-columns: 1.2fr 0.8fr; }
+.ds[data-industry="care"] .ds-info th, .ds[data-industry="care"] .ds-info td { padding-block: 1.15rem; }
+.ds[data-industry="care"] .ds-block-about .ds-grid--3 { display: flex; flex-direction: column; }
+.ds[data-industry="care"] .ds-block-about .ds-card { display: grid; grid-template-columns: 4rem 15rem 1fr; align-items: center; }
+.ds[data-industry="care"] .ds-block-access { order: 1; }
+.ds[data-industry="care"] .ds-block-about { order: 2; }
+.ds[data-industry="care"] .ds-block-faq { order: 3; }
+.ds[data-industry="care"] .ds-block-menu { order: 4; }
+
+/* 17 SaaS — 機能をベントー状に並べるプロダクトLP */
+.ds[data-industry="saas"] .ds-header-inner { border: 1px solid var(--ds-line); border-radius: 999px; padding-inline: 1.2rem; margin-block: 0.7rem; }
+.ds[data-industry="saas"] .ds-header { border: 0; background: transparent; }
+.ds[data-industry="saas"] .ds-hero-grid { grid-template-columns: 0.85fr 1.15fr; }
+.ds[data-industry="saas"] .ds-hero-copy { padding-block: 4rem; }
+.ds[data-industry="saas"] .ds-hero-visual { aspect-ratio: 1; border-radius: 2rem; box-shadow: 0 0 0 1rem color-mix(in srgb, var(--ds-accent) 8%, transparent); }
+.ds[data-industry="saas"] .ds-points { display: grid; grid-template-columns: repeat(3, 1fr); }
+.ds[data-industry="saas"] .ds-block-feature > .ds-wrap > .ds-grid { grid-template-columns: repeat(2, 1fr); }
+.ds[data-industry="saas"] .ds-feature:first-child { grid-column: span 2; }
+.ds[data-industry="saas"] .ds-block-about .ds-grid--3 { grid-template-columns: 1.2fr 0.8fr; }
+.ds[data-industry="saas"] .ds-block-about .ds-card:first-child { grid-row: span 2; }
+.ds[data-industry="saas"] .ds-menu-list { grid-template-columns: repeat(3, 1fr); gap: 1rem; border: 0; }
+.ds[data-industry="saas"] .ds-menu-row { display: grid; border: 1px solid var(--ds-line); border-radius: 1rem; padding: 1.2rem; }
+.ds[data-industry="saas"] .ds-menu-row .ds-price { margin: 1rem 0 0; }
+.ds[data-industry="saas"] .ds-block-feature { order: 1; }
+.ds[data-industry="saas"] .ds-block-about { order: 2; }
+.ds[data-industry="saas"] .ds-block-menu { order: 3; }
+
+/* 18 アパレル — 縦長写真とルックブックのファッションEC */
+.ds[data-industry="apparel"] .ds-header { border: 0; }
+.ds[data-industry="apparel"] .ds-brand b { font-size: 1.45rem; letter-spacing: 0.08em; }
+.ds[data-industry="apparel"] .ds-hero { padding: 0; }
+.ds[data-industry="apparel"] .ds-hero-grid { width: 100%; max-width: none; grid-template-columns: 1.15fr 0.85fr; gap: 0; }
+.ds[data-industry="apparel"] .ds-hero-copy { padding: clamp(4rem, 10vw, 10rem); order: 2; }
+.ds[data-industry="apparel"] .ds-hero h1 { font-size: clamp(3.5rem, 8vw, 8rem); line-height: 0.9; letter-spacing: -0.08em; }
+.ds[data-industry="apparel"] .ds-hero-visual { height: 56rem; aspect-ratio: auto; border: 0; border-radius: 0; }
+.ds[data-industry="apparel"] .ds-news-list { grid-template-columns: repeat(3, 1fr); gap: 2rem; }
+.ds[data-industry="apparel"] .ds-news-list li { display: grid; }
+.ds[data-industry="apparel"] .ds-menu-list { grid-template-columns: repeat(3, 1fr); gap: 1px; background: var(--ds-line); border: 0; }
+.ds[data-industry="apparel"] .ds-menu-row { display: grid; min-height: 13rem; align-content: space-between; padding: 1.5rem; background: var(--ds-bg); border: 0; }
+.ds[data-industry="apparel"] .ds-menu-row .ds-price { margin: auto 0 0; }
+.ds[data-industry="apparel"] .ds-block-works .ds-grid--3 { grid-template-columns: 1fr 1fr; }
+.ds[data-industry="apparel"] .ds-block-works .ds-work:first-child { grid-row: span 2; }
+.ds[data-industry="apparel"] .ds-block-works .ds-work:first-child .ds-photo { aspect-ratio: 3 / 5; }
+.ds[data-industry="apparel"] .ds-block-menu { order: 1; }
+.ds[data-industry="apparel"] .ds-block-works { order: 2; }
+.ds[data-industry="apparel"] .ds-block-feature { order: 3; }
+
+/* タブレット以下では、固有レイアウトの“違い”を残しつつ1列へ安全に戻す。 */
+@media (max-width: 899px) {
+  .ds[data-industry] .ds-hero-grid,
+  .ds[data-industry] .ds-hero-copy,
+  .ds[data-industry] .ds-block-about .ds-card,
+  .ds[data-industry] .ds-block-access .ds-grid--2 {
+    grid-template-columns: 1fr;
+  }
+
+  .ds[data-industry] .ds-hero-copy { margin: 0; }
+  .ds[data-industry] .ds-hero-visual { min-height: 20rem; height: auto; }
+  .ds[data-industry] .ds-nav, .ds[data-industry] .ds-header-cta { position: static; }
+  .ds[data-industry="restaurant"] .ds-hero-grid { display: grid; }
+  .ds[data-industry="restaurant"] .ds-hero h1 { writing-mode: horizontal-tb; min-height: 0; }
+  .ds[data-industry="beauty"] .ds-header,
+  .ds[data-industry="hotel"] .ds-header { position: relative; }
+  .ds[data-industry="hotel"] .ds-points { position: static; }
+  .ds[data-industry="auto"] .ds-hero-copy { display: block; }
+  .ds[data-industry="bridal"] .ds-hero-visual { width: 100%; }
+}
+
+@media (max-width: 699px) {
+  .ds[data-industry] .ds-menu-list,
+  .ds[data-industry] .ds-news-list,
+  .ds[data-industry] .ds-block-works .ds-grid--3,
+  .ds[data-industry] .ds-block-about .ds-grid--3,
+  .ds[data-industry] .ds-block-feature > .ds-wrap > .ds-grid,
+  .ds[data-industry] .ds-flow,
+  .ds[data-industry] .ds-points {
+    display: grid;
+    grid-template-columns: 1fr;
+    columns: auto;
+  }
+
+  .ds[data-industry] .ds-menu-row,
+  .ds[data-industry] .ds-card,
+  .ds[data-industry] .ds-flow li,
+  .ds[data-industry] .ds-work,
+  .ds[data-industry] .ds-feature:first-child {
+    grid-column: auto;
+    grid-row: auto;
+    margin: 0;
+    transform: none;
+  }
+
+  .ds[data-industry="fitness"] .ds-flow { display: grid; }
+  .ds[data-industry="construction"] .ds-flow { padding-left: 1rem; }
+  .ds[data-industry="construction"] .ds-flow li { max-width: none; }
+  .ds[data-industry="legal"] .ds-faq { columns: auto; }
+  .ds[data-industry="realestate"] .ds-hero-copy { width: calc(100% - 2rem); margin-top: -2rem; }
+  .ds[data-industry="hotel"] .ds-hero-copy { width: calc(100% - 2.5rem); }
+}

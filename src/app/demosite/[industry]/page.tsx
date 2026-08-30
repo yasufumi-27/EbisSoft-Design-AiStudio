@@ -4,6 +4,7 @@ import { notFound } from "next/navigation";
 
 import "../demosite.css";
 import "../../proposal-themes.css";
+import "../demosite-layouts.css";
 
 import { demoSiteNav, siteDemoPicks } from "@/lib/demoSite";
 import { industryProposal, proposalById } from "@/lib/designProposals";
@@ -82,7 +83,7 @@ export default async function DemoSitePage({ params }: { params: Promise<{ indus
 
   return (
     // 職種ごとに割り当てたデザイン案で描く（designProposals.ts の industryProposal）
-    <div className="ds" data-theme={proposal.id}>
+    <div className="ds" data-theme={proposal.id} data-industry={industry}>
       {/* ---------- デモであることの明示（全ページ共通・常時表示） ---------- */}
       <div className="ds-bar">
         <div className="ds-wrap ds-bar-inner">
@@ -150,7 +151,8 @@ export default async function DemoSitePage({ params }: { params: Promise<{ indus
         {/* ---------- ヒーロー ---------- */}
         <section className="ds-hero" id="top">
           <div className="ds-wrap ds-hero-grid">
-            <div>
+            <div className="ds-hero-copy">
+              <span className="ds-hero-kicker">{data.name} WEBSITE CONCEPT</span>
               <h1>
                 {site.hero[0]}
                 <br />
@@ -171,7 +173,8 @@ export default async function DemoSitePage({ params }: { params: Promise<{ indus
                 ))}
               </ul>
             </div>
-            <div className="ds-photo">
+            <div className="ds-photo ds-hero-visual">
+              <strong className="ds-visual-mark">{site.brandEn}</strong>
               <span>写真が入ります（本番ではお客様の素材に差し替え）</span>
             </div>
           </div>
@@ -193,7 +196,7 @@ export default async function DemoSitePage({ params }: { params: Promise<{ indus
         </div>
 
         {/* ---------- 選ばれる理由 ---------- */}
-        <section id="about" className="ds-section">
+        <section id="about" className="ds-section ds-block-about">
           <div className="ds-wrap">
             <div className="ds-head ds-head--center">
               <span className="ds-eyebrow">About us</span>
@@ -213,7 +216,7 @@ export default async function DemoSitePage({ params }: { params: Promise<{ indus
         </section>
 
         {/* ---------- メニュー（サービス一覧） ---------- */}
-        <section id="menu" className="ds-section ds-section--alt">
+        <section id="menu" className="ds-section ds-section--alt ds-block-menu">
           <div className="ds-wrap">
             <div className="ds-head">
               <span className="ds-eyebrow">Menu</span>
@@ -240,7 +243,7 @@ export default async function DemoSitePage({ params }: { params: Promise<{ indus
         </section>
 
         {/* ---------- 実際に動く機能（このサイトの主役） ---------- */}
-        <section id="feature" className="ds-section">
+        <section id="feature" className="ds-section ds-block-feature">
           <div className="ds-wrap">
             <div className="ds-head">
               <span className="ds-eyebrow">Web features</span>
@@ -262,7 +265,7 @@ export default async function DemoSitePage({ params }: { params: Promise<{ indus
         </section>
 
         {/* ---------- 事例 ---------- */}
-        <section id="works" className="ds-section ds-section--alt">
+        <section id="works" className="ds-section ds-section--alt ds-block-works">
           <div className="ds-wrap">
             <div className="ds-head">
               <span className="ds-eyebrow">Works</span>
@@ -287,7 +290,7 @@ export default async function DemoSitePage({ params }: { params: Promise<{ indus
         </section>
 
         {/* ---------- お客様の声 ---------- */}
-        <section className="ds-section">
+        <section className="ds-section ds-block-voices">
           <div className="ds-wrap">
             <div className="ds-head ds-head--center">
               <span className="ds-eyebrow">Voice</span>
@@ -309,7 +312,7 @@ export default async function DemoSitePage({ params }: { params: Promise<{ indus
         </section>
 
         {/* ---------- ご利用の流れ ---------- */}
-        <section className="ds-section ds-section--alt">
+        <section className="ds-section ds-section--alt ds-block-flow">
           <div className="ds-wrap">
             <div className="ds-head">
               <span className="ds-eyebrow">Flow</span>
@@ -327,7 +330,7 @@ export default async function DemoSitePage({ params }: { params: Promise<{ indus
         </section>
 
         {/* ---------- よくある質問 ---------- */}
-        <section id="faq" className="ds-section">
+        <section id="faq" className="ds-section ds-block-faq">
           <div className="ds-wrap">
             <div className="ds-head">
               <span className="ds-eyebrow">FAQ</span>
@@ -345,7 +348,7 @@ export default async function DemoSitePage({ params }: { params: Promise<{ indus
         </section>
 
         {/* ---------- アクセス ---------- */}
-        <section id="access" className="ds-section ds-section--alt">
+        <section id="access" className="ds-section ds-section--alt ds-block-access">
           <div className="ds-wrap">
             <div className="ds-head">
               <span className="ds-eyebrow">Access</span>
@@ -384,7 +387,7 @@ export default async function DemoSitePage({ params }: { params: Promise<{ indus
         </section>
 
         {/* ---------- お問い合わせ ---------- */}
-        <section id="contact" className="ds-section">
+        <section id="contact" className="ds-section ds-block-contact">
           <div className="ds-wrap">
             <div className="ds-head">
               <span className="ds-eyebrow">Contact</span>

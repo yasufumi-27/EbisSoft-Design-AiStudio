@@ -10,8 +10,9 @@
  * 実際の変数は `src/app/proposal-themes.css`（`scripts/proposal-themes.py` が
  * `designProposals.ts` から生成）が与えます。どの職種にどの案を当てるかは
  * `designProposals.ts` の `industryProposal` が持っています。
- * 変数だけを差し替え、レイアウトのCSSは全職種で共有します
- *  ＝ テーマ1つで、内容と配色だけ職種ごとに変えているのと同じ構造です。
+ * このファイルはアクセシビリティと部品の共通骨格だけを持ちます。
+ * 職種ごとの情報順・ヒーロー・カード構成は `demosite-layouts.css` に分離し、
+ * `data-industry` ごとに大きく作り分けています。
  */
 
 .ds {
