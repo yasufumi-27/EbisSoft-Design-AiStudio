@@ -4,7 +4,7 @@ import { JsonLd } from "@/components/JsonLd";
 import { breadcrumbJsonLd, webPageJsonLd } from "@/lib/jsonld";
 import { siteConfig } from "@/lib/site";
 import { Section } from "@/components/ui/Section";
-import { PageHeader } from "@/components/ui/PageHeader";
+import { PageHero } from "@/components/ui/Studio";
 import { Breadcrumbs } from "@/components/site/Breadcrumbs";
 import { ja } from "@/lib/typography";
 
@@ -103,11 +103,11 @@ export default function PrivacyPage() {
 
       <Breadcrumbs items={crumbs} />
 
-      <PageHeader
+      <PageHero
+        kicker="Privacy Policy"
         art={2}
-        eyebrow="Privacy Policy"
         title="プライバシーポリシー"
-        lead={`${siteConfig.legalName}（以下「当社」）は、お客様の個人情報の重要性を認識し、以下のとおり個人情報保護方針を定め、その適切な取り扱いに努めます。`}
+        lead={`${siteConfig.legalName}は、お客様の個人情報の重要性を認識し、以下のとおり適切な取り扱いに努めます。`}
       />
 
       <Section>

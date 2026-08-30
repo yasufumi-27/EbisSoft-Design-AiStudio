@@ -1,22 +1,13 @@
 import type { Metadata } from "next";
-import Link from "next/link";
 
 import { JsonLd } from "@/components/JsonLd";
 import { breadcrumbJsonLd, faqJsonLd, webPageJsonLd } from "@/lib/jsonld";
 import { siteConfig } from "@/lib/site";
-import { consultCases, consultTopics, faqs, pageSummaries, pricingNotes, requestSteps } from "@/lib/content";
+import { faqs } from "@/lib/content";
 import { Breadcrumbs } from "@/components/site/Breadcrumbs";
-import { PageNav } from "@/components/site/PageNav";
-import { PageHeader } from "@/components/ui/PageHeader";
-import { ButtonLink } from "@/components/ui/Button";
-import { Section, SectionHeading } from "@/components/ui/Section";
-import { Icon } from "@/components/ui/icons";
-import { PageSummary } from "@/components/sections/PageSummary";
+import { PageHero, FlightList, ModuleBoard, ClosingCta } from "@/components/ui/Studio";
 import { Pricing } from "@/components/sections/Pricing";
 import { Faq } from "@/components/sections/Faq";
-import { RelatedPages } from "@/components/sections/RelatedPages";
-import { ContactCta } from "@/components/sections/ContactCta";
-import { ja } from "@/lib/typography";
 
 const title = "ご依頼・ご相談｜相談できることと料金の目安";
 const description =
@@ -52,16 +43,34 @@ const crumbs = [
   { name: "ご依頼・ご相談", path: "/request" },
 ];
 
-/** 料金は「ご依頼」の判断材料なので、このページの FAQ は price カテゴリを見せる。 */
 const requestFaqs = faqs.filter((f) => f.category === "price");
 
-/** ページ内メニュー（スクロールしても上部に残る）。 */
-const SECTIONS = [
-  { id: "topics", label: "相談できること" },
-  { id: "pricing", label: "料金の目安" },
-  { id: "flow", label: "相談の流れ" },
-  { id: "faq", label: "よくある質問" },
-  { id: "contact", label: "お問い合わせ" },
+/** 相談から着手までを3段で。心配ごとを先に消す順番で並べる。 */
+const flow = [
+  {
+    en: "TALK",
+    title: "決まっていなくて、大丈夫。",
+    body: "仕様書も予算も未定で構いません。「問い合わせを増やしたい」だけでも、そこから実現方法を一緒に整理します。",
+  },
+  {
+    en: "SHAPE",
+    title: "構成案と見積もりまで、無料。",
+    body: "目的を伺ったうえで、複数の構成案と概算費用をご提示します。内容にご納得いただけない場合は、お断りいただいて構いません。",
+  },
+  {
+    en: "START",
+    title: "小さく始めて、広げる。",
+    body: "対策だけ、調査だけ、といった部分的なご依頼も受けています。成果を確認しながら範囲を広げられます。",
+  },
+];
+
+const asks = [
+  { title: "Webサイトを作る・作り直す", note: "298,000円〜" },
+  { title: "AI機能を組み込む", note: "RAG / 音声 / 推薦" },
+  { title: "機器のソフトウェアを開発する", note: "別途お見積もり" },
+  { title: "AI検索・SEO対策だけ頼む", note: "部分依頼可" },
+  { title: "公開後の運用・改善を任せる", note: "月次で対応" },
+  { title: "できるかどうかだけ調べる", note: "技術調査のみ可" },
 ];
 
 export default function RequestPage() {
@@ -77,178 +86,61 @@ export default function RequestPage() {
 
       <Breadcrumbs items={crumbs} />
 
-      <PageHeader
+      <PageHero
+        kicker="Request"
         art={1}
-        eyebrow="Request"
         title={
           <>
-            ご依頼・
-            <br className="sm:hidden" />
-            <span className="text-gradient">ご相談</span>
+            まだ輪郭のない
+            <br />
+            相談から、<em>どうぞ</em>。
           </>
         }
-        lead="何をどこまで頼めるのか、いくらかかるのか、どう進むのか。判断に必要な情報をこのページにまとめました。初回のご相談・お見積もりは無料です。"
-      >
-        <div className="mt-8 flex flex-wrap gap-3">
-          <ButtonLink href="/contact" withArrow>
-            無料で相談する
-          </ButtonLink>
-          <ButtonLink href="#pricing" variant="ghost">
-            料金の目安を見る
-          </ButtonLink>
-        </div>
-      </PageHeader>
+        lead="何をどこまで頼めるのか、いくらかかるのか。判断に必要なことだけを、このページに置きました。"
+        actions={[
+          { href: "/contact", label: "無料で相談する", primary: true },
+          { href: "#pricing", label: "料金の目安を見る" },
+        ]}
+        note="初回相談・ヒアリング・構成案・お見積もりまで無料"
+      />
 
-      {/* ページ内メニュー：ここから下はスクロールしても常に上部に残る */}
-      <PageNav items={SECTIONS} />
+      <FlightList label="HOW IT STARTS" items={flow} />
 
-      <PageSummary items={pageSummaries.request} title="このページの要点" />
+      <ModuleBoard
+        label="WHAT YOU CAN ASK"
+        title={
+          <>
+            相談できること。
+            <br />
+            一部だけでも。
+          </>
+        }
+        lead="一式のご依頼から、対策だけ・調査だけの部分的なご依頼まで受けています。"
+        items={asks}
+        prefix="REQ"
+      />
 
-      {/* ------------- 相談できること ------------- */}
-      <Section id="topics">
-        <SectionHeading
-          eyebrow="What You Can Ask"
-          title="相談できること"
-          description="サイト一式のご依頼から、対策だけ・調査だけの部分的なご依頼まで受けています。"
-        />
-        <div className="mt-14 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-          {consultTopics.map((t, i) => (
-            <article
-              key={t.title}
-              className="panel panel-hover panel-corners flex flex-col p-7"
-              data-reveal
-              style={{ "--reveal-delay": `${(i % 3) * 0.1}s` } as React.CSSProperties}
-            >
-              <span className="grid size-12 place-items-center rounded-none bg-gradient-to-br from-brand/80 to-accent/80 text-ink shadow-[0_0_22px_rgba(182,126,255,0.35)]">
-                <Icon name={t.icon} className="size-6" />
-              </span>
-              <h3 className="mt-5 text-xl font-bold text-white">{ja(t.title)}</h3>
-              <p className="speakable mt-3 text-sm leading-relaxed text-slate-400">{ja(t.body)}</p>
-              <ul className="mt-5 flex-1 space-y-2 border-t border-brand/20 pt-5">
-                {t.items.map((item) => (
-                  <li key={item} className="flex items-start gap-2 text-sm text-slate-300">
-                    <Icon name="check" className="mt-0.5 size-4 shrink-0 text-gold" />
-                    <span className="min-w-0">{ja(item)}</span>
-                  </li>
-                ))}
-              </ul>
-              {t.href ? (
-                <Link
-                  prefetch={false}
-                  href={t.href}
-                  className="mt-6 inline-flex items-center gap-2 text-sm font-bold text-brand-light transition-colors hover:text-white"
-                >
-                  {ja(t.hrefLabel ?? "詳しく見る")}
-                  <Icon name="arrowRight" className="size-4" />
-                </Link>
-              ) : null}
-            </article>
-          ))}
-        </div>
-
-        {/* 相談のハードルを下げる例示 */}
-        <div className="panel panel-corners mt-12 p-7 sm:p-9" data-reveal>
-          <h3 className="text-lg font-bold text-white">こんな状態でも大丈夫です</h3>
-          <ul className="mt-5 grid gap-3 sm:grid-cols-2">
-            {consultCases.map((c) => (
-              <li key={c} className="flex items-start gap-2.5 text-sm text-slate-300">
-                <Icon name="chat" className="mt-0.5 size-4 shrink-0 text-brand-light" />
-                <span className="speakable min-w-0 leading-relaxed">{ja(c)}</span>
-              </li>
-            ))}
-          </ul>
-          <p className="mt-5 text-sm leading-relaxed text-slate-500">
-            {ja(
-              "決まっていないことは、こちらから質問しながら一緒に整理します。まとめてからご連絡いただく必要はありません。",
-            )}
-          </p>
-        </div>
-      </Section>
-
-      {/* ------------- 料金（Web制作ページから集約） ------------- */}
       <Pricing />
-
-      <Section id="pricing-notes" bg="deep">
-        <SectionHeading
-          eyebrow="About Pricing"
-          title="料金の考え方"
-          description="金額そのものより、何にいくらかかるのかが分かることが大事だと考えています。"
-        />
-        <div className="mt-12 grid gap-5 sm:grid-cols-2">
-          {pricingNotes.map((n, i) => (
-            <div
-              key={n.title}
-              className="panel p-6"
-              data-reveal
-              style={{ "--reveal-delay": `${(i % 2) * 0.1}s` } as React.CSSProperties}
-            >
-              <h3 className="flex items-center gap-2 text-base font-bold text-white">
-                <Icon name="check" className="size-4 text-gold" />
-                {ja(n.title)}
-              </h3>
-              <p className="speakable mt-2 text-sm leading-relaxed text-slate-400">{ja(n.body)}</p>
-            </div>
-          ))}
-        </div>
-        <p className="mt-8 text-center text-sm text-slate-500" data-reveal>
-          {ja("料金シミュレーターで、その場で概算を出すこともできます。")}
-          <Link
-            prefetch={false}
-            href="/demo/simulator"
-            className="mx-1 text-brand-light underline-offset-4 hover:underline"
-          >
-            概算を出してみる
-          </Link>
-        </p>
-      </Section>
-
-      {/* ------------- ご相談から着手までの流れ ------------- */}
-      <Section id="flow">
-        <SectionHeading
-          eyebrow="How It Starts"
-          title="ご相談から着手までの流れ"
-          description="お見積もりのご提示までは無料です。ここで判断していただいて構いません。"
-        />
-        <ol className="mt-14 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
-          {requestSteps.map((step, i) => (
-            <li
-              key={step.title}
-              className="panel panel-hover relative p-6"
-              data-reveal
-              style={{ "--reveal-delay": `${(i % 4) * 0.1}s` } as React.CSSProperties}
-            >
-              <div className="flex items-center gap-4">
-                <span className="font-display grid size-11 shrink-0 place-items-center rounded-full border border-brand/40 bg-brand/10 text-base font-bold text-brand-light shadow-[0_0_18px_rgba(182,126,255,0.25)]">
-                  {String(i + 1).padStart(2, "0")}
-                </span>
-                <h3 className="text-lg font-bold text-white">{ja(step.title)}</h3>
-              </div>
-              <p className="mt-3 text-sm leading-relaxed text-slate-400">{ja(step.description)}</p>
-            </li>
-          ))}
-        </ol>
-        <p className="mt-8 text-center text-sm text-slate-500" data-reveal>
-          {ja("ご発注後の制作の進め方は、Web制作のページにまとめています。")}
-          <Link
-            prefetch={false}
-            href="/web#process"
-            className="mx-1 text-brand-light underline-offset-4 hover:underline"
-          >
-            制作の流れを見る
-          </Link>
-        </p>
-      </Section>
 
       <Faq
         items={requestFaqs}
-        title="料金・ご依頼についてのよくある質問"
-        description="お見積もりの前によくいただく質問です。ほかの質問は一覧ページにまとめています。"
+        title="ご相談前のよくある質問"
+        description="料金・進め方・お断りのしやすさについて、いただくことの多い質問です。"
         moreHref="/faq"
-        bg="deep"
       />
 
-      <RelatedPages hrefs={["/web", "/ai", "/embedded", "/demo", "/faq", "/company"]} />
-      <ContactCta />
+      <ClosingCta
+        title={
+          <>
+            2営業日以内に、
+            <br />
+            ご返信します。
+          </>
+        }
+        lead="無理な営業はいたしません。書けるところだけ書いてお送りください。"
+        action={{ href: "/contact", label: "相談フォームへ", primary: true }}
+        secondary={{ href: "/demo", label: "できることを見る" }}
+      />
     </>
   );
 }

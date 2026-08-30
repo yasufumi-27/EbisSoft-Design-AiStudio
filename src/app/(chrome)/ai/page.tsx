@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import Link from "next/link";
 
 import { JsonLd } from "@/components/JsonLd";
 import {
@@ -10,22 +9,10 @@ import {
   webPageJsonLd,
 } from "@/lib/jsonld";
 import { siteConfig } from "@/lib/site";
-import { aiDemoSlugs, faqs, aiImpacts, pageSummaries } from "@/lib/content";
+import { aiDemoSlugs, capabilities, faqs } from "@/lib/content";
 import { Breadcrumbs } from "@/components/site/Breadcrumbs";
-import { PageNav } from "@/components/site/PageNav";
-import { PageHeader } from "@/components/ui/PageHeader";
-import { ButtonLink } from "@/components/ui/Button";
-import { Section, SectionHeading } from "@/components/ui/Section";
-import { Icon } from "@/components/ui/icons";
-import { PageSummary } from "@/components/sections/PageSummary";
-import { AiPower } from "@/components/sections/AiPower";
-import { AiSearch } from "@/components/sections/AiSearch";
-import { Services } from "@/components/sections/Services";
-import { DemoShowcase } from "@/components/sections/DemoShowcase";
+import { PageHero, FlightList, ModuleBoard, StatRow, ClosingCta } from "@/components/ui/Studio";
 import { Faq } from "@/components/sections/Faq";
-import { RelatedPages } from "@/components/sections/RelatedPages";
-import { ContactCta } from "@/components/sections/ContactCta";
-import { ja } from "@/lib/typography";
 
 const title = "AI活用｜生成AIによる開発とAI機能の受託";
 const description =
@@ -65,40 +52,47 @@ const crumbs = [
 
 const aiFaqs = faqs.filter((f) => f.category === "ai");
 
-/** ページ内メニュー（ヘッダー直下に貼り付く）。 */
-const SECTIONS = [
-  { id: "two-sides", label: "2つの側面" },
-  { id: "ai-power", label: "AIと人の分担" },
-  { id: "demos", label: "AI機能のデモ" },
-  { id: "ai-services", label: "サービス" },
-  { id: "ai-search", label: "AI検索対策" },
-  { id: "faq", label: "よくある質問" },
-  { id: "contact", label: "お問い合わせ" },
+/**
+ * AIとの関わり方を3段で示す。
+ * 「使う側」「作る側」「引用される側」の3つで、AI活用の全体像が言い切れる。
+ */
+const sides = [
+  {
+    en: "BUILD WITH AI",
+    title: "AIで、速くつくる。",
+    body: "要件整理から実装・テストまでAIを入れて並列化します。人は設計とレビューに集中するので、期間が約1/3になっても質は落ちません。",
+    href: "/columns/ai-web-seisaku",
+    more: "任せる範囲を読む",
+  },
+  {
+    en: "BUILD THE AI",
+    title: "AI機能そのものを、つくる。",
+    body: "自社データで答えるチャットボット、音声で応対するAI、行動から選ぶレコメンド。根拠を示し、分からないことは答えない設計を標準にします。",
+    href: "/demo/ai-chatbot",
+    more: "チャットボットを試す",
+  },
+  {
+    en: "BE FOUND BY AI",
+    title: "AIに、引用される。",
+    body: "構造化データ、llms.txt、結論から書く本文。AI検索（AEO / LLMO）で「答え」として選ばれる形にサイトを整えます。",
+    href: "/columns/ai-kensaku-taisaku-aeo-llmo",
+    more: "AI検索対策を読む",
+  },
 ];
 
-/** AIを「使う側」と「作る側」の両面を、結論ファーストで示す要点。 */
-const twoSides = [
-  {
-    icon: "bolt" as const,
-    label: "AIを使う側",
-    title: "開発プロセスにAIを組み込む",
-    body: "要件整理・構成案・コピー・実装・テストの各工程にAIエージェントを入れ、作業を並列化します。人は設計判断とレビューに集中するため、期間は短くなっても品質は落ちません。",
-    facts: aiImpacts.slice(0, 3).map((i) => `${i.label}：${i.before} → ${i.after}`),
-  },
-  {
-    icon: "bot" as const,
-    label: "AIを作る側",
-    title: "AI機能そのものを納品する",
-    body: "自社データを知識源にしたRAG構成のチャットボット、音声で応対するAI、行動から推薦するレコメンドなど、AI機能を実装して納品します。根拠を示し、分からないことは答えない設計を標準にします。",
-    facts: [
-      "RAG（検索拡張生成）で根拠つき回答",
-      "回答できない質問は問い合わせへ誘導",
-      "社内文書・FAQ・商品データを知識源に",
-    ],
-  },
+const stats = [
+  { value: "1/3", label: "従来比の制作期間" },
+  { value: "02", label: "初回提案までの営業日" },
+  { value: "05", label: "最短の公開日数" },
+  { value: "06", label: "AI機能の実動デモ" },
 ];
 
 export default function AiPage() {
+  const modules = aiDemoSlugs
+    .map((slug) => capabilities.find((c) => c.slug === slug))
+    .filter((c): c is (typeof capabilities)[number] => Boolean(c))
+    .map((c) => ({ title: c.title, note: "OPEN DEMO", href: `/demo/${c.slug}` }));
+
   return (
     <>
       <JsonLd
@@ -117,126 +111,60 @@ export default function AiPage() {
 
       <Breadcrumbs items={crumbs} />
 
-      <PageHeader
+      <PageHero
+        kicker="AI Utilization"
         art={0}
-        eyebrow="AI Utilization"
         title={
           <>
-            <span className="text-gradient">AI活用</span>の
+            AIを<em>使う側</em>でも、
             <br />
-            ソフトウェア開発
+            作る側でも。
           </>
         }
-        lead="生成AIを制作フローに組み込んで期間を約1/3に短縮し、納品物としてもAIチャットボットやAI機能を開発します。両方を自分たちでやっているからこそ、AIで何ができて何ができないかを具体的にお話しできます。"
-      >
-        <div className="mt-8 flex flex-wrap gap-3">
-          <ButtonLink href="/contact" withArrow>
-            AI活用について相談する
-          </ButtonLink>
-          <ButtonLink href="/demo/ai-chatbot" variant="ghost">
-            AIチャットボットのデモを見る
-          </ButtonLink>
-        </div>
-      </PageHeader>
-
-      <PageNav items={SECTIONS} />
-
-      <PageSummary items={pageSummaries.ai} />
-
-      {/* 使う側 / 作る側（このページの結論） */}
-      <Section id="two-sides">
-        <SectionHeading
-          eyebrow="Two Sides"
-          title="AI活用の2つの側面"
-          description="AIで速くつくることと、AI機能そのものをつくること。エビスソフトはその両方を手がけています。"
-        />
-        <div className="mt-14 grid gap-6 lg:grid-cols-2">
-          {twoSides.map((s, i) => (
-            <article
-              key={s.title}
-              className="panel panel-hover panel-corners flex flex-col p-7"
-              data-reveal
-              style={{ "--reveal-delay": `${i * 0.1}s` } as React.CSSProperties}
-            >
-              <div className="flex items-center gap-3">
-                <span className="grid size-12 place-items-center rounded-none border border-brand/30 bg-brand/10 text-brand-light shadow-[0_0_20px_rgba(182,126,255,0.2)]">
-                  <Icon name={s.icon} className="size-6" />
-                </span>
-                <span className="font-display rounded-none border border-gold/30 bg-gold/10 px-2.5 py-1 text-xs font-bold tracking-wider text-gold-light">
-                  {s.label}
-                </span>
-              </div>
-              <h3 className="mt-5 text-xl font-bold text-white">{ja(s.title)}</h3>
-              <p className="speakable mt-3 flex-1 text-sm leading-relaxed text-slate-400">
-                {ja(s.body)}
-              </p>
-              <ul className="mt-5 space-y-2 border-t border-brand/20 pt-5">
-                {s.facts.map((f) => (
-                  <li key={f} className="flex items-start gap-2 text-sm text-slate-300">
-                    <Icon name="check" className="mt-0.5 size-4 shrink-0 text-gold" />
-                    <span className="min-w-0">{ja(f)}</span>
-                  </li>
-                ))}
-              </ul>
-            </article>
-          ))}
-        </div>
-
-        {/* 詳しい解説記事への内部リンク（キーワードをそのままアンカーテキストにする） */}
-        <p className="mt-8 text-sm text-slate-400">
-          {ja("AIに任せられる工程と人が判断する工程の境界は、コラム")}
-          <Link
-            prefetch={false}
-            href="/columns/ai-web-seisaku"
-            className="mx-1 font-bold text-brand-light underline underline-offset-4 hover:text-brand"
-          >
-            {ja("AIでWeb制作はどこまでできるのか")}
-          </Link>
-          {ja("にまとめています。AI検索対策の実装内容は")}
-          <Link
-            prefetch={false}
-            href="/columns/ai-kensaku-taisaku-aeo-llmo"
-            className="mx-1 font-bold text-brand-light underline underline-offset-4 hover:text-brand"
-          >
-            {ja("AI検索に引用されるサイトの作り方")}
-          </Link>
-          {ja("をご覧ください。")}
-        </p>
-      </Section>
-
-      {/* AIをどう使って速くしているか（工程ごとの分担・一次情報） */}
-      <AiPower />
-
-      {/* AI機能そのもののデモ */}
-      <DemoShowcase
-        slugs={aiDemoSlugs}
-        eyebrow="AI Demos"
-        title="AI機能のデモ"
-        description="チャットボット・音声AI・AIエージェント・レコメンド・行動解析。すべてこのサイト上で実際に動きます。"
+        lead="生成AIで制作期間を約1/3に。同時に、AI機能そのものの開発も受けています。"
+        actions={[
+          { href: "/contact", label: "AI活用を相談する", primary: true },
+          { href: "/demo", label: "動くデモを見る" },
+        ]}
+        note="初回相談・お見積もり無料／最短2営業日で構成案"
       />
 
-      {/* AI関連サービス */}
-      <Services
-        category="ai"
-        eyebrow="AI Services"
-        title="AI関連のサービス"
-        description="AI機能の開発から、AIに引用されるサイト設計まで。単体でのご依頼にも対応します。"
-        id="ai-services"
-        bg="deep"
-      />
+      <StatRow items={stats} />
 
-      {/* AI検索最適化（AEO / LLMO） */}
-      <AiSearch />
+      <FlightList label="THREE SIDES OF AI" items={sides} />
+
+      <ModuleBoard
+        label="LIVE MODULES"
+        title={
+          <>
+            つくれるAI機能。
+            <br />
+            すべて動かせます。
+          </>
+        }
+        lead="カタログではなく、その場で操作して確かめてください。"
+        items={modules}
+      />
 
       <Faq
         items={aiFaqs}
-        title="AI活用についてのよくある質問"
-        description="AIの品質・仕組み・AI検索対策について、いただくことの多い質問です。"
+        title="AI活用のよくある質問"
+        description="品質・仕組み・AI検索対策について、いただくことの多い質問です。"
         moreHref="/faq"
       />
 
-      <RelatedPages hrefs={["/web", "/columns", "/demo", "/request"]} />
-      <ContactCta />
+      <ClosingCta
+        title={
+          <>
+            できるかどうかの相談から、
+            <br />
+            始めてください。
+          </>
+        }
+        lead="仕様が決まっていなくても構いません。最短2営業日で構成案をご提示します。"
+        action={{ href: "/contact", label: "無料で相談する", primary: true }}
+        secondary={{ href: "/web", label: "Web制作を見る" }}
+      />
     </>
   );
 }

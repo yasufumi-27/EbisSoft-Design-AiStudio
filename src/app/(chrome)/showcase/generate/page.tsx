@@ -4,9 +4,8 @@ import { JsonLd } from "@/components/JsonLd";
 import { breadcrumbJsonLd, webPageJsonLd } from "@/lib/jsonld";
 import { siteConfig } from "@/lib/site";
 import { Section } from "@/components/ui/Section";
-import { PageHeader } from "@/components/ui/PageHeader";
+import { PageHero } from "@/components/ui/Studio";
 import { Breadcrumbs } from "@/components/site/Breadcrumbs";
-import { ButtonLink } from "@/components/ui/Button";
 import { GenerateStudio } from "@/components/showcase/GenerateStudio";
 import { ContactCta } from "@/components/sections/ContactCta";
 import { ja } from "@/lib/typography";
@@ -66,24 +65,19 @@ export default function GeneratePage() {
 
       <Breadcrumbs items={crumbs} />
 
-      <PageHeader
+      <PageHero
+        kicker="Generate"
         art={3}
-        eyebrow="Generate"
         title={
           <>
-            職種を入力すると、
+            職種を入れると、
             <br />
-            <span className="text-gradient">その場で組み立てます</span>
+            構成が<em>立ち上がる</em>。
           </>
         }
-        lead="用意した18職種に当てはまらない場合はこちらへ。入力からいちばん近い構成を選び、3Dで表示する対象・取扱データ・連携先を差し替えたデモサイトをその場で作ります。"
-      >
-        <div className="mt-8 flex flex-wrap gap-3">
-          <ButtonLink href="/showcase" variant="ghost">
-            用意済みの18職種を見る
-          </ButtonLink>
-        </div>
-      </PageHeader>
+        lead="入力した職種に合わせて、必要な機能とページ構成をその場で組み立てます。"
+        actions={[{ href: "#studio", label: "試してみる", primary: true }]}
+      />
 
       <Section>
         <GenerateStudio />

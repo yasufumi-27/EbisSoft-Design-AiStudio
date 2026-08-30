@@ -602,6 +602,167 @@
 }
 @media (max-width: 800px) { .home-hero-inner { width:calc(100% - 2rem); grid-template-columns:1fr; padding-top:3rem; }.home-hero-art { grid-column:1; grid-row:2; min-height:20rem; margin:-1rem auto 1rem; width:min(90vw,24rem); }.home-hero-copy { grid-column:1; }.home-hero h1 { font-size:clamp(3.2rem,15vw,6rem); }.home-scroll { display:none; }.home-intro,.home-proof { width:calc(100% - 2rem); grid-template-columns:1fr; gap:2rem; }.home-section-head { align-items:start; flex-direction:column; }.home-section-head > p { text-align:left; }.home-card-grid { grid-template-columns:1fr; }.home-discipline-card { min-height:30rem; }.home-proof-stamp { width:8rem; height:8rem; }.home-metrics { margin-top:1rem; } }
 
+/* ============================================================
+ * 下層ページの組み立て部品（src/components/ui/Studio.tsx）
+ *
+ * トップページで決めた寸法をそのまま使います。下層だけ小さく作らないこと——
+ * 「トップは大きく、下層は詰め込む」という作りが、この案がいちばん嫌う形です。
+ * ============================================================ */
+
+/* ---- ページの入口 ---- */
+.studio-hero {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  min-height: min(760px, calc(100vh - 4rem));
+  display: grid;
+  align-content: center;
+  padding: clamp(4rem, 8vw, 7rem) 0;
+  background: radial-gradient(circle at 62% 45%, #2a1049 0, #110819 40%, #07050e 72%);
+  border-bottom: 1px solid rgba(182, 126, 255, 0.2);
+}
+.studio-hero-inner {
+  width: min(1220px, calc(100% - 3rem));
+  margin: auto;
+  display: grid;
+  grid-template-columns: minmax(0, 1.15fr) minmax(0, 0.85fr);
+  gap: clamp(2rem, 5vw, 5rem);
+  align-items: center;
+}
+.studio-hero-copy {
+  position: relative;
+  z-index: 2;
+}
+/* 見出しはトップのH1と同じ尺度。ページ名は短く切ること */
+.studio-hero h1 {
+  margin: 1.6rem 0 0;
+  font-size: clamp(2.4rem, 5.4vw, 5rem);
+  line-height: 1.04;
+  letter-spacing: -0.05em;
+  font-weight: 600;
+  color: #f4effa;
+}
+.studio-hero h1 em {
+  font-style: normal;
+  color: #b28cff;
+}
+/* リードは一文だけ。長い説明を入れない */
+.studio-hero-lead {
+  margin-top: 2rem;
+  max-width: 30rem;
+  font-size: clamp(1rem, 1.4vw, 1.15rem);
+  line-height: 1.9;
+  color: #a393af;
+}
+.studio-hero-note {
+  margin-top: 1.6rem;
+  font-family: var(--font-display);
+  font-size: 0.56rem;
+  letter-spacing: 0.16em;
+  color: #8a7c98;
+}
+.studio-hero-art {
+  position: relative;
+  z-index: 1;
+  width: min(34vw, 26rem);
+  margin: 0 0 0 auto;
+}
+
+/* ボタンはトップと同じか、ひと回り大きく */
+.studio-actions {
+  margin-top: clamp(2.2rem, 4vw, 3rem);
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.9rem;
+}
+.studio-btn-lg {
+  padding: 1.15rem 1.7rem;
+  font-size: 0.68rem;
+}
+
+@media (max-width: 900px) {
+  .studio-hero {
+    min-height: 0;
+  }
+  .studio-hero-inner {
+    grid-template-columns: 1fr;
+  }
+  .studio-hero-art {
+    width: min(70vw, 20rem);
+    margin: 0 auto;
+    order: -1;
+  }
+}
+
+/* ---- 01/02/03 の縦連続（トップの .ai-flight をそのまま使う） ---- */
+.studio-flight {
+  background: #090611;
+}
+/* トップは4段だが、下層は3段のことが多い。最後の段の下線は引かない */
+.studio-flight article:last-child {
+  border-bottom: 0;
+}
+
+/* ---- モジュール盤 ---- */
+.studio-board .ai-console-grid a,
+.studio-board .ai-console-grid > div {
+  display: block;
+  min-width: 0;
+}
+
+/* ---- 数字の行 ---- */
+.studio-stats {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  background: #07050e;
+  border-top: 1px solid rgba(182, 126, 255, 0.2);
+  border-bottom: 1px solid rgba(182, 126, 255, 0.2);
+}
+.studio-stats div {
+  padding: clamp(2.5rem, 4vw, 4rem) 1.5rem;
+  border-right: 1px solid rgba(182, 126, 255, 0.16);
+  text-align: center;
+}
+.studio-stats div:last-child {
+  border-right: 0;
+}
+.studio-stats b {
+  display: block;
+  font-family: var(--font-display);
+  font-size: clamp(1.9rem, 3.6vw, 3.4rem);
+  font-weight: 500;
+  letter-spacing: -0.04em;
+  font-variant-numeric: tabular-nums;
+  color: #f4effa;
+}
+.studio-stats span {
+  display: block;
+  margin-top: 0.9rem;
+  font-size: 0.66rem;
+  letter-spacing: 0.08em;
+  color: #a393af;
+}
+@media (max-width: 760px) {
+  .studio-stats {
+    grid-template-columns: 1fr 1fr;
+  }
+  .studio-stats div:nth-child(2) {
+    border-right: 0;
+  }
+  .studio-stats div:nth-child(1),
+  .studio-stats div:nth-child(2) {
+    border-bottom: 1px solid rgba(182, 126, 255, 0.16);
+  }
+}
+
+/* ---- 締め ---- */
+.studio-final {
+  border-top: 1px solid rgba(182, 126, 255, 0.2);
+}
+.studio-final .studio-actions {
+  justify-content: center;
+}
+
 /* ---------------------------------------------------------------
  * 下層ページの共通レイアウト（デザイン案 03「AI STUDIO」）
  *

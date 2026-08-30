@@ -6,9 +6,8 @@ import { blogJsonLd, breadcrumbJsonLd, webPageJsonLd } from "@/lib/jsonld";
 import { columnsByDate, formatDate } from "@/lib/columns";
 import { siteConfig } from "@/lib/site";
 import { Section } from "@/components/ui/Section";
-import { PageHeader } from "@/components/ui/PageHeader";
+import { PageHero } from "@/components/ui/Studio";
 import { Breadcrumbs } from "@/components/site/Breadcrumbs";
-import { ButtonLink } from "@/components/ui/Button";
 import { Icon } from "@/components/ui/icons";
 import { AuthorBox } from "@/components/columns/AuthorBox";
 import { RelatedPages } from "@/components/sections/RelatedPages";
@@ -67,27 +66,23 @@ export default function ColumnsIndexPage() {
 
       <Breadcrumbs items={crumbs} />
 
-      <PageHeader
+      <PageHero
+        kicker="Columns"
         art={0}
-        eyebrow="Columns"
         title={
           <>
-            AI活用のWeb制作を、
+            一般論ではなく、
             <br />
-            <span className="text-gradient">実測</span>で書いています
+            <em>実測</em>で書く。
           </>
         }
-        lead="一般論ではなく、自分たちの制作で計測した数値と、実際にこのサイトへ実装した内容だけを書いています。できないこと・向かないケースも同じだけ書くようにしています。"
-      >
-        <div className="mt-8 flex flex-wrap gap-3">
-          <ButtonLink href="/contact" withArrow>
-            記事の内容について相談する
-          </ButtonLink>
-          <ButtonLink href="/demo" variant="ghost">
-            実動デモを見る
-          </ButtonLink>
-        </div>
-      </PageHeader>
+        lead="自分たちの制作で計測した数値と、このサイトに実装した内容だけを書いています。"
+        actions={[
+          { href: "/contact", label: "記事の内容を相談する", primary: true },
+          { href: "/demo", label: "動くデモを見る" },
+        ]}
+        note="できないこと・向かないケースも同じだけ書いています"
+      />
 
       <Section>
         <div className="grid gap-6">

@@ -1,17 +1,14 @@
 import type { Metadata } from "next";
-import Link from "next/link";
-import { ja } from "@/lib/typography";
 
 import { JsonLd } from "@/components/JsonLd";
 import { breadcrumbJsonLd, capabilitiesJsonLd, webPageJsonLd } from "@/lib/jsonld";
-import { capabilities, planForBand } from "@/lib/content";
-import { demoProposal, proposalById } from "@/lib/designProposals";
 import { siteConfig } from "@/lib/site";
-import { Section } from "@/components/ui/Section";
-import { PageHeader } from "@/components/ui/PageHeader";
+import { capabilities } from "@/lib/content";
+import { demoProposal, proposalById } from "@/lib/designProposals";
 import { Breadcrumbs } from "@/components/site/Breadcrumbs";
-import { ButtonLink } from "@/components/ui/Button";
-import { Icon } from "@/components/ui/icons";
+import { PageHero, StatRow, ClosingCta } from "@/components/ui/Studio";
+import { ja } from "@/lib/typography";
+import Link from "next/link";
 
 const title = "できること（実際に動くデモ一覧）";
 const description =
@@ -41,6 +38,13 @@ const crumbs = [
   { name: "できること", path: "/demo" },
 ];
 
+const stats = [
+  { value: "15", label: "実際に動く領域" },
+  { value: "18", label: "職種別のデモサイト" },
+  { value: "03", label: "実装の合計時間（時間）" },
+  { value: "00", label: "スライドの枚数" },
+];
+
 export default function DemoIndexPage() {
   return (
     <>
@@ -50,7 +54,6 @@ export default function DemoIndexPage() {
             path: "/demo",
             name: `${title}｜${siteConfig.name}`,
             description,
-            type: "CollectionPage",
           }),
           breadcrumbJsonLd(crumbs),
           capabilitiesJsonLd(),
@@ -59,142 +62,70 @@ export default function DemoIndexPage() {
 
       <Breadcrumbs items={crumbs} />
 
-      <PageHeader
+      <PageHero
+        kicker="Live Demos"
         art={3}
-        eyebrow="Capabilities"
         title={
           <>
-            実際に動かせる
+            言わずに、
             <br />
-            <span className="text-gradient">15領域のデモ</span>
+            <em>動かして</em>見せる。
           </>
         }
-        lead="「できます」という説明だけでは判断できないと思うので、15領域すべてをその場で触れるデモにして公開しています。この15個は、AIを活用して合計約3時間で実装したものです。"
-      >
-        <div className="mt-8 flex flex-wrap gap-3">
-          <ButtonLink href="/contact" withArrow>
-            無料で相談する
-          </ButtonLink>
-          <ButtonLink href="/ai" variant="ghost">
-            AI活用の仕組みを見る
-          </ButtonLink>
-        </div>
-      </PageHeader>
+        lead="できることは15領域すべて、その場で操作できるデモとして公開しています。"
+        actions={[
+          { href: "#modules", label: "デモを一覧する", primary: true },
+          { href: "/showcase", label: "職種別のデモサイト" },
+        ]}
+        note="デモはそれぞれ違うデザイン案で作っています"
+      />
 
-      <Section>
-        <div className="grid gap-6 lg:grid-cols-2">
-          {capabilities.map((c, i) => (
-            <article
-              key={c.slug}
-              className="panel panel-hover panel-corners flex flex-col p-7"
-              data-reveal
-              style={{ "--reveal-delay": `${(i % 2) * 0.1}s` } as React.CSSProperties}
-            >
-              <div className="flex items-start gap-4">
-                <span
-                  className={`grid size-12 shrink-0 place-items-center rounded-none bg-gradient-to-br ${c.gradient} text-ink shadow-[0_0_22px_rgba(182,126,255,0.25)]`}
-                >
-                  <Icon name={c.icon} className="size-6" />
-                </span>
-                <div className="min-w-0 flex-1">
-                  <div className="flex flex-wrap items-center gap-x-3 gap-y-1">
-                    {/* 見出しは機能名ではなく、探されている言葉を主語にする */}
-                    <h2 className="text-xl leading-snug font-bold text-white">
-                      {ja(c.searchTitle)}
-                    </h2>
-                    <span className="font-display rounded-none border border-gold/30 bg-gold/10 px-2 py-0.5 text-[10px] font-bold tracking-wider text-gold-light">
-                      実装 {c.buildTime}
-                    </span>
-                    {/* デモはそれぞれ別のデザイン案で作ってある。どの案かを一覧でも示す */}
-                    <span
-                      className="font-display rounded-none border px-2 py-0.5 text-[10px] font-bold tracking-wider"
-                      style={{
-                        borderColor: proposalById(demoProposal[c.slug]).tokens.accent,
-                        color: proposalById(demoProposal[c.slug]).tokens.accent,
-                      }}
-                    >
-                      DESIGN {proposalById(demoProposal[c.slug]).no}{" "}
-                      {proposalById(demoProposal[c.slug]).name}
-                    </span>
-                  </div>
-                  <p className="mt-1.5 text-sm text-brand-light">
-                    {ja(`${c.title}／${c.tagline}`)}
-                  </p>
-                </div>
-              </div>
+      <StatRow items={stats} />
 
-              {/* 事業インパクトを先に、技術の話は後に */}
-              <p className="speakable mt-5 text-base leading-relaxed font-medium text-slate-200">
-                {ja(c.impact)}
-              </p>
-
-              <ul className="mt-5 space-y-2">
-                {c.businessValue.map((v) => (
-                  <li key={v.title} className="flex gap-2.5 text-sm text-slate-300">
-                    <Icon name="check" className="mt-0.5 size-4 shrink-0 text-brand" />
-                    <span className="min-w-0">{ja(v.title)}</span>
-                  </li>
-                ))}
-              </ul>
-
-              {/* 費用と期間を一覧の時点で出す（「制作 費用」で来た人が開かずに判断できるように） */}
-              <p className="mt-5 flex flex-wrap items-center gap-x-4 gap-y-1 text-xs text-slate-400">
-                <span>
-                  費用の目安{" "}
-                  <span className="font-bold text-brand-light">
-                    {planForBand(c.priceBand).price}
-                  </span>
-                </span>
-                <span>
-                  期間の目安 <span className="font-bold text-slate-200">{ja(c.leadTime)}</span>
-                </span>
-              </p>
-
-              <ul className="mt-5 flex flex-wrap gap-2">
-                {c.tech.slice(0, 4).map((t) => (
-                  <li
-                    key={t}
-                    className="rounded-none border border-brand/20 bg-white/5 px-2 py-0.5 text-[11px] text-slate-400"
-                  >
-                    {ja(t)}
-                  </li>
-                ))}
-              </ul>
-
-              <div className="mt-auto pt-6">
-                <Link
-                  prefetch={false}
-                  href={`/demo/${c.slug}`}
-                  className="btn btn-primary inline-flex h-11 items-center px-6 text-sm"
-                >
-                  デモを動かす
-                  <Icon name="arrowRight" className="size-4" />
-                </Link>
-              </div>
-            </article>
-          ))}
-        </div>
-      </Section>
-
-      <Section bg="deep">
-        <div className="panel panel-corners mx-auto max-w-3xl p-8 text-center sm:p-12" data-reveal>
-          <h2 className="text-2xl font-bold text-white sm:text-3xl">
-            {ja("ここにない機能もご相談ください")}
+      {/* 15のデモを一枚の盤に。1pxの隙間がそのまま罫線になる（トップの LIVE MODULES と同じ） */}
+      <section id="modules" className="ai-console studio-board scroll-mt-20">
+        <div data-reveal>
+          <p className="ai-console-label">ALL MODULES</p>
+          <h2>
+            15の領域。
+            <br />
+            ぜんぶ触れます。
           </h2>
-          <p className="mx-auto mt-4 max-w-xl text-sm leading-relaxed text-slate-400">
-            {ja("「こんなことはできますか？」のご相談は、実現方法・概算費用・期間まで無料でお答えします。")}
-            {ja("検証用のプロトタイプを数時間〜数日でお出しすることも可能です。")}
+          <p>
+            カードは押すとデモに移ります。デモごとに違うデザイン案で作ってあるので、見た目の幅も同時に確かめられます。
           </p>
-          <div className="mt-8 flex flex-wrap justify-center gap-3">
-            <ButtonLink href="/contact" size="lg" withArrow>
-              できるか相談する
-            </ButtonLink>
-            <ButtonLink href="/company" size="lg" variant="secondary">
-              会社概要を見る
-            </ButtonLink>
-          </div>
         </div>
-      </Section>
+        <div className="ai-console-grid" data-reveal>
+          {capabilities.map((c, i) => {
+            const p = proposalById(demoProposal[c.slug]);
+            return (
+              <Link key={c.slug} href={`/demo/${c.slug}`}>
+                <article>
+                  <span>MOD_{String(i + 1).padStart(2, "0")}</span>
+                  <i aria-hidden />
+                  <b>{ja(c.title)}</b>
+                  <small style={{ color: p.tokens.accent }}>
+                    DESIGN {p.no} / {p.name}
+                  </small>
+                </article>
+              </Link>
+            );
+          })}
+        </div>
+      </section>
+
+      <ClosingCta
+        title={
+          <>
+            これを、自分の商材で
+            <br />
+            見てみたい。
+          </>
+        }
+        lead="ご相談いただければ、業種に合わせた形でお見せします。初回相談は無料です。"
+        action={{ href: "/contact", label: "無料で相談する", primary: true }}
+        secondary={{ href: "/web", label: "Web制作を見る" }}
+      />
     </>
   );
 }

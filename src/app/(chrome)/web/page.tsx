@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import Link from "next/link";
 
 import { JsonLd } from "@/components/JsonLd";
 import {
@@ -10,22 +9,10 @@ import {
   webPageJsonLd,
 } from "@/lib/jsonld";
 import { siteConfig } from "@/lib/site";
-import { faqs, webDemoSlugs, pageSummaries } from "@/lib/content";
+import { capabilities, faqs, webDemoSlugs } from "@/lib/content";
 import { Breadcrumbs } from "@/components/site/Breadcrumbs";
-import { PageNav } from "@/components/site/PageNav";
-import { PageHeader } from "@/components/ui/PageHeader";
-import { ButtonLink } from "@/components/ui/Button";
-import { Section, SectionHeading } from "@/components/ui/Section";
-import { Icon } from "@/components/ui/icons";
-import { PageSummary } from "@/components/sections/PageSummary";
-import { BusinessLines } from "@/components/sections/BusinessLines";
-import { Services } from "@/components/sections/Services";
-import { Process } from "@/components/sections/Process";
-import { DemoShowcase } from "@/components/sections/DemoShowcase";
+import { PageHero, FlightList, ModuleBoard, StatRow, ClosingCta } from "@/components/ui/Studio";
 import { Faq } from "@/components/sections/Faq";
-import { RelatedPages } from "@/components/sections/RelatedPages";
-import { ContactCta } from "@/components/sections/ContactCta";
-import { ja } from "@/lib/typography";
 
 const title = "Web制作｜AI開発プロセスでつくるホームページ";
 const description =
@@ -65,42 +52,44 @@ const crumbs = [
 
 const webFaqs = faqs.filter((f) => f.category === "web");
 
-/** ページ内メニュー（ヘッダー直下に貼り付く）。 */
-const SECTIONS = [
-  { id: "business", label: "事業内容" },
-  { id: "ai-process", label: "進め方" },
-  { id: "services", label: "サービス" },
-  { id: "demos", label: "実装できる機能" },
-  { id: "process", label: "制作の流れ" },
-  { id: "faq", label: "よくある質問" },
-  { id: "contact", label: "お問い合わせ" },
+/** 制作の流れを3段で。工程表ではなく、何を大事にしているかを書く。 */
+const how = [
+  {
+    en: "SCOPE",
+    title: "何を解くのかを、先に決める。",
+    body: "ページ数ではなく、達成したいことから構成を組み立てます。目的と読み手が決まれば、必要な機能は自然に決まります。",
+    href: "/request",
+    more: "相談の流れを見る",
+  },
+  {
+    en: "BUILD",
+    title: "速さは、質を削らない。",
+    body: "AIで作業を並列化し、空いた時間を表示速度と原稿の精度に戻します。小規模なサイトなら最短5日で公開できます。",
+    href: "/columns/ai-web-seisaku-kikan-hiyou",
+    more: "期間と費用の実測",
+  },
+  {
+    en: "GROW",
+    title: "公開してからが、本番。",
+    body: "アクセスと問い合わせを見ながら直します。SEO・AI検索対策・表示速度は追加オプションではなく標準です。",
+    href: "/demo/insight",
+    more: "行動解析のデモ",
+  },
 ];
 
-/** 「AI開発プロセスで進める」とは具体的に何か（一次情報として明記）。 */
-const processPoints = [
-  {
-    icon: "sparkles" as const,
-    title: "構成案は複数を同時に作って比べる",
-    body: "ヒアリング内容をその場で構造化し、サイト構成とキーワード設計を複数パターン生成します。1案を練るのではなく、比較して決めるため、初回提案までが最短2営業日です。",
-  },
-  {
-    icon: "code" as const,
-    title: "実装はAIエージェントで並列化する",
-    body: "ページ単位・機能単位で実装を並行して進め、人がレビューして統合します。この進め方で、コーポレートサイトの制作期間は2〜3か月から3〜4週間になります。",
-  },
-  {
-    icon: "gauge" as const,
-    title: "短縮できた時間は品質に戻す",
-    body: "短縮した時間は値引きではなく、表示速度・アクセシビリティ・文章の精度に再投資します。当サイト自身がその実装例で、Lighthouse 性能スコア100点で動いています。",
-  },
-  {
-    icon: "shield" as const,
-    title: "判断はAIに任せない",
-    body: "設計方針、ブランド表現、コードレビュー、公開判断は必ず人が行います。AIに任せるのは作業であって、決定ではありません。",
-  },
+const stats = [
+  { value: "1/3", label: "従来比の制作期間" },
+  { value: "05", label: "最短の公開日数" },
+  { value: "100", label: "表示速度の目標点" },
+  { value: "29.8万", label: "円〜（小規模）" },
 ];
 
 export default function WebPage() {
+  const modules = webDemoSlugs
+    .map((slug) => capabilities.find((c) => c.slug === slug))
+    .filter((c): c is (typeof capabilities)[number] => Boolean(c))
+    .map((c) => ({ title: c.title, note: "OPEN DEMO", href: `/demo/${c.slug}` }));
+
   return (
     <>
       <JsonLd
@@ -119,114 +108,60 @@ export default function WebPage() {
 
       <Breadcrumbs items={crumbs} />
 
-      <PageHeader
+      <PageHero
+        kicker="Web Production"
         art={1}
-        eyebrow="Web Production"
         title={
           <>
-            <span className="text-gradient">AI活用</span>の
+            事業の成果から、
             <br />
-            Webサイト制作
+            <em>逆算</em>してつくる。
           </>
         }
-        lead="コーポレートサイト・LP・EC・Webアプリまで対応します。制作期間は従来の約1/3、小規模サイトなら最短5日で公開。SEO・AI検索対策・表示速度は追加オプションではなく、標準で作り込みます。"
-      >
-        <div className="mt-8 flex flex-wrap gap-3">
-          <ButtonLink href="/contact" withArrow>
-            無料で見積もりを依頼する
-          </ButtonLink>
-          <ButtonLink href="/request#pricing" variant="ghost">
-            料金の目安を見る
-          </ButtonLink>
-        </div>
-      </PageHeader>
-
-      <PageNav items={SECTIONS} />
-
-      <PageSummary items={pageSummaries.web} />
-
-      {/* 主な事業内容（名刺記載のうちWeb・アプリケーション分野） */}
-      <BusinessLines
-        category="web"
-        bg="deep"
-        description="Web・業務アプリケーションの分野でお引き受けしている事業です。"
+        lead="コーポレートサイトからECまで。最短5日で公開し、公開後の改善まで含めて設計します。"
+        actions={[
+          { href: "/contact", label: "無料で見積もりを依頼する", primary: true },
+          { href: "/request", label: "料金の目安を見る" },
+        ]}
+        note="298,000円〜／初回相談・お見積もり無料"
       />
 
-      {/* AI開発プロセスの中身 */}
-      <Section id="ai-process">
-        <SectionHeading
-          eyebrow="How We Build"
-          title="速くても品質が落ちない理由"
-          description="「AIを使っています」だけでは分からないので、具体的な進め方を開示します。"
-        />
-        <div className="mt-14 grid gap-5 sm:grid-cols-2">
-          {processPoints.map((p, i) => (
-            <article
-              key={p.title}
-              className="panel panel-hover p-6"
-              data-reveal
-              style={{ "--reveal-delay": `${(i % 2) * 0.1}s` } as React.CSSProperties}
-            >
-              <span className="grid size-11 place-items-center rounded-none border border-brand/30 bg-brand/10 text-brand-light">
-                <Icon name={p.icon} className="size-5" />
-              </span>
-              <h3 className="mt-4 text-lg font-bold text-white">{ja(p.title)}</h3>
-              <p className="speakable mt-2 text-sm leading-relaxed text-slate-400">{ja(p.body)}</p>
-            </article>
-          ))}
-        </div>
+      <StatRow items={stats} />
 
-        {/* 詳しい解説記事への内部リンク（キーワードをそのままアンカーテキストにする） */}
-        <p className="mt-8 text-sm text-slate-400">
-          {ja("工程ごとの分担と実測値は、コラム")}
-          <Link
-            prefetch={false}
-            href="/columns/ai-web-seisaku"
-            className="mx-1 font-bold text-brand-light underline underline-offset-4 hover:text-brand"
-          >
-            {ja("AIでWeb制作はどこまでできるのか")}
-          </Link>
-          {ja("と")}
-          <Link
-            prefetch={false}
-            href="/columns/ai-web-seisaku-kikan-hiyou"
-            className="mx-1 font-bold text-brand-light underline underline-offset-4 hover:text-brand"
-          >
-            {ja("期間と費用はどれだけ変わるか")}
-          </Link>
-          {ja("で詳しく書いています。")}
-        </p>
-      </Section>
+      <FlightList label="HOW WE BUILD" items={how} />
 
-      {/* 対応できるサービス */}
-      <Services
-        category="web"
-        eyebrow="Service"
-        title="Web制作のサービス"
-        description="事業の課題に合わせて必要なものだけを選べます。ご相談の段階で不要な機能はお伝えします。"
-        bg="deep"
+      <ModuleBoard
+        label="WEB MODULES"
+        title={
+          <>
+            サイトに載せられる、
+            <br />
+            動く機能。
+          </>
+        }
+        lead="どれもこのサイト上で実際に動きます。触ってから決めてください。"
+        items={modules}
       />
-
-      {/* 実装できる表現・機能のデモ */}
-      <DemoShowcase
-        slugs={webDemoSlugs}
-        eyebrow="Live Demos"
-        title="サイトに載せられる機能のデモ"
-        description="3DCG・アニメーション・商品カスタマイズ・料金シミュレーター・SNS連携・システム連携。"
-      />
-
-      {/* 制作の流れ */}
-      <Process />
 
       <Faq
         items={webFaqs}
-        title="Web制作についてのよくある質問"
-        description="料金・期間・対応範囲について、いただくことの多い質問です。"
+        title="Web制作のよくある質問"
+        description="対応範囲・期間・費用について、いただくことの多い質問です。"
         moreHref="/faq"
       />
 
-      <RelatedPages hrefs={["/request", "/ai", "/columns", "/demo"]} />
-      <ContactCta />
+      <ClosingCta
+        title={
+          <>
+            サイトで何を変えたいか、
+            <br />
+            そこから話しましょう。
+          </>
+        }
+        lead="仕様書がなくても構いません。構成案とお見積もりのご提示まで無料です。"
+        action={{ href: "/contact", label: "無料で相談する", primary: true }}
+        secondary={{ href: "/demo", label: "できることを見る" }}
+      />
     </>
   );
 }

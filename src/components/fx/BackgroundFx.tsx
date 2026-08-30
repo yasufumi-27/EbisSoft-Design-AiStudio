@@ -1,7 +1,10 @@
 "use client";
 
 import dynamic from "next/dynamic";
+import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
+
+import { sceneIdForPath } from "./bgScenes";
 
 // Three.js（約550KB）は初期表示のクリティカルパスから外し、
 // クライアントでのみ遅延読み込みする（LCP/HTMLサイズへの影響ゼロ）。
@@ -35,6 +38,9 @@ function shouldLoadHeavyBackground(): boolean {
 /** 3D背景＋可読性を確保するオーバーレイ（ビネット／薄いグリッド）。 */
 export function BackgroundFx() {
   const [enabled, setEnabled] = useState(false);
+  // 背景の主役はページごとに変わる（bgScenes.ts）。
+  // 会社ロゴは背景から撤去し、代わりにそのページの内容を表す立体を置いている。
+  const pathname = usePathname() || "/";
 
   useEffect(() => {
     if (!shouldLoadHeavyBackground()) return;
@@ -66,7 +72,7 @@ export function BackgroundFx() {
 
   return (
     <>
-      {enabled ? <ThreeBackground /> : null}
+      {enabled ? <ThreeBackground sceneId={sceneIdForPath(pathname)} /> : null}
       {/* オーロラ（アンビエント光）：ごくゆっくり流れる色の層で、黒い画面の平坦さを消す */}
       <div aria-hidden className="aurora" />
       {/* 本文の可読性を上げるビネット（中央上部を暗く落とす） */}

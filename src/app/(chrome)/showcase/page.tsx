@@ -6,7 +6,7 @@ import { breadcrumbJsonLd, webPageJsonLd } from "@/lib/jsonld";
 import { industries } from "@/lib/showcaseData";
 import { siteConfig, absoluteUrl } from "@/lib/site";
 import { Section } from "@/components/ui/Section";
-import { PageHeader } from "@/components/ui/PageHeader";
+import { PageHero } from "@/components/ui/Studio";
 import { Breadcrumbs } from "@/components/site/Breadcrumbs";
 import { ButtonLink } from "@/components/ui/Button";
 import { Icon } from "@/components/ui/icons";
@@ -80,27 +80,23 @@ export default function ShowcaseIndexPage() {
 
       <Breadcrumbs items={crumbs} />
 
-      <PageHeader
+      <PageHero
+        kicker="Industry Showcase"
         art={3}
-        eyebrow="Industry Showcase"
         title={
           <>
-            <span className="text-gradient">あなたの職種</span>なら、
+            自分の職種で、
             <br />
-            この機能をこう使えます
+            <em>見てから</em>決める。
           </>
         }
-        lead="機能の一覧を見ても、自分の商売でどう使えるかは分かりません。ここでは職種を入口にして、使いどころと実際に動くデモを並べています。デモは起動ボタンを押したときに読み込むので、開いただけでは重くなりません。"
-      >
-        <div className="mt-8 flex flex-wrap gap-3">
-          <ButtonLink href="/showcase/generate" withArrow>
-            職種を入力して自動で組み立てる
-          </ButtonLink>
-          <ButtonLink href="/demo" variant="ghost">
-            機能ごとのデモを見る
-          </ButtonLink>
-        </div>
-      </PageHeader>
+        lead="18の職種ごとに、ホームページそのものを作って公開しています。中の機能も動きます。"
+        actions={[
+          { href: "#industries", label: "職種を選ぶ", primary: true },
+          { href: "/demo", label: "機能から見る" },
+        ]}
+        note="職種ごとに違うデザイン案で作っています"
+      />
 
       <Section>
         <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">

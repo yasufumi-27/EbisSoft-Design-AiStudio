@@ -5,8 +5,7 @@ import { breadcrumbJsonLd, faqJsonLd, webPageJsonLd } from "@/lib/jsonld";
 import { siteConfig } from "@/lib/site";
 import { faqs, type FaqCategory } from "@/lib/content";
 import { Breadcrumbs } from "@/components/site/Breadcrumbs";
-import { PageHeader } from "@/components/ui/PageHeader";
-import { ButtonLink } from "@/components/ui/Button";
+import { PageHero } from "@/components/ui/Studio";
 import { Section, SectionHeading } from "@/components/ui/Section";
 import { RelatedPages } from "@/components/sections/RelatedPages";
 import { ContactCta } from "@/components/sections/ContactCta";
@@ -91,24 +90,22 @@ export default function FaqPage() {
 
       <Breadcrumbs items={crumbs} />
 
-      <PageHeader
+      <PageHero
+        kicker="FAQ"
         art={0}
-        eyebrow="FAQ"
         title={
           <>
-            よくある
+            聞かれることは、
             <br />
-            <span className="text-gradient">ご質問</span>
+            だいたい<em>同じ</em>。
           </>
         }
-        lead={`ご相談前によくいただく質問をまとめました。${faqs.length}件あります。ここにない疑問も、お気軽にお問い合わせください。`}
-      >
-        <div className="mt-8 flex flex-wrap gap-3">
-          <ButtonLink href="/contact" withArrow>
-            質問してみる（無料相談）
-          </ButtonLink>
-        </div>
-      </PageHeader>
+        lead="料金・期間・対応範囲について、事前によくいただく質問をまとめました。"
+        actions={[
+          { href: "/contact", label: "ここにない質問をする", primary: true },
+          { href: "/request", label: "料金の目安を見る" },
+        ]}
+      />
 
       {GROUPS.map((group, gi) => {
         const items = faqs.filter((f) => f.category === group.category);
