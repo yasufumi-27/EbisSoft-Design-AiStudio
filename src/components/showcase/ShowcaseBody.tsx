@@ -33,26 +33,27 @@ export function ShowcaseBody({
     <div className="space-y-16 sm:space-y-20">
       {/* ---------- 課題と狙う効果 ---------- */}
       <section aria-labelledby="sc-challenges">
-        <h2 id="sc-challenges" className="text-2xl font-bold text-white sm:text-3xl">
+        <p className="eyebrow">Challenges</p>
+        <h2 id="sc-challenges" className="ai-linklist-title">
           {ja(`${industry.name}でよくある課題`)}
         </h2>
         <p className="mt-3 text-sm text-slate-400">{ja(`想定：${industry.customer}`)}</p>
 
-        <div className="mt-8 grid gap-4 lg:grid-cols-3">
-          {industry.challenges.map((c) => (
-            <div key={c} className="panel flex gap-3 p-5">
-              <Icon name="bolt" className="mt-0.5 size-4 shrink-0 text-rose-300" />
-              <p className="min-w-0 text-sm leading-relaxed text-slate-300">{ja(c)}</p>
-            </div>
+        <div className="ai-facts mt-8">
+          {industry.challenges.map((c, i) => (
+            <article key={c}>
+              <span>ISSUE_0{i + 1}</span>
+              <p>{ja(c)}</p>
+            </article>
           ))}
         </div>
 
-        <div className="mt-8 grid gap-4 sm:grid-cols-3">
+        <div className="ai-facts mt-5">
           {industry.outcomes.map((o) => (
-            <div key={o.label} className="panel panel-corners p-5">
-              <p className="text-xs tracking-wider text-slate-500">{ja(o.label)}</p>
-              <p className="mt-1.5 font-bold text-brand-light">{ja(o.value)}</p>
-            </div>
+            <article key={o.label}>
+              <span>{ja(o.label)}</span>
+              <b>{ja(o.value)}</b>
+            </article>
           ))}
         </div>
         {/* 誇張しないための注記。数値を実績として見せないこと */}
@@ -61,7 +62,8 @@ export function ShowcaseBody({
 
       {/* ---------- この職種での使い方（デモつき） ---------- */}
       <section aria-labelledby="sc-picks">
-        <h2 id="sc-picks" className="text-2xl font-bold text-white sm:text-3xl">
+        <p className="eyebrow">How to use</p>
+        <h2 id="sc-picks" className="ai-linklist-title">
           {ja(`${industry.name}なら、この機能をこう使えます`)}
         </h2>
         <p className="mt-3 max-w-2xl text-sm leading-relaxed text-slate-400">
@@ -86,7 +88,8 @@ export function ShowcaseBody({
 
       {/* ---------- 職種に合わせた設定内容（生成結果の可視化） ---------- */}
       <section aria-labelledby="sc-config">
-        <h2 id="sc-config" className="text-2xl font-bold text-white sm:text-3xl">
+        <p className="eyebrow">Configuration</p>
+        <h2 id="sc-config" className="ai-linklist-title">
           {ja(generated ? "この職種向けに組み立てた設定" : "この職種に合わせている設定")}
         </h2>
         <p className="mt-3 max-w-2xl text-sm leading-relaxed text-slate-400">
@@ -95,24 +98,21 @@ export function ShowcaseBody({
           )}
         </p>
 
-        <div className="mt-8 grid gap-5 lg:grid-cols-2">
-          <div className="panel p-6">
-            <p className="eyebrow mb-4">3D / 表示する対象</p>
-            <p className="font-bold text-white">{ja(industry.product.name)}</p>
-            <p className="mt-2 text-sm leading-relaxed text-slate-400">{ja(industry.product.note)}</p>
-          </div>
+        <div className="ai-facts ai-facts-2 mt-8">
+          <article>
+            <span>3D / 表示する対象</span>
+            <b>{ja(industry.product.name)}</b>
+            <p>{ja(industry.product.note)}</p>
+          </article>
 
-          <div className="panel p-6">
-            <p className="eyebrow mb-4">連携先システム</p>
-            <ul className="space-y-2">
+          <article>
+            <span>連携先システム</span>
+            <ul>
               {[...BASE_NODES, ...industry.systems].map((s) => (
-                <li key={s.key} className="flex items-center gap-2.5 text-sm text-slate-300">
-                  <Icon name={s.icon} className="size-4 shrink-0 text-brand" />
-                  <span className="min-w-0">{ja(s.label)}</span>
-                </li>
+                <li key={s.key}>{ja(s.label)}</li>
               ))}
             </ul>
-          </div>
+          </article>
 
           <div className="panel overflow-hidden lg:col-span-2">
             <p className="eyebrow px-6 pt-6 pb-4">扱うデータ（システム連携デモの中身）</p>

@@ -2015,6 +2015,79 @@ main h3 {
   margin-top: 1.6rem;
 }
 
+/* ---- デモの使い方と注記（/demo/<slug>） ----
+ * 2枚のパネルを並べず、罫線で区切った一段にする。 */
+.ai-usage {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1px;
+  background: rgba(182, 126, 255, 0.27);
+  border: 1px solid rgba(182, 126, 255, 0.27);
+}
+.ai-usage > div,
+.ai-usage > details {
+  background: #0c0815;
+  padding: 1.4rem;
+}
+.ai-usage ul {
+  margin-top: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.55rem;
+  font-size: 0.8rem;
+  line-height: 1.75;
+  color: #cdc2dd;
+}
+.ai-usage li {
+  position: relative;
+  padding-left: 1rem;
+}
+.ai-usage li::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0.62em;
+  width: 5px;
+  height: 1px;
+  background: var(--color-brand);
+}
+/* 注記側は .ai-qa の1行だけを使うので、枠線を二重にしない */
+.ai-usage > details.ai-qa {
+  border-top: 0;
+}
+.ai-usage > details.ai-qa summary {
+  padding-top: 0;
+}
+.ai-usage > details.ai-qa summary::after {
+  top: 0;
+}
+.ai-usage > details.ai-qa p {
+  padding: 0 2.2rem 0 3.1rem;
+}
+@media (max-width: 860px) {
+  .ai-usage {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* 技術タグは箇条書きではなく、横に流す */
+.ai-facts .ai-facts-tags {
+  flex-direction: row;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+.ai-facts .ai-facts-tags li {
+  padding: 0.25rem 0.6rem;
+  border: 1px solid rgba(182, 126, 255, 0.3);
+  font-family: var(--font-display);
+  font-size: 0.56rem;
+  letter-spacing: 0.08em;
+  color: #cdc2dd;
+}
+.ai-facts .ai-facts-tags li::before {
+  display: none;
+}
+
 /* ---- 事実の並び（費用・期間・変動要素など） ----
  * 独立したカードを並べず、1pxの隙間で連結した盤にする。
  * 隙間の紫がそのまま罫線に見えるので、線を引かずに表の密度が出る。 */
@@ -2076,8 +2149,13 @@ main h3 {
   margin-top: auto;
   align-self: flex-start;
 }
+/* 2列で使う場合（設定内容など） */
+.ai-facts.ai-facts-2 {
+  grid-template-columns: 1fr 1fr;
+}
 @media (max-width: 860px) {
-  .ai-facts {
+  .ai-facts,
+  .ai-facts.ai-facts-2 {
     grid-template-columns: 1fr;
   }
 }

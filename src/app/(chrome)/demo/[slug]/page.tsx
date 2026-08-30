@@ -10,6 +10,7 @@ import { siteConfig } from "@/lib/site";
 import { Container } from "@/components/ui/Container";
 import { Section, SectionHeading } from "@/components/ui/Section";
 import { PageHeader, artFor } from "@/components/ui/PageHeader";
+import { ClosingCta } from "@/components/ui/Studio";
 import { demoProposal, proposalById } from "@/lib/designProposals";
 import { Breadcrumbs } from "@/components/site/Breadcrumbs";
 import { ButtonLink } from "@/components/ui/Button";
@@ -152,31 +153,23 @@ export default async function DemoDetailPage({
             <DemoLoader slug={cap.slug} />
           </div>
 
-          <div className="mt-5 grid gap-4 lg:grid-cols-2">
-            <div className="panel p-5" data-reveal>
-              <h2 className="flex items-center gap-2 text-sm font-bold text-white">
-                <Icon name="play" className="size-4 text-brand" />
-                デモの使い方
-              </h2>
-              <ul className="mt-3 space-y-1.5">
+          <div className="ai-usage mt-5">
+            <div data-reveal>
+              <p className="eyebrow">How to use</p>
+              <ul>
                 {cap.howToUse.map((h) => (
-                  <li key={h} className="flex gap-2 text-xs text-slate-400">
-                    <Icon name="arrowRight" className="mt-0.5 size-3 shrink-0 text-brand" />
-                    <span className="min-w-0">{ja(h)}</span>
-                  </li>
+                  <li key={h}>{ja(h)}</li>
                 ))}
               </ul>
             </div>
 
             {/* 前提・制約は読みたい人だけが開く（本文はDOMに残るのでSEOに影響なし） */}
-            <details className="demo-note self-start" data-reveal>
+            <details className="ai-qa" data-reveal>
               <summary>
-                <span className="font-display mr-2 text-[10px] font-bold tracking-[0.2em] text-gold uppercase">
-                  Note
-                </span>
-                {ja("どこまでが実装で、本番では何が変わるか")}
+                <b>NOTE</b>
+                <span className="min-w-0">{ja("どこまでが実装で、本番では何が変わるか")}</span>
               </summary>
-              <p className="mt-3 text-xs leading-relaxed text-slate-400">{ja(cap.demoNote)}</p>
+              <p>{ja(cap.demoNote)}</p>
             </details>
           </div>
         </Container>
@@ -229,19 +222,12 @@ export default async function DemoDetailPage({
           title="導入すると、何が変わるか"
           description={ja(cap.description)}
         />
-        <div className="mt-12 grid gap-5 md:grid-cols-3">
+        <div className="ai-facts mt-12" data-reveal>
           {cap.businessValue.map((v, i) => (
-            <article
-              key={v.title}
-              className="panel panel-corners flex flex-col p-6"
-              data-reveal
-              style={{ "--reveal-delay": `${i * 0.1}s` } as React.CSSProperties}
-            >
-              <span className="font-display text-3xl font-bold text-white/10">
-                {String(i + 1).padStart(2, "0")}
-              </span>
-              <h3 className="mt-2 text-lg leading-snug font-bold text-white">{ja(v.title)}</h3>
-              <p className="speakable mt-3 text-sm leading-relaxed text-slate-400">{ja(v.body)}</p>
+            <article key={v.title}>
+              <span>0{i + 1}</span>
+              <b>{ja(v.title)}</b>
+              <p className="speakable">{ja(v.body)}</p>
             </article>
           ))}
         </div>
@@ -249,64 +235,38 @@ export default async function DemoDetailPage({
 
       {/* ------------- できること・活用シーン・技術 ------------- */}
       <Section>
-        <div className="grid gap-6 lg:grid-cols-3">
-          <div className="panel panel-corners p-7" data-reveal>
-            <h2 className="flex items-center gap-2 text-lg font-bold text-white">
-              <Icon name="check" className="size-5 text-brand" />
-              できること
-            </h2>
-            <ul className="mt-5 space-y-3">
-              {cap.bullets.map((b) => (
-                <li key={b} className="speakable flex gap-2.5 text-sm leading-relaxed text-slate-300">
-                  <Icon name="check" className="mt-0.5 size-4 shrink-0 text-brand" />
-                  <span className="min-w-0">{ja(b)}</span>
+        <div className="ai-facts" data-reveal>
+          <article>
+            <span>CAN DO</span>
+            <b>できること</b>
+            <ul>
+              {cap.bullets.map((x) => (
+                <li key={x} className="speakable">
+                  {ja(x)}
                 </li>
               ))}
             </ul>
-          </div>
+          </article>
 
-          <div
-            className="panel p-7"
-            data-reveal
-            style={{ "--reveal-delay": "0.1s" } as React.CSSProperties}
-          >
-            <h2 className="flex items-center gap-2 text-lg font-bold text-white">
-              <Icon name="target" className="size-5 text-gold" />
-              こんな企業に
-            </h2>
-            <ul className="mt-5 space-y-3">
-              {cap.useCases.map((u) => (
-                <li key={u} className="flex gap-2.5 text-sm leading-relaxed text-slate-300">
-                  <Icon name="arrowRight" className="mt-0.5 size-4 shrink-0 text-gold" />
-                  <span className="min-w-0">{ja(u)}</span>
-                </li>
+          <article>
+            <span>WHO FOR</span>
+            <b>こんな企業に</b>
+            <ul>
+              {cap.useCases.map((x) => (
+                <li key={x}>{ja(x)}</li>
               ))}
             </ul>
-          </div>
+          </article>
 
-          <div
-            className="panel p-7"
-            data-reveal
-            style={{ "--reveal-delay": "0.2s" } as React.CSSProperties}
-          >
-            <h2 className="flex items-center gap-2 text-lg font-bold text-white">
-              <Icon name="code" className="size-5 text-accent-light" />
-              使用する技術
-            </h2>
-            <ul className="mt-5 flex flex-wrap gap-2">
-              {cap.tech.map((t) => (
-                <li
-                  key={t}
-                  className="rounded-none border border-brand/20 bg-white/5 px-2.5 py-1 text-xs font-medium text-slate-300"
-                >
-                  {ja(t)}
-                </li>
+          <article>
+            <span>STACK</span>
+            <b>使用する技術</b>
+            <ul className="ai-facts-tags">
+              {cap.tech.map((x) => (
+                <li key={x}>{x}</li>
               ))}
             </ul>
-            <p className="mt-5 text-xs leading-relaxed text-slate-500">
-              {ja("案件の要件・既存環境に合わせて選定します。ライブラリを増やすことによる表示速度への影響も評価したうえでご提案します。")}
-            </p>
-          </div>
+          </article>
         </div>
       </Section>
 
@@ -317,50 +277,31 @@ export default async function DemoDetailPage({
           title="ほかにも、こんなことができます"
           description="すべて実際に動くデモをご用意しています。"
         />
-        <div className="mt-12 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
-          {others.map((o, i) => (
-            <Link
-              prefetch={false}
-              key={o.slug}
-              href={`/demo/${o.slug}`}
-              className="panel panel-hover flex flex-col p-5"
-              data-reveal
-              style={{ "--reveal-delay": `${i * 0.08}s` } as React.CSSProperties}
-            >
-              <span className="grid size-10 place-items-center rounded-none border border-brand/20 bg-white/5 text-slate-400">
-                <Icon name={o.icon} className="size-5" />
-              </span>
-              <h3 className="mt-4 font-bold text-white">{ja(o.title)}</h3>
-              <p className="mt-2 flex-1 text-sm leading-relaxed text-slate-400">{ja(o.impact)}</p>
-              <span className="mt-4 inline-flex items-center gap-1.5 text-xs font-bold text-brand-light">
-                デモを見る
-                <Icon name="arrowRight" className="size-3" />
-              </span>
-            </Link>
+        <ul className="ai-linklist mt-10">
+          {others.slice(0, 6).map((o) => (
+            <li key={o.slug}>
+              <Link prefetch={false} href={`/demo/${o.slug}`}>
+                <b>{ja(o.title)}</b>
+                <span>{ja(o.impact)}</span>
+                <i aria-hidden>↗</i>
+              </Link>
+            </li>
           ))}
-        </div>
+        </ul>
       </Section>
 
-      {/* ------------- CTA ------------- */}
-      <Section>
-        <div className="panel panel-corners p-8 text-center sm:p-12" data-reveal>
-          <h2 className="text-2xl font-bold text-white sm:text-3xl">
-            {ja(cap.title)}
-            {ja("を、自社サイトでも。")}
-          </h2>
-          <p className="mx-auto mt-4 max-w-xl text-sm leading-relaxed text-slate-400">
-            {ja("「どこまでできるか」「いくらかかるか」だけでも構いません。初回のご相談・お見積もりは無料です。")}
-          </p>
-          <div className="mt-8 flex flex-wrap justify-center gap-3">
-            <ButtonLink href="/contact" size="lg" withArrow>
-              無料で相談する
-            </ButtonLink>
-            <ButtonLink href="/request#pricing" size="lg" variant="secondary">
-              料金を見る
-            </ButtonLink>
-          </div>
-        </div>
-      </Section>
+      <ClosingCta
+        title={
+          <>
+            {ja(cap.title)}を、
+            <br />
+            自社サイトでも。
+          </>
+        }
+        lead="「どこまでできるか」「いくらかかるか」だけでも構いません。初回のご相談・お見積もりは無料です。"
+        action={{ href: "/contact", label: "無料で相談する", primary: true }}
+        secondary={{ href: "/request#pricing", label: "料金を見る" }}
+      />
     </>
   );
 }
