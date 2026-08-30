@@ -33,10 +33,12 @@ export default function ContactPage() {
     <>
       <JsonLd
         data={[
+          // 問い合わせ窓口のページであることを型で明示する（ContactPage）
           webPageJsonLd({
             path: "/contact",
             name: `${title}｜${siteConfig.name}`,
             description,
+            type: "ContactPage",
           }),
           breadcrumbJsonLd(crumbs),
         ]}

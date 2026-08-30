@@ -7,7 +7,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
-    "build:pages": "GITHUB_PAGES=true NEXT_PUBLIC_SITE_URL=https://yasufumi-27.github.io/EbisSoft-Design-AiStudio next build",
+    "build:pages": "GITHUB_PAGES=true NEXT_PUBLIC_SITE_URL=https://yasufumi-27.github.io/EbisSoft-Design-AiStudio next build && node scripts/fix-image-extensions.mjs",
     "size": "node scripts/bundle-size.mjs",
     "analyze": "GITHUB_PAGES=true next experimental-analyze"
   },

@@ -1867,6 +1867,237 @@ main h3 {
   }
 }
 
+/* ---- 記事の索引（コラム一覧） ----
+ * 1件ずつをカードにせず、罫線で区切る。番号・カテゴリ・日付を1行の
+ * 英字メタにまとめ、見出しと結論だけを大きく残す。 */
+.ai-index {
+  border-top: 1px solid rgba(182, 126, 255, 0.28);
+}
+.ai-index article {
+  padding: clamp(2rem, 3.5vw, 3rem) 0;
+  border-bottom: 1px solid rgba(182, 126, 255, 0.2);
+}
+.ai-index-meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0.35rem 1.2rem;
+  font-family: var(--font-display);
+  font-size: 0.54rem;
+  letter-spacing: 0.14em;
+  color: #8a7c98;
+}
+.ai-index-meta b {
+  font-weight: 400;
+  color: #b68bda;
+}
+.ai-index h2 {
+  margin-top: 1.1rem;
+  font-size: clamp(1.4rem, 2.6vw, 2.1rem);
+  line-height: 1.3;
+  letter-spacing: -0.045em;
+  font-weight: 600;
+}
+.ai-index h2 a {
+  color: #f4effa;
+  transition: color 0.25s ease;
+}
+.ai-index h2 a:hover {
+  color: #e5d6ff;
+}
+.ai-index-answer {
+  margin-top: 1.1rem;
+  max-width: 44rem;
+  font-size: 0.92rem;
+  line-height: 1.95;
+  color: #a393af;
+}
+.ai-index .ai-flight-more {
+  margin-top: 1.6rem;
+}
+
+/* ---- 事実の並び（費用・期間・変動要素など） ----
+ * 独立したカードを並べず、1pxの隙間で連結した盤にする。
+ * 隙間の紫がそのまま罫線に見えるので、線を引かずに表の密度が出る。 */
+.ai-facts {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1px;
+  background: rgba(182, 126, 255, 0.27);
+  border: 1px solid rgba(182, 126, 255, 0.27);
+}
+.ai-facts article {
+  background: #0c0815;
+  padding: clamp(1.4rem, 2.4vw, 2rem);
+  display: flex;
+  flex-direction: column;
+  gap: 0.9rem;
+}
+.ai-facts span {
+  font-family: var(--font-display);
+  font-size: 0.5rem;
+  letter-spacing: 0.16em;
+  color: #a98bc0;
+}
+.ai-facts b {
+  font-family: var(--font-display);
+  font-size: clamp(1.2rem, 2vw, 1.7rem);
+  font-weight: 500;
+  letter-spacing: -0.03em;
+  line-height: 1.25;
+  color: #f4effa;
+}
+.ai-facts p {
+  font-size: 0.82rem;
+  line-height: 1.85;
+  color: #a393af;
+}
+.ai-facts ul {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  font-size: 0.82rem;
+  line-height: 1.75;
+  color: #cdc2dd;
+}
+.ai-facts li {
+  padding-left: 1rem;
+  position: relative;
+}
+.ai-facts li::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0.62em;
+  width: 5px;
+  height: 1px;
+  background: var(--color-brand);
+}
+.ai-facts .ai-flight-more {
+  margin-top: auto;
+  align-self: flex-start;
+}
+@media (max-width: 860px) {
+  .ai-facts {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ---- リンクの索引（関連ページ・ほかの記事） ----
+ * カードを並べるのをやめ、罫線で区切った索引にする。
+ * 見出し・本文・矢印を1行に収め、行そのものが押せる面になる。 */
+.ai-linklist-title {
+  margin-top: 1rem;
+  font-size: clamp(1.2rem, 2vw, 1.6rem);
+  line-height: 1.3;
+  letter-spacing: -0.04em;
+  font-weight: 600;
+  color: #f4effa;
+}
+.ai-linklist {
+  border-top: 1px solid rgba(182, 126, 255, 0.28);
+}
+.ai-linklist li {
+  border-bottom: 1px solid rgba(182, 126, 255, 0.2);
+}
+.ai-linklist a {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: baseline;
+  gap: 0.3rem 1.5rem;
+  padding: 1.2rem 0;
+  transition: background 0.25s ease, padding 0.25s ease;
+}
+.ai-linklist a:hover {
+  background: rgba(182, 126, 255, 0.06);
+  padding-left: 0.9rem;
+  padding-right: 0.9rem;
+}
+.ai-linklist b {
+  font-size: 1rem;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  color: #f4effa;
+}
+.ai-linklist span {
+  grid-column: 1;
+  font-size: 0.82rem;
+  line-height: 1.8;
+  color: #a393af;
+}
+.ai-linklist i {
+  grid-row: span 2;
+  align-self: center;
+  font-style: normal;
+  color: var(--color-brand);
+}
+
+/* ---- 質問と答え（Faq / 記事内FAQ） ----
+ * 記事本文の見出しと同じ組み：2桁の通し番号、1pxの紫の罫線、開閉は右端の記号だけ。
+ * カードにも丸みにもしないことで、ページ全体の密度と揃う。 */
+.ai-qa {
+  border-top: 1px solid rgba(182, 126, 255, 0.28);
+}
+.ai-qa details {
+  border-bottom: 1px solid rgba(182, 126, 255, 0.2);
+}
+.ai-qa summary {
+  display: flex;
+  align-items: baseline;
+  gap: 1.2rem;
+  padding: 1.3rem 2.2rem 1.3rem 0;
+  cursor: pointer;
+  list-style: none;
+  position: relative;
+  font-size: 1rem;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  color: #f4effa;
+  transition: color 0.25s ease;
+}
+.ai-qa summary::-webkit-details-marker {
+  display: none;
+}
+.ai-qa summary:hover {
+  color: #e5d6ff;
+}
+.ai-qa summary b {
+  flex: none;
+  font-family: var(--font-display);
+  font-size: 0.58rem;
+  font-weight: 400;
+  letter-spacing: 0.16em;
+  color: #b68bda;
+}
+/* 開閉の記号（＋／−）。矢印アイコンは使わない */
+.ai-qa summary::after {
+  content: "＋";
+  position: absolute;
+  right: 0;
+  top: 1.15rem;
+  font-size: 0.9rem;
+  line-height: 1;
+  color: var(--color-brand);
+  transition: transform 0.25s ease;
+}
+.ai-qa details[open] summary::after {
+  content: "−";
+}
+.ai-qa details[open] summary {
+  color: #f4effa;
+}
+.ai-qa p {
+  padding: 0 2.2rem 1.6rem 3.1rem;
+  font-size: 0.92rem;
+  line-height: 1.95;
+  color: #a393af;
+}
+@media (max-width: 640px) {
+  .ai-qa p {
+    padding-left: 0;
+  }
+}
+
 /* ---- コラム記事 ------------------------------------------------------------
  * 見出しに通し番号を振り、区切りは1pxの紫の罫線だけにします。
  * トップの ONE CONTINUOUS FLIGHT が「01 OBSERVE」で始まるのと同じ組みで、

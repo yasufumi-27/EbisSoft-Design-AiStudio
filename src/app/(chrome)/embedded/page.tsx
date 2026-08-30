@@ -10,8 +10,13 @@ import { EmbeddedPricingNote } from "@/components/sections/EmbeddedPricingNote";
 import { Faq } from "@/components/sections/Faq";
 
 const title = "組み込み開発｜ファームウェア・IoTの受託";
+/**
+ * 検索結果のスニペットに出る説明。日本語は全角80〜120字ほどで切られるため、
+ * 対象マイコンと受託範囲という「クリック判断に効く事実」だけをこの長さに収める。
+ * 費用・工程の但し書きはページ本文と llms.txt が持っているので、ここでは繰り返さない。
+ */
 const description =
-  "京都市伏見区のエビスソフトの組み込みソフトウェア開発。ルネサス RH850・RX・RL78、ARM Cortex-M・STM32・ESP32などのマイコン向けファームウェアをC / C++で受託開発します。新規開発から既存コードの改修・移植、通信の実装、実機検証まで対応。ご希望に応じてAIを活用した開発プロセスやクラウド連携にも広げられます。技術調査のみのご相談も歓迎です。組み込み開発の費用は別途ご相談で、Web制作の料金プランは適用されません。";
+  "京都市伏見区のエビスソフトによる組み込みソフトウェア受託開発。ルネサス RH850・RX・RL78、ARM Cortex-M・STM32・ESP32のファームウェアをC / C++で開発します。新規開発・移植・実機検証、IoTのクラウド連携まで。技術調査のみのご相談も可。";
 
 export const metadata: Metadata = {
   title,

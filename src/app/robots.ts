@@ -41,8 +41,25 @@ export default function robots(): MetadataRoute.Robots {
 
   return {
     rules: [
-      { userAgent: "*", allow: "/" },
-      { userAgent: aiCrawlers, allow: "/" },
+      {
+        userAgent: "*",
+        // llms.txt は AI に読ませたいので、下の *.txt 除外より先に明示的に許可する
+        // （Google はより長く一致したルールを優先するため、この順でも Allow が勝つ）
+        allow: ["/", "/llms.txt"],
+        disallow: [
+          // 静的書き出しでページごとに出力される React Server Components の
+          // ペイロード（/ai.txt など）。中身は本文と同じテキストを含む内部データで、
+          // ページ本体と重複したうえに読み物として意味をなさない。
+          // どこからもリンクしていないが、拡張子で機械的に拾われるのを防ぐ。
+          "/*.txt$",
+          // 職種別デモサイトは「お客様のサイトの再現」であって当社の情報ではない。
+          // 各ページに noindex も入れているが、クロール自体も抑える。
+          "/demosite/",
+          // 検討用のデザイン提案ページ（noindex と併用）
+          "/proposal",
+        ],
+      },
+      { userAgent: aiCrawlers, allow: ["/", "/llms.txt"], disallow: ["/*.txt$", "/demosite/", "/proposal"] },
     ],
     sitemap: `${siteConfig.url}/sitemap.xml`,
     host: siteConfig.url,

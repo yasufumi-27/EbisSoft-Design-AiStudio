@@ -157,19 +157,14 @@ export default async function ColumnPage({ params }: { params: Promise<{ slug: s
               {column.faqs.length > 0 ? (
                 <section aria-labelledby="column-faq" className="mt-16">
                   <h2 id="column-faq">{ja("この記事に関するよくある質問")}</h2>
-                  <div className="mt-6 space-y-4">
-                    {column.faqs.map((f) => (
-                      <details key={f.question} className="panel group p-5">
-                        <summary className="flex cursor-pointer items-start gap-3 font-bold text-white marker:content-none">
-                          <Icon
-                            name="chat"
-                            className="mt-0.5 size-4 shrink-0 text-brand group-open:text-gold"
-                          />
+                  <div className="ai-qa mt-8">
+                    {column.faqs.map((f, i) => (
+                      <details key={f.question}>
+                        <summary>
+                          <b>{String(i + 1).padStart(2, "0")}</b>
                           <span className="min-w-0">{ja(f.question)}</span>
                         </summary>
-                        <p className="speakable mt-3 pl-7 text-sm leading-relaxed text-slate-400">
-                          {ja(f.answer)}
-                        </p>
+                        <p className="speakable">{ja(f.answer)}</p>
                       </details>
                     ))}
                   </div>
@@ -183,27 +178,21 @@ export default async function ColumnPage({ params }: { params: Promise<{ slug: s
               {/* 記事から自社ページへの内部リンク（回遊とクロールの両方に効く） */}
               {related.length > 0 ? (
                 <section aria-labelledby="column-related" className="mt-12">
-                  <h2 id="column-related" className="eyebrow">
+                  <p className="eyebrow">Related</p>
+                  <h2 id="column-related" className="ai-linklist-title">
                     {ja("この記事に関連するページ")}
                   </h2>
-                  <div className="mt-5 grid gap-4 sm:grid-cols-2">
+                  <ul className="ai-linklist mt-6">
                     {related.map((p) => (
-                      <Link
-                        prefetch={false}
-                        key={p.href}
-                        href={p.href}
-                        className="panel panel-hover flex items-start gap-3 p-5"
-                      >
-                        <Icon name={p.icon} className="mt-0.5 size-5 shrink-0 text-brand" />
-                        <span className="min-w-0">
-                          <span className="block font-bold text-white">{ja(p.title)}</span>
-                          <span className="mt-1 block text-sm text-slate-400">
-                            {ja(p.description)}
-                          </span>
-                        </span>
-                      </Link>
+                      <li key={p.href}>
+                        <Link prefetch={false} href={p.href}>
+                          <b>{ja(p.title)}</b>
+                          <span>{ja(p.description)}</span>
+                          <i aria-hidden>↗</i>
+                        </Link>
+                      </li>
                     ))}
-                  </div>
+                  </ul>
                 </section>
               ) : null}
             </div>
@@ -241,23 +230,17 @@ export default async function ColumnPage({ params }: { params: Promise<{ slug: s
             <p className="eyebrow">Other Columns</p>
             <h2>{ja("ほかのコラム")}</h2>
           </div>
-          <div className="mt-6 grid gap-4 sm:grid-cols-2">
+          <ul className="ai-linklist mt-8">
             {others.map((c) => (
-              <Link
-                prefetch={false}
-                key={c.slug}
-                href={`/columns/${c.slug}`}
-                className="panel panel-hover p-6"
-                data-reveal
-              >
-                <span className="text-xs text-brand-light">{ja(c.category)}</span>
-                <span className="mt-2 block font-bold text-white">{ja(c.title)}</span>
-                <span className="mt-2 block text-sm leading-relaxed text-slate-400">
-                  {ja(c.answer.slice(0, 80))}…
-                </span>
-              </Link>
+              <li key={c.slug}>
+                <Link prefetch={false} href={`/columns/${c.slug}`}>
+                  <b>{ja(c.title)}</b>
+                  <span>{ja(`${c.answer.slice(0, 70)}…`)}</span>
+                  <i aria-hidden>↗</i>
+                </Link>
+              </li>
             ))}
-          </div>
+          </ul>
         </Section>
       ) : null}
 

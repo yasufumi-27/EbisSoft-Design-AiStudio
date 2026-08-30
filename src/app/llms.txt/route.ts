@@ -43,7 +43,7 @@ export function GET() {
 
   const body = `# ${siteConfig.name}
 
-> ${siteConfig.description}
+> ${siteConfig.longDescription}
 
 最終更新: ${BUILD_DATE}（このファイルはサイトの内容から自動生成しています）
 

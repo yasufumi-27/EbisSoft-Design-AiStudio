@@ -95,7 +95,9 @@ export const metadata: Metadata = {
   icons: {
     icon: [{ url: `${BASE_PATH}/icon.svg`, type: "image/svg+xml", sizes: "any" }],
     shortcut: [{ url: `${BASE_PATH}/favicon.ico`, sizes: "48x48" }],
-    apple: [{ url: `${BASE_PATH}/apple-icon`, sizes: "180x180", type: "image/png" }],
+    // 拡張子つきを指す理由は scripts/fix-image-extensions.mjs のコメント参照。
+    // （素のファイルサーバでは拡張子がないと image/png で配信されない）
+    apple: [{ url: `${BASE_PATH}/apple-icon.png`, sizes: "180x180", type: "image/png" }],
   },
   appleWebApp: {
     capable: true,

@@ -15,6 +15,7 @@ import {
   servicesByCategory,
   steps,
   capabilities,
+  plans,
   type Capability,
   type ServiceCategory,
 } from "@/lib/content";
@@ -32,6 +33,24 @@ const SERVICE_LIST_NAME: Record<ServiceCategory, string> = {
 
 const ORGANIZATION_ID = `${siteConfig.url}/#organization`;
 const WEBSITE_ID = `${siteConfig.url}/#website`;
+/** 代表者（Person）のノードID。記事の author からも、会社概要ページからも同じIDを指す */
+export const AUTHOR_ID = `${siteConfig.url}/#author`;
+
+/**
+ * OG画像・ロゴのパス。
+ *
+ * ⚠️ 拡張子つきである理由：Next の画像メタデータ規約（opengraph-image.tsx 等）は
+ *    拡張子のないパス（/opengraph-image）を出力する。Next のサーバが配信するあいだは
+ *    Content-Type が付くので問題ないが、静的書き出し（output: "export"）を
+ *    GitHub Pages・さくらのような素のファイルサーバに置くと、**拡張子から
+ *    MIMEタイプが決まる**ため application/octet-stream で配信されてしまう。
+ *    そうなると X・Facebook・Slack・LINE はOG画像を描画せず、
+ *    構造化データの logo / image も画像として認識されない。
+ *    そのため scripts/fix-image-extensions.mjs がビルド後に .png を付けたコピーを作り、
+ *    HTML の参照もそちらへ書き換える。ここではその **書き換え後のパス** を指す。
+ */
+const OG_IMAGE_PATH = "/opengraph-image.png";
+const OG_LOGO_PATH = "/apple-icon.png";
 
 /** ビルド時点の日付（静的書き出しのため生成時に固定される） */
 const BUILD_DATE = new Date().toISOString().slice(0, 10);
@@ -47,12 +66,22 @@ export function organizationJsonLd(): JsonLd {
     "@id": ORGANIZATION_ID,
     name: siteConfig.legalName,
     url: siteConfig.homeUrl,
+    /**
+     * ロゴ。Google の構造化データ要件は **ラスタ画像（JPG / PNG / GIF）** で、
+     * SVG はサポート対象外（ナレッジパネルのロゴとして採用されない）。
+     * 以前は /icon.svg を渡していたため無効になっていたので、
+     * 180×180 の PNG（apple-icon）を指す。width / height も必須ではないが、
+     * 明示しておくと「正方形・112px 以上」という要件の判定が確実になる。
+     */
     logo: {
       "@type": "ImageObject",
-      url: absoluteUrl("/icon.svg"),
+      url: absoluteUrl(OG_LOGO_PATH),
+      width: 180,
+      height: 180,
+      caption: siteConfig.legalName,
     },
-    image: absoluteUrl("/opengraph-image"),
-    description: siteConfig.description,
+    image: absoluteUrl(OG_IMAGE_PATH),
+    description: siteConfig.longDescription,
     slogan: "AIを駆使して、最速で、高性能なサイトを。",
     foundingDate: siteConfig.foundingDate,
     telephone: siteConfig.contact.telephone,
@@ -75,6 +104,8 @@ export function organizationJsonLd(): JsonLd {
       latitude: siteConfig.contact.geo.latitude,
       longitude: siteConfig.contact.geo.longitude,
     },
+    // 地図上の同じ地点を指し示し、事業所の実在性を照合できるようにする（ローカルSEO）
+    hasMap: siteConfig.contact.mapUrl,
     areaServed: siteConfig.areaServedList.map((a) => ({ "@type": "AdministrativeArea", name: a })),
     openingHoursSpecification: {
       "@type": "OpeningHoursSpecification",
@@ -90,7 +121,7 @@ export function organizationJsonLd(): JsonLd {
       ? {
           founder: {
             "@type": "Person",
-            "@id": `${siteConfig.url}/#author`,
+            "@id": AUTHOR_ID,
             name: author.personName,
             alternateName: author.personNameRomaji,
             jobTitle: author.personRole,
@@ -126,6 +157,69 @@ export function organizationJsonLd(): JsonLd {
         },
       })),
     },
+    // Web制作の料金プラン。「京都 ホームページ制作 費用」のような
+    // 金額を尋ねる質問に、AI・検索エンジンが数値で答えられるようにする（AEO）。
+    makesOffer: plans.map(planOffer),
+  };
+}
+
+/**
+ * 料金プランを Offer にする。
+ *
+ * 表示上は「¥298,000〜」と下限だけを示しているので、構造化データでも
+ * price（確定額）ではなく **minPrice を持つ PriceSpecification** で申告する。
+ * 確定額として出すと、実際の見積もりと食い違ったときに誤情報になる。
+ */
+function planOffer(plan: (typeof plans)[number]): JsonLd {
+  const minPrice = Number(plan.price.replace(/[^0-9]/g, ""));
+  return {
+    "@type": "Offer",
+    name: `${plan.name}プラン`,
+    description: plan.description,
+    category: "Webサイト制作",
+    priceCurrency: "JPY",
+    priceSpecification: {
+      "@type": "PriceSpecification",
+      priceCurrency: "JPY",
+      minPrice,
+      valueAddedTaxIncluded: false,
+    },
+    availability: "https://schema.org/InStock",
+    areaServed: siteConfig.areaServedList.map((a) => ({ "@type": "AdministrativeArea", name: a })),
+    seller: { "@id": ORGANIZATION_ID },
+    itemOffered: {
+      "@type": "Service",
+      name: `Webサイト制作（${plan.name}プラン）`,
+      description: plan.features.join("／"),
+      provider: { "@id": ORGANIZATION_ID },
+    },
+  };
+}
+
+/**
+ * 代表者（Person）を独立したノードとして出す。会社概要ページで使う。
+ *
+ * E-E-A-T の Experience / Authoritativeness は「誰が」に紐づくため、
+ * 事業者ノードの founder としてだけでなく、経歴・専門領域つきの Person として
+ * 会社概要ページに置き、記事の author（同じ @id）から参照できるようにしている。
+ * ※ 表示（会社概要の一覧表）と同じ内容だけを書くこと。表示にない肩書きを
+ *    構造化データにだけ足すと、誤解を招く構造化データとして扱われる。
+ */
+export function personJsonLd(): JsonLd | null {
+  if (!hasNamedAuthor) return null;
+  return {
+    "@context": "https://schema.org",
+    "@type": "Person",
+    "@id": AUTHOR_ID,
+    name: author.personName,
+    alternateName: author.personNameRomaji,
+    jobTitle: author.personRole,
+    description: author.bio,
+    worksFor: { "@id": ORGANIZATION_ID },
+    knowsAbout: [...siteConfig.knowsAbout],
+    knowsLanguage: ["ja", "en"],
+    url: absoluteUrl("/company"),
+    mainEntityOfPage: { "@id": `${absoluteUrl("/company")}#webpage` },
   };
 }
 
@@ -137,7 +231,7 @@ export function websiteJsonLd(): JsonLd {
     "@id": WEBSITE_ID,
     url: siteConfig.homeUrl,
     name: siteConfig.name,
-    description: siteConfig.description,
+    description: siteConfig.longDescription,
     inLanguage: siteConfig.lang,
     publisher: { "@id": ORGANIZATION_ID },
   };
@@ -283,7 +377,7 @@ export function webPageJsonLd(opts?: {
   path?: string;
   name?: string;
   description?: string;
-  type?: "WebPage" | "CollectionPage" | "AboutPage";
+  type?: "WebPage" | "CollectionPage" | "AboutPage" | "ContactPage" | "FAQPage";
   /** 記事ページなど、ページ固有の日付を持つ場合に上書きする */
   datePublished?: string;
   dateModified?: string;
@@ -301,7 +395,7 @@ export function webPageJsonLd(opts?: {
     isPartOf: { "@id": WEBSITE_ID },
     about: { "@id": ORGANIZATION_ID },
     publisher: { "@id": ORGANIZATION_ID },
-    primaryImageOfPage: absoluteUrl("/opengraph-image"),
+    primaryImageOfPage: absoluteUrl(OG_IMAGE_PATH),
     datePublished: opts?.datePublished ?? siteConfig.foundingDate,
     dateModified: opts?.dateModified ?? BUILD_DATE,
     speakable: {
@@ -320,7 +414,7 @@ export function authorRef(): JsonLd {
   return hasNamedAuthor
     ? {
         "@type": "Person",
-        "@id": `${siteConfig.url}/#author`,
+        "@id": AUTHOR_ID,
         name: author.personName,
         alternateName: author.personNameRomaji,
         jobTitle: author.personRole,
@@ -352,7 +446,7 @@ export function articleJsonLd(column: Column): JsonLd {
     dateModified: column.updated,
     author: authorRef(),
     publisher: { "@id": ORGANIZATION_ID },
-    image: absoluteUrl("/opengraph-image"),
+    image: absoluteUrl(OG_IMAGE_PATH),
     articleSection: column.category,
     keywords: column.keywords.join(", "),
     wordCount: countCharacters(column),

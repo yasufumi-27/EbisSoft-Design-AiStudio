@@ -189,80 +189,36 @@ export default async function DemoDetailPage({
           title="費用と期間の目安"
           description="「いくらかかるか」を先に出します。金額はサイト制作のプラン表と同じ基準で、この機能だけの特別料金は設けていません。"
         />
-        <div className="mt-12 grid gap-5 lg:grid-cols-3">
-          <div className="panel panel-corners p-7" data-reveal>
-            <h3 className="flex items-center gap-2 text-sm font-bold text-white">
-              <Icon name="calc" className="size-4 text-brand" />
-              費用の目安
-            </h3>
-            <p className="font-display mt-4 text-3xl font-bold text-brand-light">{plan.price}</p>
-            <p className="speakable mt-3 text-sm leading-relaxed text-slate-400">
-              {ja(
-                `サイト制作に含めてご依頼いただく場合の「${plan.name}」プランが目安です。${plan.description}`,
-              )}
+        {/* カードを3枚並べず、連結した盤にする（トップの LIVE MODULES と同じ組み） */}
+        <div className="ai-facts mt-12" data-reveal>
+          <article>
+            <span>COST</span>
+            <b>{plan.price}</b>
+            <p className="speakable">
+              {ja(`サイト制作に含めてご依頼いただく場合の「${plan.name}」プランが目安です。`)}
             </p>
-            <Link
-              prefetch={false}
-              href="/request#pricing"
-              className="mt-4 inline-flex items-center gap-1.5 text-xs font-bold text-brand-light"
-            >
-              3プランの料金表を見る
-              <Icon name="arrowRight" className="size-3" />
+            <Link prefetch={false} href="/request#pricing" className="ai-flight-more">
+              3プランの料金表 <span aria-hidden>↗</span>
             </Link>
-          </div>
+          </article>
 
-          <div
-            className="panel p-7"
-            data-reveal
-            style={{ "--reveal-delay": "0.1s" } as React.CSSProperties}
-          >
-            <h3 className="flex items-center gap-2 text-sm font-bold text-white">
-              <Icon name="clock" className="size-4 text-gold" />
-              期間の目安
-            </h3>
-            <p className="speakable mt-4 text-lg leading-snug font-bold text-gold-light">
-              {ja(cap.leadTime)}
+          <article>
+            <span>DURATION</span>
+            <b>{ja(cap.leadTime)}</b>
+            <p className="speakable">
+              {ja(`このデモ自体は${cap.buildTime}で実装しました。実案件では要件整理・原稿・検証を含めて上記が目安です。`)}
             </p>
-            <p className="mt-3 text-sm leading-relaxed text-slate-400">
-              {ja(
-                `このデモ自体はAIを活用した制作体制で${cap.buildTime}で実装しました。実案件では、要件整理・原稿・検証を含めて上記が目安です。`,
-              )}
-            </p>
-          </div>
+          </article>
 
-          <div
-            className="panel p-7"
-            data-reveal
-            style={{ "--reveal-delay": "0.2s" } as React.CSSProperties}
-          >
-            <h3 className="flex items-center gap-2 text-sm font-bold text-white">
-              <Icon name="sliders" className="size-4 text-accent-light" />
-              金額が変わる要素
-            </h3>
-            <ul className="mt-4 space-y-3">
+          <article>
+            <span>VARIABLES</span>
+            <b>金額が変わる要素</b>
+            <ul>
               {cap.costFactors.map((f) => (
-                <li key={f} className="flex gap-2.5 text-sm leading-relaxed text-slate-300">
-                  <Icon name="arrowRight" className="mt-0.5 size-4 shrink-0 text-accent-light" />
-                  <span className="min-w-0">{ja(f)}</span>
-                </li>
+                <li key={f}>{ja(f)}</li>
               ))}
             </ul>
-          </div>
-        </div>
-
-        {/* 質問と答えをそのままDOMに置く（AEO：AIに引用させるため） */}
-        <div className="mt-10 grid gap-4 lg:grid-cols-3">
-          {costFaq.map((f, i) => (
-            <div
-              key={f.question}
-              className="panel p-6"
-              data-reveal
-              style={{ "--reveal-delay": `${i * 0.08}s` } as React.CSSProperties}
-            >
-              <h3 className="text-sm leading-snug font-bold text-white">{ja(f.question)}</h3>
-              <p className="speakable mt-3 text-sm leading-relaxed text-slate-400">{ja(f.answer)}</p>
-            </div>
-          ))}
+          </article>
         </div>
       </Section>
 

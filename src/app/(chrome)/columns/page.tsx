@@ -8,7 +8,6 @@ import { siteConfig } from "@/lib/site";
 import { Section } from "@/components/ui/Section";
 import { PageHero } from "@/components/ui/Studio";
 import { Breadcrumbs } from "@/components/site/Breadcrumbs";
-import { Icon } from "@/components/ui/icons";
 import { AuthorBox } from "@/components/columns/AuthorBox";
 import { RelatedPages } from "@/components/sections/RelatedPages";
 import { ja } from "@/lib/typography";
@@ -85,48 +84,25 @@ export default function ColumnsIndexPage() {
       />
 
       <Section>
-        <div className="grid gap-6">
+        {/* カードを積まず、罫線で区切った索引にする。記事本文の見出しと同じ組み */}
+        <div className="ai-index">
           {columnsByDate.map((c, i) => (
-            <article
-              key={c.slug}
-              className="panel panel-hover panel-corners p-7"
-              data-reveal
-              style={{ "--reveal-delay": `${i * 0.08}s` } as React.CSSProperties}
-            >
-              <div className="flex flex-wrap items-center gap-x-3 gap-y-2 text-xs">
-                <span className="inline-flex items-center gap-1.5 rounded-none border border-brand/30 bg-brand/10 px-2.5 py-1 font-bold text-brand-light">
-                  <Icon name={c.icon} className="size-3.5" />
-                  {ja(c.category)}
-                </span>
-                <time dateTime={c.updated} className="text-slate-500">
-                  {ja(`${formatDate(c.updated)} 更新`)}
-                </time>
-                <span className="text-slate-600">{ja(`約${c.readMinutes}分で読めます`)}</span>
-              </div>
-
-              <h2 className="mt-4 text-xl font-bold text-white sm:text-2xl">
-                <Link
-                  prefetch={false}
-                  href={`/columns/${c.slug}`}
-                  className="transition-colors hover:text-brand-light"
-                >
+            <article key={c.slug} data-reveal>
+              <p className="ai-index-meta">
+                <b>{String(i + 1).padStart(2, "0")}</b>
+                <span>{ja(c.category)}</span>
+                <time dateTime={c.updated}>{ja(`${formatDate(c.updated)} 更新`)}</time>
+                <span>{ja(`約${c.readMinutes}分`)}</span>
+              </p>
+              <h2>
+                <Link prefetch={false} href={`/columns/${c.slug}`}>
                   {ja(c.title)}
                 </Link>
               </h2>
-
-              {/* 質問と結論を一覧にも出す（AEO：この単位でそのまま引用される） */}
-              <p className="mt-4 text-sm font-bold text-slate-200">{ja(`Q. ${c.question}`)}</p>
-              <p className="speakable mt-2 text-sm leading-relaxed text-slate-400">
-                {ja(c.answer)}
-              </p>
-
-              <Link
-                prefetch={false}
-                href={`/columns/${c.slug}`}
-                className="mt-6 inline-flex items-center gap-2 text-sm font-bold text-brand-light hover:text-brand"
-              >
-                {ja("続きを読む")}
-                <Icon name="arrowRight" className="size-4" />
+              {/* 質問と結論は一覧にも出す（AEO：この単位でそのまま引用される） */}
+              <p className="speakable ai-index-answer">{ja(c.answer)}</p>
+              <Link prefetch={false} href={`/columns/${c.slug}`} className="ai-flight-more">
+                続きを読む <span aria-hidden>↗</span>
               </Link>
             </article>
           ))}
