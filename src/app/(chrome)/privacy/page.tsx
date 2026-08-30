@@ -111,18 +111,13 @@ export default function PrivacyPage() {
       />
 
       <Section>
-        <div className="panel panel-corners mx-auto max-w-3xl p-7 sm:p-10" data-reveal>
-          <div className="space-y-9">
+        <div className="ai-legal mx-auto max-w-3xl" data-reveal>
+          <div>
             {sections.map((s) => (
               <section key={s.heading}>
-                <h2 className="text-lg font-bold text-white">{ja(s.heading)}</h2>
+                <h2>{ja(s.heading)}</h2>
                 {s.body.map((p) => (
-                  <p
-                    key={p.slice(0, 20)}
-                    className="mt-3 text-sm leading-relaxed whitespace-pre-line text-slate-400"
-                  >
-                    {ja(p)}
-                  </p>
+                  <p key={p.slice(0, 20)}>{ja(p)}</p>
                 ))}
               </section>
             ))}

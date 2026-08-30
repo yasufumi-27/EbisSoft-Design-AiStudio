@@ -225,7 +225,7 @@ export function InquiryForm() {
   if (sent !== null) {
     return (
       <div role="status" className="panel panel-corners p-8 text-center sm:p-12">
-        <span className="mx-auto grid size-14 place-items-center rounded-full border border-emerald-400/40 bg-emerald-400/10 text-emerald-300 shadow-[0_0_24px_rgba(16,185,129,0.35)]">
+        <span className="mx-auto grid size-14 place-items-center rounded-none border border-gold/50 bg-gold/10 text-gold shadow-[0_0_24px_rgba(170,255,220,0.3)]">
           <Icon name="check" className="size-7" />
         </span>
         <h2 className="mt-5 text-xl font-bold text-white">
@@ -291,7 +291,7 @@ export function InquiryForm() {
       {/* ① 一番書いてほしいこと。視覚的にも最優先で置く */}
       <div className="panel panel-corners border-brand/30 p-6 shadow-[0_0_40px_-16px_rgba(182,126,255,0.5)] sm:p-8">
         <div className="flex flex-wrap items-center gap-2">
-          <span className="font-display rounded-none bg-gradient-to-r from-brand to-accent px-2 py-1 text-[10px] font-bold tracking-widest text-ink">
+          <span className="font-display rounded-none bg-brand px-2 py-1 text-[10px] font-bold tracking-[0.16em] text-ink">
             STEP 1
           </span>
           <span className="text-xs font-bold text-brand-light">ここだけは、ぜひ</span>
@@ -350,7 +350,7 @@ export function InquiryForm() {
       <details className="panel group p-6 sm:p-8">
         <summary className="grid cursor-pointer list-none grid-cols-[1fr_auto] items-center gap-x-4 [&::-webkit-details-marker]:hidden">
           <span className="col-start-1 flex flex-wrap items-center gap-2">
-            <span className="font-display rounded-none border border-brand/30 bg-white/5 px-2 py-1 text-[10px] font-bold tracking-widest text-slate-300">
+            <span className="font-display rounded-none border border-brand/30 bg-white/5 px-2 py-1 text-[10px] font-bold tracking-[0.16em] text-slate-300">
               STEP 2
             </span>
             <span className="text-xs text-slate-500">すべて任意・ざっくりでOK</span>
@@ -365,7 +365,7 @@ export function InquiryForm() {
           {/* 開閉マーク。開くと上向きに反転する */}
           <span
             aria-hidden
-            className="col-start-2 row-span-3 row-start-1 grid size-9 shrink-0 place-items-center self-center rounded-full border border-brand/25 bg-white/5 text-slate-400 transition-all group-hover:border-brand/50 group-hover:text-brand-light group-open:rotate-180"
+            className="col-start-2 row-span-3 row-start-1 grid size-9 shrink-0 place-items-center self-center rounded-none border border-brand/30 bg-white/5 text-slate-400 transition-all group-hover:border-brand group-hover:text-brand-light group-open:rotate-180"
           >
             <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
               <path d="M12 17 3 6h18z" />
@@ -383,7 +383,7 @@ export function InquiryForm() {
       {/* ③ 連絡先 */}
       <div className="panel p-6 sm:p-8">
         <div className="flex flex-wrap items-center gap-2">
-          <span className="font-display rounded-none border border-brand/30 bg-white/5 px-2 py-1 text-[10px] font-bold tracking-widest text-slate-300">
+          <span className="font-display rounded-none border border-brand/30 bg-white/5 px-2 py-1 text-[10px] font-bold tracking-[0.16em] text-slate-300">
             STEP 3
           </span>
         </div>

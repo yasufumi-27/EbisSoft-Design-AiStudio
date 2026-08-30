@@ -1867,6 +1867,105 @@ main h3 {
   }
 }
 
+.ai-generate-note {
+  margin-bottom: 1.6rem;
+  font-size: 0.85rem;
+  line-height: 1.9;
+  color: #a393af;
+}
+
+/* ---- 職種の棚（/showcase） ----
+ * 18職種をカードで散らかさず、1pxの隙間で連結した盤に並べる。 */
+.ai-shelf {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1px;
+  background: rgba(182, 126, 255, 0.27);
+  border: 1px solid rgba(182, 126, 255, 0.27);
+}
+.ai-shelf article {
+  display: flex;
+  flex-direction: column;
+  gap: 0.7rem;
+  background: #0c0815;
+  padding: clamp(1.4rem, 2.2vw, 1.9rem);
+  transition: background 0.3s ease;
+}
+.ai-shelf article:hover {
+  background: #151022;
+}
+.ai-shelf-meta {
+  display: flex;
+  align-items: baseline;
+  gap: 1rem;
+  font-family: var(--font-display);
+  font-size: 0.5rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: #a98bc0;
+}
+.ai-shelf-meta b {
+  font-weight: 400;
+  color: var(--color-brand);
+}
+.ai-shelf h2 {
+  font-size: 1.15rem;
+  font-weight: 600;
+  letter-spacing: -0.03em;
+  color: #f4effa;
+}
+.ai-shelf-lead {
+  flex: 1;
+  font-size: 0.82rem;
+  line-height: 1.85;
+  color: #a393af;
+}
+.ai-shelf-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.8rem 1.4rem;
+  margin-top: 0.6rem;
+}
+.ai-shelf-actions .ai-btn {
+  padding: 0.7rem 1rem;
+  font-size: 0.55rem;
+}
+@media (max-width: 1000px) {
+  .ai-shelf {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+@media (max-width: 640px) {
+  .ai-shelf {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ---- 条文（プライバシーポリシー） ----
+ * 1枚の大きなパネルに閉じ込めず、条ごとに罫線で区切る。
+ * 法文は読み飛ばされる前提なので、見出しだけを拾えるようにする。 */
+.ai-legal > div > section {
+  padding: 2rem 0;
+  border-bottom: 1px solid rgba(182, 126, 255, 0.2);
+}
+.ai-legal > div > section:first-child {
+  border-top: 1px solid rgba(182, 126, 255, 0.28);
+}
+.ai-legal h2 {
+  font-size: 1rem;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  color: #f4effa;
+}
+.ai-legal p {
+  margin-top: 0.9rem;
+  font-size: 0.86rem;
+  line-height: 1.95;
+  white-space: pre-line;
+  color: #a393af;
+}
+
 /* ---- 記事の索引（コラム一覧） ----
  * 1件ずつをカードにせず、罫線で区切る。番号・カテゴリ・日付を1行の
  * 英字メタにまとめ、見出しと結論だけを大きく残す。 */

@@ -8,8 +8,6 @@ import { siteConfig, absoluteUrl } from "@/lib/site";
 import { Section } from "@/components/ui/Section";
 import { PageHero } from "@/components/ui/Studio";
 import { Breadcrumbs } from "@/components/site/Breadcrumbs";
-import { ButtonLink } from "@/components/ui/Button";
-import { Icon } from "@/components/ui/icons";
 import { RelatedPages } from "@/components/sections/RelatedPages";
 import { ja } from "@/lib/typography";
 
@@ -99,68 +97,58 @@ export default function ShowcaseIndexPage() {
       />
 
       <Section>
-        <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+        {/* カードを並べず、1pxの隙間で連結した盤にする（トップの LIVE MODULES と同じ） */}
+        <div id="industries" className="ai-shelf scroll-mt-20">
           {industries.map((i, idx) => (
-            <article
-              key={i.slug}
-              className="panel panel-corners flex flex-col p-6"
-              data-reveal
-              style={{ "--reveal-delay": `${(idx % 3) * 0.08}s` } as React.CSSProperties}
-            >
-              <span className="grid size-11 place-items-center rounded-none border border-brand/30 bg-brand/10 text-brand-light">
-                <Icon name={i.icon} className="size-5" />
-              </span>
-              <span className="font-display mt-4 text-[10px] tracking-[0.2em] text-slate-500 uppercase">
+            <article key={i.slug} data-reveal>
+              <p className="ai-shelf-meta">
+                <b>{String(idx + 1).padStart(2, "0")}</b>
                 {i.eyebrow}
-              </span>
-              <h2 className="mt-1 text-lg font-bold text-white">{ja(i.name)}</h2>
-              <p className="mt-2 flex-1 text-sm leading-relaxed text-slate-400">{ja(i.tagline)}</p>
-
-              {/* デモサイトは別タブで開く（本サイトの表示に影響させないため）。
-                  prefetch しないので、押した時点で初めて読み込まれます。 */}
-              <Link
-                href={`/demosite/${i.slug}`}
-                prefetch={false}
-                target="_blank"
-                rel="noopener"
-                className="btn btn-primary mt-5 h-10 justify-center px-4 text-sm"
-              >
-                {ja("デモサイトを開く")}
-                <Icon name="external" className="size-3.5" />
-              </Link>
-              <Link
-                prefetch={false}
-                href={`/showcase/${i.slug}`}
-                className="mt-3 inline-flex items-center gap-2 text-sm font-bold text-brand-light hover:text-white"
-              >
-                {ja("使える機能の説明を見る")}
-                <Icon name="arrowRight" className="size-4" />
-              </Link>
+              </p>
+              <h2>{ja(i.name)}</h2>
+              <p className="ai-shelf-lead">{ja(i.tagline)}</p>
+              <div className="ai-shelf-actions">
+                {/* デモサイトは別タブで開く。prefetch しないので、押した時点で初めて読み込まれる */}
+                <Link
+                  href={`/demosite/${i.slug}`}
+                  prefetch={false}
+                  target="_blank"
+                  rel="noopener"
+                  className="ai-btn ai-btn-solid"
+                >
+                  デモサイトを開く <span aria-hidden>↗</span>
+                </Link>
+                <Link prefetch={false} href={`/showcase/${i.slug}`} className="ai-flight-more">
+                  機能の説明 <span aria-hidden>↗</span>
+                </Link>
+              </div>
             </article>
           ))}
         </div>
       </Section>
 
-      <Section bg="deep">
-        <div className="panel panel-corners mx-auto max-w-3xl p-8 text-center sm:p-12" data-reveal>
-          <span className="grid mx-auto size-12 place-items-center rounded-none border border-gold/30 bg-gold/10 text-gold-light">
-            <Icon name="sparkles" className="size-6" />
-          </span>
-          <h2 className="mt-5 text-2xl font-bold text-white sm:text-3xl">
-            {ja("当てはまる職種がない場合は、その場で組み立てます")}
+      {/* 当てはまる職種がないとき。締めと同じ組みで、次の一手だけを置く */}
+      <section className="ai-console studio-board">
+        <div data-reveal>
+          <p className="ai-console-label">Generate</p>
+          <h2>
+            当てはまる職種が
+            <br />
+            なければ、その場で。
           </h2>
-          <p className="mx-auto mt-4 max-w-xl text-sm leading-relaxed text-slate-400">
-            {ja(
-              "職種を入力すると、いちばん近いテンプレートを選び、3Dで表示する対象・取扱データ・連携先を入力に合わせて差し替えたデモサイトをその場で作ります。ブラウザの中だけで動くので、送信も待ち時間もありません。",
-            )}
+          <p>
+            職種を入力すると、近いテンプレートを選び、3Dの対象・取扱データ・連携先を差し替えたデモサイトをその場で組み立てます。
           </p>
-          <div className="mt-8">
-            <ButtonLink href="/showcase/generate" size="lg" withArrow>
-              職種を入力してみる
-            </ButtonLink>
-          </div>
         </div>
-      </Section>
+        <div data-reveal>
+          <p className="ai-generate-note">
+            ブラウザの中だけで動くので、送信も待ち時間もありません。
+          </p>
+          <Link href="/showcase/generate" className="ai-btn ai-btn-solid studio-btn-lg">
+            職種を入力してみる <span aria-hidden>↗</span>
+          </Link>
+        </div>
+      </section>
 
       <RelatedPages hrefs={["/demo", "/web", "/ai", "/request"]} />
     </>
