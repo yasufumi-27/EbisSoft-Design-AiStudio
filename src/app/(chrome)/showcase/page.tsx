@@ -122,15 +122,16 @@ export default function ShowcaseIndexPage() {
 
               {/* デモサイトは別タブで開く（本サイトの表示に影響させないため）。
                   prefetch しないので、押した時点で初めて読み込まれます。 */}
-              <a
+              <Link
                 href={`/demosite/${i.slug}`}
+                prefetch={false}
                 target="_blank"
                 rel="noopener"
                 className="btn btn-primary mt-5 h-10 justify-center px-4 text-sm"
               >
                 {ja("デモサイトを開く")}
                 <Icon name="external" className="size-3.5" />
-              </a>
+              </Link>
               <Link
                 prefetch={false}
                 href={`/showcase/${i.slug}`}

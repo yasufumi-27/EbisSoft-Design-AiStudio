@@ -130,15 +130,16 @@ export default async function IndustryShowcasePage({
         </div>
         {/* デモサイト（実際のホームページの形）へ。別タブで開き、押すまで読み込まない */}
         <div className="mt-8 flex flex-wrap gap-3">
-          <a
+          <Link
             href={`/demosite/${data.slug}`}
+            prefetch={false}
             target="_blank"
             rel="noopener"
             className="btn btn-primary h-12 px-6"
           >
             {ja(`${data.name}のデモサイトを開く`)}
             <Icon name="external" className="size-4" />
-          </a>
+          </Link>
           <ButtonLink href="/contact" variant="secondary">
             この構成について相談する
           </ButtonLink>
