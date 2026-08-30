@@ -92,7 +92,7 @@ export default function FaqPage() {
 
       <PageHero
         kicker="FAQ"
-        art={0}
+        figure="faq-hero"
         title={
           <>
             聞かれることは、

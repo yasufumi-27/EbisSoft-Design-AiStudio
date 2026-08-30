@@ -46,7 +46,7 @@ export default function ContactPage() {
 
       <PageHero
         kicker="Contact"
-        art={1}
+        figure="contact-hero"
         title={
           <>
             書けるところだけ、

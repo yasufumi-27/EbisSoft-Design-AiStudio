@@ -64,7 +64,7 @@ export default function DemoIndexPage() {
 
       <PageHero
         kicker="Live Demos"
-        art={3}
+        figure="demo-hero"
         title={
           <>
             言わずに、

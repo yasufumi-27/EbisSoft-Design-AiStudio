@@ -1,5 +1,33 @@
 import type { ReactNode } from "react";
+
+import { Figure, type FigureName } from "@/components/ui/Figure";
 import { jaNode } from "@/lib/typography";
+
+/**
+ * 動的ルート（できること15種・職種18種）で使う図形の候補。
+ * 数が多いので一つずつ割り当てず、スラッグから決めます。
+ * 4形状を使い回していた頃と違い、ここから選べば隣の記事と同じ絵になりにくい。
+ */
+const POOL: FigureName[] = [
+  "ai-parallel",
+  "ai-rag",
+  "ai-cited",
+  "web-frame",
+  "web-speed",
+  "web-growth",
+  "emb-trace",
+  "emb-wave",
+  "emb-uplink",
+  "co-window",
+  "co-judge",
+  "co-real",
+  "req-talk",
+  "req-shape",
+  "req-start",
+  "contact-hero",
+  "faq-hero",
+  "columns-hero",
+];
 
 /**
  * スラッグから、右に置くオブジェクトの形を決める。
@@ -8,10 +36,10 @@ import { jaNode } from "@/lib/typography";
  * 文字列から決めます。ランダムではないので、同じページは常に同じ形になります
  * （ビルドのたびに絵が変わると、リンクを共有したときに別ページに見える）。
  */
-export function artFor(slug: string): 0 | 1 | 2 | 3 {
+export function artFor(slug: string): FigureName {
   let sum = 0;
-  for (let i = 0; i < slug.length; i++) sum += slug.charCodeAt(i);
-  return (sum % 4) as 0 | 1 | 2 | 3;
+  for (let i = 0; i < slug.length; i++) sum += slug.charCodeAt(i) * (i + 1);
+  return POOL[sum % POOL.length];
 }
 
 /**
@@ -24,9 +52,8 @@ export function artFor(slug: string): 0 | 1 | 2 | 3 {
  *   ── 左：英字ラベル（display）→ 詰まった大見出し → リード文 → CTA
  *   ── 右：発光するオブジェクト（トップの ONE CONTINUOUS FLIGHT と同じ4種）
  *
- * `art` でオブジェクトの形を選びます。トップの 01〜04 と同じ4形状なので、
- * ページごとに違う形を割り当てると「同じラボの別セクション」に見えます。
- *   0 … 球（既定）  1 … 星形  2 … 寝かせた点線の環  3 … ミントの核
+ * `art` に図形の名前を渡します（`Figure.tsx`）。動的ルートで使うので、
+ * 呼び出し側は `artFor(slug)` で決めるのが基本です。
  *
  * ファーストビューなので reveal は使いません（JSを待たずに描画してLCPを早める）。
  */
@@ -34,14 +61,14 @@ export function PageHeader({
   eyebrow,
   title,
   lead,
-  art = 0,
+  art = "ai-hero",
   children,
 }: {
   eyebrow: string;
   title: ReactNode;
   lead?: ReactNode;
-  /** 右に置く発光オブジェクトの形（0〜3）。トップの 01〜04 と同じ */
-  art?: 0 | 1 | 2 | 3;
+  /** 右に置く図形の名前。動的ルートでは artFor(slug) を渡す */
+  art?: FigureName;
   children?: ReactNode;
 }) {
   return (
@@ -59,7 +86,7 @@ export function PageHeader({
           {lead ? <p className="speakable ai-page-head-lead">{jaNode(lead)}</p> : null}
           {children}
         </div>
-        <div className={`ai-flight-object ai-flight-${art} ai-page-head-art`} aria-hidden />
+        <Figure name={art} className="ai-page-head-art" />
       </div>
     </section>
   );

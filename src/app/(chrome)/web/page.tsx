@@ -55,6 +55,7 @@ const webFaqs = faqs.filter((f) => f.category === "web");
 /** 制作の流れを3段で。工程表ではなく、何を大事にしているかを書く。 */
 const how = [
   {
+    figure: "web-frame" as const,
     en: "SCOPE",
     title: "何を解くのかを、先に決める。",
     body: "ページ数ではなく、達成したいことから構成を組み立てます。目的と読み手が決まれば、必要な機能は自然に決まります。",
@@ -62,6 +63,7 @@ const how = [
     more: "相談の流れを見る",
   },
   {
+    figure: "web-speed" as const,
     en: "BUILD",
     title: "速さは、質を削らない。",
     body: "AIで作業を並列化し、空いた時間を表示速度と原稿の精度に戻します。小規模なサイトなら最短5日で公開できます。",
@@ -69,6 +71,7 @@ const how = [
     more: "期間と費用の実測",
   },
   {
+    figure: "web-growth" as const,
     en: "GROW",
     title: "公開してからが、本番。",
     body: "アクセスと問い合わせを見ながら直します。SEO・AI検索対策・表示速度は追加オプションではなく標準です。",
@@ -110,7 +113,7 @@ export default function WebPage() {
 
       <PageHero
         kicker="Web Production"
-        art={1}
+        figure="web-hero"
         title={
           <>
             事業の成果から、

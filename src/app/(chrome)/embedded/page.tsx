@@ -59,16 +59,19 @@ const embeddedFaqs = faqs.filter((f) => f.category === "embedded");
 /** 受託の範囲を3段で。層（機器 → 通信 → クラウド）の順に上がっていく。 */
 const scope = [
   {
+    figure: "emb-trace" as const,
     en: "FIRMWARE",
     title: "実機で動くところまで。",
     body: "C / C++での新規開発と、既存コードの改修・移植。ベアメタルからRTOS構成まで、実機での検証まで担当します。",
   },
   {
+    figure: "emb-wave" as const,
     en: "PROTOCOL",
     title: "機器を、つなぐ。",
     body: "UART・I2C・SPI・CAN・BLE・Wi-Fi。周辺デバイスのドライバを、回路図とデータシートから起こします。",
   },
   {
+    figure: "emb-uplink" as const,
     en: "CLOUD LINK",
     title: "現場の値を、ブラウザで見る。",
     body: "センサーの値をクラウドへ送り、Web管理画面で可視化するところまで。Web側も同じ体制で作れます。",
@@ -113,7 +116,7 @@ export default function EmbeddedPage() {
 
       <PageHero
         kicker="Embedded Systems"
-        art={2}
+        figure="emb-hero"
         title={
           <>
             機器の中から、

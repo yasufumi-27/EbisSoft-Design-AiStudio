@@ -1,6 +1,7 @@
 import type { ReactNode } from "react";
 import Link from "next/link";
 
+import { Figure, type FigureName } from "@/components/ui/Figure";
 import { jaNode } from "@/lib/typography";
 
 /**
@@ -39,7 +40,7 @@ export function PageHero({
   title,
   lead,
   actions = [],
-  art = 0,
+  figure,
   note,
 }: {
   /** 英字ラベル（display フォント） */
@@ -49,8 +50,8 @@ export function PageHero({
   /** 一文だけのリード */
   lead?: ReactNode;
   actions?: HeroAction[];
-  /** 右に置く発光オブジェクトの形（トップの 01〜04 と同じ4種） */
-  art?: 0 | 1 | 2 | 3;
+  /** 右に置く図形。ページごとに固有のものを指定する（Figure.tsx） */
+  figure: FigureName;
   /** ボタンの下に添える短い注記（任意） */
   note?: string;
 }) {
@@ -86,7 +87,7 @@ export function PageHero({
           {note ? <p className="studio-hero-note">{note}</p> : null}
         </div>
 
-        <div className={`ai-flight-object ai-flight-${art} studio-hero-art`} aria-hidden />
+        <Figure name={figure} className="studio-hero-art" />
       </div>
     </section>
   );
@@ -106,6 +107,8 @@ export type FlightItem = {
   /** 続きを読ませる先（任意） */
   href?: string;
   more?: string;
+  /** この段の図形。段ごとに違う形にする（使い回さない） */
+  figure: FigureName;
 };
 
 /**
@@ -131,7 +134,7 @@ export function FlightList({
       </header>
       {items.map((item, i) => (
         <article key={item.title} data-reveal>
-          <div className={`ai-flight-object ai-flight-${i % 4}`} aria-hidden />
+          <Figure name={item.figure} />
           <div>
             <p className="ai-flight-label">
               <b>{String(i + 1).padStart(2, "0")}</b>

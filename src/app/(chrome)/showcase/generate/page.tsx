@@ -67,7 +67,7 @@ export default function GeneratePage() {
 
       <PageHero
         kicker="Generate"
-        art={3}
+        figure="showcase-hero"
         title={
           <>
             職種を入れると、

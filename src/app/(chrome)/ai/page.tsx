@@ -58,6 +58,7 @@ const aiFaqs = faqs.filter((f) => f.category === "ai");
  */
 const sides = [
   {
+    figure: "ai-parallel" as const,
     en: "BUILD WITH AI",
     title: "AIで、速くつくる。",
     body: "要件整理から実装・テストまでAIを入れて並列化します。人は設計とレビューに集中するので、期間が約1/3になっても質は落ちません。",
@@ -65,6 +66,7 @@ const sides = [
     more: "任せる範囲を読む",
   },
   {
+    figure: "ai-rag" as const,
     en: "BUILD THE AI",
     title: "AI機能そのものを、つくる。",
     body: "自社データで答えるチャットボット、音声で応対するAI、行動から選ぶレコメンド。根拠を示し、分からないことは答えない設計を標準にします。",
@@ -72,6 +74,7 @@ const sides = [
     more: "チャットボットを試す",
   },
   {
+    figure: "ai-cited" as const,
     en: "BE FOUND BY AI",
     title: "AIに、引用される。",
     body: "構造化データ、llms.txt、結論から書く本文。AI検索（AEO / LLMO）で「答え」として選ばれる形にサイトを整えます。",
@@ -113,7 +116,7 @@ export default function AiPage() {
 
       <PageHero
         kicker="AI Utilization"
-        art={0}
+        figure="ai-hero"
         title={
           <>
             AIを<em>使う側</em>でも、

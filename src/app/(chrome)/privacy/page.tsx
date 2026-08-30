@@ -105,7 +105,7 @@ export default function PrivacyPage() {
 
       <PageHero
         kicker="Privacy Policy"
-        art={2}
+        figure="privacy-hero"
         title="プライバシーポリシー"
         lead={`${siteConfig.legalName}は、お客様の個人情報の重要性を認識し、以下のとおり適切な取り扱いに努めます。`}
       />

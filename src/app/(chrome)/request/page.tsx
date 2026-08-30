@@ -48,16 +48,19 @@ const requestFaqs = faqs.filter((f) => f.category === "price");
 /** 相談から着手までを3段で。心配ごとを先に消す順番で並べる。 */
 const flow = [
   {
+    figure: "req-talk" as const,
     en: "TALK",
     title: "決まっていなくて、大丈夫。",
     body: "仕様書も予算も未定で構いません。「問い合わせを増やしたい」だけでも、そこから実現方法を一緒に整理します。",
   },
   {
+    figure: "req-shape" as const,
     en: "SHAPE",
     title: "構成案と見積もりまで、無料。",
     body: "目的を伺ったうえで、複数の構成案と概算費用をご提示します。内容にご納得いただけない場合は、お断りいただいて構いません。",
   },
   {
+    figure: "req-start" as const,
     en: "START",
     title: "小さく始めて、広げる。",
     body: "対策だけ、調査だけ、といった部分的なご依頼も受けています。成果を確認しながら範囲を広げられます。",
@@ -88,7 +91,7 @@ export default function RequestPage() {
 
       <PageHero
         kicker="Request"
-        art={1}
+        figure="req-hero"
         title={
           <>
             まだ輪郭のない

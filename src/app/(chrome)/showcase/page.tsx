@@ -82,7 +82,7 @@ export default function ShowcaseIndexPage() {
 
       <PageHero
         kicker="Industry Showcase"
-        art={3}
+        figure="showcase-hero"
         title={
           <>
             自分の職種で、

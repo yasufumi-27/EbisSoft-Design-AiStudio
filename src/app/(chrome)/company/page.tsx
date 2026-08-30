@@ -30,6 +30,7 @@ const crumbs = [
 /** 約束できることを3段で。会社の説明より、依頼したときに何が起きるかを書く。 */
 const promises = [
   {
+    figure: "co-window" as const,
     en: "ONE WINDOW",
     title: "Webも機器も、ひとつの窓口で。",
     body: "Web制作・AI機能・組み込みソフトウェアを同じ体制で担当します。会社をまたいだ調整が要りません。",
@@ -37,6 +38,7 @@ const promises = [
     more: "組み込みの範囲を見る",
   },
   {
+    figure: "co-judge" as const,
     en: "HUMAN JUDGMENT",
     title: "決めるのは、人。",
     body: "AIに任せるのは作業であって、判断ではありません。設計方針・レビュー・公開の可否は必ず人が決めます。",
@@ -44,6 +46,7 @@ const promises = [
     more: "AI活用の考え方",
   },
   {
+    figure: "co-real" as const,
     en: "NO FICTION",
     title: "架空の実績は、載せない。",
     body: "公開できる制作事例がないため、代わりに動くものを出しています。数値は自社の制作で計測した値だけです。",
@@ -89,7 +92,7 @@ export default function CompanyPage() {
 
       <PageHero
         kicker="About"
-        art={2}
+        figure="co-hero"
         title={
           <>
             京都の片隅で、

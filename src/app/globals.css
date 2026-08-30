@@ -603,6 +603,847 @@
 @media (max-width: 800px) { .home-hero-inner { width:calc(100% - 2rem); grid-template-columns:1fr; padding-top:3rem; }.home-hero-art { grid-column:1; grid-row:2; min-height:20rem; margin:-1rem auto 1rem; width:min(90vw,24rem); }.home-hero-copy { grid-column:1; }.home-hero h1 { font-size:clamp(3.2rem,15vw,6rem); }.home-scroll { display:none; }.home-intro,.home-proof { width:calc(100% - 2rem); grid-template-columns:1fr; gap:2rem; }.home-section-head { align-items:start; flex-direction:column; }.home-section-head > p { text-align:left; }.home-card-grid { grid-template-columns:1fr; }.home-discipline-card { min-height:30rem; }.home-proof-stamp { width:8rem; height:8rem; }.home-metrics { margin-top:1rem; } }
 
 /* ============================================================
+ * ページ固有の抽象図形（src/components/ui/Figure.tsx）
+ *
+ * トップページの発光オブジェクトと同じ語彙——放射グラデーションの光、点線の環、
+ * 円錐グラデーションの金属面、直角に折れる線——で、**ページごとに違う形**を描きます。
+ * 4種類の形を全ページで使い回すのをやめ、1ページに固有の図形を持たせるための一式です。
+ *
+ * 共通の約束：
+ *   .fig      … 正方形の器。中の <i> が形のパーツ（線・面・点）
+ *   発光      … box-shadow か radial-gradient。色は紫（--color-brand）とミント（--color-gold）
+ *   動き      … ごく遅い回転か明滅だけ。reduced-motion では止める
+ * ============================================================ */
+
+.fig {
+  position: relative;
+  width: min(38vw, 26rem);
+  aspect-ratio: 1;
+  margin: auto;
+  isolation: isolate;
+}
+.fig i {
+  position: absolute;
+  display: block;
+}
+
+/* 図形共通のゆっくりした動き */
+@keyframes fig-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+@keyframes fig-breathe {
+  0%,
+  100% {
+    opacity: 0.55;
+    transform: scale(0.94);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.06);
+  }
+}
+@keyframes fig-rise {
+  0%,
+  100% {
+    transform: translateY(6%);
+  }
+  50% {
+    transform: translateY(-6%);
+  }
+}
+
+/* ============================ AI活用 ============================ */
+
+/* 入口：三重の同心リング（実線・点線・破線）＋中心の核。「観測する」 */
+.fig-ai-hero i:nth-child(1),
+.fig-ai-hero i:nth-child(2),
+.fig-ai-hero i:nth-child(3) {
+  inset: 6%;
+  border-radius: 50%;
+  border: 1px solid rgba(182, 126, 255, 0.55);
+}
+.fig-ai-hero i:nth-child(2) {
+  inset: 20%;
+  border-style: dashed;
+  border-color: rgba(229, 214, 255, 0.5);
+  animation: fig-spin 44s linear infinite;
+}
+.fig-ai-hero i:nth-child(3) {
+  inset: 34%;
+  border-style: dotted;
+  border-width: 2px;
+  border-color: rgba(170, 255, 220, 0.5);
+  animation: fig-spin 30s linear infinite reverse;
+}
+.fig-ai-hero i:nth-child(4) {
+  inset: 44%;
+  border-radius: 50%;
+  background: radial-gradient(circle, #fff, #b67eff 40%, transparent 72%);
+  box-shadow: 0 0 4rem rgba(182, 126, 255, 0.7);
+  animation: fig-breathe 5s ease-in-out infinite;
+}
+
+/* 01 並列化：長さの違う4本の帯が同時に走る */
+.fig-ai-parallel i {
+  left: 12%;
+  right: 12%;
+  height: 6%;
+  border-radius: 2px;
+  background: linear-gradient(90deg, rgba(182, 126, 255, 0.85), rgba(182, 126, 255, 0.05));
+  box-shadow: 0 0 2rem rgba(182, 126, 255, 0.35);
+}
+.fig-ai-parallel i:nth-child(1) {
+  top: 26%;
+  right: 46%;
+}
+.fig-ai-parallel i:nth-child(2) {
+  top: 40%;
+  right: 22%;
+}
+.fig-ai-parallel i:nth-child(3) {
+  top: 54%;
+  right: 34%;
+  background: linear-gradient(90deg, rgba(170, 255, 220, 0.85), rgba(170, 255, 220, 0.05));
+}
+.fig-ai-parallel i:nth-child(4) {
+  top: 68%;
+  right: 12%;
+}
+
+/* 02 RAG：中心の核へ、周囲の根拠が集まる */
+.fig-ai-rag i:nth-child(1) {
+  inset: 40%;
+  border-radius: 50%;
+  background: radial-gradient(circle, #fff, #b67eff 45%, transparent 75%);
+  box-shadow: 0 0 3.5rem rgba(182, 126, 255, 0.75);
+}
+.fig-ai-rag i:nth-child(2),
+.fig-ai-rag i:nth-child(3),
+.fig-ai-rag i:nth-child(4) {
+  inset: 12%;
+  border-radius: 50%;
+  border-top: 1px solid rgba(229, 214, 255, 0.55);
+  border-right: 1px solid rgba(170, 255, 220, 0.35);
+  border-bottom: 0;
+  border-left: 0;
+  animation: fig-spin 26s linear infinite;
+}
+.fig-ai-rag i:nth-child(3) {
+  inset: 24%;
+  animation-duration: 18s;
+  animation-direction: reverse;
+}
+.fig-ai-rag i:nth-child(4) {
+  inset: 32%;
+  animation-duration: 34s;
+}
+
+/* 03 引用される：向かい合う2つの弧が、中心の一文を挟む */
+.fig-ai-cited i:nth-child(1),
+.fig-ai-cited i:nth-child(2) {
+  top: 22%;
+  bottom: 22%;
+  width: 22%;
+  border: 2px solid rgba(182, 126, 255, 0.7);
+}
+.fig-ai-cited i:nth-child(1) {
+  left: 14%;
+  border-right: 0;
+  border-radius: 40% 0 0 40%;
+}
+.fig-ai-cited i:nth-child(2) {
+  right: 14%;
+  border-left: 0;
+  border-radius: 0 40% 40% 0;
+}
+.fig-ai-cited i:nth-child(3),
+.fig-ai-cited i:nth-child(4) {
+  left: 40%;
+  right: 40%;
+  height: 4%;
+  border-radius: 2px;
+  background: rgba(170, 255, 220, 0.8);
+  box-shadow: 0 0 1.5rem rgba(170, 255, 220, 0.6);
+}
+.fig-ai-cited i:nth-child(3) {
+  top: 44%;
+}
+.fig-ai-cited i:nth-child(4) {
+  top: 56%;
+  left: 44%;
+  right: 44%;
+  opacity: 0.5;
+}
+
+/* ============================ Web制作 ============================ */
+
+/* 入口：ブラウザ窓が斜めに重なる */
+.fig-web-hero i:nth-child(1),
+.fig-web-hero i:nth-child(2) {
+  border: 1px solid rgba(182, 126, 255, 0.5);
+  background: linear-gradient(150deg, rgba(182, 126, 255, 0.12), transparent 60%);
+}
+.fig-web-hero i:nth-child(1) {
+  inset: 10% 22% 30% 6%;
+  transform: rotate(-6deg);
+}
+.fig-web-hero i:nth-child(2) {
+  inset: 30% 6% 10% 22%;
+  transform: rotate(4deg);
+  border-color: rgba(170, 255, 220, 0.45);
+  background: linear-gradient(150deg, rgba(170, 255, 220, 0.1), transparent 60%);
+}
+/* 窓の上辺（タイトルバー） */
+.fig-web-hero i:nth-child(3),
+.fig-web-hero i:nth-child(4) {
+  height: 5%;
+  background: rgba(182, 126, 255, 0.55);
+}
+.fig-web-hero i:nth-child(3) {
+  inset: 10% 22% auto 6%;
+  transform: rotate(-6deg);
+  transform-origin: left top;
+}
+.fig-web-hero i:nth-child(4) {
+  inset: 30% 6% auto 22%;
+  transform: rotate(4deg);
+  transform-origin: left top;
+  background: rgba(170, 255, 220, 0.5);
+}
+
+/* 01 枠取り：入れ子の矩形 */
+.fig-web-frame i {
+  border: 1px solid rgba(182, 126, 255, 0.45);
+}
+.fig-web-frame i:nth-child(1) {
+  inset: 8%;
+}
+.fig-web-frame i:nth-child(2) {
+  inset: 22%;
+  border-color: rgba(229, 214, 255, 0.4);
+}
+.fig-web-frame i:nth-child(3) {
+  inset: 36%;
+  border-color: rgba(170, 255, 220, 0.4);
+}
+.fig-web-frame i:nth-child(4) {
+  inset: 46%;
+  border: 0;
+  background: radial-gradient(circle, #fff, #b67eff 45%, transparent 75%);
+  box-shadow: 0 0 3rem rgba(182, 126, 255, 0.6);
+}
+
+/* 02 速さ：斜めに走る帯の束 */
+.fig-web-speed i {
+  top: -20%;
+  bottom: -20%;
+  width: 7%;
+  transform: skewX(-22deg);
+  background: linear-gradient(180deg, transparent, rgba(182, 126, 255, 0.75), transparent);
+}
+.fig-web-speed i:nth-child(1) {
+  left: 18%;
+}
+.fig-web-speed i:nth-child(2) {
+  left: 36%;
+  width: 3%;
+  background: linear-gradient(180deg, transparent, rgba(229, 214, 255, 0.6), transparent);
+}
+.fig-web-speed i:nth-child(3) {
+  left: 50%;
+  width: 10%;
+  background: linear-gradient(180deg, transparent, rgba(170, 255, 220, 0.55), transparent);
+}
+.fig-web-speed i:nth-child(4) {
+  left: 70%;
+  width: 4%;
+}
+
+/* 03 育つ：右肩上がりの階段 */
+.fig-web-growth i {
+  bottom: 24%;
+  width: 14%;
+  border-radius: 2px 2px 0 0;
+  background: linear-gradient(180deg, rgba(182, 126, 255, 0.85), rgba(182, 126, 255, 0.12));
+}
+.fig-web-growth i:nth-child(1) {
+  left: 16%;
+  height: 14%;
+}
+.fig-web-growth i:nth-child(2) {
+  left: 34%;
+  height: 26%;
+}
+.fig-web-growth i:nth-child(3) {
+  left: 52%;
+  height: 40%;
+}
+.fig-web-growth i:nth-child(4) {
+  left: 70%;
+  height: 56%;
+  background: linear-gradient(180deg, rgba(170, 255, 220, 0.9), rgba(170, 255, 220, 0.12));
+  box-shadow: 0 0 2.5rem rgba(170, 255, 220, 0.35);
+}
+
+/* ============================ 組み込み ============================ */
+
+/* 入口：チップ（角の面取りされた正方形＋四辺のピン） */
+.fig-emb-hero i:nth-child(1) {
+  inset: 26%;
+  border: 1px solid rgba(182, 126, 255, 0.7);
+  background: linear-gradient(140deg, rgba(182, 126, 255, 0.16), transparent 65%);
+  clip-path: polygon(12% 0, 100% 0, 100% 88%, 88% 100%, 0 100%, 0 12%);
+}
+.fig-emb-hero i:nth-child(2) {
+  inset: 38%;
+  border: 1px solid rgba(170, 255, 220, 0.5);
+}
+/* ピン：上下・左右に並ぶ短い線を、繰り返し背景で描く */
+.fig-emb-hero i:nth-child(3) {
+  inset: 26% 26% auto 26%;
+  height: 8%;
+  top: 18%;
+  background: repeating-linear-gradient(
+    90deg,
+    rgba(182, 126, 255, 0.75) 0 6%,
+    transparent 6% 16%
+  );
+}
+.fig-emb-hero i:nth-child(4) {
+  inset: auto 26% 18% 26%;
+  height: 8%;
+  background: repeating-linear-gradient(
+    90deg,
+    rgba(182, 126, 255, 0.75) 0 6%,
+    transparent 6% 16%
+  );
+}
+
+/* 01 基板のトレース：直角に折れる線 */
+.fig-emb-trace i {
+  border-left: 1px solid rgba(182, 126, 255, 0.6);
+  border-bottom: 1px solid rgba(182, 126, 255, 0.6);
+}
+.fig-emb-trace i:nth-child(1) {
+  inset: 18% 46% 58% 18%;
+}
+.fig-emb-trace i:nth-child(2) {
+  inset: 34% 26% 40% 34%;
+  border-color: rgba(229, 214, 255, 0.5);
+}
+.fig-emb-trace i:nth-child(3) {
+  inset: 50% 14% 22% 50%;
+  border-color: rgba(170, 255, 220, 0.5);
+}
+.fig-emb-trace i:nth-child(4) {
+  left: 16%;
+  top: 16%;
+  width: 5%;
+  height: 5%;
+  border: 0;
+  border-radius: 50%;
+  background: #aaffdc;
+  box-shadow: 0 0 1.6rem rgba(170, 255, 220, 0.9);
+}
+
+/* 02 通信：同心に広がる弧 */
+.fig-emb-wave i {
+  left: 16%;
+  bottom: 22%;
+  border: 2px solid rgba(182, 126, 255, 0.55);
+  border-radius: 50%;
+  border-right-color: transparent;
+  border-bottom-color: transparent;
+  transform: rotate(45deg);
+}
+.fig-emb-wave i:nth-child(1) {
+  width: 14%;
+  height: 14%;
+}
+.fig-emb-wave i:nth-child(2) {
+  width: 32%;
+  height: 32%;
+  border-color: rgba(229, 214, 255, 0.45);
+  border-right-color: transparent;
+  border-bottom-color: transparent;
+}
+.fig-emb-wave i:nth-child(3) {
+  width: 52%;
+  height: 52%;
+  border-color: rgba(170, 255, 220, 0.4);
+  border-right-color: transparent;
+  border-bottom-color: transparent;
+}
+.fig-emb-wave i:nth-child(4) {
+  width: 7%;
+  height: 7%;
+  border: 0;
+  border-radius: 50%;
+  background: #b67eff;
+  box-shadow: 0 0 1.8rem rgba(182, 126, 255, 0.9);
+  transform: none;
+  left: 14%;
+  bottom: 20%;
+}
+
+/* 03 上りリンク：下の点から上の面へ */
+.fig-emb-uplink i:nth-child(1) {
+  left: 46%;
+  bottom: 18%;
+  width: 7%;
+  height: 7%;
+  border-radius: 50%;
+  background: #b67eff;
+  box-shadow: 0 0 2rem rgba(182, 126, 255, 0.9);
+}
+.fig-emb-uplink i:nth-child(2) {
+  left: 49%;
+  bottom: 24%;
+  top: 34%;
+  width: 1px;
+  background: linear-gradient(180deg, rgba(170, 255, 220, 0.9), rgba(182, 126, 255, 0.1));
+}
+.fig-emb-uplink i:nth-child(3) {
+  inset: 18% 20% auto 20%;
+  height: 18%;
+  border: 1px solid rgba(170, 255, 220, 0.55);
+  border-radius: 999px;
+  background: linear-gradient(180deg, rgba(170, 255, 220, 0.16), transparent);
+}
+.fig-emb-uplink i:nth-child(4) {
+  inset: 24% 32% auto 32%;
+  height: 6%;
+  border-radius: 999px;
+  background: rgba(170, 255, 220, 0.5);
+  animation: fig-rise 6s ease-in-out infinite;
+}
+
+/* ============================ できること ============================ */
+
+/* 入口：15のセルが並ぶ格子。中央だけが灯る */
+.fig-demo-hero i:nth-child(1) {
+  inset: 10%;
+  background-image:
+    linear-gradient(rgba(182, 126, 255, 0.4) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(182, 126, 255, 0.4) 1px, transparent 1px);
+  background-size: 20% 20%;
+  border-right: 1px solid rgba(182, 126, 255, 0.4);
+  border-bottom: 1px solid rgba(182, 126, 255, 0.4);
+}
+.fig-demo-hero i:nth-child(2) {
+  inset: 30% 50% 50% 30%;
+  background: rgba(182, 126, 255, 0.22);
+}
+.fig-demo-hero i:nth-child(3) {
+  inset: 50% 30% 30% 50%;
+  background: rgba(170, 255, 220, 0.2);
+}
+.fig-demo-hero i:nth-child(4) {
+  inset: 42%;
+  border-radius: 50%;
+  background: radial-gradient(circle, #fff, #aaffdc 45%, transparent 75%);
+  box-shadow: 0 0 3.5rem rgba(170, 255, 220, 0.6);
+  animation: fig-breathe 5.5s ease-in-out infinite;
+}
+
+/* ============================ 会社概要 ============================ */
+
+/* 入口：積み上がった三層 */
+.fig-co-hero i {
+  left: 18%;
+  right: 18%;
+  height: 13%;
+  border: 1px solid rgba(182, 126, 255, 0.5);
+  background: linear-gradient(180deg, rgba(182, 126, 255, 0.14), transparent);
+}
+.fig-co-hero i:nth-child(1) {
+  bottom: 24%;
+}
+.fig-co-hero i:nth-child(2) {
+  bottom: 40%;
+  left: 24%;
+  right: 24%;
+}
+.fig-co-hero i:nth-child(3) {
+  bottom: 56%;
+  left: 30%;
+  right: 30%;
+  border-color: rgba(170, 255, 220, 0.5);
+}
+.fig-co-hero i:nth-child(4) {
+  bottom: 70%;
+  left: 44%;
+  right: 44%;
+  height: 8%;
+  border: 0;
+  border-radius: 50%;
+  background: radial-gradient(circle, #fff, #aaffdc 45%, transparent 75%);
+  box-shadow: 0 0 2.5rem rgba(170, 255, 220, 0.6);
+}
+
+/* 01 ひとつの窓口：3本が1点へ集まる */
+.fig-co-window i:nth-child(1),
+.fig-co-window i:nth-child(2),
+.fig-co-window i:nth-child(3) {
+  left: 20%;
+  width: 46%;
+  height: 1px;
+  background: rgba(182, 126, 255, 0.6);
+  transform-origin: right center;
+}
+.fig-co-window i:nth-child(1) {
+  top: 34%;
+  transform: rotate(14deg);
+}
+.fig-co-window i:nth-child(2) {
+  top: 50%;
+}
+.fig-co-window i:nth-child(3) {
+  top: 66%;
+  transform: rotate(-14deg);
+}
+.fig-co-window i:nth-child(4) {
+  right: 24%;
+  top: 45%;
+  width: 10%;
+  height: 10%;
+  border-radius: 50%;
+  background: radial-gradient(circle, #fff, #b67eff 45%, transparent 75%);
+  box-shadow: 0 0 3rem rgba(182, 126, 255, 0.7);
+}
+
+/* 02 決めるのは人：二股のうち、片方だけが灯る */
+.fig-co-judge i:nth-child(1) {
+  left: 48%;
+  bottom: 20%;
+  top: 52%;
+  width: 1px;
+  background: rgba(182, 126, 255, 0.6);
+}
+.fig-co-judge i:nth-child(2),
+.fig-co-judge i:nth-child(3) {
+  top: 30%;
+  height: 24%;
+  width: 26%;
+  border-top: 1px solid rgba(182, 126, 255, 0.45);
+}
+.fig-co-judge i:nth-child(2) {
+  left: 22%;
+  border-left: 1px solid rgba(182, 126, 255, 0.45);
+  border-radius: 8px 0 0 0;
+}
+.fig-co-judge i:nth-child(3) {
+  right: 22%;
+  border-right: 1px solid rgba(170, 255, 220, 0.7);
+  border-top-color: rgba(170, 255, 220, 0.7);
+  border-radius: 0 8px 0 0;
+}
+.fig-co-judge i:nth-child(4) {
+  right: 18%;
+  top: 24%;
+  width: 9%;
+  height: 9%;
+  border-radius: 50%;
+  background: radial-gradient(circle, #fff, #aaffdc 45%, transparent 75%);
+  box-shadow: 0 0 2.5rem rgba(170, 255, 220, 0.7);
+}
+
+/* 03 架空の実績は載せない：中身のある枠と、空の枠 */
+.fig-co-real i:nth-child(1) {
+  inset: 24% 54% 40% 16%;
+  border: 1px solid rgba(170, 255, 220, 0.6);
+  background: linear-gradient(160deg, rgba(170, 255, 220, 0.2), transparent 70%);
+}
+.fig-co-real i:nth-child(2) {
+  inset: 46% 16% 18% 42%;
+  border: 1px dashed rgba(182, 126, 255, 0.45);
+}
+.fig-co-real i:nth-child(3) {
+  left: 22%;
+  top: 30%;
+  width: 16%;
+  height: 4%;
+  background: rgba(170, 255, 220, 0.7);
+}
+.fig-co-real i:nth-child(4) {
+  left: 22%;
+  top: 38%;
+  width: 10%;
+  height: 4%;
+  background: rgba(170, 255, 220, 0.4);
+}
+
+/* ============================ ご依頼 ============================ */
+
+/* 入口：小さく始めて広がる3本 */
+.fig-req-hero i {
+  left: 20%;
+  height: 8%;
+  border-radius: 999px;
+  background: linear-gradient(90deg, rgba(182, 126, 255, 0.85), rgba(182, 126, 255, 0.15));
+}
+.fig-req-hero i:nth-child(1) {
+  top: 30%;
+  width: 20%;
+}
+.fig-req-hero i:nth-child(2) {
+  top: 46%;
+  width: 38%;
+}
+.fig-req-hero i:nth-child(3) {
+  top: 62%;
+  width: 58%;
+  background: linear-gradient(90deg, rgba(170, 255, 220, 0.85), rgba(170, 255, 220, 0.12));
+}
+.fig-req-hero i:nth-child(4) {
+  left: 16%;
+  top: 28%;
+  width: 2px;
+  height: 46%;
+  border-radius: 0;
+  background: rgba(229, 214, 255, 0.5);
+}
+
+/* 01 話す：吹き出し */
+.fig-req-talk i:nth-child(1) {
+  inset: 24% 20% 34% 16%;
+  border: 1px solid rgba(182, 126, 255, 0.6);
+  border-radius: 14px;
+  background: linear-gradient(160deg, rgba(182, 126, 255, 0.14), transparent 70%);
+}
+.fig-req-talk i:nth-child(2) {
+  left: 26%;
+  bottom: 26%;
+  width: 10%;
+  height: 10%;
+  border-left: 1px solid rgba(182, 126, 255, 0.6);
+  border-bottom: 1px solid rgba(182, 126, 255, 0.6);
+  transform: skewX(20deg);
+}
+.fig-req-talk i:nth-child(3),
+.fig-req-talk i:nth-child(4) {
+  left: 26%;
+  height: 4%;
+  border-radius: 2px;
+  background: rgba(229, 214, 255, 0.55);
+}
+.fig-req-talk i:nth-child(3) {
+  top: 40%;
+  width: 40%;
+}
+.fig-req-talk i:nth-child(4) {
+  top: 50%;
+  width: 24%;
+  opacity: 0.6;
+}
+
+/* 02 形にする：十字のガイドと、そこに置かれた面 */
+.fig-req-shape i:nth-child(1) {
+  left: 12%;
+  right: 12%;
+  top: 50%;
+  height: 1px;
+  background: rgba(229, 214, 255, 0.4);
+}
+.fig-req-shape i:nth-child(2) {
+  top: 12%;
+  bottom: 12%;
+  left: 50%;
+  width: 1px;
+  background: rgba(229, 214, 255, 0.4);
+}
+.fig-req-shape i:nth-child(3) {
+  inset: 26% 42% 42% 26%;
+  border: 1px solid rgba(182, 126, 255, 0.7);
+  background: linear-gradient(150deg, rgba(182, 126, 255, 0.18), transparent 70%);
+}
+.fig-req-shape i:nth-child(4) {
+  inset: 52% 26% 24% 48%;
+  border: 1px solid rgba(170, 255, 220, 0.6);
+  background: linear-gradient(150deg, rgba(170, 255, 220, 0.14), transparent 70%);
+}
+
+/* 03 始める：小さな円から大きな円へ */
+.fig-req-start i {
+  top: 50%;
+  border-radius: 50%;
+  border: 1px solid rgba(182, 126, 255, 0.55);
+  transform: translateY(-50%);
+}
+.fig-req-start i:nth-child(1) {
+  left: 16%;
+  width: 12%;
+  aspect-ratio: 1;
+  background: radial-gradient(circle, #fff, #b67eff 50%, transparent 78%);
+  border: 0;
+  box-shadow: 0 0 2rem rgba(182, 126, 255, 0.7);
+}
+.fig-req-start i:nth-child(2) {
+  left: 34%;
+  width: 20%;
+  aspect-ratio: 1;
+}
+.fig-req-start i:nth-child(3) {
+  left: 56%;
+  width: 30%;
+  aspect-ratio: 1;
+  border-color: rgba(170, 255, 220, 0.5);
+  border-style: dashed;
+}
+.fig-req-start i:nth-child(4) {
+  display: none;
+}
+
+/* ============================ その他の入口 ============================ */
+
+/* お問い合わせ：中心へ集まる4本 */
+.fig-contact-hero i {
+  background: linear-gradient(90deg, transparent, rgba(182, 126, 255, 0.8));
+  height: 2px;
+}
+.fig-contact-hero i:nth-child(1) {
+  left: 10%;
+  right: 52%;
+  top: 50%;
+}
+.fig-contact-hero i:nth-child(2) {
+  left: 52%;
+  right: 10%;
+  top: 50%;
+  background: linear-gradient(270deg, transparent, rgba(182, 126, 255, 0.8));
+}
+.fig-contact-hero i:nth-child(3) {
+  top: 10%;
+  bottom: 52%;
+  left: 50%;
+  width: 2px;
+  height: auto;
+  background: linear-gradient(180deg, transparent, rgba(170, 255, 220, 0.8));
+}
+.fig-contact-hero i:nth-child(4) {
+  top: 52%;
+  bottom: 10%;
+  left: 50%;
+  width: 2px;
+  height: auto;
+  background: linear-gradient(0deg, transparent, rgba(170, 255, 220, 0.8));
+}
+
+/* FAQ：問いの弧と、その下の点 */
+.fig-faq-hero i:nth-child(1) {
+  inset: 18% 30% 46% 30%;
+  border: 2px solid rgba(182, 126, 255, 0.7);
+  border-bottom: 0;
+  border-radius: 999px 999px 0 0;
+}
+.fig-faq-hero i:nth-child(2) {
+  left: 50%;
+  top: 54%;
+  width: 2px;
+  height: 14%;
+  background: rgba(182, 126, 255, 0.7);
+}
+.fig-faq-hero i:nth-child(3) {
+  left: 46%;
+  top: 74%;
+  width: 8%;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background: radial-gradient(circle, #fff, #aaffdc 50%, transparent 78%);
+  box-shadow: 0 0 2.5rem rgba(170, 255, 220, 0.7);
+}
+.fig-faq-hero i:nth-child(4) {
+  inset: 8%;
+  border: 1px dashed rgba(229, 214, 255, 0.25);
+  border-radius: 50%;
+  animation: fig-spin 60s linear infinite;
+}
+
+/* コラム：積み重なる行 */
+.fig-columns-hero i {
+  left: 18%;
+  height: 3%;
+  border-radius: 2px;
+  background: rgba(229, 214, 255, 0.45);
+}
+.fig-columns-hero i:nth-child(1) {
+  top: 30%;
+  right: 18%;
+  background: rgba(182, 126, 255, 0.8);
+  height: 5%;
+}
+.fig-columns-hero i:nth-child(2) {
+  top: 44%;
+  right: 22%;
+}
+.fig-columns-hero i:nth-child(3) {
+  top: 54%;
+  right: 34%;
+}
+.fig-columns-hero i:nth-child(4) {
+  top: 64%;
+  right: 26%;
+  background: rgba(170, 255, 220, 0.45);
+}
+
+/* 職種別デモ：小さな窓が並ぶ棚 */
+.fig-showcase-hero i:nth-child(1) {
+  inset: 14%;
+  background-image:
+    linear-gradient(rgba(182, 126, 255, 0.35) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(182, 126, 255, 0.35) 1px, transparent 1px);
+  background-size: 33.33% 33.33%;
+  border-right: 1px solid rgba(182, 126, 255, 0.35);
+  border-bottom: 1px solid rgba(182, 126, 255, 0.35);
+}
+.fig-showcase-hero i:nth-child(2) {
+  inset: 14% 52.7% 71.3% 14%;
+  background: rgba(182, 126, 255, 0.25);
+}
+.fig-showcase-hero i:nth-child(3) {
+  inset: 42.7% 14% 42.7% 52.7%;
+  background: rgba(170, 255, 220, 0.2);
+}
+.fig-showcase-hero i:nth-child(4) {
+  inset: 71.3% 33.3% 14% 33.3%;
+  background: rgba(229, 214, 255, 0.2);
+}
+
+/* プライバシー：閉じた面と、その上の錠 */
+.fig-privacy-hero i:nth-child(1) {
+  inset: 34% 26% 20% 26%;
+  border: 1px solid rgba(182, 126, 255, 0.6);
+  background: linear-gradient(170deg, rgba(182, 126, 255, 0.12), transparent 70%);
+}
+.fig-privacy-hero i:nth-child(2) {
+  inset: 18% 38% 60% 38%;
+  border: 2px solid rgba(182, 126, 255, 0.6);
+  border-bottom: 0;
+  border-radius: 999px 999px 0 0;
+}
+.fig-privacy-hero i:nth-child(3) {
+  left: 47%;
+  top: 46%;
+  width: 6%;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background: rgba(170, 255, 220, 0.85);
+  box-shadow: 0 0 2rem rgba(170, 255, 220, 0.7);
+}
+.fig-privacy-hero i:nth-child(4) {
+  display: none;
+}
+
+/* 動きを減らす設定では、図形も止める */
+@media (prefers-reduced-motion: reduce) {
+  .fig i {
+    animation: none !important;
+  }
+}
+
+/* ============================================================
  * 下層ページの組み立て部品（src/components/ui/Studio.tsx）
  *
  * トップページで決めた寸法をそのまま使います。下層だけ小さく作らないこと——
@@ -697,6 +1538,13 @@
 /* ---- 01/02/03 の縦連続（トップの .ai-flight をそのまま使う） ---- */
 .studio-flight {
   background: #090611;
+}
+/* 各段の図形。旧オブジェクトと同じ寸法に合わせ、偶数段は左右を入れ替える */
+.studio-flight .fig {
+  width: min(38vw, 30rem);
+}
+.studio-flight article:nth-child(even) .fig {
+  order: 2;
 }
 /* トップは4段だが、下層は3段のことが多い。最後の段の下線は引かない */
 .studio-flight article:last-child {
@@ -814,7 +1662,7 @@
 .ai-page-head-copy > :not(p):not(h1) {
   margin-top: 2.2rem;
 }
-/* 右のオブジェクト（トップの ONE CONTINUOUS FLIGHT と同じ4形状を流用） */
+/* 右の図形（ページ／記事ごとに違う形。Figure.tsx） */
 .ai-page-head-art {
   position: relative;
   z-index: 1;

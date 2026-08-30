@@ -68,7 +68,7 @@ export default function ColumnsIndexPage() {
 
       <PageHero
         kicker="Columns"
-        art={0}
+        figure="columns-hero"
         title={
           <>
             一般論ではなく、
