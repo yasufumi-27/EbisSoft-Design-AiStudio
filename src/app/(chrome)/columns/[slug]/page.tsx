@@ -17,8 +17,9 @@ import { pageLinks } from "@/lib/content";
 import { Container } from "@/components/ui/Container";
 import { Section } from "@/components/ui/Section";
 import { Breadcrumbs } from "@/components/site/Breadcrumbs";
+import { artFor } from "@/components/ui/PageHeader";
+import { Figure } from "@/components/ui/Figure";
 import { ButtonLink } from "@/components/ui/Button";
-import { Icon } from "@/components/ui/icons";
 import { ColumnBody } from "@/components/columns/ColumnBody";
 import { AuthorBox } from "@/components/columns/AuthorBox";
 import { ContactCta } from "@/components/sections/ContactCta";
@@ -100,37 +101,41 @@ export default async function ColumnPage({ params }: { params: Promise<{ slug: s
 
       <article>
         {/* 記事ヘッダー。日付と著者を先に出す（誰がいつ書いたか＝E-E-A-T） */}
-        <header className="ai-article-head">
+        {/* 記事ヘッダー。ほかのページの入口（PageHero）と同じ寸法で組む。
+            記事タイトルは長いので見出しの上限だけ下げ、余白と図形は共通のまま。
+            日付と著者を先に出すのは E-E-A-T のため（誰がいつ書いたか）。 */}
+        <header className="studio-hero article-hero">
           <div className="ai-stars" aria-hidden>
-            {Array.from({ length: 6 }).map((_, i) => (
+            {Array.from({ length: 8 }).map((_, i) => (
               <i key={i} />
             ))}
           </div>
-          <Container>
-            <div className="max-w-3xl">
-              <div className="ai-article-meta">
-                <span className="ai-article-cat">
-                  <Icon name={column.icon} className="size-3.5" />
-                  {ja(column.category)}
-                </span>
+
+          <div className="studio-hero-inner">
+            <div className="studio-hero-copy">
+              <p className="eyebrow">{ja(column.category)}</p>
+              <h1>{ja(column.title)}</h1>
+
+              <p className="ai-article-meta">
                 <span>{ja(`公開 ${formatDate(column.published)}`)}</span>
                 {column.updated !== column.published ? (
                   <time dateTime={column.updated}>{ja(`最終更新 ${formatDate(column.updated)}`)}</time>
                 ) : null}
                 <span>{ja(`約${column.readMinutes}分`)}</span>
                 <span>{ja(`著者：${authorDisplayName}`)}</span>
-              </div>
-
-              <h1>{ja(column.title)}</h1>
+              </p>
 
               {/* 結論ファーストの要約。AI Overviews・音声回答の抜き出し先になる部分 */}
-              <div className="ai-article-summary panel panel-corners mt-8 p-6">
+              <div className="ai-article-summary panel panel-corners">
                 <p className="eyebrow">ANSWER / 結論</p>
                 <p className="ai-article-q">{ja(`Q. ${column.question}`)}</p>
                 <p className="speakable ai-article-a">{ja(column.answer)}</p>
               </div>
             </div>
-          </Container>
+
+            {/* 記事ごとに違う図形（スラッグから決めるので、同じ記事は常に同じ絵） */}
+            <Figure name={artFor(column.slug)} className="studio-hero-art" />
+          </div>
         </header>
 
         <Container>

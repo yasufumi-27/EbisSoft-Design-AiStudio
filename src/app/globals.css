@@ -2280,15 +2280,20 @@ main h3 {
  * トップの ONE CONTINUOUS FLIGHT が「01 OBSERVE」で始まるのと同じ組みで、
  * 記事も「01 …」「02 …」と番号を追って読める形にしています。
  * ------------------------------------------------------------------------- */
-.ai-article-head {
-  position: relative;
-  isolation: isolate;
-  overflow: hidden;
-  padding: clamp(3rem, 6vw, 5rem) 0 clamp(2.5rem, 4vw, 3.5rem);
-  background: radial-gradient(circle at 50% 30%, #2a1049 0, #110819 40%, #07050e 72%);
-  border-bottom: 1px solid rgba(182, 126, 255, 0.2);
+/* 記事の入口は共通の .studio-hero を使う。
+   ここで足すのは「記事タイトルは長い」ことへの調整だけ。 */
+.article-hero {
+  min-height: 0;
+}
+.article-hero h1 {
+  font-size: clamp(1.9rem, 3.6vw, 3.4rem);
+  line-height: 1.18;
+}
+.article-hero .studio-hero-art {
+  width: min(26vw, 18rem);
 }
 .ai-article-meta {
+  margin-top: 1.6rem;
   display: flex;
   flex-wrap: wrap;
   align-items: center;
@@ -2298,21 +2303,10 @@ main h3 {
   letter-spacing: 0.12em;
   color: #8a7c98;
 }
-.ai-article-cat {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.4rem;
-  padding: 0.3rem 0.6rem;
-  border: 1px solid rgba(182, 126, 255, 0.45);
-  color: #e5d6ff;
-}
-.ai-article-head h1 {
-  margin-top: 1.6rem;
-  font-size: clamp(1.7rem, 3.4vw, 3rem);
-  line-height: 1.2;
-  letter-spacing: -0.045em;
-  font-weight: 600;
-  color: #f4effa;
+/* 結論ブロック。入口の中に置くので、上の余白は自前で持つ */
+.ai-article-summary {
+  margin-top: 2rem;
+  padding: clamp(1.3rem, 2.2vw, 1.8rem);
 }
 .ai-article-q {
   margin-top: 1rem;
@@ -2367,7 +2361,10 @@ main h3 {
   flex-direction: column;
   gap: 0.6rem;
 }
-.ai-toc a {
+/* 目次の行だけに効かせる。`.ai-toc a` にすると、同じ枠の中に置いた
+   CTAボタン（.btn）まで文字色を奪ってしまい、紫の面に紫の文字で消える。
+   要素セレクタを含むぶん .btn-primary より詳細度が高いので、必ず ol 配下に限定する。 */
+.ai-toc ol a {
   display: flex;
   gap: 0.8rem;
   font-size: 0.82rem;
@@ -2375,10 +2372,10 @@ main h3 {
   color: #a393af;
   transition: color 0.25s ease;
 }
-.ai-toc a:hover {
+.ai-toc ol a:hover {
   color: #f4effa;
 }
-.ai-toc a > span:first-child {
+.ai-toc ol a > span:first-child {
   flex: none;
   font-family: var(--font-display);
   font-size: 0.58rem;
