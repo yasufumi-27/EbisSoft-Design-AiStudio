@@ -94,10 +94,15 @@ export default async function DemoSitePage({ params }: { params: Promise<{ indus
             {siteConfig.name}が「{data.name}
             のホームページを作るとこうなる」を見せるために制作しました。
           </span>
-          <span className="ds-bar-design">
+          <a
+            className="ds-bar-design"
+            href={`https://yasufumi-27.github.io/EbisSoft-Design-Proposals/proposal/${proposal.id}/`}
+            target="_blank"
+            rel="noopener"
+          >
             DESIGN {proposal.no} / {proposal.name}
             <i>{proposal.jp}</i>
-          </span>
+          </a>
           <a className="ds-bar-link" href={`${siteConfig.url}/showcase/${data.slug}`}>
             この構成の説明を見る →
           </a>
@@ -175,6 +180,14 @@ export default async function DemoSitePage({ params }: { params: Promise<{ indus
             </div>
             <div className="ds-photo ds-hero-visual">
               <strong className="ds-visual-mark">{site.brandEn}</strong>
+              <div className="ds-proposal-motif" aria-hidden="true">
+                <i />
+                <i />
+                <i />
+                <i />
+                <b>{proposal.no}</b>
+                <small>{proposal.name}</small>
+              </div>
               <span>写真が入ります（本番ではお客様の素材に差し替え）</span>
             </div>
           </div>
