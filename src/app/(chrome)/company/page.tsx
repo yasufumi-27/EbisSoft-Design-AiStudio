@@ -85,8 +85,11 @@ function profileRows() {
       v: `${siteConfig.foundingDate.slice(0, 4)}年（開発実績${yearsInBusiness()}年）`,
     },
     { k: "所在地", v: addr },
-    { k: "電話", v: `${contact.telephoneDisplay}（${contact.openingHoursDisplay}）` },
-    { k: "メール", v: contact.email },
+    {
+      k: "電話（社員窓口）",
+      v: `${contact.telephoneDisplay}（${contact.openingHoursDisplay}）`,
+    },
+    { k: "メール（社員窓口）", v: contact.email },
     { k: "事業内容", v: "Webサイト制作、AI機能の開発、組み込みソフトウェア開発" },
     { k: "対応エリア", v: "関西一円／オンラインは全国対応" },
     { k: "所属", v: siteConfig.memberOf.map((m) => m.name).join("・") },
@@ -139,7 +142,10 @@ export default function CompanyPage() {
         <div data-reveal>
           <p className="ai-console-label">PROFILE</p>
           <h2>会社概要</h2>
-          <p>連絡先とアクセスは、お問い合わせページにまとめています。</p>
+          <p>
+            連絡先とアクセスは、お問い合わせページにまとめています。掲載している電話番号と
+            メールアドレスは、代表者個人ではなく社員が対応する窓口です。
+          </p>
         </div>
         <div data-reveal>
           <table className="ai-table panel w-full">
