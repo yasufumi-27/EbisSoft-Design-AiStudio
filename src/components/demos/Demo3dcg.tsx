@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import * as THREE from "three";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls.js";
 import { RoomEnvironment } from "three/examples/jsm/environments/RoomEnvironment.js";
+import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader.js";
 import { ChipButton, ControlGroup, DemoStage, RangeControl, SwitchButton } from "./DemoUi";
 import { createLogo3d, LOGO_BLUE, type Logo3d } from "@/components/fx/logo3d";
 import {
@@ -54,6 +55,7 @@ const CYAN = "#22d3ee";
 const R8_RED = "#d90817";
 const R8_FRAME_COUNT = 8;
 const R8_SPRITE_URL = `${process.env.NEXT_PUBLIC_BASE_PATH ?? ""}/images/audi-r8-type42-360-sprite.png`;
+const R8_MODEL_URL = `${process.env.NEXT_PUBLIC_BASE_PATH ?? ""}/models/audi-r8-type42-hunyuan.glb`;
 const R8_VIEW_LABELS = ["正面", "右前", "右側", "右後", "後面", "左後", "左側", "左前"] as const;
 
 const COLORS = [
@@ -161,8 +163,10 @@ export default function Demo3dcg({
   const [fps, setFps] = useState(0);
   const [triangles, setTriangles] = useState(0);
   const [r8Frame, setR8Frame] = useState(7);
+  const [r8Display, setR8Display] = useState<"model" | "photo">("model");
   const r8DragRef = useRef<{ x: number; frame: number } | null>(null);
   const isR8 = shape === "m:audi-r8";
+  const showR8Photo = isR8 && (r8Display === "photo" || unsupported);
 
   const normalizeR8Frame = (frame: number) =>
     ((frame % R8_FRAME_COUNT) + R8_FRAME_COUNT) % R8_FRAME_COUNT;
@@ -244,6 +248,38 @@ export default function Demo3dcg({
     const pendingProducts = new Map<IndustryModelKey, Promise<IndustryModel>>();
     let requestedShape: ShapeKey = initialShape;
     let disposed = false;
+    let r8Model: THREE.Group | null = null;
+    let r8ModelPromise: Promise<THREE.Group> | null = null;
+
+    const ensureR8Model = () => {
+      if (r8Model) return Promise.resolve(r8Model);
+      if (r8ModelPromise) return r8ModelPromise;
+      r8ModelPromise = new GLTFLoader().loadAsync(R8_MODEL_URL).then(({ scene: loaded }) => {
+        const bounds = new THREE.Box3().setFromObject(loaded);
+        const center = bounds.getCenter(new THREE.Vector3());
+        loaded.position.sub(center);
+        loaded.position.y += bounds.getSize(new THREE.Vector3()).y * 0.04;
+        loaded.rotation.y = -Math.PI / 5;
+        loaded.visible = false;
+        let count = 0;
+        loaded.traverse((object) => {
+          if (!(object instanceof THREE.Mesh)) return;
+          object.castShadow = true;
+          object.receiveShadow = true;
+          const index = object.geometry.getIndex();
+          count += index ? index.count / 3 : object.geometry.getAttribute("position").count / 3;
+        });
+        if (disposed) return loaded;
+        r8Model = loaded;
+        scene.add(loaded);
+        if (requestedShape === "m:audi-r8") {
+          loaded.visible = true;
+          setTriangles(Math.round(count));
+        }
+        return loaded;
+      });
+      return r8ModelPromise;
+    };
 
     const applyMaterial = () => {
       const next = createMaterial(matKind, matColor);
@@ -320,6 +356,7 @@ export default function Demo3dcg({
     apiRef.current = {
       setShape: (s) => {
         requestedShape = s;
+        if (r8Model) r8Model.visible = false;
         const modelKey = modelKeyOf(s);
         if (s === "logo") {
           ensureLogo();
@@ -333,7 +370,7 @@ export default function Demo3dcg({
           products.forEach((p) => (p.group.visible = false));
           if (modelKey === "audi-r8") {
             setTriangles(0);
-            applyMaterial();
+            void ensureR8Model();
             return;
           }
           void ensureProduct(modelKey).then((current) => {
@@ -370,7 +407,8 @@ export default function Demo3dcg({
         controls.autoRotate = v && !prefersReducedMotion;
       },
       reset: () => {
-        camera.position.set(0, 0.6, 6.2);
+        const r8Active = requestedShape === "m:audi-r8";
+        camera.position.set(r8Active ? 0.2 : 0, r8Active ? 1.0 : 0.6, 6.2);
         controls.target.set(0, 0, 0);
         controls.update();
       },
@@ -444,6 +482,14 @@ export default function Demo3dcg({
       mat.dispose();
       logo?.dispose();
       products.forEach((p) => p.dispose());
+      if (r8Model) {
+        r8Model.traverse((object) => {
+          if (!(object instanceof THREE.Mesh)) return;
+          object.geometry.dispose();
+          const materials = Array.isArray(object.material) ? object.material : [object.material];
+          materials.forEach((item) => item.dispose());
+        });
+      }
       glow.geometry.dispose();
       (glow.material as THREE.Material).dispose();
       envRT.dispose();
@@ -480,7 +526,7 @@ export default function Demo3dcg({
       setR8Frame((frame) => normalizeR8Frame(frame + 1));
     }, 900);
     return () => window.clearInterval(timer);
-  }, [isR8, autoRotate]);
+  }, [isR8, autoRotate, r8Display]);
 
   /** 会社ロゴ（画像テクスチャ）表示中は、素材・カラーの切替が効かない */
   const isLogo = shape === "logo";
@@ -503,16 +549,16 @@ export default function Demo3dcg({
     <div className="grid gap-5 [&>*]:min-w-0 lg:grid-cols-5">
       <DemoStage
         className="min-w-0 lg:col-span-3"
-        label={isR8 ? "エビスソフト.Photo360_Viewer" : "エビスソフト.WebGL_Viewer"}
-        status={isR8 ? "8 VIEW · PHOTO 360" : ready ? `${fps} FPS · ${triangles.toLocaleString()} TRI` : "LOADING…"}
+        label={showR8Photo ? "エビスソフト.Photo360_Viewer" : "エビスソフト.WebGL_Viewer"}
+        status={showR8Photo ? "8 VIEW · PHOTO 360" : ready ? `${fps} FPS · ${triangles.toLocaleString()} TRI` : "LOADING…"}
       >
         <div className="relative h-[300px] overflow-hidden sm:h-[420px]">
           {/* 実際のWebGLキャンバスがここに描画されます */}
           <div
             ref={mountRef}
-            className={`absolute inset-0 h-full w-full cursor-grab bg-[radial-gradient(circle_at_50%_35%,rgba(34,211,238,0.10),transparent_60%)] active:cursor-grabbing ${isR8 ? "invisible" : "visible"}`}
+            className={`absolute inset-0 h-full w-full cursor-grab bg-[radial-gradient(circle_at_50%_35%,rgba(34,211,238,0.10),transparent_60%)] active:cursor-grabbing ${showR8Photo ? "invisible" : "visible"}`}
           />
-          {isR8 ? (
+          {showR8Photo ? (
             <div
               className="absolute inset-0 grid cursor-ew-resize touch-pan-y place-items-center bg-[#d8d8d8] select-none"
               role="img"
@@ -565,7 +611,7 @@ export default function Demo3dcg({
             </div>
           ) : null}
           <p className="pointer-events-none absolute bottom-3 left-1/2 -translate-x-1/2 rounded-full border border-white/10 bg-ink/70 px-3 py-1 text-[11px] text-slate-400 backdrop-blur">
-            {isR8 ? "左右ドラッグ・矢印キーで回転 / 8方向フォトビュー" : "ドラッグで回転 / ホイール・ピンチで拡大"}
+            {showR8Photo ? "左右ドラッグ・矢印キーで回転 / 8方向フォトビュー" : "ドラッグで回転 / ホイール・ピンチで拡大"}
           </p>
         </div>
       </DemoStage>
@@ -605,6 +651,17 @@ export default function Demo3dcg({
         </ControlGroup>
 
         {isR8 ? (
+          <ControlGroup label="Display / 表示方式">
+            <ChipButton active={r8Display === "model" && !unsupported} onClick={() => setR8Display("model")}>
+              3Dモデル
+            </ChipButton>
+            <ChipButton active={r8Display === "photo" || unsupported} onClick={() => setR8Display("photo")}>
+              8方向写真
+            </ChipButton>
+          </ControlGroup>
+        ) : null}
+
+        {showR8Photo ? (
           <ControlGroup label="View / 角度">
             {R8_VIEW_LABELS.map((label, index) => (
               <ChipButton key={label} active={r8Frame === index} onClick={() => setR8Frame(index)}>
@@ -652,11 +709,11 @@ export default function Demo3dcg({
 
         {shape === "m:audi-r8" ? (
           <p className="rounded-lg border border-rose-400/25 bg-rose-500/[0.06] px-3 py-2 text-xs leading-relaxed text-rose-100">
-            添付写真を基準に、初代Type 42後期型Spyderのフロント・左右側面・前後3/4・後面を同じ撮影条件で制作した、8方向のフォトリアル360°商品ビューです。Audi公式CADによる3Dモデルではありません。
+            添付写真を基準に制作した8方向画像からHunyuan3D-2mvでベースメッシュを生成し、Blenderで4.440mの実寸へ補正。ホイール、タイヤ、ヘッドライト、テールライト、右後部の給油口を独立パーツとして追加しています。Audi公式CADによるモデルではありません。
           </p>
         ) : null}
 
-        {!isR8 ? <RangeControl
+        {!showR8Photo ? <RangeControl
           label="Light / 光量"
           value={light}
           min={20}
@@ -671,7 +728,7 @@ export default function Demo3dcg({
             自動回転
           </SwitchButton>
           <ChipButton active={false} onClick={() => {
-            if (isR8) setR8Frame(7);
+            if (showR8Photo) setR8Frame(7);
             else apiRef.current?.reset();
           }}>
             視点をリセット
@@ -679,8 +736,10 @@ export default function Demo3dcg({
         </div>
 
         <p className="text-xs leading-relaxed text-slate-500">
-          {isR8
-            ? "R8は高精細な8方向画像をドラッグ量に応じて切り替える、軽量な商品360°表示です。その他の形状はブラウザ上のリアルタイムWebGLで描画します。"
+          {showR8Photo
+            ? "R8の8方向写真をドラッグ量に応じて切り替える比較表示です。3Dモデル表示へ戻すと、自由回転・拡大と独立パーツ構成を確認できます。"
+            : isR8
+              ? "4方向入力を学習済みマルチビュー生成で立体化し、Blenderで実寸補正・8方向カラー投影・ホイール／タイヤ／ライトの別部品化を行ったWebGLモデルです。"
             : "描画はブラウザ上のリアルタイムWebGLです。環境マップ（映り込み）・トーンマッピングを、追加のプラグインなしで実装しています。"}
         </p>
       </div>

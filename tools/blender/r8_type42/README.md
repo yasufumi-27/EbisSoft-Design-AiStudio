@@ -1,10 +1,62 @@
 # Audi R8 Type 42 facelift Spyder reconstruction
 
-This workspace converts a legally downloadable Type 42 facelift base mesh into
-the red Spyder shown in the supplied photographs. The source model itself is not
-committed to Git.
+This workspace reconstructs the red Type 42 facelift Spyder from the generated
+eight-view image sheet. The base mesh comes from the free, local
+`tencent/Hunyuan3D-2mv` multiview model. Blender is used for dimensional
+correction, controlled body panels, separate components and final materials.
 
-## Required source
+## Primary reconstruction
+
+The local generator and Python 3.12 virtual environment live outside both the
+production repository and this GitHub Pages preview repository:
+
+- `/Users/yasufumi/_work/.ebissoft-tools/Hunyuan3D-2`
+- `/Users/yasufumi/_work/.ebissoft-tools/hunyuan3d-venv`
+
+Prepare the four canonical model inputs and all eight QA views:
+
+```bash
+PYTHON=/Users/yasufumi/_work/.ebissoft-tools/hunyuan3d-venv/bin/python
+$PYTHON tools/blender/r8_type42/prepare_hunyuan_views.py \
+  --sprite public/images/audi-r8-type42-360-sprite.png \
+  --output tools/blender/r8_type42/work/views
+```
+
+Generate the learned base mesh on Apple Silicon:
+
+```bash
+PYTORCH_ENABLE_MPS_FALLBACK=1 $PYTHON \
+  tools/blender/r8_type42/generate_hunyuan_mv.py \
+  --views tools/blender/r8_type42/work/views/hunyuan-mv \
+  --output tools/blender/r8_type42/work/r8-hunyuan-base-256.glb \
+  --steps 30 --resolution 256 --seed 5200
+```
+
+The Hunyuan inputs use front, right profile, back and left profile. The four
+diagonal views are held out for Blender comparison renders rather than passed
+with incorrect camera tags.
+
+## Silhouette QA cage
+
+Run:
+
+```bash
+blender --background --python tools/blender/r8_type42/build_visual_hull.py
+```
+
+The script segments all eight views, saves their masks and intersects the views
+to create a full-scale visual hull. This is not the primary mesh; it is a
+dimension and silhouette comparison cage for the learned mesh. It also creates
+the initial separate tire, wheel and lamp placeholders. It writes:
+
+- `work/r8-type42-visual-hull.blend`
+- `work/visual-hull-preview.png`
+- `work/masks/*.png`
+
+Blender refinement replaces Hunyuan's fused wheel and lamp regions with
+controlled separate parts, then adds the grille, cabin and Spyder deck details.
+
+## Optional topology reference
 
 - Model: `Audi R8 V10 (Type 42)` by Mona x Supercars / Car2022
 - URL: https://sketchfab.com/3d-models/audi-r8-v10-type-42-7463fcd44a00428486c09487f7fcda0c
@@ -50,4 +102,3 @@ It imports the source, scales it to the target length, writes an audit report,
 and saves `tools/blender/r8_type42/work/r8-type42-source-audit.blend`. The next
 stage uses the actual object/material names from that report to rebuild the
 Spyder-specific parts without guessing the mesh topology.
-

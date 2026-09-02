@@ -41,5 +41,10 @@ yarn-error.log*
 *.tsbuildinfo
 next-env.d.ts
 
+# Local Blender/Hunyuan reconstruction outputs and downloaded source meshes
+/tools/blender/r8_type42/work/
+/tools/blender/r8_type42/source/*
+!/tools/blender/r8_type42/source/.gitkeep
+
 # claude code（個人のローカル設定はコミットしない）
 .claude/settings.local.json
