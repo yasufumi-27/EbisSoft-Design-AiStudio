@@ -1,0 +1,24 @@
+{
+  "vehicle": "Audi R8 Type 42 facelift Spyder (2013-2015)",
+  "dimensions_m": {
+    "length": 4.44,
+    "width": 1.905,
+    "height": 1.245,
+    "wheelbase": 2.649
+  },
+  "source_model": {
+    "name": "Audi R8 V10 (Type 42)",
+    "author": "Mona x Supercars / Car2022",
+    "uid": "7463fcd44a00428486c09487f7fcda0c",
+    "license": "CC BY 4.0",
+    "url": "https://sketchfab.com/3d-models/audi-r8-v10-type-42-7463fcd44a00428486c09487f7fcda0c"
+  },
+  "photo_references": [
+    "/tmp/codex-remote-attachments/01a0519b-6c3b-7e50-9c4c-882702620dba/A6F66B41-CD38-4420-8B90-5F7A550422FD/1-写真1.jpg",
+    "/tmp/codex-remote-attachments/01a0519b-6c3b-7e50-9c4c-882702620dba/A6F66B41-CD38-4420-8B90-5F7A550422FD/2-写真2.jpg",
+    "/tmp/codex-remote-attachments/01a0519b-6c3b-7e50-9c4c-882702620dba/A6F66B41-CD38-4420-8B90-5F7A550422FD/3-写真3.jpg",
+    "/tmp/codex-remote-attachments/01a0519b-6c3b-7e50-9c4c-882702620dba/A6F66B41-CD38-4420-8B90-5F7A550422FD/4-写真4.jpg",
+    "/tmp/codex-remote-attachments/01a0519b-6c3b-7e50-9c4c-882702620dba/2358E4DC-A3A3-4A4C-A026-F57B968B0659/3-写真3.jpg"
+  ]
+}
+
