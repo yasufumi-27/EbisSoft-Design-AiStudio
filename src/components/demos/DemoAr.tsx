@@ -179,6 +179,7 @@ const INDUSTRY_AR_SIZE: Record<IndustryModelKey, [number, number, number]> = {
   truck: [4700, 1900, 2400],
   pallet: [1100, 1100, 1500],
   forklift: [2600, 1200, 2100],
+  "audi-r8": [4430, 1930, 1240],
   wheel: [660, 660, 260],
   "car-body": [4600, 1800, 1450],
   "car-lift": [4600, 3000, 2800],

@@ -33,6 +33,7 @@ const modelKeyOf = (s: ShapeKey): IndustryModelKey | null =>
 
 /** 職種が決まっていないとき（`/demo/3dcg`）に見せる、仕組み確認用の形状 */
 const SHAPES: { key: ShapeKey; label: string }[] = [
+  { key: "m:audi-r8", label: "Audi R8 Spyder" },
   { key: "logo", label: "会社ロゴ" },
   { key: "knot", label: "トーラスノット" },
   { key: "icosa", label: "多面体" },
@@ -50,8 +51,10 @@ const MATERIALS: { key: MaterialKey; label: string }[] = [
 
 /** 既定のカラー（基本形状のとき） */
 const CYAN = "#22d3ee";
+const R8_RED = "#d90817";
 
 const COLORS = [
+  { hex: R8_RED, label: "R8 レッド" },
   { hex: LOGO_BLUE, label: "ロゴブルー" },
   { hex: CYAN, label: "シアン" },
   { hex: "#8b5cf6", label: "バイオレット" },
@@ -146,7 +149,7 @@ export default function Demo3dcg({
 
   const [shape, setShape] = useState<ShapeKey>(shapes[0].key);
   const [material, setMaterial] = useState<MaterialKey>("metal");
-  const [color, setColor] = useState(CYAN);
+  const [color, setColor] = useState(hasModels ? CYAN : R8_RED);
   const [light, setLight] = useState(120);
   const [autoRotate, setAutoRotate] = useState(true);
   const [ready, setReady] = useState(false);
@@ -541,6 +544,12 @@ export default function Demo3dcg({
         {isLogo ? (
           <p className="rounded-lg border border-brand/25 bg-brand/[0.07] px-3 py-2 text-xs leading-relaxed text-brand-light">
             画像ではなく実物の3Dモデルです。「YEBISU」は押し出した立体文字、リングは別オブジェクトで文字の周りを回り、「Soft」は固定。素材とカラーは文字に反映されます。
+          </p>
+        ) : null}
+
+        {shape === "m:audi-r8" ? (
+          <p className="rounded-lg border border-rose-400/25 bg-rose-500/[0.06] px-3 py-2 text-xs leading-relaxed text-rose-100">
+            添付写真のフォルムと赤いSpyder仕様を参考に、車体・LED・サイドブレード・オープンキャビン・ホイール・リアディフューザーまでコードで組み立てた展示用モデルです。公式3Dデータやロゴは使用していません。
           </p>
         ) : null}
 

@@ -54,6 +54,7 @@ export type IndustryModelKey =
   | "truck"
   | "pallet"
   | "forklift"
+  | "audi-r8"
   | "wheel"
   | "car-body"
   | "car-lift"
@@ -119,6 +120,7 @@ export const INDUSTRY_MODEL_LABEL: Record<IndustryModelKey, string> = {
   truck: "配送トラック",
   pallet: "パレット積みの荷物",
   forklift: "フォークリフト",
+  "audi-r8": "Audi R8 Spyder（参考モデル）",
   wheel: "ホイール",
   "car-body": "車体",
   "car-lift": "整備リフト",
@@ -1763,6 +1765,137 @@ const BUILDERS: Record<IndustryModelKey, Build> = {
     const floor = put(new THREE.BoxGeometry(5.0, 0.08, 3.0), fixed(0x39404e), [0, -1.42, 0]);
     g.add(body, hood, seat, seatBack, mastL, mastR, carriage, forkL, forkR, load, floor, ...cage, ...wheels);
     return { group: g, themed: [body, hood, carriage] };
+  },
+
+  /* 自動車：Audi R8 Spyder（添付写真を参考にしたコード生成の展示モデル） */
+  "audi-r8": (mat) => {
+    const g = new THREE.Group();
+    const rubber = fixed(PALETTE.rubber, { roughness: 0.94 });
+    const graphite = fixed(0x151a22, { metalness: 0.72, roughness: 0.24 });
+    const alloy = fixed(0xaeb7c4, { metalness: 0.92, roughness: 0.18 });
+    const cabinTrim = fixed(0x171a20, { metalness: 0.35, roughness: 0.45 });
+    const interior = fixed(0xd8cda5, { metalness: 0.06, roughness: 0.68 });
+    const glass = fixed(0x9dc6d7, {
+      metalness: 0.35,
+      roughness: 0.05,
+      transparent: true,
+      opacity: 0.48,
+      side: THREE.DoubleSide,
+    });
+    const lamp = new THREE.MeshStandardMaterial({
+      color: 0xf7fbff,
+      emissive: 0xc6e9ff,
+      emissiveIntensity: 2.1,
+      metalness: 0.25,
+      roughness: 0.2,
+    });
+    const rearLamp = new THREE.MeshStandardMaterial({
+      color: 0xff3d35,
+      emissive: 0xa40808,
+      emissiveIntensity: 1.25,
+      roughness: 0.25,
+    });
+
+    // 低く張り出したボディ。複数の滑らかな面に分け、実車らしいフェンダーの量感を出す。
+    const lower = put(new THREE.SphereGeometry(1, 48, 24), mat, [0, -0.51, 0]);
+    lower.scale.set(2.62, 0.48, 1.08);
+    const nose = put(new THREE.SphereGeometry(1, 40, 20), mat, [2.12, -0.47, 0]);
+    nose.scale.set(0.9, 0.43, 1.02);
+    const rearHaunch = put(new THREE.SphereGeometry(1, 40, 20), mat, [-1.9, -0.38, 0]);
+    rearHaunch.scale.set(1.08, 0.62, 1.08);
+    const hood = put(new THREE.BoxGeometry(1.6, 0.14, 1.63, 8, 2, 4), mat, [1.25, -0.08, 0], [0, 0, -0.08]);
+    const rearDeck = put(new THREE.BoxGeometry(1.32, 0.16, 1.62, 8, 2, 4), mat, [-1.48, 0.08, 0], [0, 0, 0.045]);
+    const sillL = put(new THREE.BoxGeometry(3.5, 0.16, 0.12), mat, [0, -0.86, 1.01]);
+    const sillR = put(new THREE.BoxGeometry(3.5, 0.16, 0.12), mat, [0, -0.86, -1.01]);
+
+    // フロントのシングルフレーム風グリルと左右の吸気口。ロゴ類は使わない。
+    const grille = put(new THREE.BoxGeometry(0.96, 0.42, 0.07), graphite, [2.77, -0.5, 0]);
+    const intakeL = put(new THREE.BoxGeometry(0.62, 0.38, 0.07), graphite, [2.6, -0.53, 0.72]);
+    const intakeR = put(new THREE.BoxGeometry(0.62, 0.38, 0.07), graphite, [2.6, -0.53, -0.72]);
+    const grilleSlats: THREE.Mesh[] = [];
+    for (let row = 0; row < 4; row += 1) {
+      for (let col = 0; col < 7; col += 1) {
+        const slat = put(new THREE.BoxGeometry(0.085, 0.032, 0.018), alloy, [2.817, -0.66 + row * 0.105, -0.37 + col * 0.125], [0, 0.56, 0]);
+        grilleSlats.push(slat);
+      }
+    }
+    const headlamps = [-0.66, 0.66].flatMap((z) => {
+      const housing = put(new THREE.BoxGeometry(0.5, 0.13, 0.27, 4, 2, 3), graphite, [2.54, -0.17, z]);
+      const led = put(new THREE.BoxGeometry(0.43, 0.035, 0.045), lamp, [2.72, -0.15, z]);
+      return [housing, led];
+    });
+    const splitter = put(new THREE.BoxGeometry(1.62, 0.06, 2.03), graphite, [2.27, -0.98, 0]);
+
+    // オープンキャビン。ガラス、ロールフープ、二座のシートを別々に作り込む。
+    const cockpit = put(new THREE.BoxGeometry(1.56, 0.3, 1.38), cabinTrim, [-0.27, 0.13, 0]);
+    const windshield = put(new THREE.BoxGeometry(0.06, 0.67, 1.43), glass, [0.61, 0.52, 0], [0, 0, -0.54]);
+    const windFrameTop = put(new THREE.BoxGeometry(0.12, 0.07, 1.54), graphite, [0.46, 0.78, 0], [0, 0, -0.54]);
+    const windFrameSides = [-0.73, 0.73].map((z) => put(new THREE.BoxGeometry(0.08, 0.66, 0.08), graphite, [0.61, 0.48, z], [0, 0, -0.54]));
+    const seats: THREE.Mesh[] = [];
+    [-0.43, 0.43].forEach((z) => {
+      seats.push(
+        put(new THREE.BoxGeometry(0.5, 0.18, 0.47, 4, 2, 3), interior, [-0.35, 0.28, z]),
+        put(new THREE.BoxGeometry(0.18, 0.58, 0.47, 3, 5, 3), interior, [-0.6, 0.55, z], [0, 0, -0.16]),
+        put(new THREE.SphereGeometry(0.17, 16, 12), interior, [-0.69, 0.92, z]),
+        put(new THREE.TorusGeometry(0.18, 0.035, 10, 24), graphite, [0.12, 0.5, z], [0, Math.PI / 2, 0]),
+      );
+    });
+    const rollHoops = [-0.5, 0.5].map((z) => put(new THREE.TorusGeometry(0.2, 0.05, 12, 28, Math.PI), graphite, [-1.02, 0.86, z], [0, Math.PI / 2, 0]));
+    const dash = put(new THREE.BoxGeometry(0.2, 0.25, 1.2), cabinTrim, [0.23, 0.5, 0], [0, 0, -0.18]);
+
+    // サイドブレードとドアの吸気口。写真のR8らしい強い陰影を作る主要ディテール。
+    const bladeL = put(new THREE.BoxGeometry(0.76, 0.53, 0.055), graphite, [-0.85, -0.22, 1.08]);
+    const bladeR = put(new THREE.BoxGeometry(0.76, 0.53, 0.055), graphite, [-0.85, -0.22, -1.08]);
+    const intakeSlats: THREE.Mesh[] = [];
+    [-1, 1].forEach((side) => {
+      for (let i = 0; i < 5; i += 1) {
+        intakeSlats.push(put(new THREE.BoxGeometry(0.47, 0.035, 0.025), alloy, [-0.85, -0.37 + i * 0.1, side * 1.117]));
+      }
+    });
+    const mirrors = [-1, 1].flatMap((side) => [
+      put(new THREE.SphereGeometry(0.17, 18, 12), mat, [0.7, 0.18, side * 1.18]),
+      put(new THREE.BoxGeometry(0.26, 0.05, 0.05), graphite, [0.55, 0.08, side * 1.08], [0, 0, side * 0.32]),
+    ]);
+
+    // リアは横長LED、メッシュ、丸型2本出し、ディフューザーで仕上げる。
+    const rearPanel = put(new THREE.BoxGeometry(0.08, 0.42, 1.86), graphite, [-2.66, -0.43, 0]);
+    const tails = [-0.62, 0.62].map((z) => put(new THREE.BoxGeometry(0.08, 0.13, 0.48), rearLamp, [-2.72, -0.18, z]));
+    const rearGrilleSlats = Array.from({ length: 7 }, (_, i) => put(new THREE.BoxGeometry(0.025, 0.035, 1.54), alloy, [-2.72, -0.65 + i * 0.07, 0]));
+    const exhausts = [-0.67, 0.67].map((z) => put(new THREE.CylinderGeometry(0.16, 0.16, 0.09, 24), graphite, [-2.75, -0.78, z], [0, 0, Math.PI / 2]));
+    const diffuser = put(new THREE.BoxGeometry(0.66, 0.12, 1.72), graphite, [-2.37, -0.98, 0]);
+    const deckVents: THREE.Mesh[] = [];
+    [-0.52, 0.52].forEach((z) => {
+      for (let i = 0; i < 5; i += 1) {
+        deckVents.push(put(new THREE.BoxGeometry(0.35, 0.035, 0.05), graphite, [-1.52 + i * 0.12, 0.2, z]));
+      }
+    });
+
+    // 20本スポークの前後ホイール。タイヤ、ブレーキ、ハブまで別素材にして見せる。
+    const wheels: THREE.Mesh[] = [];
+    [1.58, -1.63].forEach((x) => {
+      [-1, 1].forEach((side) => {
+        const z = side * 1.04;
+        wheels.push(
+          put(new THREE.CylinderGeometry(0.5, 0.5, 0.25, 40, 2), rubber, [x, -0.82, z], [Math.PI / 2, 0, 0]),
+          put(new THREE.CylinderGeometry(0.36, 0.36, 0.268, 36, 1), alloy, [x, -0.82, z + side * 0.01], [Math.PI / 2, 0, 0]),
+          put(new THREE.CylinderGeometry(0.13, 0.13, 0.276, 24, 1), graphite, [x, -0.82, z + side * 0.015], [Math.PI / 2, 0, 0]),
+        );
+        for (let i = 0; i < 10; i += 1) {
+          const angle = (Math.PI * 2 * i) / 10;
+          const spoke = put(new THREE.BoxGeometry(0.055, 0.31, 0.035), alloy, [x + Math.sin(angle) * 0.18, -0.82 + Math.cos(angle) * 0.18, z + side * 0.15], [0, 0, -angle]);
+          wheels.push(spoke);
+        }
+      });
+    });
+    const road = put(new THREE.CylinderGeometry(3.6, 3.6, 0.05, 96), fixed(0x242b37, { roughness: 0.88 }), [0, -1.35, 0]);
+
+    g.add(
+      lower, nose, rearHaunch, hood, rearDeck, sillL, sillR, grille, intakeL, intakeR, splitter,
+      cockpit, windshield, windFrameTop, dash, bladeL, bladeR, rearPanel, diffuser, road,
+      ...grilleSlats, ...headlamps, ...windFrameSides, ...seats, ...rollHoops, ...intakeSlats,
+      ...mirrors, ...tails, ...rearGrilleSlats, ...exhausts, ...deckVents, ...wheels,
+    );
+    return { group: g, themed: [lower, nose, rearHaunch, hood, rearDeck, sillL, sillR, ...mirrors] };
   },
 
   /* 自動車：車体（外装のカラーを見せる） */

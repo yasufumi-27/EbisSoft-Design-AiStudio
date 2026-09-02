@@ -2423,7 +2423,7 @@ export const industries: Industry[] = [
     ],
     product: { name: "車両・パーツ", note: "車両やホイールなどを立体で見せる想定です" },
     // 3DCG・ARデモで実際に表示する立体（industryModels.ts）
-    models: ["wheel", "car-body", "car-lift"],
+    models: ["audi-r8", "wheel", "car-body", "car-lift"],
     // 料金シミュレーターデモで試算する内容（この職種のサイトに本当に置かれるもの）
     simulator: {
       title: "車検費用の概算",
