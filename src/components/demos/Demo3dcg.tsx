@@ -149,7 +149,7 @@ export default function Demo3dcg({
 
   const [shape, setShape] = useState<ShapeKey>(shapes[0].key);
   const [material, setMaterial] = useState<MaterialKey>("metal");
-  const [color, setColor] = useState(hasModels ? CYAN : R8_RED);
+  const [color, setColor] = useState(shapes[0].key === "m:audi-r8" ? R8_RED : CYAN);
   const [light, setLight] = useState(120);
   const [autoRotate, setAutoRotate] = useState(true);
   const [ready, setReady] = useState(false);
