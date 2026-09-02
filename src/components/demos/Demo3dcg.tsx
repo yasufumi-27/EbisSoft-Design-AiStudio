@@ -12,6 +12,7 @@ import {
   type IndustryModel,
   type IndustryModelKey,
 } from "./industryModels";
+import { loadAudiR8Model } from "./audiR8Model";
 
 /* ------------------------------------------------------------------
  * 選択肢の定義
@@ -146,10 +147,11 @@ export default function Demo3dcg({
   const shapes = hasModels
     ? models.map((m) => ({ key: `m:${m}`, label: INDUSTRY_MODEL_LABEL[m] }))
     : SHAPES;
+  const initialShape = shapes[0].key;
 
-  const [shape, setShape] = useState<ShapeKey>(shapes[0].key);
+  const [shape, setShape] = useState<ShapeKey>(initialShape);
   const [material, setMaterial] = useState<MaterialKey>("metal");
-  const [color, setColor] = useState(shapes[0].key === "m:audi-r8" ? R8_RED : CYAN);
+  const [color, setColor] = useState(initialShape === "m:audi-r8" ? R8_RED : CYAN);
   const [light, setLight] = useState(120);
   const [autoRotate, setAutoRotate] = useState(true);
   const [ready, setReady] = useState(false);
@@ -231,6 +233,9 @@ export default function Demo3dcg({
        基本形状の組み合わせで組み立てます（外部ファイルを読まないので追加の通信ゼロ）。
        職種ごとに3種類以上あるので、**選ばれたものだけ**を組み立てて使い回します。 */
     const products = new Map<IndustryModelKey, IndustryModel>();
+    const pendingProducts = new Map<IndustryModelKey, Promise<IndustryModel>>();
+    let requestedShape: ShapeKey = initialShape;
+    let disposed = false;
 
     const applyMaterial = () => {
       const next = createMaterial(matKind, matColor);
@@ -249,14 +254,30 @@ export default function Demo3dcg({
       scene.add(logo.group);
     };
 
-    const ensureProduct = (key: IndustryModelKey) => {
+    const ensureProduct = (key: IndustryModelKey): Promise<IndustryModel> => {
       const found = products.get(key);
-      if (found) return found;
-      const built = createIndustryModel(key, mat);
-      built.group.visible = false;
-      products.set(key, built);
-      scene.add(built.group);
-      return built;
+      if (found) return Promise.resolve(found);
+      const pending = pendingProducts.get(key);
+      if (pending) return pending;
+
+      const build = key === "audi-r8"
+        ? loadAudiR8Model(mat)
+        : Promise.resolve(createIndustryModel(key, mat));
+      const tracked = build
+        .catch(() => createIndustryModel(key, mat))
+        .then((built) => {
+          pendingProducts.delete(key);
+          if (disposed) {
+            built.dispose();
+            return built;
+          }
+          built.group.visible = false;
+          products.set(key, built);
+          scene.add(built.group);
+          return built;
+        });
+      pendingProducts.set(key, tracked);
+      return tracked;
     };
 
     // 足元のリフレクション代わりの発光リング（見栄えの底上げ）
@@ -292,6 +313,7 @@ export default function Demo3dcg({
     /* --- 外部から操作するためのAPI --- */
     apiRef.current = {
       setShape: (s) => {
+        requestedShape = s;
         const modelKey = modelKeyOf(s);
         if (s === "logo") {
           ensureLogo();
@@ -300,11 +322,15 @@ export default function Demo3dcg({
           logo!.group.visible = true;
           setTriangles(logo!.triangles);
         } else if (modelKey) {
-          const current = ensureProduct(modelKey);
           mesh.visible = false;
           if (logo) logo.group.visible = false;
-          products.forEach((p) => (p.group.visible = p === current));
-          setTriangles(current.triangles);
+          products.forEach((p) => (p.group.visible = false));
+          void ensureProduct(modelKey).then((current) => {
+            if (disposed || requestedShape !== s) return;
+            products.forEach((p) => (p.group.visible = p === current));
+            setTriangles(current.triangles);
+            applyMaterial();
+          });
         } else {
           if (logo) logo.group.visible = false;
           products.forEach((p) => (p.group.visible = false));
@@ -397,6 +423,7 @@ export default function Demo3dcg({
     ro.observe(mount);
 
     return () => {
+      disposed = true;
       cancelAnimationFrame(raf);
       document.removeEventListener("visibilitychange", onVisibility);
       io.disconnect();
@@ -417,7 +444,7 @@ export default function Demo3dcg({
       apiRef.current = null;
     };
     // models はマウント中に変わらない（職種ページごとに別のインスタンス）
-  }, []);
+  }, [initialShape]);
 
   /* --- Reactの状態をシーンへ反映 --- */
   useEffect(() => {
@@ -549,7 +576,11 @@ export default function Demo3dcg({
 
         {shape === "m:audi-r8" ? (
           <p className="rounded-lg border border-rose-400/25 bg-rose-500/[0.06] px-3 py-2 text-xs leading-relaxed text-rose-100">
-            添付写真のフォルムと赤いSpyder仕様を参考に、車体・LED・サイドブレード・オープンキャビン・ホイール・リアディフューザーまでコードで組み立てた展示用モデルです。公式3Dデータやロゴは使用していません。
+            添付写真の赤いSpyder仕様を参考にBlenderで再構成した展示用モデルです。ベースメッシュは
+            <a className="mx-1 underline underline-offset-2" href="https://sketchfab.com/realwallon" target="_blank" rel="noreferrer">wallon</a>
+            制作「Audi R8」（
+            <a className="underline underline-offset-2" href="https://creativecommons.org/licenses/by/4.0/" target="_blank" rel="noreferrer">CC BY 4.0</a>
+            ）を改変して使用しています。Audi公式のCADデータではありません。
           </p>
         ) : null}
 
