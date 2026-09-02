@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Audi R8 Type 42 後期型｜3D再構築リファレンス v2</title>
+  <style>
+    :root { color-scheme: dark; --bg:#090b0f; --panel:#121720; --line:#273040; --text:#f5f7fb; --muted:#9aa7b8; --red:#ff3348; }
+    * { box-sizing: border-box; }
+    body { margin:0; background:var(--bg); color:var(--text); font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif; }
+    header { max-width:1500px; margin:auto; padding:56px 24px 28px; }
+    h1 { margin:0 0 10px; font-size:clamp(28px,4vw,54px); letter-spacing:-.04em; }
+    p { margin:0; color:var(--muted); line-height:1.8; }
+    .tag { display:inline-block; margin-bottom:16px; color:#fff; background:#a80d20; border:1px solid #ff4b60; border-radius:999px; padding:6px 12px; font-size:13px; }
+    main { max-width:1500px; margin:auto; padding:0 24px 72px; }
+    .grid { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:18px; }
+    figure { margin:0; overflow:hidden; border:1px solid var(--line); border-radius:18px; background:var(--panel); }
+    figure.hero { grid-column:span 2; }
+    img { display:block; width:100%; height:auto; background:#d8d8d8; }
+    figcaption { display:flex; justify-content:space-between; gap:16px; padding:13px 16px 15px; color:var(--muted); font-size:14px; }
+    strong { color:var(--text); font-weight:650; }
+    .note { margin:24px 0; padding:18px 20px; border-left:3px solid var(--red); background:var(--panel); border-radius:0 12px 12px 0; }
+    @media (max-width:760px) { .grid { grid-template-columns:1fr; } figure.hero { grid-column:auto; } header { padding-top:36px; } }
+  </style>
+</head>
+<body>
+  <header>
+    <span class="tag">REFERENCE SET v2</span>
+    <h1>Audi R8 Spyder Type 42 facelift</h1>
+    <p>3Dベースメッシュ再構築用の角度別資料。2013–2015年型・純正仕様・オープン状態を固定。</p>
+  </header>
+  <main>
+    <div class="note"><strong>ホイール基準を更新済み。</strong> 太い5組の分岐Yスポーク、ガンメタの凹部、切削シルバー面、Audiセンターキャップ、黒いR8キャリパーを全方向に反映しています。</div>
+    <section class="grid">
+      <figure class="hero"><img src="images/00-front.png" alt="正面"><figcaption><strong>00 正面</strong><span>水平・長焦点</span></figcaption></figure>
+      <figure><img src="images/01-front-fuel-side.png" alt="前方・給油口側"><figcaption><strong>01 前方斜め</strong><span>給油口側</span></figcaption></figure>
+      <figure><img src="images/02-fuel-side-profile.png" alt="給油口側面"><figcaption><strong>02 側面</strong><span>給油口側</span></figcaption></figure>
+      <figure><img src="images/03-rear-fuel-side.png" alt="後方・給油口側"><figcaption><strong>03 後方斜め</strong><span>給油口側</span></figcaption></figure>
+      <figure><img src="images/04-rear.png" alt="後面"><figcaption><strong>04 後面</strong><span>水平・長焦点</span></figcaption></figure>
+      <figure><img src="images/05-rear-nonfuel-side.png" alt="後方・非給油口側"><figcaption><strong>05 後方斜め</strong><span>非給油口側</span></figcaption></figure>
+      <figure><img src="images/06-nonfuel-side-profile.png" alt="非給油口側面"><figcaption><strong>06 側面</strong><span>非給油口側</span></figcaption></figure>
+      <figure><img src="images/07-front-nonfuel-side.png" alt="前方・非給油口側"><figcaption><strong>07 前方斜め</strong><span>非給油口側</span></figcaption></figure>
+      <figure><img src="images/08-top.png" alt="真上"><figcaption><strong>08 真上</strong><span>90°正投影</span></figcaption></figure>
+      <figure><img src="images/09-underside.png" alt="下面"><figcaption><strong>09 下面</strong><span>実車下面資料ベース</span></figcaption></figure>
+      <figure><img src="images/10-low-front.png" alt="前方ローアングル"><figcaption><strong>10 前方ロー</strong><span>下端形状確認</span></figcaption></figure>
+      <figure><img src="images/11-low-rear.png" alt="後方ローアングル"><figcaption><strong>11 後方ロー</strong><span>ディフューザー確認</span></figcaption></figure>
+      <figure><img src="images/12-wheel-front.png" alt="ホイール正面"><figcaption><strong>12 ホイール正面</strong><span>独立パーツ用</span></figcaption></figure>
+      <figure><img src="images/13-wheel-three-quarter.png" alt="ホイール斜め"><figcaption><strong>13 ホイール斜め</strong><span>深さ・面構成確認</span></figcaption></figure>
+    </section>
+  </main>
+</body>
+</html>
