@@ -120,7 +120,7 @@ export const INDUSTRY_MODEL_LABEL: Record<IndustryModelKey, string> = {
   truck: "配送トラック",
   pallet: "パレット積みの荷物",
   forklift: "フォークリフト",
-  "audi-r8": "Audi R8 Spyder（参考モデル）",
+  "audi-r8": "Audi R8 Spyder（フォト360°）",
   wheel: "ホイール",
   "car-body": "車体",
   "car-lift": "整備リフト",
