@@ -3,10 +3,13 @@
 Target lock:
 
 - 2013–2015 Audi R8 V10 Spyder, Type 42 facelift
-- Stock exterior; no body kit, fixed wing, lowered suspension, or Type 4S parts
+- Stock Type 42 facelift body geometry with the owner's aftermarket honeycomb center grille
+- Owner-specific glossy-black rear center panel below the Audi/R8 emblems
+- No fixed wing, lowered suspension, widebody conversion, or Type 4S parts
 - Open roof, bright red body, Luxor Beige interior, silver windshield surround
 - User-supplied OEM wheel is the highest-priority wheel reference
 - Fuel cap appears on one side only
+- Dead-front and dead-rear plates expose tire edges only; wheel faces are not visible
 
 Reference hierarchy:
 
