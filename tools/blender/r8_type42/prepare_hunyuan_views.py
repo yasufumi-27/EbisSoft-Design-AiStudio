@@ -46,9 +46,33 @@ def split_sprite(sprite: Image.Image) -> dict[str, Image.Image]:
     return result
 
 
+REFERENCE_FILES = {
+    "front": "00-front.png",
+    "front-right": "01-front-fuel-side.png",
+    "right": "02-fuel-side-profile.png",
+    "rear-right": "03-rear-fuel-side.png",
+    "back": "04-rear.png",
+    "rear-left": "05-rear-nonfuel-side.png",
+    "left": "06-nonfuel-side-profile.png",
+    "front-left": "07-front-nonfuel-side.png",
+}
+
+
+def load_reference_directory(directory: Path) -> dict[str, Image.Image]:
+    missing = [filename for filename in REFERENCE_FILES.values() if not (directory / filename).is_file()]
+    if missing:
+        raise FileNotFoundError(f"Missing reference views in {directory}: {', '.join(missing)}")
+    return {
+        name: Image.open(directory / filename).convert("RGBA")
+        for name, filename in REFERENCE_FILES.items()
+    }
+
+
 def main() -> None:
     parser = argparse.ArgumentParser()
-    parser.add_argument("--sprite", type=Path, required=True)
+    source = parser.add_mutually_exclusive_group(required=True)
+    source.add_argument("--sprite", type=Path)
+    source.add_argument("--views-dir", type=Path)
     parser.add_argument("--output", type=Path, required=True)
     args = parser.parse_args()
 
@@ -59,10 +83,15 @@ def main() -> None:
     for directory in (raw_dir, rgba_dir, mv_dir):
         directory.mkdir(parents=True, exist_ok=True)
 
-    frames = split_sprite(Image.open(args.sprite))
+    if args.views_dir:
+        frames = load_reference_directory(args.views_dir)
+        source_description = str(args.views_dir.resolve())
+    else:
+        frames = split_sprite(Image.open(args.sprite))
+        source_description = str(args.sprite.resolve())
     remover = BackgroundRemover()
     manifest: dict[str, object] = {
-        "source": str(args.sprite.resolve()),
+        "source": source_description,
         "sprite_order": list(VIEW_NAMES),
         "hunyuan_mapping": HUNYUAN_VIEWS,
         "views": {},

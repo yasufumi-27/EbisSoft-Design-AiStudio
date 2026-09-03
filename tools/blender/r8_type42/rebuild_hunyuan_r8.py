@@ -11,9 +11,10 @@ from mathutils import Vector
 
 ROOT = Path(__file__).resolve().parents[3]
 WORK = ROOT / "tools" / "blender" / "r8_type42" / "work"
-SOURCE_BLEND = WORK / "r8-hunyuan-base-normalized.blend"
-OUTPUT_BLEND = WORK / "r8-type42-hunyuan-rebuild.blend"
-OUTPUT_GLB = WORK / "r8-type42-hunyuan-rebuild.glb"
+SOURCE_BLEND = WORK / "r8-hunyuan-base-v3-normalized.blend"
+OUTPUT_BLEND = WORK / "r8-type42-v3-base-mesh.blend"
+OUTPUT_GLB = WORK / "r8-type42-v3-base-mesh.glb"
+VIEWS = WORK / "views-v3"
 AXLE_X = 2.649 / 2
 WHEEL_Z = 0.335
 TRACK_Y = 0.855
@@ -71,7 +72,7 @@ def load_body():
 def add_multiview_vertex_colors(body):
     views = []
     for name in VIEW_NAMES:
-        image = bpy.data.images.load(str(WORK / "views" / "rgba" / f"{name}.png"), check_existing=False)
+        image = bpy.data.images.load(str(VIEWS / "rgba" / f"{name}.png"), check_existing=False)
         width, height = image.size
         pixels = list(image.pixels[:])
         alpha_points = []
@@ -140,6 +141,30 @@ def assign_body_materials(body, projected):
         poly.use_smooth = True
 
 
+def cut_separate_wheel_arches(body):
+    """Remove Hunyuan's fused wheel volumes before adding controlled wheel parts."""
+    for x, axle in ((AXLE_X, "F"), (-AXLE_X, "R")):
+        for y, side_name in ((-TRACK_Y, "R"), (TRACK_Y, "L")):
+            bpy.ops.mesh.primitive_cylinder_add(
+                vertices=96,
+                radius=0.385,
+                depth=0.54,
+                location=(x, y, WHEEL_Z),
+                rotation=(math.pi / 2, 0, 0),
+            )
+            cutter = bpy.context.object
+            cutter.name = f"WheelArch_Cutter_{axle}{side_name}"
+            modifier = body.modifiers.new(f"Separate wheel arch {axle}{side_name}", "BOOLEAN")
+            modifier.operation = "DIFFERENCE"
+            modifier.solver = "EXACT"
+            modifier.object = cutter
+            bpy.context.view_layer.objects.active = body
+            try:
+                bpy.ops.object.modifier_apply(modifier=modifier.name)
+            finally:
+                bpy.data.objects.remove(cutter, do_unlink=True)
+
+
 def cylinder(name, radius, depth, location, mat, *, vertices=64, group="wheel"):
     bpy.ops.mesh.primitive_cylinder_add(
         vertices=vertices,
@@ -157,26 +182,31 @@ def cylinder(name, radius, depth, location, mat, *, vertices=64, group="wheel"):
 
 
 def spoke_prism(name, x, y, z, angle_inner, angle_outer, side, rim_mat):
-    r0, r1 = 0.065, 0.238
-    w0, w1 = 0.021, 0.013
-    # A swept, tapered spoke in the X/Z wheel plane, extruded across Y.
-    points = []
+    # The target wheel has five stems which fork into ten swept Y branches.
+    # Keep the shared stem direction until mid-radius before opening the fork.
+    points_left = []
+    points_right = []
     for radius, angle, width in (
-        (r0, angle_inner, w0),
-        (r1, angle_outer, w1),
+        (0.064, angle_inner, 0.028),
+        (0.138, angle_inner, 0.025),
+        (0.238, angle_outer, 0.016),
     ):
         tangent = Vector((-math.sin(angle), 0, math.cos(angle)))
         radial = Vector((math.cos(angle), 0, math.sin(angle)))
         center = Vector((x, y, z)) + radial * radius
-        points.append(center + tangent * width)
-        points.append(center - tangent * width)
-    outline = (points[0], points[2], points[3], points[1])
-    half_depth = 0.022
+        points_left.append(center + tangent * width)
+        points_right.append(center - tangent * width)
+    outline = tuple(points_left + list(reversed(points_right)))
+    count = len(outline)
+    half_depth = 0.024
     verts = []
     for dy in (-half_depth, half_depth):
         verts.extend((point.x, point.y + dy * side, point.z) for point in outline)
-    faces = [(0, 1, 2, 3), (7, 6, 5, 4)]
-    faces.extend((i, (i + 1) % 4, 4 + (i + 1) % 4, 4 + i) for i in range(4))
+    faces = [tuple(range(count)), tuple(range(count, count * 2))[::-1]]
+    faces.extend(
+        (i, (i + 1) % count, count + (i + 1) % count, count + i)
+        for i in range(count)
+    )
     mesh = bpy.data.meshes.new(f"{name}_Mesh")
     mesh.from_pydata(verts, [], faces)
     mesh.update()
@@ -234,7 +264,7 @@ def add_wheel(code, x, y, tire_mat, rim_mat, disc_mat, caliper_mat):
 
     for group_index in range(5):
         base = math.radians(90) + group_index * math.tau / 5
-        for branch, delta in (("A", -0.13), ("B", 0.13)):
+        for branch, delta in (("A", -0.19), ("B", 0.19)):
             spoke = spoke_prism(
                 f"WheelSpoke_{code}_{group_index + 1}{branch}",
                 x,
@@ -280,16 +310,16 @@ def volume_from_surface(name, points, offset, mat, group):
 def add_lights(head_mat, tail_mat, led_white, led_red):
     for side, suffix in ((1, "L"), (-1, "R")):
         head_points = [
-            (2.085, side * 0.34, 0.55),
-            (2.035, side * 0.72, 0.59),
-            (1.83, side * 0.77, 0.715),
-            (1.62, side * 0.52, 0.735),
+            (2.08, side * 0.30, 0.51),
+            (1.94, side * 0.60, 0.55),
+            (1.76, side * 0.70, 0.63),
+            (1.64, side * 0.45, 0.66),
         ]
         head = volume_from_surface(f"Headlight_{suffix}", head_points, Vector((-0.035, 0, 0)), head_mat, "headlight")
         strip_points = [
-            (2.096, side * 0.37, 0.63),
-            (2.03, side * 0.68, 0.66),
-            (1.82, side * 0.72, 0.70),
+            (2.075, side * 0.31, 0.54),
+            (1.93, side * 0.57, 0.58),
+            (1.77, side * 0.66, 0.62),
         ]
         curve = bpy.data.curves.new(f"HeadlightLED_{suffix}_Curve", "CURVE")
         curve.dimensions = "3D"
@@ -420,10 +450,10 @@ def main():
     red_dark = material("R8 panel seam red", (0.16, 0.003, 0.005, 1), metallic=0.45, roughness=0.24)
     dark = material("Black intake and wheel well", (0.006, 0.008, 0.011, 1), roughness=0.38)
     tire_mat = material("Michelin tire rubber", (0.008, 0.009, 0.011, 1), roughness=0.58)
-    rim_mat = material("Titanium machined Y-spoke", (0.24, 0.27, 0.31, 1), metallic=0.94, roughness=0.18)
+    rim_mat = material("Titanium machined Y-spoke", (0.42, 0.45, 0.49, 1), metallic=0.94, roughness=0.20)
     disc_mat = material("Ventilated brake steel", (0.22, 0.23, 0.24, 1), metallic=0.9, roughness=0.28)
     caliper_mat = material("R8 black brake caliper", (0.015, 0.017, 0.02, 1), metallic=0.35, roughness=0.2)
-    head_mat = material("Headlamp smoked polycarbonate", (0.12, 0.17, 0.21, 0.72), metallic=0.12, roughness=0.08, transmission=0.3)
+    head_mat = material("Headlamp smoked polycarbonate", (0.018, 0.028, 0.038, 0.82), metallic=0.04, roughness=0.24, transmission=0.08)
     tail_mat = material("Tail lamp red polycarbonate", (0.35, 0.003, 0.006, 0.8), roughness=0.1, transmission=0.18)
     led_white = material("LED white", (0.65, 0.82, 1.0, 1), roughness=0.08, emission=(0.65, 0.85, 1.0, 1))
     led_red = material("LED red", (0.5, 0.001, 0.002, 1), roughness=0.08, emission=(1.0, 0.002, 0.003, 1))
@@ -431,6 +461,7 @@ def main():
 
     add_multiview_vertex_colors(body)
     assign_body_materials(body, multiview_material())
+    cut_separate_wheel_arches(body)
     for x, axle in ((AXLE_X, "F"), (-AXLE_X, "R")):
         for y, side in ((-TRACK_Y, "R"), (TRACK_Y, "L")):
             add_wheel(f"{axle}{side}", x, y, tire_mat, rim_mat, disc_mat, caliper_mat)
@@ -440,12 +471,12 @@ def main():
     add_fuel_door(red_dark)
     setup_studio()
 
-    bpy.context.scene["base_generator"] = "tencent/Hunyuan3D-2mv, 4 canonical views, seed 5200"
+    bpy.context.scene["base_generator"] = "tencent/Hunyuan3D-2mv, corrected v3 canonical views, seed 5200"
     bpy.context.scene["target_dimensions_m"] = "4.440 x 1.905 x 1.245; wheelbase 2.649"
     bpy.context.scene["separate_parts"] = "Body; Tire x4; Wheel x4; Headlight L/R; TailLight L/R; Fuel door"
     export_glb()
     bpy.ops.wm.save_as_mainfile(filepath=str(OUTPUT_BLEND))
-    bpy.context.scene.render.filepath = str(WORK / "r8-type42-hunyuan-rebuild-hero.png")
+    bpy.context.scene.render.filepath = str(WORK / "r8-type42-v3-base-mesh-hero.png")
     bpy.ops.render.render(write_still=True)
     print(f"OUTPUT_BLEND={OUTPUT_BLEND}")
     print(f"OUTPUT_GLB={OUTPUT_GLB}")

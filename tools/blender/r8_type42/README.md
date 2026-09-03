@@ -13,13 +13,14 @@ production repository and this GitHub Pages preview repository:
 - `/Users/yasufumi/_work/.ebissoft-tools/Hunyuan3D-2`
 - `/Users/yasufumi/_work/.ebissoft-tools/hunyuan3d-venv`
 
-Prepare the four canonical model inputs and all eight QA views:
+Prepare the four canonical model inputs and all eight QA views from the corrected
+v3 direction images:
 
 ```bash
 PYTHON=/Users/yasufumi/_work/.ebissoft-tools/hunyuan3d-venv/bin/python
 $PYTHON tools/blender/r8_type42/prepare_hunyuan_views.py \
-  --sprite public/images/audi-r8-type42-360-sprite.png \
-  --output tools/blender/r8_type42/work/views
+  --views-dir public/r8-reference-v2/images \
+  --output tools/blender/r8_type42/work/views-v3
 ```
 
 Generate the learned base mesh on Apple Silicon:
@@ -27,8 +28,8 @@ Generate the learned base mesh on Apple Silicon:
 ```bash
 PYTORCH_ENABLE_MPS_FALLBACK=1 $PYTHON \
   tools/blender/r8_type42/generate_hunyuan_mv.py \
-  --views tools/blender/r8_type42/work/views/hunyuan-mv \
-  --output tools/blender/r8_type42/work/r8-hunyuan-base-256.glb \
+  --views tools/blender/r8_type42/work/views-v3/hunyuan-mv \
+  --output tools/blender/r8_type42/work/r8-hunyuan-base-v3-256.glb \
   --steps 30 --resolution 256 --seed 5200
 ```
 
@@ -55,6 +56,8 @@ the initial separate tire, wheel and lamp placeholders. It writes:
 
 Blender refinement replaces Hunyuan's fused wheel and lamp regions with
 controlled separate parts, then adds the grille, cabin and Spyder deck details.
+The rebuild step cuts four wheel-arch volumes out of the learned body before
+adding the master five-paired-Y-spoke wheel assemblies.
 
 ## Optional topology reference
 

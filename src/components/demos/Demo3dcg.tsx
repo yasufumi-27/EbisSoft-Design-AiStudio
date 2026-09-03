@@ -55,7 +55,7 @@ const CYAN = "#22d3ee";
 const R8_RED = "#d90817";
 const R8_FRAME_COUNT = 8;
 const R8_SPRITE_URL = `${process.env.NEXT_PUBLIC_BASE_PATH ?? ""}/images/audi-r8-type42-360-sprite.png`;
-const R8_MODEL_URL = `${process.env.NEXT_PUBLIC_BASE_PATH ?? ""}/models/audi-r8-type42-hunyuan.glb`;
+const R8_MODEL_URL = `${process.env.NEXT_PUBLIC_BASE_PATH ?? ""}/models/audi-r8-type42-hunyuan.glb?v=3`;
 const R8_VIEW_LABELS = ["正面", "右前", "右側", "右後", "後面", "左後", "左側", "左前"] as const;
 
 const COLORS = [

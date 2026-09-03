@@ -13,7 +13,7 @@ from mathutils import Vector
 ROOT = Path(__file__).resolve().parents[3]
 PIPELINE = ROOT / "tools" / "blender" / "r8_type42"
 WORK = PIPELINE / "work"
-SOURCE = WORK / "r8-hunyuan-base-256.glb"
+SOURCE = WORK / "r8-hunyuan-base-v3-256.glb"
 TARGET = json.loads((PIPELINE / "target.json").read_text(encoding="utf-8"))
 DIMENSIONS = TARGET["dimensions_m"]
 VIEW_NAMES = (
@@ -150,10 +150,10 @@ def main() -> None:
         bpy.context.scene.render.filepath = str(render_dir / f"{index:02d}-{name}.png")
         bpy.ops.render.render(write_still=True)
 
-    (WORK / "r8-hunyuan-normalization.json").write_text(
+    (WORK / "r8-hunyuan-v3-normalization.json").write_text(
         json.dumps(audit, ensure_ascii=False, indent=2), encoding="utf-8"
     )
-    bpy.ops.wm.save_as_mainfile(filepath=str(WORK / "r8-hunyuan-base-normalized.blend"))
+    bpy.ops.wm.save_as_mainfile(filepath=str(WORK / "r8-hunyuan-base-v3-normalized.blend"))
     print(json.dumps(audit, ensure_ascii=False, indent=2))
 
 
