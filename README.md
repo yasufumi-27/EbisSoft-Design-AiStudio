@@ -10,6 +10,10 @@
 - もう一方のデザイン案: 別リポジトリで同じ構成で公開しています
 - 本番（触らないこと）: https://www.yebisusoft.jp / リポジトリ `yasufumi-27/EbisSoft`
 
+## Audi R8 3Dデモのライセンス
+
+3DCGデモ内のAudi R8は、[Audi R8 V10 (Type 42)](https://sketchfab.com/3d-models/audi-r8-v10-type-42-7463fcd44a00428486c09487f7fcda0c) by Mona x Supercars / Car2022（[CC BY 4.0](https://creativecommons.org/licenses/by/4.0/)）をベースにしています。BlenderでSpyder化し、オーナー写真に合わせた車体色、ホイール、グリル、リアパネル、給油口へ改変しています。Audi公式CADデータではありません。
+
 ## 本番から変えたところ
 
 | 層 | 変更 |

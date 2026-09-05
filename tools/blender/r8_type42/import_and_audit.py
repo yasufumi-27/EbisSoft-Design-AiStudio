@@ -50,6 +50,18 @@ def import_source(path: Path) -> None:
         bpy.ops.wm.obj_import(filepath=str(path))
 
 
+def isolate_vehicle() -> list[bpy.types.Object]:
+    """Discard the Sketchfab studio/environment and return only car meshes."""
+    model_root = bpy.data.objects.get("Sketchfab_model")
+    if model_root is None:
+        return [obj for obj in bpy.context.scene.objects if obj.type == "MESH"]
+    keep = {model_root, *model_root.children_recursive}
+    for obj in list(bpy.context.scene.objects):
+        if obj not in keep:
+            bpy.data.objects.remove(obj, do_unlink=True)
+    return [obj for obj in model_root.children_recursive if obj.type == "MESH"]
+
+
 def world_bounds(objects: list[bpy.types.Object]) -> tuple[Vector, Vector]:
     points = [obj.matrix_world @ Vector(corner) for obj in objects for corner in obj.bound_box]
     return (
@@ -63,13 +75,18 @@ def normalize_scale(meshes: list[bpy.types.Object]) -> float:
     spans = upper - lower
     longest = max(spans)
     factor = TARGET["dimensions_m"]["length"] / longest
-    for obj in bpy.context.scene.objects:
+    # The Sketchfab GLB contains deep wheel/body hierarchies. Scaling every
+    # object compounds the transform through each parent and explodes parts
+    # away from the body. Transform only scene roots so child placement stays
+    # intact.
+    roots = [obj for obj in bpy.context.scene.objects if obj.parent is None]
+    for obj in roots:
         obj.scale *= factor
     bpy.context.view_layer.update()
     lower, upper = world_bounds(meshes)
     center = (lower + upper) * 0.5
     floor_offset = Vector((-center.x, -center.y, -lower.z))
-    for obj in bpy.context.scene.objects:
+    for obj in roots:
         obj.location += floor_offset
     bpy.context.view_layer.update()
     return factor
@@ -105,7 +122,7 @@ def main() -> None:
     source_path = locate_source()
     reset_scene()
     import_source(source_path)
-    meshes = [obj for obj in bpy.context.scene.objects if obj.type == "MESH"]
+    meshes = isolate_vehicle()
     if not meshes:
         raise RuntimeError(f"Imported source contains no mesh objects: {source_path}")
     scale_factor = normalize_scale(meshes)

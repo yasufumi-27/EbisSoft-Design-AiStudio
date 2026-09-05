@@ -55,7 +55,7 @@ const CYAN = "#22d3ee";
 const R8_RED = "#d90817";
 const R8_FRAME_COUNT = 8;
 const R8_SPRITE_URL = `${process.env.NEXT_PUBLIC_BASE_PATH ?? ""}/images/audi-r8-type42-360-sprite.png`;
-const R8_MODEL_URL = `${process.env.NEXT_PUBLIC_BASE_PATH ?? ""}/models/audi-r8-type42-hunyuan.glb?v=3`;
+const R8_MODEL_URL = `${process.env.NEXT_PUBLIC_BASE_PATH ?? ""}/models/audi-r8-type42-hunyuan.glb?v=4`;
 const R8_VIEW_LABELS = ["正面", "右前", "右側", "右後", "後面", "左後", "左側", "左前"] as const;
 
 const COLORS = [
@@ -709,7 +709,10 @@ export default function Demo3dcg({
 
         {shape === "m:audi-r8" ? (
           <p className="rounded-lg border border-rose-400/25 bg-rose-500/[0.06] px-3 py-2 text-xs leading-relaxed text-rose-100">
-            添付写真を基準に制作した8方向画像からHunyuan3D-2mvでベースメッシュを生成し、Blenderで4.440mの実寸へ補正。ホイール、タイヤ、ヘッドライト、テールライト、右後部の給油口を独立パーツとして追加しています。Audi公式CADによるモデルではありません。
+            人手制作のType 42高密度メッシュをベースに、BlenderでSpyder化・4.440m実寸補正。添付写真に合わせた赤い車体、分割Yスポーク、社外グリル、黒いリアパネル、右後部の給油口を反映し、ホイール／タイヤ／ライトは独立部品です。Audi公式CADではありません。ベースモデル：{" "}
+            <a className="underline underline-offset-2 hover:text-white" href="https://sketchfab.com/3d-models/audi-r8-v10-type-42-7463fcd44a00428486c09487f7fcda0c" target="_blank" rel="noreferrer">
+              Mona x Supercars / Car2022（CC BY 4.0）
+            </a>
           </p>
         ) : null}
 
@@ -739,7 +742,7 @@ export default function Demo3dcg({
           {showR8Photo
             ? "R8の8方向写真をドラッグ量に応じて切り替える比較表示です。3Dモデル表示へ戻すと、自由回転・拡大と独立パーツ構成を確認できます。"
             : isR8
-              ? "4方向入力を学習済みマルチビュー生成で立体化し、Blenderで実寸補正・8方向カラー投影・ホイール／タイヤ／ライトの別部品化を行ったWebGLモデルです。"
+              ? "Type 42の高密度ベースをBlenderでオーナー仕様のSpyderへ再構築し、ホイール／タイヤ／ライト／給油口を別部品化したWebGLモデルです。"
             : "描画はブラウザ上のリアルタイムWebGLです。環境マップ（映り込み）・トーンマッピングを、追加のプラグインなしで実装しています。"}
         </p>
       </div>
