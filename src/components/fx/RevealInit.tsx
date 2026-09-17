@@ -48,7 +48,12 @@ export function RevealInit() {
     );
 
     document.querySelectorAll("[data-reveal]:not([data-revealed])").forEach((el) => {
-      observer.observe(el);
+      if (el.getBoundingClientRect().top < window.innerHeight) {
+        reveal(el);
+      } else {
+        el.setAttribute("data-reveal-pending", "");
+        observer.observe(el);
+      }
     });
 
     return () => observer.disconnect();

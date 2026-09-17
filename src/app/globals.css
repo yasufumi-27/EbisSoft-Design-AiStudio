@@ -3265,7 +3265,9 @@ main h3 {
  * スクロールリビール：RevealInit（IntersectionObserver）が
  * data-revealed 属性を付与する。CSSのみで出現アニメーションを表現。
  * ------------------------------------------------------------- */
-[data-reveal] {
+/* Only off-screen content is armed by RevealInit. The initial viewport and
+   no-JS visitors get readable content immediately, without a reveal timeout. */
+[data-reveal][data-reveal-pending] {
   opacity: 0;
   transform: translateY(28px);
   filter: blur(6px);
@@ -3274,17 +3276,6 @@ main h3 {
     transform 0.9s cubic-bezier(0.2, 0.65, 0.3, 1),
     filter 0.9s ease;
   transition-delay: var(--reveal-delay, 0s);
-  /* 保険：JSが遅い・落ちた・無効でも、2.5秒後には必ず表示する。
-     これがないと RevealInit の読み込み完了まで本文が透明のままになり、
-     低速回線ではLCP（最大コンテンツの描画）がその分だけ遅れる。 */
-  animation: reveal-fallback 0.01s linear 2.5s forwards;
-}
-@keyframes reveal-fallback {
-  to {
-    opacity: 1;
-    transform: none;
-    filter: none;
-  }
 }
 [data-reveal][data-revealed] {
   opacity: 1;

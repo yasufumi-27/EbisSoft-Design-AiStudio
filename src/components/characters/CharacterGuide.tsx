@@ -1,4 +1,4 @@
-import Image from "next/image";
+/* eslint-disable @next/next/no-img-element -- Prebuilt responsive assets support static hosting. */
 import Link from "next/link";
 import type { ReactNode } from "react";
 import styles from "./CharacterGuide.module.css";
@@ -14,7 +14,10 @@ const basePath = process.env.NEXT_PUBLIC_BASE_PATH ?? "";
 export function CharacterPortrait({ character, avatar = false, className = "", decorative = false }: { character: Character; avatar?: boolean; className?: string; decorative?: boolean }) {
   const person = people[character];
   return <span className={`${styles.portrait} ${avatar ? styles.avatar : ""} ${className}`} data-character={character}>
-    <Image src={`${basePath}/images/characters/${person.src}`} width={720} height={1280} alt={decorative ? "" : person.alt} unoptimized/>
+    <img src={`${basePath}/images/characters/optimized/${character}-320.webp`}
+      srcSet={[160, 320, 640].map(width => `${basePath}/images/characters/optimized/${character}-${width}.webp ${width}w`).join(", ")}
+      sizes={avatar ? "128px" : "(max-width: 640px) 260px, 320px"}
+      width={720} height={1280} alt={decorative ? "" : person.alt} loading="lazy" decoding="async"/>
   </span>;
 }
 
