@@ -1,3 +1,4 @@
+import { CharacterGuide } from "@/components/characters/CharacterGuide";
 import type { Metadata } from "next";
 
 import { JsonLd } from "@/components/JsonLd";
@@ -60,6 +61,8 @@ export default function ContactPage() {
         actions={[{ href: "#form", label: "フォームへ進む", primary: true }]}
         note="初回相談・お見積もり無料／2営業日以内にご返信"
       />
+
+      <CharacterGuide character="ebisu" standalone title="ご相談は、まだふんわりしていても。">まだ仕様が決まっていなくても大丈夫です。ご相談の内容をもとに、担当者が進め方をご案内します。書けるところから、お聞かせください。</CharacterGuide>
 
       {/* フォーム本体。連絡先の並記と送信後の案内もこの中に含まれる */}
       <div id="form" className="scroll-mt-20">

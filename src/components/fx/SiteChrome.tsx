@@ -38,13 +38,15 @@ export function SiteChrome() {
   // basePath 配信（GitHub Pages）でも判定できるよう、末尾一致ではなく含有で見る
   const light = pathname === LIGHT_PREFIX || pathname.startsWith(`${LIGHT_PREFIX}/`);
 
+  const home = pathname === "/";
+
   return (
     <>
       {/* リビール演出の起動役。軽く、これが無いと本文が出ないので常に読み込む */}
       <RevealInit />
       <PwaInit />
 
-      {light ? (
+      {home ? <SiteAssistant /> : light ? (
         <>
           {/* 装飾なしの静かな背景（CSSのみ。描画コストはほぼゼロ） */}
           <div

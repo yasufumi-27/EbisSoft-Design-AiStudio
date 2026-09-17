@@ -1,3 +1,4 @@
+import { CharacterGuide } from "@/components/characters/CharacterGuide";
 import type { Metadata } from "next";
 
 import { JsonLd } from "@/components/JsonLd";
@@ -131,6 +132,8 @@ export default function AiPage() {
         ]}
         note="初回相談・お見積もり無料／最短2営業日で構成案"
       />
+
+      <CharacterGuide character="chroma" compact standalone>AIって、どこから使えばいい？ まずは「減らしたい手間」や「できたら便利なこと」から、一緒に見つけましょう。</CharacterGuide>
 
       <StatRow items={stats} />
 

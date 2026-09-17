@@ -34,7 +34,7 @@ type Message = {
 };
 
 const GREETING =
-  "こんにちは、CHROMA（クロマ）です。エビスソフトの案内役をしています。料金・制作期間・できること・組み込み開発・会社情報など、このサイトに書かれていることにお答えします。「AIって何？」「Web制作って何をするの？」のような用語の質問も大丈夫です。お気軽にどうぞ。";
+  "こんにちは！ エビスソフトのAI広報、クロマです。料金・制作期間・できること・組み込み開発・会社情報など、このサイトに書かれていることにお答えします。「AIって何？」「Web制作って何をするの？」のような用語の質問も大丈夫です。お気軽にどうぞ。";
 
 let messageId = 0;
 const nextId = () => (messageId += 1);
@@ -136,18 +136,18 @@ export default function AssistantPanel({ onClose }: { onClose: () => void }) {
       ref={panelRef}
       role="dialog"
       aria-modal="false"
-      aria-label="サイト内AIアシスタント"
+      aria-label="AI広報クロマのサイト案内"
       className="assistant-panel panel flex flex-col overflow-hidden"
     >
       {/* ------------ ヘッダー ------------ */}
       <div className="flex items-center gap-3 border-b border-brand/20 bg-white/[0.03] px-4 py-3">
-        <span className="grid size-9 shrink-0 place-items-center rounded-lg border border-brand/30 bg-brand/10">
-          <MascotFace className="size-6" />
+        <span className="grid size-11 shrink-0 place-items-center rounded-full border border-cyan-200/30 bg-brand/10">
+          <MascotFace className="size-10" />
         </span>
         <div className="min-w-0 flex-1">
-          <p className="truncate text-sm font-bold text-white">CHROMA<span className="ml-2 text-[0.62rem] font-normal tracking-[0.16em] text-brand">AI ASSISTANT</span></p>
-          <p className="font-display truncate text-[10px] tracking-[0.2em] text-brand-light/80 uppercase">
-            {thinking ? "Thinking…" : "Online"}
+          <p className="truncate text-sm font-bold text-white">クロマ<span className="ml-2 text-xs font-normal text-cyan-200">エビスソフト AI広報</span></p>
+          <p className="truncate text-xs text-slate-400">
+            {thinking ? "調べています…" : "サイトの内容をご案内します"}
           </p>
         </div>
         <button
@@ -180,7 +180,7 @@ export default function AssistantPanel({ onClose }: { onClose: () => void }) {
           ) : (
             <div key={m.id} className="flex gap-2.5">
               <span className="grid size-8 shrink-0 place-items-center rounded-lg border border-brand/30 bg-brand/10">
-                <MascotFace className="size-5" />
+                <MascotFace className="size-7" />
               </span>
               <div className="min-w-0 max-w-[88%]">
                 <div
@@ -235,7 +235,7 @@ export default function AssistantPanel({ onClose }: { onClose: () => void }) {
         {thinking ? (
           <div className="flex gap-2.5">
             <span className="grid size-8 shrink-0 place-items-center rounded-lg border border-brand/30 bg-brand/10">
-              <MascotFace className="size-5" />
+              <MascotFace className="size-7" />
             </span>
             <span className="flex items-center gap-1 rounded-2xl rounded-tl-sm bg-white/[0.06] px-4 py-3 ring-1 ring-white/10">
               {[0, 1, 2].map((i) => (

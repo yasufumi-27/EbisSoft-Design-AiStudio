@@ -2,22 +2,9 @@
 
 import dynamic from "next/dynamic";
 import { useCallback, useEffect, useState } from "react";
-import { MascotFace } from "./MascotFace";
+import { PixelChroma } from "./PixelChroma";
 
-/**
- * サイト右下に常駐する 3DCG キャラクター **CHROMA（クロマ）** — AIアシスタントの起動役。
- *
- * 表示速度の鉄則を守るため、ここでは知識源（kb.ts → content.ts）を読み込みません。
- * クリックされて初めて AssistantPanel を動的 import します。
- *
- * キャラクター本体（Three.js）も別チャンクに分け、SVGの顔を先に出しておいて
- * 3Dの初期化が済んだ時点で差し替えます。こうすると
- *   - 初期JSに three が乗らない
- *   - WebGL が使えない環境でも、顔が出ないまま無言のボタンになることがない
- */
-
-/** キャラクター本体（Three.js）。初期JSから外し、クライアントでのみ読み込む */
-const Mascot3d = dynamic(() => import("./Mascot3d"), { ssr: false });
+/** Humanized AI PR character; the conversation remains lazy-loaded. */
 const AssistantPanel = dynamic(() => import("./AssistantPanel"), {
   ssr: false,
   loading: () => (
@@ -34,8 +21,6 @@ const HINT_KEY = "ebisu-assistant-hint";
 
 export function SiteAssistant() {
   const [open, setOpen] = useState(false);
-  /** 3Dの初期化に成功したか（成功するまではSVGの顔を出しておく） */
-  const [live, setLive] = useState(false);
   /** 一度でも開いたか（開くまで AssistantPanel を mount しない） */
   const [mounted, setMounted] = useState(false);
   const [hint, setHint] = useState(false);
@@ -63,9 +48,6 @@ export function SiteAssistant() {
     }
   }, []);
 
-  // Mascot3d へ渡す参照を安定させる（毎レンダーで3Dを作り直させない）
-  const onReady = useCallback(() => setLive(true), []);
-
   const toggle = () => {
     dismissHint();
     setMounted(true);
@@ -73,10 +55,10 @@ export function SiteAssistant() {
   };
 
   return (
-    <div className="assistant-root" data-open={open ? "true" : "false"}>
+    <div className="assistant-root assistant-chroma" data-open={open ? "true" : "false"}>
       {/* パネル本体（開いたあとは DOM に残し、表示だけ切り替えて会話を保持する） */}
       {mounted ? (
-        <div className="assistant-slot" aria-hidden={!open} inert={!open ? true : undefined}>
+        <div id="chroma-assistant-panel" className="assistant-slot" aria-hidden={!open} inert={!open ? true : undefined}>
           <AssistantPanel onClose={close} />
         </div>
       ) : null}
@@ -85,7 +67,7 @@ export function SiteAssistant() {
       {hint && !open ? (
         <div className="assistant-hint">
           <button type="button" onClick={toggle} className="assistant-hint-body">
-            このサイトのこと、何でも聞いてください
+            AI広報のクロマです！<br/>気になること、聞いてください。
           </button>
           <button
             type="button"
@@ -100,17 +82,17 @@ export function SiteAssistant() {
         </div>
       ) : null}
 
-      {/* 起動ボタン（ドット絵ロボットの輪郭そのものがボタン。枠は描かない） */}
+      {/* 起動ボタン（ドット絵のクロマの輪郭そのものがボタン。枠は描かない） */}
       <button
         type="button"
         onClick={toggle}
         aria-expanded={open}
-        aria-label={open ? "AIアシスタントを閉じる" : "AIアシスタントに質問する"}
+        aria-controls={mounted ? "chroma-assistant-panel" : undefined}
+        aria-label={open ? "クロマの案内を閉じる" : "AI広報のクロマに質問する"}
         className="assistant-launcher"
       >
-        {/* 3Dが立ち上がるまで（および WebGL 非対応環境で）出しておく顔 */}
-        <MascotFace className={`assistant-launcher-face ${live ? "is-hidden" : ""}`} />
-        <Mascot3d className="assistant-launcher-art" onReady={onReady} />
+        <PixelChroma/>
+        <span className="chroma-nameplate">クロマ<span>AI広報</span></span>
         <span className="assistant-launcher-ping" aria-hidden="true" />
       </button>
     </div>

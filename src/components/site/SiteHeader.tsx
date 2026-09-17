@@ -30,7 +30,7 @@ export function SiteHeader() {
 
   return (
     <header
-      className={`sticky top-0 z-50 transition-colors duration-500 ${
+      className={`studio-site-header sticky top-0 z-50 transition-colors duration-500 ${
         scrolled || open ? "bg-ink" : "bg-ink/90"
       }`}
     >

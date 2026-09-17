@@ -1,3 +1,4 @@
+import { CharacterGuide } from "@/components/characters/CharacterGuide";
 import type { Metadata } from "next";
 
 import { JsonLd } from "@/components/JsonLd";
@@ -128,6 +129,8 @@ export default function WebPage() {
         ]}
         note="298,000円〜／初回相談・お見積もり無料"
       />
+
+      <CharacterGuide character="chroma" compact standalone>あなたのお店や会社らしさを、どんな体験で伝えましょう？ 見た目も、使いやすさも、一緒にイメージしてみてください。</CharacterGuide>
 
       <StatRow items={stats} />
 

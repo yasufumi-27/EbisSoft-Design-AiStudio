@@ -1,3 +1,4 @@
+import { CharacterGuide } from "@/components/characters/CharacterGuide";
 import type { Metadata } from "next";
 
 import { JsonLd } from "@/components/JsonLd";
@@ -136,6 +137,8 @@ export default function EmbeddedPage() {
         ]}
         note="費用は内容によって大きく変わるため、個別にお見積もりします"
       />
+
+      <CharacterGuide character="ebisu" compact standalone>機器の中も、Webへのつながりも。いま困っていることと、実現したいことを整理するところから始めましょう。</CharacterGuide>
 
       <StatRow items={stats} />
 
