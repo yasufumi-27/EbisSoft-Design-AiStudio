@@ -1,3 +1,6 @@
+import { CharacterStage } from "@/components/characters/CharacterStage";
+import { CharacterGuide, CharacterPortrait } from "@/components/characters/CharacterGuide";
+import { StudioParticleField } from "@/components/sections/StudioMotion";
 import type { ReactNode } from "react";
 import Link from "next/link";
 
@@ -56,7 +59,8 @@ export function PageHero({
   note?: string;
 }) {
   return (
-    <section className="studio-hero">
+    <section className="studio-hero" data-motion-section>
+      <StudioParticleField/>
       <div className="ai-stars" aria-hidden>
         {Array.from({ length: 8 }).map((_, i) => (
           <i key={i} />
@@ -87,7 +91,7 @@ export function PageHero({
           {note ? <p className="studio-hero-note">{note}</p> : null}
         </div>
 
-        <Figure name={figure} className="studio-hero-art" />
+        <CharacterStage character={/^(emb|co-|req|contact)/.test(figure) ? "ebisu" : "chroma"} figure={figure}/>
       </div>
     </section>
   );
@@ -133,8 +137,8 @@ export function FlightList({
         <b>{count ?? `SCROLL / 01—0${items.length}`}</b>
       </header>
       {items.map((item, i) => (
-        <article key={item.title} data-reveal>
-          <Figure name={item.figure} />
+        <article key={item.title} data-motion-section data-enter>
+          <div className="studio-flight-visual" data-tilt="soft"><Figure name={item.figure}/><div className="studio-flight-guide"><CharacterPortrait character={i % 2 === 0 ? "chroma" : "ebisu"} avatar decorative/><span>{i % 2 === 0 ? "クロマの注目ポイント" : "エビスさんのチェックポイント"}</span></div></div>
           <div>
             <p className="ai-flight-label">
               <b>{String(i + 1).padStart(2, "0")}</b>
@@ -185,13 +189,14 @@ export function ModuleBoard({
   prefix?: string;
 }) {
   return (
-    <section className="ai-console studio-board">
-      <div data-reveal>
+    <section className="ai-console studio-board" data-motion-section>
+      <div data-enter>
         <p className="ai-console-label">{label}</p>
-        <h2>{jaNode(title)}</h2>
+        <h2 data-enter>{jaNode(title)}</h2>
         {lead ? <p>{jaNode(lead)}</p> : null}
+        <div className="studio-board-guide"><CharacterPortrait character="chroma" avatar/><span>クロマと、できることをチェック。</span></div>
       </div>
-      <div className="ai-console-grid" data-reveal>
+      <div className="ai-console-grid" data-enter>
         {items.map((m, i) => {
           const cell = (
             <article>
@@ -223,7 +228,7 @@ export function ModuleBoard({
 /** 大きな数字だけを並べる行。説明は1語だけ添える。 */
 export function StatRow({ items }: { items: { value: string; label: string }[] }) {
   return (
-    <section className="studio-stats" data-reveal>
+    <section className="studio-stats" data-motion-section data-enter>
       {items.map((s) => (
         <div key={s.label}>
           <b>{s.value}</b>
@@ -251,7 +256,8 @@ export function ClosingCta({
   secondary?: HeroAction;
 }) {
   return (
-    <section className="ai-final studio-final">
+    <section className="ai-final studio-final" data-motion-section>
+      <CharacterGuide character="ebisu" title="次の一歩を、一緒に考えましょう。">クロマの案内で気になったことはありましたか？ まだアイデアの途中でも、担当者と一緒に整理するところから始められます。</CharacterGuide>
       <div className="chrome-core mini" aria-hidden>
         <i />
         <i />

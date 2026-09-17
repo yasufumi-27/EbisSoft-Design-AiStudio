@@ -6,13 +6,21 @@ import styles from "./StudioHome.module.css";
 const clamp = (value: number, min: number, max: number) => Math.min(max, Math.max(min, value));
 
 /** Event-driven motion; copy and links remain server-rendered and usable without JS. */
-export function StudioMotion({ children }: { children: ReactNode }) {
+export function StudioMotion({ children, variant = "home" }: { children: ReactNode; variant?: "home" | "page" }) {
   const rootRef = useRef<HTMLDivElement>(null);
   const [paused, setPaused] = useState(false);
 
   useEffect(() => {
     const root = rootRef.current;
     if (!root) return;
+    if (variant === "page") {
+      root.querySelectorAll<HTMLElement>(".studio-hero, .ai-page-head, .studio-flight > article, .studio-board, .studio-stats, .studio-final, .ai-index > article, .ai-shelf > article").forEach(el => el.setAttribute("data-motion-section", ""));
+      root.querySelectorAll<HTMLElement>(".ai-console-grid > a, .ai-console-grid > div, .ai-shelf > article, .ai-index > article").forEach((el, index) => {
+        el.dataset.tilt = "soft";
+        if (!el.hasAttribute("data-reveal")) el.dataset.enter = String((index % 3) * 90);
+      });
+      root.querySelectorAll<HTMLElement>(".studio-actions a, .ai-shelf-actions .ai-btn").forEach(el => el.setAttribute("data-magnetic", ""));
+    }
     const preference = window.matchMedia("(prefers-reduced-motion: reduce)");
     let dispose = () => {};
 
@@ -154,9 +162,9 @@ export function StudioMotion({ children }: { children: ReactNode }) {
     configure();
     preference.addEventListener("change", configure);
     return () => { dispose(); preference.removeEventListener("change", configure); };
-  }, [paused]);
+  }, [paused, variant]);
 
-  return <div ref={rootRef} className={styles.home} data-motion="off">
+  return <div ref={rootRef} className={`${styles.home} ${variant === "page" ? "studio-subpage" : ""}`} data-motion="off">
     <div className={styles.readingProgress} aria-hidden="true"/>
     <button className={styles.motionToggle} type="button" aria-pressed={paused} aria-label={paused ? "アニメーションを再開" : "アニメーションを一時停止"} onClick={() => setPaused(value => !value)}>
       <span aria-hidden="true">{paused ? "▶" : "Ⅱ"}</span><span>{paused ? "再生" : "動きを止める"}</span>

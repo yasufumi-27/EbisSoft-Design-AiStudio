@@ -1,3 +1,4 @@
+import { SubpageExperience } from "@/components/sections/SubpageExperience";
 import { ViewTransition } from "react";
 
 import { SiteHeader } from "@/components/site/SiteHeader";
@@ -20,15 +21,14 @@ export default function ChromeLayout({
 }>) {
   return (
     <>
-      {/* 3D背景・カーソル光・常駐アシスタントなどの起動役。
-          職種ページ（/showcase）ではデモに性能を渡すため、演出を読み込みません。 */}
+      {/* 共通の表示演出と、全ページに常駐するクロマ。 */}
       <SiteChrome />
 
       <SiteHeader />
       {/* ページ遷移をクロスフェードさせる（非対応ブラウザでは通常の遷移になる） */}
       <ViewTransition>
         <main id="main" tabIndex={-1} className="flex-1">
-          {children}
+          <SubpageExperience>{children}</SubpageExperience>
         </main>
       </ViewTransition>
       <SiteFooter />

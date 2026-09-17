@@ -1,6 +1,8 @@
+import { CharacterStage } from "@/components/characters/CharacterStage";
+import { StudioParticleField } from "@/components/sections/StudioMotion";
 import type { ReactNode } from "react";
 
-import { Figure, type FigureName } from "@/components/ui/Figure";
+import { type FigureName } from "@/components/ui/Figure";
 import { jaNode } from "@/lib/typography";
 
 /**
@@ -72,7 +74,8 @@ export function PageHeader({
   children?: ReactNode;
 }) {
   return (
-    <section className="ai-page-head">
+    <section className="ai-page-head" data-motion-section>
+      <StudioParticleField/>
       <div className="ai-stars" aria-hidden>
         {Array.from({ length: 6 }).map((_, i) => (
           <i key={i} />
@@ -86,7 +89,7 @@ export function PageHeader({
           {lead ? <p className="speakable ai-page-head-lead">{jaNode(lead)}</p> : null}
           {children}
         </div>
-        <Figure name={art} className="ai-page-head-art" />
+        <CharacterStage character="chroma" figure={art}/>
       </div>
     </section>
   );

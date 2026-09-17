@@ -1,3 +1,5 @@
+import { CharacterStage } from "@/components/characters/CharacterStage";
+import { StudioParticleField } from "@/components/sections/StudioMotion";
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
@@ -18,7 +20,6 @@ import { Container } from "@/components/ui/Container";
 import { Section } from "@/components/ui/Section";
 import { Breadcrumbs } from "@/components/site/Breadcrumbs";
 import { artFor } from "@/components/ui/PageHeader";
-import { Figure } from "@/components/ui/Figure";
 import { ButtonLink } from "@/components/ui/Button";
 import { ColumnBody } from "@/components/columns/ColumnBody";
 import { AuthorBox } from "@/components/columns/AuthorBox";
@@ -104,7 +105,8 @@ export default async function ColumnPage({ params }: { params: Promise<{ slug: s
         {/* 記事ヘッダー。ほかのページの入口（PageHero）と同じ寸法で組む。
             記事タイトルは長いので見出しの上限だけ下げ、余白と図形は共通のまま。
             日付と著者を先に出すのは E-E-A-T のため（誰がいつ書いたか）。 */}
-        <header className="studio-hero article-hero">
+        <header className="studio-hero article-hero" data-motion-section>
+          <StudioParticleField/>
           <div className="ai-stars" aria-hidden>
             {Array.from({ length: 8 }).map((_, i) => (
               <i key={i} />
@@ -134,7 +136,7 @@ export default async function ColumnPage({ params }: { params: Promise<{ slug: s
             </div>
 
             {/* 記事ごとに違う図形（スラッグから決めるので、同じ記事は常に同じ絵） */}
-            <Figure name={artFor(column.slug)} className="studio-hero-art" />
+            <CharacterStage character="chroma" figure={artFor(column.slug)}/>
           </div>
         </header>
 
