@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState, type ReactNode } from "react";
+import { useEffect, useRef, type ReactNode } from "react";
 import styles from "./StudioHome.module.css";
 
 const clamp = (value: number, min: number, max: number) => Math.min(max, Math.max(min, value));
@@ -8,7 +8,6 @@ const clamp = (value: number, min: number, max: number) => Math.min(max, Math.ma
 /** Event-driven motion; copy and links remain server-rendered and usable without JS. */
 export function StudioMotion({ children, variant = "home" }: { children: ReactNode; variant?: "home" | "page" }) {
   const rootRef = useRef<HTMLDivElement>(null);
-  const [paused, setPaused] = useState(false);
 
   useEffect(() => {
     const root = rootRef.current;
@@ -26,7 +25,7 @@ export function StudioMotion({ children, variant = "home" }: { children: ReactNo
 
     const configure = () => {
       dispose();
-      const enabled = !paused && !preference.matches;
+      const enabled = !preference.matches;
       root.dataset.motion = enabled ? "on" : "off";
       root.dispatchEvent(new CustomEvent("studio-motion", { detail: enabled }));
       if (!enabled) return;
@@ -162,13 +161,10 @@ export function StudioMotion({ children, variant = "home" }: { children: ReactNo
     configure();
     preference.addEventListener("change", configure);
     return () => { dispose(); preference.removeEventListener("change", configure); };
-  }, [paused, variant]);
+  }, [variant]);
 
   return <div ref={rootRef} className={`${styles.home} ${variant === "page" ? "studio-subpage" : ""}`} data-motion="off">
     <div className={styles.readingProgress} aria-hidden="true"/>
-    <button className={styles.motionToggle} type="button" aria-pressed={paused} aria-label={paused ? "アニメーションを再開" : "アニメーションを一時停止"} onClick={() => setPaused(value => !value)}>
-      <span aria-hidden="true">{paused ? "▶" : "Ⅱ"}</span><span>{paused ? "再生" : "動きを止める"}</span>
-    </button>
     {children}
   </div>;
 }

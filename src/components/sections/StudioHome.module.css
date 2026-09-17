@@ -84,8 +84,8 @@
 /* Motion system: scroll depth, reactive surfaces, and independent living scenes. */
 .home { position: relative; --hero-exit: 0; --section-shift: 0px; }
 .readingProgress { position: fixed; left: 0; top: 64px; width: 100%; height: 2px; transform-origin: left; transform: scaleX(var(--page-progress, 0)); background: linear-gradient(90deg, #74e5ff, #a6a0ff, #f2bdff); box-shadow: 0 0 14px #aca4ff; z-index: 45; pointer-events: none; }
-.motionToggle { position: absolute; right: 24px; top: 22px; z-index: 10; display: flex; align-items: center; gap: 8px; min-height: 40px; padding: 8px 14px; border: 1px solid #c8d2ff30; border-radius: 100px; background: #080b16b0; font-size: .75rem; color: #c4cbe0; cursor: pointer; }
-.motionToggle:hover { background: #242c43; color: #fff; }
+
+
 .particleField { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; z-index: -1; opacity: .85; mask-image: linear-gradient(transparent, #000 12%, #000 85%, transparent); }
 .hero { isolation: isolate; perspective: 1100px; }
 .hero::after { content: ''; position: absolute; inset: 0; pointer-events: none; z-index: -1; background: radial-gradient(ellipse 38% 30% at 50% 43%, #08090edb, #08090e55 80%, transparent); }
@@ -201,13 +201,13 @@
 .home[data-motion='off'] .exampleVisual { clip-path: none; opacity: 1; animation: none; }
 .home[data-motion='off'] .question, .home[data-motion='off'] .answer { opacity: 1; translate: none; animation: none; }
 @media (hover: none), (pointer: coarse) { .home [data-tilt] { transform: none; }.home [data-magnetic] { translate: none; } }
-@media (max-width: 720px) { .particleField { opacity: .55; }.motionToggle { right: 16px; top: 14px; font-size: .75rem; }.home .demoArt > span { animation-duration: 18s; }.finalOrbits { opacity: .65; } }
-@media (prefers-reduced-motion: reduce) { .home *, .home *::before, .home *::after { animation: none !important; transition: none !important; }.home [data-tilt], .home .hero h1, .home .heroLead { transform: none !important; }.home .chart path:last-child { stroke-dashoffset: 0; }.home .exampleVisual { clip-path: none; opacity: 1; }.motionToggle { display: none; } }
+@media (max-width: 720px) { .particleField { opacity: .55; }.home .demoArt > span { animation-duration: 18s; }.finalOrbits { opacity: .65; } }
+@media (prefers-reduced-motion: reduce) { .home *, .home *::before, .home *::after { animation: none !important; transition: none !important; }.home [data-tilt], .home .hero h1, .home .heroLead { transform: none !important; }.home .chart path:last-child { stroke-dashoffset: 0; }.home .exampleVisual { clip-path: none; opacity: 1; } }
 @media (min-width: 721px) {
   .home[data-motion='on'] .experience { scale: calc(.96 + var(--section-progress, .5) * .08); }
   .home[data-motion='on'] .demoArt > svg { translate: 0 calc(var(--section-shift) * -.3); }
 }
-.motionToggle { position: fixed; top: 78px; z-index: 46; }
+
 /* The two brand characters guide the visitor without competing with the hero. */
 .possibilities > aside { max-width: 880px; margin: 0 auto 32px; }
 .teamWelcome { display: flex; align-items: center; justify-content: center; gap: 0; margin-bottom: 28px; }
@@ -215,6 +215,6 @@
 .teamWelcome > span:last-child { margin-left: 18px; color: #bcc8de; font-size: .875rem; }
 @media (max-width: 640px) { .teamWelcome { flex-wrap: wrap; max-width: 300px; gap: 0; }.teamWelcome > span:last-child { flex-basis: 100%; margin: 14px 0 0; } }
 
-/* The motion control has its own row so it cannot cover page content. */
-.motionToggle { position: relative; inset: auto; z-index: 1; margin: 12px 20px 0 auto; width: fit-content; min-height: 44px; }
+
+
 @media(max-width:720px) { .choices { flex-wrap: wrap; overflow: visible; }.choices button { max-width: 100%; white-space: normal; text-align: left; } }
