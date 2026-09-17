@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/Button";
 import { Icon } from "@/components/ui/icons";
 import { siteConfig } from "@/lib/site";
 import { inquiryGroups, type InquiryGroup } from "@/lib/inquiry";
-import { ja } from "@/lib/typography";
+import { ja, jaNode } from "@/lib/typography";
 import { trackEvent } from "@/lib/analytics";
 
 /**
@@ -39,8 +39,7 @@ function ChoiceGroup({ group, uid }: { group: InquiryGroup; uid: string }) {
       <legend className="flex flex-wrap items-baseline gap-2 pb-1">
         <span className="text-base font-bold text-white">{ja(group.label)}</span>
         <span className="text-[11px] text-slate-500">
-          {isMulti ? "複数選択できます" : "1つ選択"}・任意
-        </span>
+          {jaNode(isMulti ? "複数選択できます" : "1つ選択")}{jaNode("・任意")}</span>
       </legend>
       {group.help ? (
         <p className="mt-1 mb-4 text-xs leading-relaxed text-slate-500">{ja(group.help)}</p>
@@ -61,7 +60,7 @@ function ChoiceGroup({ group, uid }: { group: InquiryGroup; uid: string }) {
               {ja(o.value)}
               {o.note ? (
                 <span className="rounded bg-gold/15 px-1.5 py-0.5 text-[10px] font-bold text-gold-light">
-                  {o.note}
+                  {jaNode(o.note)}
                 </span>
               ) : null}
             </span>
@@ -229,9 +228,9 @@ export function InquiryForm() {
           <Icon name="check" className="size-7" />
         </span>
         <h2 className="mt-5 text-xl font-bold text-white">
-          {sent.mode === "api"
+          {jaNode(sent.mode === "api"
             ? ja("お問い合わせを送信しました")
-            : ja("メールソフトを起動しました")}
+            : ja("メールソフトを起動しました"))}
         </h2>
         <p className="mt-3 text-sm leading-relaxed text-slate-400">
           {sent.mode === "api" ? (
@@ -251,14 +250,14 @@ export function InquiryForm() {
 
         <div className="mt-8 rounded-none border border-brand/20 bg-ink/60 p-4 text-left">
           <p className="mb-2 text-xs text-slate-500">
-            {sent.mode === "api"
+            {jaNode(sent.mode === "api"
               ? ja("控えのメールが届かない場合は、下記をコピーして")
-              : ja("メールソフトが起動しない場合は、下記をコピーして")}{" "}
+              : ja("メールソフトが起動しない場合は、下記をコピーして"))}{" "}
             <a
               href={`mailto:${siteConfig.contact.email}`}
               className="text-brand-light underline"
             >
-              {siteConfig.contact.email}
+              {jaNode(siteConfig.contact.email)}
             </a>{" "}
             {ja("へお送りください。")}
           </p>
@@ -269,18 +268,14 @@ export function InquiryForm() {
             type="button"
             onClick={() => navigator.clipboard?.writeText(sent.body)}
             className="mt-3 rounded-none border border-brand/25 bg-white/5 px-3 py-1.5 text-xs font-semibold text-slate-300 transition-colors hover:border-brand/50 hover:text-brand-light"
-          >
-            内容をコピー
-          </button>
+          >{jaNode("内容をコピー")}</button>
         </div>
 
         <button
           type="button"
           onClick={() => setSent(null)}
           className="mt-6 text-sm text-slate-500 transition-colors hover:text-white"
-        >
-          ← 入力内容を修正する
-        </button>
+        >{jaNode("← 入力内容を修正する")}</button>
       </div>
     );
   }
@@ -294,12 +289,12 @@ export function InquiryForm() {
           <span className="font-display rounded-none bg-brand px-2 py-1 text-[10px] font-bold tracking-[0.16em] text-ink">
             STEP 1
           </span>
-          <span className="text-xs font-bold text-brand-light">ここだけは、ぜひ</span>
+          <span className="text-xs font-bold text-brand-light">{jaNode("ここだけは、ぜひ")}</span>
         </div>
 
-        <label htmlFor={`${uid}-goal`} className="mt-4 block text-xl font-bold text-white">
+        <label htmlFor={`${uid}-goal`} className="mt-4 grid grid-cols-[minmax(0,1fr)_auto] items-start gap-2 text-xl font-bold text-white">
           {ja("やりたいこと・実現したいことを教えてください")}
-          <span className="ml-2 text-sm text-gold">必須</span>
+          <span className="mt-1 whitespace-nowrap text-sm text-gold">{jaNode("必須")}</span>
         </label>
         <p className="mt-2 text-sm leading-relaxed text-slate-400">
           {ja("きれいにまとまっていなくて構いません。「問い合わせを増やしたい」「今のサイトが古い」だけでも大丈夫です。")}
@@ -325,12 +320,12 @@ export function InquiryForm() {
         <div className="mt-1 flex items-center justify-between">
           {errors.goal ? (
             <p id={`${uid}-goal-error`} className="text-xs text-rose-400">
-              {errors.goal}
+              {jaNode(errors.goal)}
             </p>
           ) : (
             <span />
           )}
-          <span className="text-xs text-slate-400">{goalLength} / 2000</span>
+          <span className="text-xs text-slate-400">{jaNode(goalLength)} / 2000</span>
         </div>
 
         <label htmlFor={`${uid}-reference`} className="mt-6 block text-sm font-semibold text-slate-200">
@@ -353,7 +348,7 @@ export function InquiryForm() {
             <span className="font-display rounded-none border border-brand/30 bg-white/5 px-2 py-1 text-[10px] font-bold tracking-[0.16em] text-slate-300">
               STEP 2
             </span>
-            <span className="text-xs text-slate-500">すべて任意・ざっくりでOK</span>
+            <span className="text-xs text-slate-500">{jaNode("すべて任意・ざっくりでOK")}</span>
           </span>
           <h2 className="col-start-1 mt-4 text-xl font-bold text-white">
             {ja("ご要望の目安をお聞かせください")}
@@ -387,7 +382,7 @@ export function InquiryForm() {
             STEP 3
           </span>
         </div>
-        <h2 className="mt-4 text-xl font-bold text-white">ご連絡先</h2>
+        <h2 className="mt-4 text-xl font-bold text-white">{jaNode("ご連絡先")}</h2>
 
         <div className="mt-6 grid gap-5 sm:grid-cols-2">
           <div>
@@ -406,7 +401,7 @@ export function InquiryForm() {
 
           <div>
             <label htmlFor={`${uid}-name`} className="text-sm font-semibold text-slate-200">
-              {ja("お名前")} <span className="text-gold">必須</span>
+              {ja("お名前")} <span className="text-gold">{jaNode("必須")}</span>
             </label>
             <input
               id={`${uid}-name`}
@@ -421,14 +416,14 @@ export function InquiryForm() {
             />
             {errors.name ? (
               <p id={`${uid}-name-error`} className="mt-1 text-xs text-rose-400">
-                {errors.name}
+                {jaNode(errors.name)}
               </p>
             ) : null}
           </div>
 
           <div>
             <label htmlFor={`${uid}-email`} className="text-sm font-semibold text-slate-200">
-              {ja("メールアドレス")} <span className="text-gold">必須</span>
+              {ja("メールアドレス")} <span className="text-gold">{jaNode("必須")}</span>
             </label>
             <input
               id={`${uid}-email`}
@@ -443,7 +438,7 @@ export function InquiryForm() {
             />
             {errors.email ? (
               <p id={`${uid}-email-error`} className="mt-1 text-xs text-rose-400">
-                {errors.email}
+                {jaNode(errors.email)}
               </p>
             ) : null}
           </div>
@@ -504,9 +499,7 @@ export function InquiryForm() {
                 type="button"
                 onClick={() => openMailer(failure.body, failure.subjectName)}
                 className="mt-3 rounded-none border border-brand/30 bg-white/10 px-4 py-2 text-sm font-semibold text-white transition-colors hover:border-brand/50 hover:text-brand-light"
-              >
-                メールソフトで送る
-              </button>
+              >{jaNode("メールソフトで送る")}</button>
             </div>
           ) : null}
 

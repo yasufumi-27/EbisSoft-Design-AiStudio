@@ -1,4 +1,5 @@
 "use client";
+import { jaNode } from "@/lib/typography";
 
 import { useMemo, useState } from "react";
 import { DemoStage } from "./DemoUi";
@@ -207,7 +208,7 @@ export default function DemoMultilingual() {
               <span aria-hidden className="mr-1.5">
                 {l.flag}
               </span>
-              {l.nativeLabel}
+              {jaNode(l.nativeLabel)}
             </button>
           ))}
         </div>
@@ -216,19 +217,19 @@ export default function DemoMultilingual() {
         <div lang={def.code} dir={def.dir} className="p-6 sm:p-8">
           <p className="inline-flex items-center gap-1.5 rounded-full border border-gold/40 bg-gold/10 px-3 py-1 text-xs font-semibold text-gold-light">
             <Icon name="pin" className="size-3.5" />
-            {def.content.badge}
+            {jaNode(def.content.badge)}
           </p>
 
           <h3 className="mt-4 text-2xl leading-snug font-bold text-white sm:text-3xl">
-            {def.content.title}
+            {jaNode(def.content.title)}
           </h3>
-          <p className="mt-3 text-sm leading-relaxed text-slate-400">{def.content.lead}</p>
+          <p className="mt-3 text-sm leading-relaxed text-slate-400">{jaNode(def.content.lead)}</p>
 
           <ul className="mt-5 space-y-2">
             {def.content.features.map((f) => (
               <li key={f} className="flex gap-2.5 text-sm text-slate-300">
                 <Icon name="check" className="mt-0.5 size-4 shrink-0 text-brand" />
-                {f}
+                {jaNode(f)}
               </li>
             ))}
           </ul>
@@ -236,22 +237,22 @@ export default function DemoMultilingual() {
           {/* ロケール依存の表示（ここが Intl API による実装部分） */}
           <dl className="mt-6 grid gap-px overflow-hidden rounded-xl border border-white/10 bg-white/5 sm:grid-cols-3">
             <div className="bg-ink-2/80 px-4 py-4">
-              <dt className="text-[11px] text-slate-500">{def.content.priceLabel}</dt>
+              <dt className="text-[11px] text-slate-500">{jaNode(def.content.priceLabel)}</dt>
               <dd className="font-display mt-1 text-lg font-bold text-gold-light">
-                {formatted.price}
+                {jaNode(formatted.price)}
               </dd>
             </div>
             <div className="bg-ink-2/80 px-4 py-4">
-              <dt className="text-[11px] text-slate-500">{def.content.dateLabel}</dt>
-              <dd className="mt-1 text-sm font-bold text-white">{formatted.date}</dd>
-              <dd className="text-[11px] text-slate-500">{formatted.relative}</dd>
+              <dt className="text-[11px] text-slate-500">{jaNode(def.content.dateLabel)}</dt>
+              <dd className="mt-1 text-sm font-bold text-white">{jaNode(formatted.date)}</dd>
+              <dd className="text-[11px] text-slate-500">{jaNode(formatted.relative)}</dd>
             </div>
             <div className="bg-ink-2/80 px-4 py-4">
-              <dt className="text-[11px] text-slate-500">{def.content.guestsLabel}</dt>
+              <dt className="text-[11px] text-slate-500">{jaNode(def.content.guestsLabel)}</dt>
               <dd className="mt-1 text-sm font-bold text-white">
-                {formatted.guests}
+                {jaNode(formatted.guests)}
                 <span className="ml-2 text-[11px] font-normal text-slate-500">
-                  ★ {formatted.reviews}
+                  ★ {jaNode(formatted.reviews)}
                 </span>
               </dd>
             </div>
@@ -261,22 +262,18 @@ export default function DemoMultilingual() {
             type="button"
             className="btn btn-primary mt-6 inline-flex h-11 items-center px-6 text-sm"
           >
-            {def.content.cta}
+            {jaNode(def.content.cta)}
             <Icon name="arrowRight" className="size-4" />
           </button>
-          <p className="mt-3 text-[11px] text-slate-500">{def.content.note}</p>
+          <p className="mt-3 text-[11px] text-slate-500">{jaNode(def.content.note)}</p>
         </div>
       </DemoStage>
 
       {/* ---------- 技術的な裏側 ---------- */}
       <div className="panel space-y-5 p-5 min-w-0 lg:col-span-2">
         <div>
-          <p className="font-display text-[10px] font-bold tracking-[0.25em] text-slate-500 uppercase">
-            Locale / 変換されている項目
-          </p>
-          <p className="mt-2 text-xs leading-relaxed text-slate-400">
-            通貨・日付・数値は、翻訳ではなくブラウザ標準の Intl API で自動変換しています。国ごとの表記ルールに常に追随します。
-          </p>
+          <p className="font-display text-[10px] font-bold tracking-[0.25em] text-slate-500 uppercase">{jaNode("Locale / 変換されている項目")}</p>
+          <p className="mt-2 text-xs leading-relaxed text-slate-400">{jaNode("通貨・日付・数値は、翻訳ではなくブラウザ標準の Intl API で自動変換しています。国ごとの表記ルールに常に追随します。")}</p>
           <dl className="mt-4 space-y-2 text-xs">
             {[
               ["lang属性", def.code],
@@ -287,30 +284,24 @@ export default function DemoMultilingual() {
               ["桁区切り", formatted.reviews],
             ].map(([k, v]) => (
               <div key={k} className="flex items-start justify-between gap-3">
-                <dt className="shrink-0 text-slate-500">{k}</dt>
-                <dd className="text-right text-slate-300">{v}</dd>
+                <dt className="shrink-0 text-slate-500">{jaNode(k)}</dt>
+                <dd className="text-right text-slate-300">{jaNode(v)}</dd>
               </div>
             ))}
           </dl>
         </div>
 
         <div>
-          <p className="font-display mb-2 text-[10px] font-bold tracking-[0.25em] text-slate-500 uppercase">
-            hreflang / 検索エンジンへの指示
-          </p>
-          <p className="mb-2 text-xs leading-relaxed text-slate-500">
-            この記述がないと、各言語ページが重複コンテンツと判定され、検索結果に出にくくなります。
-          </p>
+          <p className="font-display mb-2 text-[10px] font-bold tracking-[0.25em] text-slate-500 uppercase">{jaNode("hreflang / 検索エンジンへの指示")}</p>
+          <p className="mb-2 text-xs leading-relaxed text-slate-500">{jaNode("この記述がないと、各言語ページが重複コンテンツと判定され、検索結果に出にくくなります。")}</p>
           <pre className="overflow-x-auto rounded-xl border border-white/10 bg-ink/70 p-3 text-[10px] leading-relaxed text-slate-400">
             <code>{hreflang}</code>
           </pre>
         </div>
 
         <div className="rounded-xl border border-gold/25 bg-gold/[0.06] p-4">
-          <p className="text-xs font-bold text-gold-light">翻訳の進め方</p>
-          <p className="mt-2 text-xs leading-relaxed text-slate-400">
-            日本語を原文とし、AIで各言語へ翻訳したうえで、ネイティブがレビューして公開します。更新のたびに全言語へ即日反映でき、外注の往復による遅れがなくなります。
-          </p>
+          <p className="text-xs font-bold text-gold-light">{jaNode("翻訳の進め方")}</p>
+          <p className="mt-2 text-xs leading-relaxed text-slate-400">{jaNode("日本語を原文とし、AIで各言語へ翻訳したうえで、ネイティブがレビューして公開します。更新のたびに全言語へ即日反映でき、外注の往復による遅れがなくなります。")}</p>
         </div>
       </div>
     </div>

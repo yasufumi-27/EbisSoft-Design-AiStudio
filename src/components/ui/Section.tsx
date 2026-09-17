@@ -33,7 +33,7 @@ export function SectionHeading({
   const alignment = align === "center" ? "mx-auto max-w-2xl text-center" : "max-w-3xl text-left";
   return (
     <div className={`ai-heading ${alignment}`} data-align={align} data-reveal>
-      {eyebrow ? <p className="eyebrow">{eyebrow}</p> : null}
+      {eyebrow ? <p className="eyebrow">{jaNode(eyebrow)}</p> : null}
       <h2>{jaNode(title)}</h2>
       {/* 見出し下のライン。対応ブラウザではスクロールに合わせて引かれる（JS不使用） */}
       <span

@@ -1,4 +1,5 @@
 "use client";
+import { jaNode } from "@/lib/typography";
 
 import { useCallback, useEffect, useRef, useState } from "react";
 import { ChipButton, ControlGroup, DemoStage, RangeControl } from "./DemoUi";
@@ -256,18 +257,14 @@ export default function DemoVoice() {
       >
         <div ref={logRef} className="h-[300px] space-y-4 overflow-y-auto p-5 sm:h-[360px]" role="log" aria-live="polite">
           {turns.length === 0 && !interim ? (
-            <p className="pt-16 text-center text-sm text-slate-500">
-              マイクボタンを押して、話しかけてください。
-              <br />
-              例：「料金はいくらですか」
-            </p>
+            <p className="pt-16 text-center text-sm text-slate-500">{jaNode("マイクボタンを押して、話しかけてください。")}<br />{jaNode("例：「料金はいくらですか」")}</p>
           ) : null}
 
           {turns.map((t) =>
             t.role === "user" ? (
               <div key={t.id} className="flex justify-end">
                 <p className="max-w-[85%] rounded-2xl rounded-br-sm bg-amber-400/15 px-4 py-2.5 text-sm text-white ring-1 ring-amber-400/30">
-                  {t.text}
+                  {jaNode(t.text)}
                 </p>
               </div>
             ) : (
@@ -277,21 +274,19 @@ export default function DemoVoice() {
                 </span>
                 <div className="max-w-[88%]">
                   <p className="rounded-2xl rounded-tl-sm bg-white/[0.06] px-4 py-2.5 text-sm leading-relaxed text-slate-200 ring-1 ring-white/10">
-                    {t.text}
+                    {jaNode(t.text)}
                   </p>
                   <div className="mt-1.5 flex items-center gap-2">
                     {t.source ? (
                       <span className="rounded-md border border-gold/30 bg-gold/10 px-2 py-0.5 text-[11px] text-gold-light">
-                        {t.source.doc.source}
+                        {jaNode(t.source.doc.source)}
                       </span>
                     ) : null}
                     <button
                       type="button"
                       onClick={() => speak(t.text)}
                       className="text-[11px] text-slate-500 transition-colors hover:text-brand-light"
-                    >
-                      ↻ もう一度読み上げる
-                    </button>
+                    >{jaNode("↻ もう一度読み上げる")}</button>
                   </div>
                 </div>
               </div>
@@ -301,7 +296,7 @@ export default function DemoVoice() {
           {interim ? (
             <div className="flex justify-end">
               <p className="max-w-[85%] rounded-2xl rounded-br-sm border border-dashed border-amber-400/40 px-4 py-2.5 text-sm text-amber-200/70">
-                {interim}…
+                {jaNode(interim)}…
               </p>
             </div>
           ) : null}
@@ -311,12 +306,12 @@ export default function DemoVoice() {
         <div className="border-t border-white/10 p-5">
           {error ? (
             <p className="mb-3 rounded-lg border border-rose-400/30 bg-rose-400/10 px-3 py-2 text-xs text-rose-200">
-              {error}
+              {jaNode(error)}
             </p>
           ) : null}
           {micHint && !error ? (
             <p className="mb-3 rounded-lg border border-brand/25 bg-brand/[0.07] px-3 py-2 text-xs leading-relaxed text-slate-300">
-              {micHint}
+              {jaNode(micHint)}
             </p>
           ) : null}
 
@@ -355,11 +350,11 @@ export default function DemoVoice() {
                 ))}
               </div>
               <p className="mt-1 text-xs text-slate-500">
-                {supported === false
+                {jaNode(supported === false
                   ? "このブラウザは音声認識に非対応です（Firefox等）。下の入力欄からお試しください。"
                   : listening
                     ? "話しかけてください…"
-                    : "マイクボタンを押して話しかけてください"}
+                    : "マイクボタンを押して話しかけてください")}
               </p>
             </div>
 
@@ -393,9 +388,7 @@ export default function DemoVoice() {
               type="submit"
               disabled={!typed.trim()}
               className="shrink-0 rounded-lg border border-white/15 bg-white/5 px-4 text-sm font-semibold text-slate-200 transition-colors hover:border-brand/50 disabled:opacity-40"
-            >
-              送信
-            </button>
+            >{jaNode("送信")}</button>
           </form>
         </div>
       </DemoStage>
@@ -403,24 +396,22 @@ export default function DemoVoice() {
       {/* 設定・説明 */}
       <div className="panel space-y-5 p-5 min-w-0 lg:col-span-2">
         <div>
-          <p className="font-display text-[10px] font-bold tracking-[0.25em] text-slate-500 uppercase">
-            Environment / 実行環境
-          </p>
+          <p className="font-display text-[10px] font-bold tracking-[0.25em] text-slate-500 uppercase">{jaNode("Environment / 実行環境")}</p>
           <dl className="mt-3 space-y-2 text-xs">
             <div className="flex items-center justify-between gap-2">
-              <dt className="text-slate-500">音声認識</dt>
+              <dt className="text-slate-500">{jaNode("音声認識")}</dt>
               <dd className={supported ? "text-emerald-300" : "text-amber-300"}>
-                {supported === null ? "確認中…" : supported ? "利用できます" : "非対応"}
+                {jaNode(supported === null ? "確認中…" : supported ? "利用できます" : "非対応")}
               </dd>
             </div>
             <div className="flex items-center justify-between gap-2">
-              <dt className="text-slate-500">この端末</dt>
-              <dd className="text-slate-300">{uaLabel}</dd>
+              <dt className="text-slate-500">{jaNode("この端末")}</dt>
+              <dd className="text-slate-300">{jaNode(uaLabel)}</dd>
             </div>
             <div className="flex items-center justify-between gap-2">
-              <dt className="text-slate-500">読み上げ</dt>
+              <dt className="text-slate-500">{jaNode("読み上げ")}</dt>
               <dd className="text-emerald-300">
-                {voices.length ? `${voices.length}種類の音声` : "確認中…"}
+                {jaNode(voices.length ? `${voices.length}種類の音声` : "確認中…")}
               </dd>
             </div>
           </dl>
@@ -431,9 +422,7 @@ export default function DemoVoice() {
             <label
               htmlFor="voice-select"
               className="font-display mb-2 block text-[10px] font-bold tracking-[0.25em] text-slate-500 uppercase"
-            >
-              Voice / 声
-            </label>
+            >{jaNode("Voice / 声")}</label>
             <select
               id="voice-select"
               value={voiceName}
@@ -467,9 +456,7 @@ export default function DemoVoice() {
           ))}
         </ControlGroup>
 
-        <p className="border-t border-white/10 pt-4 text-xs leading-relaxed text-slate-500">
-          音声の認識・読み上げはブラウザの機能をそのまま使っているため、追加の通信費もサーバーも不要です。実案件では、より自然な会話が必要な場合にリアルタイム音声APIへ切り替えます。
-        </p>
+        <p className="border-t border-white/10 pt-4 text-xs leading-relaxed text-slate-500">{jaNode("音声の認識・読み上げはブラウザの機能をそのまま使っているため、追加の通信費もサーバーも不要です。実案件では、より自然な会話が必要な場合にリアルタイム音声APIへ切り替えます。")}</p>
       </div>
     </div>
   );

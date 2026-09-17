@@ -1,4 +1,5 @@
 "use client";
+import { jaNode } from "@/lib/typography";
 
 import { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
@@ -307,15 +308,14 @@ export default function DemoConfigurator() {
                 title={m.note}
               >
                 {m.label}
-                {m.price > 0 ? <span className="ml-1.5 text-[10px] opacity-70">+{m.price / 10_000}万</span> : null}
+                {m.price > 0 ? <span className="ml-1.5 text-[10px] opacity-70">+{jaNode(m.price / 10_000)}{jaNode("万")}</span> : null}
               </ChipButton>
             ))}
           </ControlGroup>
-          <p className="-mt-3 text-[11px] text-slate-500">{material.note}</p>
+          <p className="-mt-3 text-[11px] text-slate-500">{jaNode(material.note)}</p>
 
           <div>
-            <p className="font-display mb-2 text-[10px] font-bold tracking-[0.25em] text-slate-500 uppercase">
-              Color / カラー（{color.label}）
+            <p className="font-display mb-2 text-[10px] font-bold tracking-[0.25em] text-slate-500 uppercase">{jaNode("Color / カラー（")}{jaNode(color.label)}）
             </p>
             <div className="flex flex-wrap gap-2.5">
               {COLORS.map((c) => (
@@ -342,16 +342,14 @@ export default function DemoConfigurator() {
               <ChipButton key={l.key} active={leg.key === l.key} onClick={() => setLeg(l)}>
                 <span className="inline-flex items-center gap-1.5">
                   <span aria-hidden className="size-2.5 rounded-full" style={{ background: l.hex }} />
-                  {l.label}
+                  {jaNode(l.label)}
                 </span>
               </ChipButton>
             ))}
           </ControlGroup>
 
           <div>
-            <p className="font-display mb-2 text-[10px] font-bold tracking-[0.25em] text-slate-500 uppercase">
-              Options / オプション
-            </p>
+            <p className="font-display mb-2 text-[10px] font-bold tracking-[0.25em] text-slate-500 uppercase">{jaNode("Options / オプション")}</p>
             <div className="grid gap-2 sm:grid-cols-2">
               {OPTIONS.map((o) => {
                 const on = options.includes(o.key);
@@ -377,12 +375,12 @@ export default function DemoConfigurator() {
                     </span>
                     <span className="min-w-0 flex-1">
                       <span className={`block text-xs font-bold ${on ? "text-white" : "text-slate-300"}`}>
-                        {o.label}
+                        {jaNode(o.label)}
                       </span>
-                      <span className="block text-[10px] text-slate-500">{o.hint}</span>
+                      <span className="block text-[10px] text-slate-500">{jaNode(o.hint)}</span>
                     </span>
                     <span className="shrink-0 text-[10px] font-semibold text-slate-500 tabular-nums">
-                      +{yen(o.price)}
+                      +{jaNode(yen(o.price))}
                     </span>
                   </button>
                 );
@@ -395,48 +393,42 @@ export default function DemoConfigurator() {
       {/* ---------------- 価格・注文 ---------------- */}
       <div className="space-y-5 min-w-0 lg:col-span-2">
         <div className="panel p-5">
-          <p className="font-display text-[10px] font-bold tracking-[0.25em] text-slate-500 uppercase">
-            Your Configuration / この構成
-          </p>
-          <p className="mt-2 text-3xl font-bold text-white tabular-nums">{yen(spec.price)}</p>
-          <p className="mt-1 text-[11px] text-slate-500">税別・送料込み</p>
+          <p className="font-display text-[10px] font-bold tracking-[0.25em] text-slate-500 uppercase">{jaNode("Your Configuration / この構成")}</p>
+          <p className="mt-2 text-3xl font-bold text-white tabular-nums">{jaNode(yen(spec.price))}</p>
+          <p className="mt-1 text-[11px] text-slate-500">{jaNode("税別・送料込み")}</p>
 
           <ul className="mt-4 space-y-1.5 border-t border-white/10 pt-4">
             {spec.lines.map((l) => (
               <li key={l.label} className="flex items-center gap-2 text-[11px]">
-                <span className="flex-1 truncate text-slate-400">{l.label}</span>
-                <span className="font-semibold text-slate-300 tabular-nums">{yen(l.value)}</span>
+                <span className="flex-1 truncate text-slate-400">{jaNode(l.label)}</span>
+                <span className="font-semibold text-slate-300 tabular-nums">{jaNode(yen(l.value))}</span>
               </li>
             ))}
           </ul>
 
           <dl className="mt-4 grid grid-cols-2 gap-2 border-t border-white/10 pt-4 text-center">
             <div className="rounded-lg border border-white/10 bg-white/[0.03] p-3">
-              <dt className="text-[10px] text-slate-500">お届け目安</dt>
-              <dd className="font-display mt-1 text-sm font-bold text-brand-light">{eta}</dd>
-              <dd className="text-[10px] text-slate-500">約{spec.days}日後</dd>
+              <dt className="text-[10px] text-slate-500">{jaNode("お届け目安")}</dt>
+              <dd className="font-display mt-1 text-sm font-bold text-brand-light">{jaNode(eta)}</dd>
+              <dd className="text-[10px] text-slate-500">{jaNode("約")}{jaNode(spec.days)}{jaNode("日後")}</dd>
             </div>
             <div className="rounded-lg border border-white/10 bg-white/[0.03] p-3">
-              <dt className="text-[10px] text-slate-500">この生地の在庫</dt>
+              <dt className="text-[10px] text-slate-500">{jaNode("この生地の在庫")}</dt>
               <dd
                 className={`font-display mt-1 text-sm font-bold ${
                   spec.stock <= 3 ? "text-rose-300" : "text-emerald-300"
                 }`}
-              >
-                残り{spec.stock}点
-              </dd>
-              <dd className="text-[10px] text-slate-500">{viewers}人が閲覧中</dd>
+              >{jaNode("残り")}{jaNode(spec.stock)}{jaNode("点")}</dd>
+              <dd className="text-[10px] text-slate-500">{jaNode(viewers)}{jaNode("人が閲覧中")}</dd>
             </div>
           </dl>
 
           <div className="mt-4 rounded-lg border border-gold/25 bg-gold/[0.06] p-3">
-            <p className="text-[10px] tracking-wider text-slate-500 uppercase">構成コード</p>
+            <p className="text-[10px] tracking-wider text-slate-500 uppercase">{jaNode("構成コード")}</p>
             <p className="font-display mt-1 text-sm font-bold tracking-[0.15em] text-gold-light">
-              {spec.code}
+              {jaNode(spec.code)}
             </p>
-            <p className="mt-1 text-[10px] leading-relaxed text-slate-500">
-              このコードだけで仕様が一意に決まります。注文・製造指示にそのまま渡せます。
-            </p>
+            <p className="mt-1 text-[10px] leading-relaxed text-slate-500">{jaNode("このコードだけで仕様が一意に決まります。注文・製造指示にそのまま渡せます。")}</p>
           </div>
 
           <div className="mt-4 flex flex-col gap-2">
@@ -448,31 +440,24 @@ export default function DemoConfigurator() {
               }}
               className="btn btn-primary inline-flex h-11 items-center justify-center px-5 text-sm"
             >
-              <Icon name="cart" className="size-4" />
-              この構成で見積もる
-            </button>
+              <Icon name="cart" className="size-4" />{jaNode("この構成で見積もる")}</button>
             <Link
               prefetch={false}
               href="/contact"
               className="inline-flex h-10 items-center justify-center gap-2 rounded-lg border border-white/15 bg-white/5 text-xs font-semibold text-slate-200 transition-colors hover:border-brand/50"
-            >
-              同じ仕組みを自社サイトに
-              <Icon name="arrowRight" className="size-3.5" />
+            >{jaNode("同じ仕組みを自社サイトに")}<Icon name="arrowRight" className="size-3.5" />
             </Link>
           </div>
 
           {quotedCode === spec.code ? (
             <p className="stagger-item mt-3 flex items-center gap-2 rounded-lg border border-emerald-400/30 bg-emerald-400/10 p-3 text-[11px] text-emerald-200">
-              <Icon name="check" className="size-4 shrink-0" />
-              見積もりカートに追加しました（{cart}件）。{spec.code} / {yen(spec.price)}
+              <Icon name="check" className="size-4 shrink-0" />{jaNode("見積もりカートに追加しました（")}{jaNode(cart)}{jaNode("件）。")}{jaNode(spec.code)} / {jaNode(yen(spec.price))}
             </p>
           ) : null}
         </div>
 
         <div className="panel p-5">
-          <p className="font-display text-[10px] font-bold tracking-[0.25em] text-slate-500 uppercase">
-            Why it sells / なぜ売れるのか
-          </p>
+          <p className="font-display text-[10px] font-bold tracking-[0.25em] text-slate-500 uppercase">{jaNode("Why it sells / なぜ売れるのか")}</p>
           <ul className="mt-3 space-y-2.5">
             {[
               "自分で選んだ構成には愛着が生まれ、比較サイトに戻りにくくなる",
@@ -481,7 +466,7 @@ export default function DemoConfigurator() {
             ].map((t) => (
               <li key={t} className="flex gap-2 text-[11px] leading-relaxed text-slate-400">
                 <Icon name="check" className="mt-0.5 size-3.5 shrink-0 text-brand" />
-                {t}
+                {jaNode(t)}
               </li>
             ))}
           </ul>

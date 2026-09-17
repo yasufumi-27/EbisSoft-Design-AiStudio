@@ -1,4 +1,5 @@
 "use client";
+import { jaNode } from "@/lib/typography";
 
 import { useCallback, useEffect, useState } from "react";
 import { DemoStage } from "./DemoUi";
@@ -199,29 +200,25 @@ export default function DemoPwa() {
               </span>
               <div className="min-w-0 flex-1">
                 <div className="flex flex-wrap items-baseline justify-between gap-2">
-                  <p className="text-sm font-bold text-white">{r.label}</p>
+                  <p className="text-sm font-bold text-white">{jaNode(r.label)}</p>
                   <p className={`font-display text-xs ${r.ok ? "text-emerald-300" : "text-slate-400"}`}>
-                    {r.value}
+                    {jaNode(r.value)}
                   </p>
                 </div>
                 {/* 補足文は狭い端末では折り返す（1行に収めると読めなくなる） */}
-                <p className="mt-0.5 text-[11px] text-slate-500 sm:truncate">{r.note}</p>
+                <p className="mt-0.5 text-[11px] text-slate-500 sm:truncate">{jaNode(r.note)}</p>
               </div>
             </li>
           ))}
         </ul>
 
-        <p className="border-t border-white/10 px-5 py-3 text-[11px] text-slate-500">
-          この表はブラウザの実際の状態を2.5秒ごとに読み直しています。
-        </p>
+        <p className="border-t border-white/10 px-5 py-3 text-[11px] text-slate-500">{jaNode("この表はブラウザの実際の状態を2.5秒ごとに読み直しています。")}</p>
       </DemoStage>
 
       {/* ---------- 操作 ---------- */}
       <div className="panel space-y-4 p-5 min-w-0 lg:col-span-2">
         <div>
-          <p className="font-display text-[10px] font-bold tracking-[0.25em] text-slate-500 uppercase">
-            Try / 試す
-          </p>
+          <p className="font-display text-[10px] font-bold tracking-[0.25em] text-slate-500 uppercase">{jaNode("Try / 試す")}</p>
         </div>
 
         <button
@@ -229,9 +226,7 @@ export default function DemoPwa() {
           onClick={notify}
           className="btn btn-primary inline-flex h-11 w-full items-center justify-center text-sm"
         >
-          <Icon name="bell" className="size-4" />
-          通知を試す
-        </button>
+          <Icon name="bell" className="size-4" />{jaNode("通知を試す")}</button>
 
         <button
           type="button"
@@ -240,32 +235,29 @@ export default function DemoPwa() {
           className="inline-flex h-11 w-full items-center justify-center gap-2 rounded-lg border border-white/15 bg-white/5 text-sm font-semibold text-slate-200 transition-colors hover:border-brand/50 disabled:opacity-40"
         >
           <Icon name="external" className="size-4" />
-          {status.installed
+          {jaNode(status.installed
             ? "インストール済みです"
             : installEvent
               ? "ホーム画面に追加"
-              : "追加はブラウザのメニューから"}
+              : "追加はブラウザのメニューから")}
         </button>
 
         {message ? (
           <p className="rounded-lg border border-brand/25 bg-brand/[0.07] px-3 py-2 text-xs leading-relaxed text-slate-300">
-            {message}
+            {jaNode(message)}
           </p>
         ) : null}
 
         <div className="rounded-xl border border-gold/25 bg-gold/[0.06] p-4">
-          <p className="text-xs font-bold text-gold-light">オフラインを試すには</p>
+          <p className="text-xs font-bold text-gold-light">{jaNode("オフラインを試すには")}</p>
           <ol className="mt-2 space-y-1 text-[11px] leading-relaxed text-slate-400">
-            <li>1. このページを一度読み込む（キャッシュされます）</li>
-            <li>2. 機内モードにする、または開発者ツールでオフラインにする</li>
-            <li>3. ページを再読み込みすると、キャッシュから表示されます</li>
+            <li>{jaNode("1. このページを一度読み込む（キャッシュされます）")}</li>
+            <li>{jaNode("2. 機内モードにする、または開発者ツールでオフラインにする")}</li>
+            <li>{jaNode("3. ページを再読み込みすると、キャッシュから表示されます")}</li>
           </ol>
         </div>
 
-        <p className="border-t border-white/10 pt-4 text-[11px] leading-relaxed text-slate-500">
-          本番では Web Push を使い、サーバーから配信します。受信側の仕組みは、いま動いているこのService
-          Workerと同じです。
-        </p>
+        <p className="border-t border-white/10 pt-4 text-[11px] leading-relaxed text-slate-500">{jaNode("本番では Web Push を使い、サーバーから配信します。受信側の仕組みは、いま動いているこのService Workerと同じです。")}</p>
       </div>
     </div>
   );

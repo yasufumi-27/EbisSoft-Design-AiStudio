@@ -84,7 +84,7 @@ export function PageHeader({
 
       <div className="ai-page-head-inner">
         <div className="ai-page-head-copy">
-          <p className="eyebrow">{eyebrow}</p>
+          <p className="eyebrow">{jaNode(eyebrow)}</p>
           <h1>{jaNode(title)}</h1>
           {lead ? <p className="speakable ai-page-head-lead">{jaNode(lead)}</p> : null}
           {children}

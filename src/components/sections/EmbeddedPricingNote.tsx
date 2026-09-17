@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { Icon } from "@/components/ui/icons";
-import { ja } from "@/lib/typography";
+import { ja, jaNode } from "@/lib/typography";
 
 /**
  * 「組み込み系の費用は別途ご相談」の明示。
@@ -35,9 +35,7 @@ export function EmbeddedPricingNote({
           <Icon name="cpu" className="size-6" />
         </span>
         <div className="min-w-0">
-          <p className="text-lg font-bold text-gold-light sm:text-xl">
-            組み込み開発の費用は<span className="text-gold">別途ご相談</span>です
-          </p>
+          <p className="text-lg font-bold text-gold-light sm:text-xl">{jaNode("組み込み開発の費用は")}<span className="text-gold">{jaNode("別途ご相談です")}</span></p>
           <p className="speakable mt-2 text-sm leading-relaxed text-slate-300">{ja(body)}</p>
           <p className="mt-3 text-sm text-slate-400">
             {ja("初回のご相談・お見積もりは無料です。")}
@@ -46,17 +44,13 @@ export function EmbeddedPricingNote({
                 prefetch={false}
                 href="/embedded"
                 className="mx-1 font-bold text-brand-light underline underline-offset-4 hover:text-brand"
-              >
-                組み込み開発の対応範囲を見る
-              </Link>
+              >{jaNode("組み込み開発の対応範囲を見る")}</Link>
             ) : (
               <Link
                 prefetch={false}
                 href="/contact"
                 className="mx-1 font-bold text-brand-light underline underline-offset-4 hover:text-brand"
-              >
-                費用を相談する
-              </Link>
+              >{jaNode("費用を相談する")}</Link>
             )}
           </p>
         </div>

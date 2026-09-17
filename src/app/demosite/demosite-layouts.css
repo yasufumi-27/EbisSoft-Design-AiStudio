@@ -611,3 +611,33 @@
 }
 .ds .ds-menu { flex-shrink: 0; }
 .ds .ds-menu > summary { white-space: nowrap; }
+
+/* Date/category occupy their own row; news copy uses the entire mobile width. */
+@media (max-width: 899px) {
+  .ds[data-industry] .ds-brand { flex-direction: column; align-items: flex-start; gap: .2rem; }
+  .ds[data-industry] .ds-brand b { white-space: normal; }
+  .ds[data-industry] .ds-brand > span { letter-spacing: .1em; }
+}
+@media (max-width: 699px) {
+  .ds[data-industry] .ds-news-list li { display: grid; grid-template-columns: auto minmax(0,1fr); gap: .4rem .75rem; }
+  .ds[data-industry] .ds-news-list li > span:last-child { grid-column: 1 / -1; }
+  .ds[data-industry] .ds-news-list .ds-tag { justify-self: start; }
+}
+
+/* Navigation switches to the menu before labels become cramped. */
+.ds-nav a, .ds-header-cta .ds-btn { white-space: nowrap; flex-shrink: 0; }
+.ds-nav { flex-wrap: wrap; }
+.ds-header-inner { flex-wrap: wrap; }
+@media (max-width: 1279px) {
+  .ds[data-industry] .ds-nav, .ds[data-industry] .ds-header-cta { display: none; }
+  .ds[data-industry] .ds-menu { display: block; }
+}
+@media (min-width: 700px) and (max-width: 1100px) {
+  .ds[data-industry] .ds-grid--3, .ds[data-industry] .ds-flow { grid-template-columns: repeat(2,minmax(0,1fr)); }
+  .ds[data-industry] .ds-flow li { grid-column: auto; }
+}
+.ds[data-industry="saas"] .ds-points { flex-wrap: wrap; }
+.ds[data-industry="saas"] .ds-points li { flex-shrink: 0; }
+/* Keep the expanded navigation below the variable-height demo notice. */
+.ds[data-industry] .ds-header { position: relative; top: auto; }
+.ds[data-industry="saas"] .ds-points { grid-template-columns: repeat(auto-fit,minmax(min(100%,10rem),1fr)); }

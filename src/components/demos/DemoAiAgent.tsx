@@ -1,4 +1,5 @@
 "use client";
+import { jaNode } from "@/lib/typography";
 
 import { useCallback, useEffect, useRef, useState } from "react";
 import { DemoStage } from "./DemoUi";
@@ -199,12 +200,8 @@ export default function DemoAiAgent() {
     <div className="space-y-5">
       {/* 依頼の選択 */}
       <div className="panel p-5">
-        <p className="font-display text-[10px] font-bold tracking-[0.25em] text-slate-500 uppercase">
-          User Request / AIへの依頼
-        </p>
-        <p className="mt-2 text-xs leading-relaxed text-slate-400">
-          利用者はサイトを直接見ず、AIに調べさせます。AIが読める形になっていなければ、比較の候補にすら入りません。
-        </p>
+        <p className="font-display text-[10px] font-bold tracking-[0.25em] text-slate-500 uppercase">{jaNode("User Request / AIへの依頼")}</p>
+        <p className="mt-2 text-xs leading-relaxed text-slate-400">{jaNode("利用者はサイトを直接見ず、AIに調べさせます。AIが読める形になっていなければ、比較の候補にすら入りません。")}</p>
         <div className="mt-4 flex flex-wrap gap-2">
           {REQUESTS.map((r) => (
             <button
@@ -218,7 +215,7 @@ export default function DemoAiAgent() {
                   : "border-white/10 bg-white/5 text-slate-400 hover:border-white/25"
               }`}
             >
-              {r}
+              {jaNode(r)}
             </button>
           ))}
         </div>
@@ -229,7 +226,7 @@ export default function DemoAiAgent() {
           className="btn btn-primary mt-4 inline-flex h-11 items-center px-6 text-sm disabled:opacity-50"
         >
           <Icon name="bot" className="size-4" />
-          {running ? "エージェント実行中…" : "エージェントを実行"}
+          {jaNode(running ? "エージェント実行中…" : "エージェントを実行")}
         </button>
       </div>
 
@@ -243,11 +240,7 @@ export default function DemoAiAgent() {
             aria-live="polite"
           >
             {steps.length === 0 ? (
-              <p className="pt-24 text-center text-xs text-slate-500">
-                「エージェントを実行」を押すと、
-                <br />
-                AIがこのサイトを読む流れが再現されます。
-              </p>
+              <p className="pt-24 text-center text-xs text-slate-500">{jaNode("「エージェントを実行」を押すと、")}<br />{jaNode("AIがこのサイトを読む流れが再現されます。")}</p>
             ) : (
               steps.map((s) => {
                 const st = KIND_STYLE[s.kind];
@@ -259,8 +252,8 @@ export default function DemoAiAgent() {
                       <Icon name={st.icon} className="size-3.5" />
                     </span>
                     <div className="min-w-0 flex-1">
-                      <p className={`font-mono text-xs font-bold ${st.color}`}>{s.label}</p>
-                      <p className="mt-0.5 text-xs leading-relaxed text-slate-400">{s.detail}</p>
+                      <p className={`font-mono text-xs font-bold ${st.color}`}>{jaNode(s.label)}</p>
+                      <p className="mt-0.5 text-xs leading-relaxed text-slate-400">{jaNode(s.detail)}</p>
                       {s.payload ? (
                         <pre className="mt-1.5 overflow-x-auto rounded-lg border border-white/10 bg-ink/70 p-2 text-[10px] leading-relaxed whitespace-pre-wrap text-slate-500">
                           {s.payload}
@@ -278,7 +271,7 @@ export default function DemoAiAgent() {
               <p className="font-display text-[10px] font-bold tracking-[0.25em] text-emerald-300 uppercase">
                 AI → User
               </p>
-              <p className="mt-2 text-sm leading-relaxed text-slate-200">{answer}</p>
+              <p className="mt-2 text-sm leading-relaxed text-slate-200">{jaNode(answer)}</p>
             </div>
           ) : null}
         </DemoStage>
@@ -287,40 +280,34 @@ export default function DemoAiAgent() {
         <DemoStage label="エビスソフト.Machine_Readable" status="REAL DATA">
           <div className="h-[380px] space-y-4 overflow-y-auto p-5">
             <div>
-              <p className="font-display text-[10px] font-bold tracking-[0.25em] text-slate-500 uppercase">
-                /llms.txt（このサイトの実ファイル）
-              </p>
+              <p className="font-display text-[10px] font-bold tracking-[0.25em] text-slate-500 uppercase">{jaNode("/llms.txt（このサイトの実ファイル）")}</p>
               {llms ? (
                 <pre className="mt-2 max-h-40 overflow-auto rounded-lg border border-white/10 bg-ink/70 p-3 text-[10px] leading-relaxed whitespace-pre-wrap text-slate-400">
                   {llms.slice(0, 900)}
                   {llms.length > 900 ? "\n…" : ""}
                 </pre>
               ) : (
-                <p className="mt-2 rounded-lg border border-dashed border-white/10 p-4 text-center text-xs text-slate-600">
-                  エージェントを実行すると、ここに実際の取得結果が表示されます
-                </p>
+                <p className="mt-2 rounded-lg border border-dashed border-white/10 p-4 text-center text-xs text-slate-600">{jaNode("エージェントを実行すると、ここに実際の取得結果が表示されます")}</p>
               )}
             </div>
 
             <div>
-              <p className="font-display text-[10px] font-bold tracking-[0.25em] text-slate-500 uppercase">
-                構造化データ（このページのJSON-LD）
-              </p>
+              <p className="font-display text-[10px] font-bold tracking-[0.25em] text-slate-500 uppercase">{jaNode("構造化データ（このページのJSON-LD）")}</p>
               <ul className="mt-2 space-y-2">
                 {jsonLd.map((j, i) => (
                   <li
                     key={`${j.type}-${i}`}
                     className="rounded-lg border border-white/10 bg-white/[0.03] p-3"
                   >
-                    <p className="font-display text-xs font-bold text-violet-300">{j.type}</p>
+                    <p className="font-display text-xs font-bold text-violet-300">{jaNode(j.type)}</p>
                     <p className="mt-1 text-[10px] leading-relaxed text-slate-500">
-                      {j.keys.slice(0, 10).join(" / ")}
-                      {j.keys.length > 10 ? " …" : ""}
+                      {jaNode(j.keys.slice(0, 10).join(" / "))}
+                      {jaNode(j.keys.length > 10 ? " …" : "")}
                     </p>
                   </li>
                 ))}
                 {jsonLd.length === 0 ? (
-                  <li className="text-xs text-slate-600">構造化データを検出できませんでした。</li>
+                  <li className="text-xs text-slate-600">{jaNode("構造化データを検出できませんでした。")}</li>
                 ) : null}
               </ul>
             </div>

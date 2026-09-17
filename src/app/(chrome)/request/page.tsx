@@ -72,7 +72,7 @@ const flow = [
 
 const asks = [
   { title: "Webサイトを作る・作り直す", note: "298,000円〜" },
-  { title: "AI機能を組み込む", note: "RAG / 音声 / 推薦" },
+  { title: "AI機能を組み込む", note: "RAG・音声・推薦" },
   { title: "機器のソフトウェアを開発する", note: "別途お見積もり" },
   { title: "AI検索・SEO対策だけ頼む", note: "部分依頼可" },
   { title: "公開後の運用・改善を任せる", note: "月次で対応" },

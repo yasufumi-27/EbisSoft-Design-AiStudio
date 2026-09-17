@@ -5,7 +5,7 @@ import { nav, subNav } from "@/lib/nav";
 import { capabilities } from "@/lib/content";
 import { Logo } from "@/components/site/Logo";
 import { Icon } from "@/components/ui/icons";
-import { ja } from "@/lib/typography";
+import { ja, jaNode } from "@/lib/typography";
 
 const year = new Date().getFullYear();
 
@@ -27,7 +27,7 @@ export function SiteFooter() {
           <div className="lg:col-span-5">
             <Logo />
             <p className="mt-4 max-w-sm text-sm leading-relaxed text-slate-400">
-              {ja(siteConfig.legalName)}は、{ja(siteConfig.contact.address.locality)}
+              {ja(siteConfig.legalName)}{jaNode("は、")}{ja(siteConfig.contact.address.locality)}
               {ja("のAI活用型Web制作・組み込みソフトウェア開発事業者です（")}
               {ja(siteConfig.memberOf.map((m) => m.name).join("・"))}
               {ja(
@@ -59,7 +59,7 @@ export function SiteFooter() {
                     href={item.href}
                     className="text-slate-400 transition-colors hover:text-brand-light"
                   >
-                    {item.label}
+                    {jaNode(item.label)}
                   </Link>
                 </li>
               ))}
@@ -70,9 +70,7 @@ export function SiteFooter() {
             </h2>
             <ul className="mt-4 space-y-3 text-sm">
               <li>
-                <Link prefetch={false} href="/demo" className="text-slate-400 transition-colors hover:text-brand-light">
-                  できること一覧
-                </Link>
+                <Link prefetch={false} href="/demo" className="text-slate-400 transition-colors hover:text-brand-light">{jaNode("できること一覧")}</Link>
               </li>
               {capabilities.map((c) => (
                 <li key={c.slug}>
@@ -83,7 +81,7 @@ export function SiteFooter() {
                     href={`/demo/${c.slug}`}
                     className="text-slate-400 transition-colors hover:text-brand-light"
                   >
-                    {c.title}
+                    {jaNode(c.title)}
                   </Link>
                 </li>
               ))}
@@ -96,13 +94,13 @@ export function SiteFooter() {
               Company
             </h2>
             <address className="mt-4 space-y-3 text-sm text-slate-400 not-italic">
-              <p className="font-medium text-slate-200">{siteConfig.legalName}</p>
+              <p className="font-medium text-slate-200">{jaNode(siteConfig.legalName)}</p>
               <p className="flex items-start gap-2.5">
                 <Icon name="pin" className="mt-0.5 size-4 shrink-0 text-gold" />
                 <span>
-                  〒{contact.address.postalCode}
+                  〒{jaNode(contact.address.postalCode)}
                   <br />
-                  {contact.address.region}
+                  {jaNode(contact.address.region)}
                   {ja(contact.address.locality)}
                   {ja(contact.address.street)}
                 </span>
@@ -121,18 +119,14 @@ export function SiteFooter() {
 
         <div className="mt-12 flex flex-col items-center justify-between gap-4 border-t border-brand/20 pt-8 text-sm text-slate-500 sm:flex-row">
           <p className="font-display tracking-widest">
-            © {year} {siteConfig.legalName}
+            © {jaNode(year)} {jaNode(siteConfig.legalName)}
           </p>
           <ul className="flex flex-wrap justify-center gap-6">
             <li>
-              <Link prefetch={false} href="/company" className="transition-colors hover:text-slate-300">
-                会社概要
-              </Link>
+              <Link prefetch={false} href="/company" className="transition-colors hover:text-slate-300">{jaNode("会社概要")}</Link>
             </li>
             <li>
-              <Link prefetch={false} href="/privacy" className="transition-colors hover:text-slate-300">
-                プライバシーポリシー
-              </Link>
+              <Link prefetch={false} href="/privacy" className="transition-colors hover:text-slate-300">{jaNode("プライバシーポリシー")}</Link>
             </li>
             <li>
               {/* ページではなくテキストファイルのため、next/link を使わず basePath を明示的に付与 */}

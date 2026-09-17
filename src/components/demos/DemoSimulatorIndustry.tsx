@@ -1,4 +1,5 @@
 "use client";
+import { jaNode } from "@/lib/typography";
 
 import { useMemo, useState } from "react";
 import { ChipButton, ControlGroup, DemoStage, RangeControl } from "./DemoUi";
@@ -107,7 +108,7 @@ export function DemoSimulatorIndustry({ config }: { config: SimulatorConfig }) {
             </ChipButton>
           ))}
         </ControlGroup>
-        <p className="-mt-3 text-[11px] text-slate-500">{kind.note}</p>
+        <p className="-mt-3 text-[11px] text-slate-500">{jaNode(kind.note)}</p>
 
         <RangeControl
           label={config.quantity.label}
@@ -131,11 +132,11 @@ export function DemoSimulatorIndustry({ config }: { config: SimulatorConfig }) {
             </ChipButton>
           ))}
         </ControlGroup>
-        <p className="-mt-3 text-[11px] text-slate-500">{grade.note}</p>
+        <p className="-mt-3 text-[11px] text-slate-500">{jaNode(grade.note)}</p>
 
         <div>
           <p className="font-display mb-2 text-[10px] font-bold tracking-[0.25em] text-slate-500 uppercase">
-            {config.optionLabel}
+            {jaNode(config.optionLabel)}
           </p>
           <div className="grid gap-2 sm:grid-cols-2">
             {config.options.map((o) => {
@@ -164,14 +165,14 @@ export function DemoSimulatorIndustry({ config }: { config: SimulatorConfig }) {
                     <span
                       className={`block text-xs font-bold ${on ? "text-white" : "text-slate-300"}`}
                     >
-                      {o.label}
+                      {jaNode(o.label)}
                     </span>
                     <span className="mt-0.5 block text-[10px] leading-snug text-slate-500">
-                      {o.hint}
+                      {jaNode(o.hint)}
                     </span>
                   </span>
                   <span className="ml-auto shrink-0 text-[10px] font-semibold text-slate-500 tabular-nums">
-                    +{yen(o.price)}
+                    +{jaNode(yen(o.price))}
                   </span>
                 </button>
               );
@@ -184,15 +185,13 @@ export function DemoSimulatorIndustry({ config }: { config: SimulatorConfig }) {
       <div className="space-y-5 min-w-0 lg:col-span-2">
         <DemoStage label={config.title} status="LIVE CALC">
           <div className="p-5">
-            <p className="font-display text-[10px] font-bold tracking-[0.25em] text-slate-500 uppercase">
-              Estimated / 概算金額
-            </p>
+            <p className="font-display text-[10px] font-bold tracking-[0.25em] text-slate-500 uppercase">{jaNode("Estimated / 概算金額")}</p>
             <p className="mt-2 text-2xl leading-tight font-bold text-white tabular-nums sm:text-[1.7rem]">
-              {yen(quote.low)}
+              {jaNode(yen(quote.low))}
               <span className="mx-1.5 text-base font-normal text-slate-500">〜</span>
-              {yen(quote.high)}
+              {jaNode(yen(quote.high))}
             </p>
-            <p className="mt-1 text-[11px] leading-relaxed text-slate-500">{config.note}</p>
+            <p className="mt-1 text-[11px] leading-relaxed text-slate-500">{jaNode(config.note)}</p>
 
             {/* 内訳の積み上げバー */}
             <div className="mt-5 flex h-2.5 overflow-hidden rounded-full bg-white/5">
@@ -209,42 +208,34 @@ export function DemoSimulatorIndustry({ config }: { config: SimulatorConfig }) {
               {quote.breakdown.map((b, i) => (
                 <li key={b.label} className="flex items-center gap-2 text-[11px]">
                   <span aria-hidden className={`size-2 rounded-full ${TONES[i % TONES.length]}`} />
-                  <span className="flex-1 truncate text-slate-400">{b.label}</span>
-                  <span className="font-semibold text-slate-300 tabular-nums">{yen(b.value)}</span>
+                  <span className="flex-1 truncate text-slate-400">{jaNode(b.label)}</span>
+                  <span className="font-semibold text-slate-300 tabular-nums">{jaNode(yen(b.value))}</span>
                 </li>
               ))}
             </ul>
 
             <div className="mt-5 rounded-xl border border-white/10 bg-white/[0.03] p-4">
-              <p className="font-display text-[10px] font-bold tracking-[0.25em] text-slate-500 uppercase">
-                Duration / 目安の期間
-              </p>
-              <p className="font-display mt-2 text-xl font-bold text-brand-light tabular-nums">
-                約{quote.days}
-                {config.durationUnit}
+              <p className="font-display text-[10px] font-bold tracking-[0.25em] text-slate-500 uppercase">{jaNode("Duration / 目安の期間")}</p>
+              <p className="font-display mt-2 text-xl font-bold text-brand-light tabular-nums">{jaNode("約")}{jaNode(quote.days)}
+                {jaNode(config.durationUnit)}
               </p>
             </div>
           </div>
         </DemoStage>
 
         <div className="panel p-5">
-          <p className="text-xs leading-relaxed text-slate-400">
-            結果はそのまま問い合わせフォームへ引き継げます。実案件では、この内容を顧客管理システムへ
-            自動で登録するところまで実装します。
-          </p>
+          <p className="text-xs leading-relaxed text-slate-400">{jaNode("結果はそのまま問い合わせフォームへ引き継げます。実案件では、この内容を顧客管理システムへ 自動で登録するところまで実装します。")}</p>
           <button
             type="button"
             onClick={copy}
             className="mt-4 inline-flex h-10 w-full items-center justify-center gap-2 rounded-lg border border-white/15 bg-white/5 text-xs font-semibold text-slate-200 transition-colors hover:border-brand/50"
           >
             <Icon name={copied ? "check" : "layout"} className="size-3.5" />
-            {copied ? "結果をコピーしました" : "結果をコピー"}
+            {jaNode(copied ? "結果をコピーしました" : "結果をコピー")}
           </button>
 
           <details className="mt-4">
-            <summary className="cursor-pointer text-[11px] text-slate-500 hover:text-slate-300">
-              問い合わせに引き継がれる内容を見る
-            </summary>
+            <summary className="cursor-pointer text-[11px] text-slate-500 hover:text-slate-300">{jaNode("問い合わせに引き継がれる内容を見る")}</summary>
             <pre className="mt-2 max-h-40 overflow-auto rounded-lg border border-white/10 bg-ink/60 p-3 text-[10px] leading-relaxed whitespace-pre-wrap text-slate-400">
               {summary}
             </pre>

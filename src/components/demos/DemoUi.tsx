@@ -1,4 +1,5 @@
 "use client";
+import { jaNode } from "@/lib/typography";
 
 import type { ReactNode } from "react";
 
@@ -44,10 +45,10 @@ export function DemoStage({
         <span className="dp-dot" />
         <span className="dp-dot" />
         <span className="dp-stage-label">
-          {prefix ? <span className="hidden sm:inline">{prefix}</span> : null}
-          {main}
+          {prefix ? <span className="hidden sm:inline">{jaNode(prefix)}</span> : null}
+          {jaNode(main)}
         </span>
-        {status ? <span className="dp-stage-status">{status}</span> : null}
+        {status ? <span className="dp-stage-status">{jaNode(status)}</span> : null}
       </div>
       {children}
     </div>
@@ -66,7 +67,7 @@ export function ControlGroup({
 }) {
   return (
     <div className={className}>
-      <p className="dp-label mb-2">{label}</p>
+      <p className="dp-label mb-2">{jaNode(label)}</p>
       <div className="flex flex-wrap gap-2">{children}</div>
     </div>
   );
@@ -97,7 +98,7 @@ export function ChipButton({
       className="dp-chip"
       data-active={active ? "" : undefined}
     >
-      {children}
+      {jaNode(children)}
     </button>
   );
 }
@@ -123,7 +124,7 @@ export function SwitchButton({
       <span aria-hidden className="dp-switch-track" data-on={checked ? "" : undefined}>
         <span className="dp-switch-knob" />
       </span>
-      {children}
+      {jaNode(children)}
     </button>
   );
 }
@@ -149,10 +150,10 @@ export function RangeControl({
   return (
     <label className="block">
       <span className="dp-label mb-2 flex items-center justify-between">
-        {label}
+        {jaNode(label)}
         <span className="dp-label-value">
-          {value}
-          {suffix}
+          {jaNode(value)}
+          {jaNode(suffix)}
         </span>
       </span>
       <input
@@ -176,7 +177,7 @@ export function DemoNote({ children }: { children: ReactNode }) {
   return (
     <p className="dp-note">
       <span className="dp-note-label">Note</span>
-      {children}
+      {jaNode(children)}
     </p>
   );
 }

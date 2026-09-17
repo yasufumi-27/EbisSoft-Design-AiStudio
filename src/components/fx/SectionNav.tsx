@@ -1,4 +1,5 @@
 "use client";
+import { jaNode } from "@/lib/typography";
 
 import { useSectionSpy } from "@/components/fx/useSectionSpy";
 
@@ -26,8 +27,8 @@ export function SectionNav({ items }: { items: { id: string; label: string }[] }
           data-current={active === i.id ? "" : undefined}
           aria-current={active === i.id ? "true" : undefined}
         >
-          <span className="dotnav-label">{i.label}</span>
-          <span className="sr-only">{i.label}へ移動</span>
+          <span className="dotnav-label">{jaNode(i.label)}</span>
+          <span className="sr-only">{jaNode(i.label)}{jaNode("へ移動")}</span>
         </a>
       ))}
     </nav>

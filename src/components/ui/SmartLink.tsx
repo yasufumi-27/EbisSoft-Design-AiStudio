@@ -1,4 +1,5 @@
 "use client";
+import { jaNode } from "@/lib/typography";
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
@@ -39,7 +40,7 @@ export function SmartLink({ href, children, className, onClick, ...rest }: Props
     if (normalized === (pathname || "/")) {
       return (
         <a href={hash} className={className} onClick={onClick} {...rest}>
-          {children}
+          {jaNode(children)}
         </a>
       );
     }
@@ -49,7 +50,7 @@ export function SmartLink({ href, children, className, onClick, ...rest }: Props
     // ヘッダー/フッターのナビは全ページに出るため、画面内に入っただけの先読みはしない
     // （Next.js は prefetch={false} でもホバー時には先読みするので、遷移の速さは保たれる）
     <Link prefetch={false} href={href} className={className} onClick={onClick} {...rest}>
-      {children}
+      {jaNode(children)}
     </Link>
   );
 }

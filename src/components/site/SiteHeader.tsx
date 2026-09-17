@@ -1,4 +1,5 @@
 "use client";
+import { jaNode } from "@/lib/typography";
 
 import { useEffect, useState } from "react";
 import { nav } from "@/lib/nav";
@@ -123,7 +124,7 @@ export function SiteHeader() {
               onClick={() => setOpen(false)}
             >
               <Icon name="phone" aria-hidden className="size-4" />
-              {siteConfig.contact.telephoneDisplay}
+              {jaNode(siteConfig.contact.telephoneDisplay)}
             </a>
           </nav>
         </div>

@@ -1,4 +1,5 @@
 "use client";
+import { jaNode } from "@/lib/typography";
 
 import { useCallback, useEffect, useRef, useState } from "react";
 import { DemoStage } from "./DemoUi";
@@ -54,7 +55,7 @@ function ScrambleText({ text, className = "" }: { text: string; className?: stri
       className={`font-display cursor-pointer tabular-nums ${className}`}
       aria-label={`${text}（クリックで再生）`}
     >
-      {display}
+      {jaNode(display)}
     </button>
   );
 }
@@ -117,9 +118,7 @@ function SvgDraw() {
         type="button"
         onClick={() => setKey((k) => k + 1)}
         className="mt-2 self-start text-xs font-semibold text-brand-light transition-colors hover:text-white"
-      >
-        ↻ もう一度再生
-      </button>
+      >{jaNode("↻ もう一度再生")}</button>
     </div>
   );
 }
@@ -168,7 +167,7 @@ function MagneticButton() {
         onClick={onClick}
         className="relative overflow-hidden rounded-full bg-gradient-to-r from-brand to-accent px-7 py-3 text-sm font-bold text-ink shadow-[0_0_28px_rgba(34,211,238,0.4)] transition-transform duration-200 ease-out"
       >
-        <span className="relative z-10">触れてみてください</span>
+        <span className="relative z-10">{jaNode("触れてみてください")}</span>
         {ripples.map((r) => (
           <span
             key={r.id}
@@ -255,7 +254,7 @@ function CircularProgress({ target = 98, label }: { target?: number; label: stri
           </defs>
         </svg>
         <span className="font-display absolute inset-0 grid place-items-center text-2xl font-bold text-white tabular-nums">
-          {value}
+          {jaNode(value)}
         </span>
       </div>
       <button
@@ -266,7 +265,7 @@ function CircularProgress({ target = 98, label }: { target?: number; label: stri
         }}
         className="text-xs font-semibold text-brand-light transition-colors hover:text-white"
       >
-        ↻ {label}
+        ↻ {jaNode(label)}
       </button>
     </div>
   );
@@ -291,11 +290,11 @@ function FlipCard() {
         <span className={`demo-flip-inner ${flipped ? "is-flipped" : ""}`}>
           <span className="demo-flip-face bg-gradient-to-br from-brand/25 to-accent/25 text-white">
             <span className="font-display text-sm tracking-[0.2em]">FRONT</span>
-            <span className="mt-1 text-xs text-slate-300">カーソルを乗せる</span>
+            <span className="mt-1 text-xs text-slate-300">{jaNode("カーソルを乗せる")}</span>
           </span>
           <span className="demo-flip-face demo-flip-back bg-gradient-to-br from-gold/30 to-amber-500/20 text-white">
             <span className="font-display text-sm tracking-[0.2em]">BACK</span>
-            <span className="mt-1 text-xs text-slate-200">裏面に切り替わりました</span>
+            <span className="mt-1 text-xs text-slate-200">{jaNode("裏面に切り替わりました")}</span>
           </span>
         </span>
       </button>
@@ -335,8 +334,8 @@ function ScrollLinked() {
   return (
     <div ref={ref} className="flex h-full flex-col justify-center gap-3">
       <div className="flex items-baseline justify-between">
-        <span className="text-xs text-slate-400">スクロール位置</span>
-        <span className="font-display text-lg font-bold text-brand-light tabular-nums">{pct}%</span>
+        <span className="text-xs text-slate-400">{jaNode("スクロール位置")}</span>
+        <span className="font-display text-lg font-bold text-brand-light tabular-nums">{jaNode(pct)}%</span>
       </div>
       <div className="h-2 overflow-hidden rounded-full bg-white/10">
         <div
@@ -355,7 +354,7 @@ function ScrollLinked() {
           }}
         />
       </div>
-      <p className="text-xs text-slate-500">ページをスクロールすると連動して動きます。</p>
+      <p className="text-xs text-slate-500">{jaNode("ページをスクロールすると連動して動きます。")}</p>
     </div>
   );
 }
@@ -381,9 +380,7 @@ function StaggerReveal() {
         type="button"
         onClick={() => setKey((k) => k + 1)}
         className="self-start text-xs font-semibold text-brand-light transition-colors hover:text-white"
-      >
-        ↻ もう一度再生
-      </button>
+      >{jaNode("↻ もう一度再生")}</button>
     </div>
   );
 }
@@ -465,10 +462,7 @@ export default function DemoAnimation() {
   return (
     <div className="space-y-5">
       {reduced ? (
-        <p className="rounded-xl border border-brand/25 bg-brand/[0.06] p-4 text-xs text-slate-300">
-          お使いの環境は「動きを減らす」設定が有効なため、一部のアニメーションを抑制して表示しています。
-          アクセシビリティ対応として、実案件でも同じ配慮を標準実装します。
-        </p>
+        <p className="rounded-xl border border-brand/25 bg-brand/[0.06] p-4 text-xs text-slate-300">{jaNode("お使いの環境は「動きを減らす」設定が有効なため、一部のアニメーションを抑制して表示しています。 アクセシビリティ対応として、実案件でも同じ配慮を標準実装します。")}</p>
       ) : null}
 
       <DemoStage label="エビスソフト.Motion_Lab" status="LIVE / 8 PATTERNS">
@@ -477,10 +471,10 @@ export default function DemoAnimation() {
             <div key={p.title} className="flex flex-col bg-ink-2/70 p-5">
               <h3 className="flex items-center gap-2 text-sm font-bold text-white">
                 <Icon name="bolt" className="size-4 shrink-0 text-brand" />
-                {p.title}
+                {jaNode(p.title)}
               </h3>
               <div className="my-4 min-h-[9rem] flex-1">{p.render()}</div>
-              <p className="text-xs leading-relaxed text-slate-500">{p.note}</p>
+              <p className="text-xs leading-relaxed text-slate-500">{jaNode(p.note)}</p>
             </div>
           ))}
         </div>

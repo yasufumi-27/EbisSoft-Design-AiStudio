@@ -1,4 +1,5 @@
 "use client";
+import { jaNode } from "@/lib/typography";
 
 import { useEffect, useRef, useState } from "react";
 import * as THREE from "three";
@@ -600,7 +601,7 @@ export default function Demo3dcg({
                 }}
               />
               <span className="pointer-events-none absolute left-3 top-3 rounded-full border border-black/10 bg-white/85 px-3 py-1 text-[10px] font-bold tracking-[0.16em] text-slate-700 shadow-sm backdrop-blur">
-                {String(r8Frame + 1).padStart(2, "0")} / 08 · {R8_VIEW_LABELS[r8Frame]}
+                {String(r8Frame + 1).padStart(2, "0")} / 08 · {jaNode(R8_VIEW_LABELS[r8Frame])}
               </span>
             </div>
           ) : !ready ? (
@@ -611,7 +612,7 @@ export default function Demo3dcg({
             </div>
           ) : null}
           <p className="pointer-events-none absolute bottom-3 left-1/2 -translate-x-1/2 rounded-full border border-white/10 bg-ink/70 px-3 py-1 text-[11px] text-slate-400 backdrop-blur">
-            {showR8Photo ? "左右ドラッグ・矢印キーで回転 / 8方向フォトビュー" : "ドラッグで回転 / ホイール・ピンチで拡大"}
+            {jaNode(showR8Photo ? "左右ドラッグ・矢印キーで回転 / 8方向フォトビュー" : "ドラッグで回転 / ホイール・ピンチで拡大")}
           </p>
         </div>
       </DemoStage>
@@ -620,11 +621,11 @@ export default function Demo3dcg({
       <div className="panel space-y-5 p-5 min-w-0 lg:col-span-2">
         {productLabel ? (
           <p className="rounded-lg border border-gold/25 bg-gold/[0.06] px-3 py-2 text-xs leading-relaxed text-gold-light">
-            {hasModels
+            {jaNode(hasModels
               ? `この職種向けに組み立てた${models!.length}種類（${models!
                   .map((m) => INDUSTRY_MODEL_LABEL[m])
                   .join("・")}）を切り替えられます。実案件では、お客様の「${productLabel}」のCADデータや3Dスキャンに差し替えます。`
-              : `実案件では、ここに「${productLabel}」の3Dモデルが入ります。下の形状は仕組みを見せるための基本形状です。`}
+              : `実案件では、ここに「${productLabel}」の3Dモデルが入ります。下の形状は仕組みを見せるための基本形状です。`)}
           </p>
         ) : null}
 
@@ -702,14 +703,11 @@ export default function Demo3dcg({
         </ControlGroup> : null}
 
         {isLogo ? (
-          <p className="rounded-lg border border-brand/25 bg-brand/[0.07] px-3 py-2 text-xs leading-relaxed text-brand-light">
-            画像ではなく実物の3Dモデルです。「YEBISU」は押し出した立体文字、リングは別オブジェクトで文字の周りを回り、「Soft」は固定。素材とカラーは文字に反映されます。
-          </p>
+          <p className="rounded-lg border border-brand/25 bg-brand/[0.07] px-3 py-2 text-xs leading-relaxed text-brand-light">{jaNode("画像ではなく実物の3Dモデルです。「YEBISU」は押し出した立体文字、リングは別オブジェクトで文字の周りを回り、「Soft」は固定。素材とカラーは文字に反映されます。")}</p>
         ) : null}
 
         {shape === "m:audi-r8" ? (
-          <p className="rounded-lg border border-rose-400/25 bg-rose-500/[0.06] px-3 py-2 text-xs leading-relaxed text-rose-100">
-            人手制作のType 42高密度メッシュをベースに、BlenderでSpyder化・4.440m実寸補正。添付写真に合わせた赤い車体、分割Yスポーク、社外グリル、黒いリアパネル、右後部の給油口を反映し、ホイール／タイヤ／ライトは独立部品です。Audi公式CADではありません。ベースモデル：{" "}
+          <p className="rounded-lg border border-rose-400/25 bg-rose-500/[0.06] px-3 py-2 text-xs leading-relaxed text-rose-100">{jaNode("人手制作のType 42高密度メッシュをベースに、BlenderでSpyder化・4.440m実寸補正。添付写真に合わせた赤い車体、分割Yスポーク、社外グリル、黒いリアパネル、右後部の給油口を反映し、ホイール／タイヤ／ライトは独立部品です。Audi公式CADではありません。ベースモデル：")}{" "}
             <a className="underline underline-offset-2 hover:text-white" href="https://sketchfab.com/3d-models/audi-r8-v10-type-42-7463fcd44a00428486c09487f7fcda0c" target="_blank" rel="noreferrer">
               Mona x Supercars / Car2022（CC BY 4.0）
             </a>
@@ -739,11 +737,11 @@ export default function Demo3dcg({
         </div>
 
         <p className="text-xs leading-relaxed text-slate-500">
-          {showR8Photo
+          {jaNode(showR8Photo
             ? "R8の8方向写真をドラッグ量に応じて切り替える比較表示です。3Dモデル表示へ戻すと、自由回転・拡大と独立パーツ構成を確認できます。"
             : isR8
               ? "Type 42の高密度ベースをBlenderでオーナー仕様のSpyderへ再構築し、ホイール／タイヤ／ライト／給油口を別部品化したWebGLモデルです。"
-            : "描画はブラウザ上のリアルタイムWebGLです。環境マップ（映り込み）・トーンマッピングを、追加のプラグインなしで実装しています。"}
+            : "描画はブラウザ上のリアルタイムWebGLです。環境マップ（映り込み）・トーンマッピングを、追加のプラグインなしで実装しています。")}
         </p>
       </div>
     </div>

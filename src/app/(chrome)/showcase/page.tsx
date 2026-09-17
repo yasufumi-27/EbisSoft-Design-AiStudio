@@ -10,7 +10,7 @@ import { Section } from "@/components/ui/Section";
 import { PageHero } from "@/components/ui/Studio";
 import { Breadcrumbs } from "@/components/site/Breadcrumbs";
 import { RelatedPages } from "@/components/sections/RelatedPages";
-import { ja } from "@/lib/typography";
+import { ja, jaNode } from "@/lib/typography";
 
 const title = "デモサイト｜職種別に「この機能をこう使えます」";
 const description =
@@ -106,7 +106,7 @@ export default function ShowcaseIndexPage() {
             <article key={i.slug} data-reveal>
               <p className="ai-shelf-meta">
                 <b>{String(idx + 1).padStart(2, "0")}</b>
-                {i.eyebrow}
+                {jaNode(i.eyebrow)}
               </p>
               <h2>{ja(i.name)}</h2>
               <p className="ai-shelf-lead">{ja(i.tagline)}</p>
@@ -118,11 +118,9 @@ export default function ShowcaseIndexPage() {
                   target="_blank"
                   rel="noopener"
                   className="ai-btn ai-btn-solid"
-                >
-                  デモサイトを開く <span aria-hidden>↗</span>
+                >{jaNode("デモサイトを開く ")}<span aria-hidden>↗</span>
                 </Link>
-                <Link prefetch={false} href={`/showcase/${i.slug}`} className="ai-flight-more">
-                  機能の説明 <span aria-hidden>↗</span>
+                <Link prefetch={false} href={`/showcase/${i.slug}`} className="ai-flight-more">{jaNode("機能の説明 ")}<span aria-hidden>↗</span>
                 </Link>
               </div>
             </article>
@@ -134,21 +132,12 @@ export default function ShowcaseIndexPage() {
       <section className="ai-console studio-board">
         <div data-reveal>
           <p className="ai-console-label">Generate</p>
-          <h2>
-            当てはまる職種が
-            <br />
-            なければ、その場で。
-          </h2>
-          <p>
-            職種を入力すると、近いテンプレートを選び、3Dの対象・取扱データ・連携先を差し替えたデモサイトをその場で組み立てます。
-          </p>
+          <h2>{jaNode("当てはまる職種が")}<br />{jaNode("なければ、その場で。")}</h2>
+          <p>{jaNode("職種を入力すると、近いテンプレートを選び、3Dの対象・取扱データ・連携先を差し替えたデモサイトをその場で組み立てます。")}</p>
         </div>
         <div data-reveal>
-          <p className="ai-generate-note">
-            ブラウザの中だけで動くので、送信も待ち時間もありません。
-          </p>
-          <Link href="/showcase/generate" className="ai-btn ai-btn-solid studio-btn-lg">
-            職種を入力してみる <span aria-hidden>↗</span>
+          <p className="ai-generate-note">{jaNode("ブラウザの中だけで動くので、送信も待ち時間もありません。")}</p>
+          <Link href="/showcase/generate" className="ai-btn ai-btn-solid studio-btn-lg">{jaNode("職種を入力してみる ")}<span aria-hidden>↗</span>
           </Link>
         </div>
       </section>

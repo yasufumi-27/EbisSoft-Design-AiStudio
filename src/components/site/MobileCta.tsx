@@ -1,3 +1,4 @@
+import { jaNode } from "@/lib/typography";
 import { siteConfig } from "@/lib/site";
 import { Icon } from "@/components/ui/icons";
 import { SmartLink } from "@/components/ui/SmartLink";
@@ -29,18 +30,14 @@ export function MobileCta() {
           className="mobile-cta-btn mobile-cta-tel"
         >
           <Icon name="phone" aria-hidden className="size-4" />
-          <span>
-            電話で相談
-            <span className="mobile-cta-sub">
-              {siteConfig.contact.telephoneDisplay}
+          <span>{jaNode("電話で相談")}<span className="mobile-cta-sub">
+              {jaNode(siteConfig.contact.telephoneDisplay)}
             </span>
           </span>
         </a>
         <SmartLink href="/contact" className="mobile-cta-btn mobile-cta-main">
           <Icon name="mail" aria-hidden className="size-4" />
-          <span>
-            無料で相談する
-            <span className="mobile-cta-sub">お見積もりも無料</span>
+          <span>{jaNode("無料で相談する")}<span className="mobile-cta-sub">{jaNode("お見積もりも無料")}</span>
           </span>
         </SmartLink>
       </div>

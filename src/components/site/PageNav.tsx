@@ -1,4 +1,5 @@
 "use client";
+import { jaNode } from "@/lib/typography";
 
 import { useEffect, useRef } from "react";
 import { useSectionSpy } from "@/components/fx/useSectionSpy";
@@ -49,7 +50,7 @@ export function PageNav({ items }: { items: { id: string; label: string }[] }) {
             data-current={active === i.id ? "" : undefined}
             aria-current={active === i.id ? "true" : undefined}
           >
-            {i.label}
+            {jaNode(i.label)}
           </a>
         ))}
       </nav>

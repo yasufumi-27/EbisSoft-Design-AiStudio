@@ -1,4 +1,5 @@
 "use client";
+import { jaNode } from "@/lib/typography";
 
 import { useMemo, useState } from "react";
 import type { CatalogItem } from "@/lib/showcase";
@@ -346,9 +347,7 @@ export default function DemoRecommend({
           <div className="p-5">
             {profile ? (
               <>
-                <p className="font-display text-[10px] font-bold tracking-[0.25em] text-brand-light uppercase">
-                  Recommended for you / あなたへのおすすめ
-                </p>
+                <p className="font-display text-[10px] font-bold tracking-[0.25em] text-brand-light uppercase">{jaNode("Recommended for you / あなたへのおすすめ")}</p>
                 <div className="mt-4 grid gap-3 sm:grid-cols-3">
                   {top.map((r, i) => (
                     <button
@@ -363,33 +362,27 @@ export default function DemoRecommend({
                           className={`block h-20 w-full rounded-lg bg-gradient-to-br ${r.item.hue} opacity-80`}
                         />
                         <span className="font-display absolute top-1.5 left-1.5 rounded-md bg-ink/80 px-1.5 py-0.5 text-[10px] font-bold text-gold-light">
-                          #{i + 1}
+                          #{jaNode(i + 1)}
                         </span>
                       </span>
                       <span className="mt-2.5 block text-xs leading-snug font-bold text-white">
-                        {r.item.name}
+                        {jaNode(r.item.name)}
                       </span>
                       <span className="mt-1 block text-[11px] font-semibold text-slate-400 tabular-nums">
-                        {yen(r.item.price)}
+                        {jaNode(yen(r.item.price))}
                       </span>
                       <span className="mt-2 block text-[10px] leading-snug text-brand-light">
-                        {r.axis}の好みに一致（適合度 {(r.score * 100).toFixed(0)}%）
+                        {jaNode(r.axis)}{jaNode("の好みに一致（適合度")}{jaNode((r.score * 100).toFixed(0))}%）
                       </span>
                     </button>
                   ))}
                 </div>
               </>
             ) : (
-              <p className="rounded-xl border border-dashed border-white/15 p-6 text-center text-xs leading-relaxed text-slate-500">
-                まだ行動データがありません。
-                <br />
-                下の商品を2〜3個クリックすると、推薦が組み立てられていきます。
-              </p>
+              <p className="rounded-xl border border-dashed border-white/15 p-6 text-center text-xs leading-relaxed text-slate-500">{jaNode("まだ行動データがありません。")}<br />{jaNode("下の商品を2〜3個クリックすると、推薦が組み立てられていきます。")}</p>
             )}
 
-            <p className="font-display mt-6 mb-3 text-[10px] font-bold tracking-[0.25em] text-slate-500 uppercase">
-              All items / 商品一覧（クリックで閲覧）
-            </p>
+            <p className="font-display mt-6 mb-3 text-[10px] font-bold tracking-[0.25em] text-slate-500 uppercase">{jaNode("All items / 商品一覧（クリックで閲覧）")}</p>
             <div className="grid grid-cols-3 gap-2.5 sm:grid-cols-4">
               {rest.map((r) => {
                 const seen = history.includes(r.item.id);
@@ -409,10 +402,10 @@ export default function DemoRecommend({
                     />
                     {/* 3列だと商品名が1行に収まらない端末があるため、2行まで折り返す */}
                     <span className="mt-1.5 line-clamp-2 block text-[10px] leading-snug font-semibold text-slate-300">
-                      {r.item.name}
+                      {jaNode(r.item.name)}
                     </span>
                     <span className="block text-[10px] font-semibold text-slate-500 tabular-nums">
-                      {yen(r.item.price)}
+                      {jaNode(yen(r.item.price))}
                     </span>
                   </button>
                 );
@@ -426,17 +419,13 @@ export default function DemoRecommend({
       <div className="space-y-5 min-w-0 lg:col-span-2">
         <div className="panel p-5">
           <div className="flex items-start justify-between gap-3">
-            <p className="font-display text-[10px] font-bold tracking-[0.25em] text-slate-500 uppercase">
-              Interest profile / 推定された好み
-            </p>
+            <p className="font-display text-[10px] font-bold tracking-[0.25em] text-slate-500 uppercase">{jaNode("Interest profile / 推定された好み")}</p>
             {history.length ? (
               <button
                 type="button"
                 onClick={() => setHistory([])}
                 className="shrink-0 text-[10px] text-slate-500 underline transition-colors hover:text-slate-200"
-              >
-                リセット
-              </button>
+              >{jaNode("リセット")}</button>
             ) : null}
           </div>
 
@@ -446,9 +435,9 @@ export default function DemoRecommend({
               return (
                 <li key={a.key}>
                   <span className="flex items-center justify-between text-[11px]">
-                    <span className="text-slate-400">{a.label}</span>
+                    <span className="text-slate-400">{jaNode(a.label)}</span>
                     <span className="font-display text-slate-300 tabular-nums">
-                      {(v * 100).toFixed(0)}
+                      {jaNode((v * 100).toFixed(0))}
                     </span>
                   </span>
                   <span className="mt-1 block h-1.5 w-full overflow-hidden rounded-full bg-white/5">
@@ -462,18 +451,14 @@ export default function DemoRecommend({
             })}
           </ul>
 
-          <p className="mt-4 border-t border-white/10 pt-3 text-[10px] leading-relaxed text-slate-500">
-            クリック履歴の加重平均です（直近のクリックを重く見ます）。個人を特定する情報は使っていません。
-          </p>
+          <p className="mt-4 border-t border-white/10 pt-3 text-[10px] leading-relaxed text-slate-500">{jaNode("クリック履歴の加重平均です（直近のクリックを重く見ます）。個人を特定する情報は使っていません。")}</p>
         </div>
 
         {/* 閲覧履歴 */}
         <div className="panel p-5">
-          <p className="font-display text-[10px] font-bold tracking-[0.25em] text-slate-500 uppercase">
-            Session / 閲覧履歴
-          </p>
+          <p className="font-display text-[10px] font-bold tracking-[0.25em] text-slate-500 uppercase">{jaNode("Session / 閲覧履歴")}</p>
           {history.length === 0 ? (
-            <p className="mt-3 text-[11px] text-slate-500">まだ何も見ていません。</p>
+            <p className="mt-3 text-[11px] text-slate-500">{jaNode("まだ何も見ていません。")}</p>
           ) : (
             <ol className="mt-3 space-y-1.5">
               {history.map((id, i) => {
@@ -488,9 +473,9 @@ export default function DemoRecommend({
                       aria-hidden
                       className={`size-3 shrink-0 rounded-sm bg-gradient-to-br ${it.hue}`}
                     />
-                    <span className="flex-1 truncate text-slate-300">{it.name}</span>
+                    <span className="flex-1 truncate text-slate-300">{jaNode(it.name)}</span>
                     {i === 0 ? (
-                      <span className="shrink-0 text-[10px] text-brand-light">最新</span>
+                      <span className="shrink-0 text-[10px] text-brand-light">{jaNode("最新")}</span>
                     ) : null}
                   </li>
                 );
@@ -501,13 +486,9 @@ export default function DemoRecommend({
 
         {/* スコア内訳 */}
         <div className="panel p-5">
-          <p className="font-display text-[10px] font-bold tracking-[0.25em] text-slate-500 uppercase">
-            Why / なぜこれを推薦したか
-          </p>
+          <p className="font-display text-[10px] font-bold tracking-[0.25em] text-slate-500 uppercase">{jaNode("Why / なぜこれを推薦したか")}</p>
           {top.length === 0 ? (
-            <p className="mt-3 text-[11px] text-slate-500">
-              商品をクリックすると、スコアの内訳が表示されます。
-            </p>
+            <p className="mt-3 text-[11px] text-slate-500">{jaNode("商品をクリックすると、スコアの内訳が表示されます。")}</p>
           ) : (
             <ul className="mt-3 space-y-3">
               {top.map((r, i) => (
@@ -516,12 +497,12 @@ export default function DemoRecommend({
                   className="rounded-xl border border-white/10 bg-white/[0.03] p-3"
                 >
                   <p className="flex items-center gap-1.5 text-[11px] font-bold text-white">
-                    <span className="font-display text-gold-light">#{i + 1}</span>
-                    <span className="truncate">{r.item.name}</span>
+                    <span className="font-display text-gold-light">#{jaNode(i + 1)}</span>
+                    <span className="truncate">{jaNode(r.item.name)}</span>
                   </p>
                   <dl className="mt-2 space-y-1">
                     <div className="flex items-center gap-2 text-[10px]">
-                      <dt className="w-24 shrink-0 text-slate-500">好みとの近さ</dt>
+                      <dt className="w-24 shrink-0 text-slate-500">{jaNode("好みとの近さ")}</dt>
                       <dd className="flex-1">
                         <span className="block h-1 w-full overflow-hidden rounded-full bg-white/5">
                           <span
@@ -531,11 +512,11 @@ export default function DemoRecommend({
                         </span>
                       </dd>
                       <dd className="font-display w-8 shrink-0 text-right text-slate-400 tabular-nums">
-                        {(r.content * 100).toFixed(0)}
+                        {jaNode((r.content * 100).toFixed(0))}
                       </dd>
                     </div>
                     <div className="flex items-center gap-2 text-[10px]">
-                      <dt className="w-24 shrink-0 text-slate-500">一緒に見られる</dt>
+                      <dt className="w-24 shrink-0 text-slate-500">{jaNode("一緒に見られる")}</dt>
                       <dd className="flex-1">
                         <span className="block h-1 w-full overflow-hidden rounded-full bg-white/5">
                           <span
@@ -545,7 +526,7 @@ export default function DemoRecommend({
                         </span>
                       </dd>
                       <dd className="font-display w-8 shrink-0 text-right text-slate-400 tabular-nums">
-                        {(r.collab * 100).toFixed(0)}
+                        {jaNode((r.collab * 100).toFixed(0))}
                       </dd>
                     </div>
                   </dl>
@@ -553,19 +534,14 @@ export default function DemoRecommend({
               ))}
             </ul>
           )}
-          <p className="mt-4 border-t border-white/10 pt-3 text-[10px] leading-relaxed text-slate-500">
-            コンテンツベース（コサイン類似度）75% ＋ 協調フィルタリング（共起）25%
-            で合成しています。
-          </p>
+          <p className="mt-4 border-t border-white/10 pt-3 text-[10px] leading-relaxed text-slate-500">{jaNode("コンテンツベース（コサイン類似度）75% ＋ 協調フィルタリング（共起）25% で合成しています。")}</p>
         </div>
 
         <Link
           prefetch={false}
           href="/contact"
           className="btn btn-secondary inline-flex h-11 w-full items-center justify-center px-5 text-sm"
-        >
-          自社の商品で試したい
-          <Icon name="arrowRight" className="size-4" />
+        >{jaNode("自社の商品で試したい")}<Icon name="arrowRight" className="size-4" />
         </Link>
       </div>
     </div>

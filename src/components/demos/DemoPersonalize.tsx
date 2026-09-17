@@ -1,4 +1,5 @@
 "use client";
+import { jaNode } from "@/lib/typography";
 
 import { useEffect, useState } from "react";
 import { DemoStage } from "./DemoUi";
@@ -134,17 +135,11 @@ export default function DemoPersonalize() {
       <div className="panel p-5">
         <div className="flex flex-wrap items-center justify-between gap-3">
           <div>
-            <p className="font-display text-[10px] font-bold tracking-[0.25em] text-slate-500 uppercase">
-              Visitor / 訪問者の属性
-            </p>
-            <p className="mt-1 text-xs text-slate-400">
-              切り替えると、同じ1ページの見え方が変わります。
-            </p>
+            <p className="font-display text-[10px] font-bold tracking-[0.25em] text-slate-500 uppercase">{jaNode("Visitor / 訪問者の属性")}</p>
+            <p className="mt-1 text-xs text-slate-400">{jaNode("切り替えると、同じ1ページの見え方が変わります。")}</p>
           </div>
           {fromUrl ? (
-            <span className="rounded-md border border-brand/40 bg-brand/10 px-2.5 py-1 text-[11px] text-brand-light">
-              URLパラメータから自動判定しました
-            </span>
+            <span className="rounded-md border border-brand/40 bg-brand/10 px-2.5 py-1 text-[11px] text-brand-light">{jaNode("URLパラメータから自動判定しました")}</span>
           ) : null}
         </div>
 
@@ -164,7 +159,7 @@ export default function DemoPersonalize() {
                   : "border-white/10 bg-white/5 text-slate-400 hover:border-white/25 hover:text-slate-200"
               }`}
             >
-              {s.label}
+              {jaNode(s.label)}
             </button>
           ))}
         </div>
@@ -172,8 +167,8 @@ export default function DemoPersonalize() {
         <p className="mt-4 flex items-start gap-2 rounded-lg border border-white/10 bg-white/[0.03] p-3 text-[11px] leading-relaxed text-slate-400">
           <Icon name="search" className="mt-0.5 size-3.5 shrink-0 text-brand" />
           <span>
-            <span className="text-slate-500">判定に使うシグナル：</span>
-            {current.signal}
+            <span className="text-slate-500">{jaNode("判定に使うシグナル：")}</span>
+            {jaNode(current.signal)}
           </span>
         </p>
       </div>
@@ -186,37 +181,36 @@ export default function DemoPersonalize() {
               className={`inline-flex items-center gap-1.5 rounded-full bg-gradient-to-r ${current.accent} px-3 py-1 text-[11px] font-bold text-ink`}
             >
               <Icon name="target" className="size-3.5" />
-              {current.label}向けの表示
-            </p>
+              {jaNode(current.label)}{jaNode("向けの表示")}</p>
 
             <h3 className="mt-4 text-2xl leading-snug font-bold text-white sm:text-3xl">
-              {current.headline}
+              {jaNode(current.headline)}
             </h3>
-            <p className="mt-3 text-sm leading-relaxed text-slate-400">{current.sub}</p>
+            <p className="mt-3 text-sm leading-relaxed text-slate-400">{jaNode(current.sub)}</p>
 
             <div className="mt-6 grid gap-4 sm:grid-cols-3">
               <div className="rounded-xl border border-white/10 bg-white/[0.03] p-4 sm:col-span-2">
-                <p className="text-[11px] text-slate-500">よくあるお悩み</p>
-                <p className="mt-1 text-sm font-bold text-white">「{current.pain}」</p>
+                <p className="text-[11px] text-slate-500">{jaNode("よくあるお悩み")}</p>
+                <p className="mt-1 text-sm font-bold text-white">「{jaNode(current.pain)}」</p>
               </div>
               <div className="rounded-xl border border-gold/25 bg-gold/[0.06] p-4 text-center">
-                <p className="text-[11px] text-slate-500">{current.proof.label}</p>
+                <p className="text-[11px] text-slate-500">{jaNode(current.proof.label)}</p>
                 <p className="font-display mt-1 text-lg font-bold text-gold-light">
-                  {current.proof.value}
+                  {jaNode(current.proof.value)}
                 </p>
               </div>
             </div>
 
             <div className="mt-4 rounded-xl border border-white/10 bg-white/[0.03] p-4">
-              <p className="text-sm font-bold text-brand-light">{current.caseTitle}</p>
-              <p className="mt-2 text-xs leading-relaxed text-slate-400">{current.caseBody}</p>
+              <p className="text-sm font-bold text-brand-light">{jaNode(current.caseTitle)}</p>
+              <p className="mt-2 text-xs leading-relaxed text-slate-400">{jaNode(current.caseBody)}</p>
             </div>
 
             <button
               type="button"
               className={`mt-6 inline-flex h-11 items-center gap-2 rounded-xl bg-gradient-to-r px-6 text-sm font-bold text-ink ${current.accent}`}
             >
-              {current.cta}
+              {jaNode(current.cta)}
               <Icon name="arrowRight" className="size-4" />
             </button>
           </div>
@@ -225,39 +219,29 @@ export default function DemoPersonalize() {
         {/* ---------- 何が変わったかの差分 ---------- */}
         <div className="panel space-y-4 p-5 min-w-0 lg:col-span-2">
           <div>
-            <p className="font-display text-[10px] font-bold tracking-[0.25em] text-slate-500 uppercase">
-              Diff / 標準表示との差分
-            </p>
-            <p className="mt-2 text-xs leading-relaxed text-slate-400">
-              ページを複製せず、同じURLのまま要素だけを差し替えています。
-            </p>
+            <p className="font-display text-[10px] font-bold tracking-[0.25em] text-slate-500 uppercase">{jaNode("Diff / 標準表示との差分")}</p>
+            <p className="mt-2 text-xs leading-relaxed text-slate-400">{jaNode("ページを複製せず、同じURLのまま要素だけを差し替えています。")}</p>
           </div>
 
           {isDefault ? (
-            <p className="rounded-xl border border-dashed border-white/10 p-6 text-center text-xs text-slate-500">
-              いまは標準表示です。
-              <br />
-              上のタブで属性を切り替えると、差分が表示されます。
-            </p>
+            <p className="rounded-xl border border-dashed border-white/10 p-6 text-center text-xs text-slate-500">{jaNode("いまは標準表示です。")}<br />{jaNode("上のタブで属性を切り替えると、差分が表示されます。")}</p>
           ) : (
             <ul className="space-y-3">
               {FIELDS.map((f) => (
                 <li key={f.key} className="rounded-xl border border-white/10 bg-white/[0.03] p-3">
-                  <p className="text-[10px] tracking-wider text-slate-500 uppercase">{f.label}</p>
+                  <p className="text-[10px] tracking-wider text-slate-500 uppercase">{jaNode(f.label)}</p>
                   <p className="mt-1.5 text-[11px] leading-relaxed text-slate-600 line-through">
-                    {String(BASE_SEG[f.key])}
+                    {jaNode(String(BASE_SEG[f.key]))}
                   </p>
                   <p className="mt-1 text-xs leading-relaxed font-medium text-brand-light">
-                    {String(current[f.key])}
+                    {jaNode(String(current[f.key]))}
                   </p>
                 </li>
               ))}
             </ul>
           )}
 
-          <p className="border-t border-white/10 pt-4 text-[11px] leading-relaxed text-slate-500">
-            この出し分けはサーバー側（Edge）で行うため、表示が一瞬入れ替わるチラつきは起きません。個人を特定する情報は保存しない設計にできます。
-          </p>
+          <p className="border-t border-white/10 pt-4 text-[11px] leading-relaxed text-slate-500">{jaNode("この出し分けはサーバー側（Edge）で行うため、表示が一瞬入れ替わるチラつきは起きません。個人を特定する情報は保存しない設計にできます。")}</p>
         </div>
       </div>
     </div>

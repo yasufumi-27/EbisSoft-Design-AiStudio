@@ -1,3 +1,4 @@
+import { jaNode } from "@/lib/typography";
 import Link from "next/link";
 
 export const proposalVariants = ["editorial", "craft", "signal"] as const;
@@ -21,24 +22,24 @@ export function DesignProposal({ variant }: { variant: ProposalVariant }) {
     <div className={`design-proposal ${data.tone}`}>
       <div className="proposal-switcher" aria-label="デザイン案を切り替える">
         <Link href="/proposal" className="proposal-switcher-home">DESIGN STUDY / EBISU SOFT</Link>
-        <div className="proposal-switcher-links">{links.map(([key, letter, title, color]) => <Link key={key} className={key === variant ? "is-current" : ""} href={`/proposal/${key}`}><b>{letter}</b><span>{title}</span><small>{color}</small></Link>)}</div>
+        <div className="proposal-switcher-links">{links.map(([key, letter, title, color]) => <Link key={key} className={key === variant ? "is-current" : ""} href={`/proposal/${key}`}><b>{jaNode(letter)}</b><span>{jaNode(title)}</span><small>{jaNode(color)}</small></Link>)}</div>
       </div>
       <section className="proposal-hero">
         <div className="proposal-hero-copy">
-          <p className="proposal-label">{data.label} / EBISU SOFT / KYOTO</p>
-          <h1>{data.title.split("\n").map((line) => <span key={line}>{line}</span>)}</h1>
-          <p className="proposal-accent">{data.accent}</p>
-          <p className="proposal-intro">{data.intro}</p>
-          <div className="proposal-actions"><Link href="/contact">この方向で相談する <span>↗</span></Link><Link href="/proposal">3案の比較に戻る</Link></div>
+          <p className="proposal-label">{jaNode(data.label)} / EBISU SOFT / KYOTO</p>
+          <h1>{data.title.split("\n").map((line) => <span key={line}>{jaNode(line)}</span>)}</h1>
+          <p className="proposal-accent">{jaNode(data.accent)}</p>
+          <p className="proposal-intro">{jaNode(data.intro)}</p>
+          <div className="proposal-actions"><Link href="/contact">{jaNode("この方向で相談する")}<span>↗</span></Link><Link href="/proposal">{jaNode("3案の比較に戻る")}</Link></div>
         </div>
         <div className="proposal-art" aria-hidden><div className="proposal-art-core">{variant === "editorial" ? "ES" : variant === "craft" ? "手" : "01"}</div><div className="proposal-art-ring ring-a" /><div className="proposal-art-ring ring-b" /><span className="proposal-art-note">{variant === "editorial" ? "MAKE IT MATTER" : variant === "craft" ? "SINCE / KYOTO" : "BUILD / CONNECT / GROW"}</span></div>
       </section>
-      <section className="proposal-services"><p className="proposal-label">WHAT WE BUILD</p><div className="proposal-service-grid"><article><b>01</b><h2>Web & AI</h2><p>伝わるWebサイトと、仕事を軽くするAI。</p></article><article><b>02</b><h2>Embedded</h2><p>現場で動き続けるソフトウェア。</p></article><article><b>03</b><h2>Experience</h2><p>理解を生むデザインと体験。</p></article></div></section>
-      <section className="proposal-footer"><p>エビスソフトは、問いを立てるところから伴走します。</p><Link href="/contact">まずは話してみる ↗</Link></section>
+      <section className="proposal-services"><p className="proposal-label">WHAT WE BUILD</p><div className="proposal-service-grid"><article><b>01</b><h2>Web & AI</h2><p>{jaNode("伝わるWebサイトと、仕事を軽くするAI。")}</p></article><article><b>02</b><h2>Embedded</h2><p>{jaNode("現場で動き続けるソフトウェア。")}</p></article><article><b>03</b><h2>Experience</h2><p>{jaNode("理解を生むデザインと体験。")}</p></article></div></section>
+      <section className="proposal-footer"><p>{jaNode("エビスソフトは、問いを立てるところから伴走します。")}</p><Link href="/contact">{jaNode("まずは話してみる ↗")}</Link></section>
     </div>
   );
 }
 
 export function ProposalIndex() {
-  return <div className="proposal-index"><p className="proposal-index-kicker">EBISU SOFT / DESIGN STUDY</p><h1>3つの方向から、<br /><em>エビスソフト</em>を考える。</h1><p>同じ事業内容を、異なる温度と見せ方でデザインしました。カードを選ぶと各案の詳細を確認できます。</p><div className="proposal-index-grid">{links.map(([key, letter, title, color]) => <Link key={key} href={`/proposal/${key}`} className={`proposal-index-card proposal-index-${key}`}><b>{letter}</b><span>{title}</span><small>{color}</small><i>↗</i></Link>)}</div><Link className="proposal-index-back" href="/">通常のトップページへ戻る</Link></div>;
+  return <div className="proposal-index"><p className="proposal-index-kicker">EBISU SOFT / DESIGN STUDY</p><h1>{jaNode("3つの方向から、")}<br /><em>{jaNode("エビスソフト")}</em>{jaNode("を考える。")}</h1><p>{jaNode("同じ事業内容を、異なる温度と見せ方でデザインしました。カードを選ぶと各案の詳細を確認できます。")}</p><div className="proposal-index-grid">{links.map(([key, letter, title, color]) => <Link key={key} href={`/proposal/${key}`} className={`proposal-index-card proposal-index-${key}`}><b>{jaNode(letter)}</b><span>{jaNode(title)}</span><small>{jaNode(color)}</small><i>↗</i></Link>)}</div><Link className="proposal-index-back" href="/">{jaNode("通常のトップページへ戻る")}</Link></div>;
 }

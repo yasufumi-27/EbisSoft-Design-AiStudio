@@ -1,4 +1,5 @@
 "use client";
+import { jaNode } from "@/lib/typography";
 
 import { useMemo, useState } from "react";
 import { ChipButton, ControlGroup, DemoStage } from "./DemoUi";
@@ -192,9 +193,7 @@ export default function DemoSns() {
             onClick={fetchNew}
             className="ml-auto inline-flex items-center gap-1.5 rounded-lg border border-brand/40 bg-brand/10 px-3 py-1.5 text-xs font-semibold text-brand-light transition-colors hover:bg-brand/20"
           >
-            <Icon name="refresh" className="size-3.5" />
-            新着を取得
-          </button>
+            <Icon name="refresh" className="size-3.5" />{jaNode("新着を取得")}</button>
         </div>
 
         <ul className="h-[420px] divide-y divide-white/5 overflow-y-auto">
@@ -208,24 +207,24 @@ export default function DemoSns() {
                 />
                 <div className="min-w-0 flex-1">
                   <div className="flex flex-wrap items-baseline gap-x-2">
-                    <span className="text-sm font-bold text-white">{post.author}</span>
-                    <span className="text-xs text-slate-500">{post.handle}</span>
+                    <span className="text-sm font-bold text-white">{jaNode(post.author)}</span>
+                    <span className="text-xs text-slate-500">{jaNode(post.handle)}</span>
                     <span className={`font-display text-[10px] tracking-widest ${meta.color}`}>
-                      {meta.label}
+                      {jaNode(meta.label)}
                     </span>
                     <span className="ml-auto text-[11px] text-slate-600">
-                      {relativeTime(post.minutesAgo)}
+                      {jaNode(relativeTime(post.minutesAgo))}
                     </span>
                   </div>
-                  <p className="mt-1.5 text-sm leading-relaxed text-slate-300">{post.body}</p>
+                  <p className="mt-1.5 text-sm leading-relaxed text-slate-300">{jaNode(post.body)}</p>
                   <p className="mt-2 flex flex-wrap gap-x-2 text-xs text-brand-light">
                     {post.tags.map((t) => (
-                      <span key={t}>#{t}</span>
+                      <span key={t}>#{jaNode(t)}</span>
                     ))}
                   </p>
                   <p className="mt-2 flex gap-4 text-[11px] text-slate-500">
-                    <span>♥ {post.likes.toLocaleString()}</span>
-                    <span>💬 {post.comments}</span>
+                    <span>♥ {jaNode(post.likes.toLocaleString())}</span>
+                    <span>💬 {jaNode(post.comments)}</span>
                   </p>
                 </div>
               </li>
@@ -271,12 +270,10 @@ export default function DemoSns() {
                 <span className="grid size-7 place-items-center rounded-md bg-black/35 text-xs font-bold text-white">
                   E
                 </span>
-                <span className="font-display text-xs font-bold tracking-widest text-white/90">
-                  エビスソフト
-                </span>
+                <span className="font-display text-xs font-bold tracking-widest text-white/90">{jaNode("エビスソフト")}</span>
               </div>
               <p className="line-clamp-3 text-lg leading-snug font-bold text-white drop-shadow-[0_2px_10px_rgba(0,0,0,0.4)] sm:text-xl">
-                {title || "（タイトル未入力）"}
+                {jaNode(title || "（タイトル未入力）")}
               </p>
               <span className="font-display text-[10px] tracking-widest text-white/80">
                 www.ebisusoft.co.jp
@@ -286,8 +283,8 @@ export default function DemoSns() {
             {/* 各SNSでのテキスト表示の違い */}
             {preview === "x" ? (
               <div className="px-3 py-2">
-                <p className="truncate text-[13px] text-white">{title}</p>
-                <p className="mt-0.5 line-clamp-2 text-[12px] text-slate-400">{desc}</p>
+                <p className="truncate text-[13px] text-white">{jaNode(title)}</p>
+                <p className="mt-0.5 line-clamp-2 text-[12px] text-slate-400">{jaNode(desc)}</p>
                 <p className="mt-1 text-[11px] text-slate-500">www.ebisusoft.co.jp</p>
               </div>
             ) : preview === "facebook" ? (
@@ -295,13 +292,13 @@ export default function DemoSns() {
                 <p className="text-[10px] tracking-wide text-[#65676b] uppercase">
                   www.ebisusoft.co.jp
                 </p>
-                <p className="mt-0.5 line-clamp-2 text-[13px] font-bold text-[#050505]">{title}</p>
-                <p className="mt-0.5 line-clamp-1 text-[12px] text-[#65676b]">{desc}</p>
+                <p className="mt-0.5 line-clamp-2 text-[13px] font-bold text-[#050505]">{jaNode(title)}</p>
+                <p className="mt-0.5 line-clamp-1 text-[12px] text-[#65676b]">{jaNode(desc)}</p>
               </div>
             ) : (
               <div className="px-3 py-2">
-                <p className="line-clamp-2 text-[13px] font-bold text-white">{title}</p>
-                <p className="mt-0.5 line-clamp-2 text-[12px] text-slate-400">{desc}</p>
+                <p className="line-clamp-2 text-[13px] font-bold text-white">{jaNode(title)}</p>
+                <p className="mt-0.5 line-clamp-2 text-[12px] text-slate-400">{jaNode(desc)}</p>
               </div>
             )}
           </div>
@@ -316,7 +313,7 @@ export default function DemoSns() {
                     title.length > titleLimit ? "text-rose-300" : "text-slate-600"
                   }
                 >
-                  {title.length} / {titleLimit}
+                  {jaNode(title.length)} / {jaNode(titleLimit)}
                 </span>
               </span>
               <input
@@ -331,7 +328,7 @@ export default function DemoSns() {
               <span className="flex items-center justify-between text-xs text-slate-400">
                 og:description
                 <span className={desc.length > descLimit ? "text-rose-300" : "text-slate-600"}>
-                  {desc.length} / {descLimit}
+                  {jaNode(desc.length)} / {jaNode(descLimit)}
                 </span>
               </span>
               <textarea

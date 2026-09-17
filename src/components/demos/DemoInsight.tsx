@@ -1,4 +1,5 @@
 "use client";
+import { jaNode } from "@/lib/typography";
 
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import Link from "next/link";
@@ -241,26 +242,18 @@ export default function DemoInsight() {
                 <p className="font-display text-[10px] tracking-[0.3em] text-slate-500 uppercase">
                   Sample landing page
                 </p>
-                <h4 className="text-xl leading-snug font-bold text-white sm:text-2xl">
-                  この面をクリックしてください。
-                  <br />
-                  クリックした場所が、そのまま記録されます。
-                </h4>
-                <p className="max-w-sm text-xs leading-relaxed text-slate-400">
-                  実際の運用では、これが「訪問者数千人ぶんのクリック」になります。押されていないボタン、読まれずに飛ばされている段落が、位置として見えるようになります。
-                </p>
-                <span className="btn btn-primary pointer-events-none inline-flex h-10 items-center px-5 text-xs">
-                  無料で相談する
-                </span>
+                <h4 className="text-xl leading-snug font-bold text-white sm:text-2xl">{jaNode("この面をクリックしてください。")}<br />{jaNode("クリックした場所が、そのまま記録されます。")}</h4>
+                <p className="max-w-sm text-xs leading-relaxed text-slate-400">{jaNode("実際の運用では、これが「訪問者数千人ぶんのクリック」になります。押されていないボタン、読まれずに飛ばされている段落が、位置として見えるようになります。")}</p>
+                <span className="btn btn-primary pointer-events-none inline-flex h-10 items-center px-5 text-xs">{jaNode("無料で相談する")}</span>
                 <div className="grid grid-cols-3 gap-2 pt-2">
                   {["特徴01", "特徴02", "特徴03"].map((t) => (
                     <div key={t} className="rounded-lg border border-white/10 bg-white/[0.03] p-3">
                       <span className="block h-1.5 w-8 rounded-full bg-brand/50" />
-                      <span className="mt-2 block text-[10px] text-slate-500">{t}</span>
+                      <span className="mt-2 block text-[10px] text-slate-500">{jaNode(t)}</span>
                     </div>
                   ))}
                 </div>
-                <p className="pt-2 text-[10px] text-slate-600">© Sample Inc. お問い合わせ／会社概要</p>
+                <p className="pt-2 text-[10px] text-slate-600">{jaNode("© Sample Inc. お問い合わせ／会社概要")}</p>
               </div>
 
               {/* ヒートマップのレイヤー */}
@@ -279,28 +272,22 @@ export default function DemoInsight() {
         {/* クリックの内訳 */}
         <div className="panel space-y-4 p-5 min-w-0 lg:col-span-2">
           <div className="flex flex-wrap items-center justify-between gap-2">
-            <p className="font-display text-[10px] font-bold tracking-[0.25em] text-slate-500 uppercase">
-              Click map / クリックの内訳
-            </p>
+            <p className="font-display text-[10px] font-bold tracking-[0.25em] text-slate-500 uppercase">{jaNode("Click map / クリックの内訳")}</p>
             <SwitchButton checked={showHeat} onChange={setShowHeat}>
               ヒートマップ
             </SwitchButton>
           </div>
 
           {points.length === 0 ? (
-            <p className="rounded-xl border border-dashed border-white/15 p-5 text-center text-[11px] leading-relaxed text-slate-500">
-              まだクリックがありません。
-              <br />
-              左（スマホでは上）の画面を数回タップしてください。
-            </p>
+            <p className="rounded-xl border border-dashed border-white/15 p-5 text-center text-[11px] leading-relaxed text-slate-500">{jaNode("まだクリックがありません。")}<br />{jaNode("左（スマホでは上）の画面を数回タップしてください。")}</p>
           ) : (
             <ul className="space-y-2.5">
               {zoneStats.map((z) => (
                 <li key={z.key}>
                   <span className="flex items-center justify-between text-[11px]">
-                    <span className="text-slate-400">{z.label}</span>
+                    <span className="text-slate-400">{jaNode(z.label)}</span>
                     <span className="font-display text-slate-300 tabular-nums">
-                      {z.n}回 / {(z.ratio * 100).toFixed(0)}%
+                      {jaNode(z.n)}{jaNode("回 /")}{jaNode((z.ratio * 100).toFixed(0))}%
                     </span>
                   </span>
                   <span className="mt-1 block h-1.5 w-full overflow-hidden rounded-full bg-white/5">
@@ -315,30 +302,22 @@ export default function DemoInsight() {
           )}
 
           <div className="flex items-center justify-between gap-2 border-t border-white/10 pt-3">
-            <span className="flex items-center gap-1.5 text-[10px] text-slate-500">
-              薄い
-              <span
+            <span className="flex items-center gap-1.5 text-[10px] text-slate-500">{jaNode("薄い")}<span
                 aria-hidden
                 className="h-2 w-20 rounded-full"
                 style={{
                   background:
                     "linear-gradient(90deg, rgba(30,64,175,0.4), rgba(34,211,238,0.85), rgba(163,230,53,0.9), rgba(250,204,21,0.95), rgba(244,63,94,1))",
                 }}
-              />
-              濃い
-            </span>
+              />{jaNode("濃い")}</span>
             <button
               type="button"
               onClick={() => setPoints([])}
               className="text-[10px] text-slate-500 underline transition-colors hover:text-slate-200"
-            >
-              記録を消す
-            </button>
+            >{jaNode("記録を消す")}</button>
           </div>
 
-          <p className="text-[10px] leading-relaxed text-slate-500">
-            座標はこのブラウザの中だけに保持しています（外部へ送信していません）。実案件では計測基盤に送り、訪問者全体の傾向として見ます。
-          </p>
+          <p className="text-[10px] leading-relaxed text-slate-500">{jaNode("座標はこのブラウザの中だけに保持しています（外部へ送信していません）。実案件では計測基盤に送り、訪問者全体の傾向として見ます。")}</p>
         </div>
       </div>
 
@@ -346,35 +325,25 @@ export default function DemoInsight() {
       <div className="panel p-5">
         <div className="flex flex-wrap items-end justify-between gap-3">
           <div>
-            <p className="font-display text-[10px] font-bold tracking-[0.25em] text-slate-500 uppercase">
-              A / B Test / 2案を同時に出して判定する
-            </p>
-            <p className="mt-1.5 text-xs text-slate-400">
-              訪問者を50:50で振り分け、クリック率に差があるかを統計的に判定します。
-            </p>
+            <p className="font-display text-[10px] font-bold tracking-[0.25em] text-slate-500 uppercase">{jaNode("A / B Test / 2案を同時に出して判定する")}</p>
+            <p className="mt-1.5 text-xs text-slate-400">{jaNode("訪問者を50:50で振り分け、クリック率に差があるかを統計的に判定します。")}</p>
           </div>
           <div className="flex flex-wrap gap-2">
             <button
               type="button"
               onClick={() => runVisitors(100)}
               className="btn btn-primary inline-flex h-10 items-center px-4 text-xs"
-            >
-              訪問者を100人流す
-            </button>
+            >{jaNode("訪問者を100人流す")}</button>
             <button
               type="button"
               onClick={() => runVisitors(1000)}
               className="btn btn-secondary inline-flex h-10 items-center px-4 text-xs"
-            >
-              1,000人
-            </button>
+            >{jaNode("1,000人")}</button>
             <button
               type="button"
               onClick={() => setAb({ A: { imp: 0, conv: 0 }, B: { imp: 0, conv: 0 } })}
               className="inline-flex h-10 items-center rounded-lg border border-white/15 bg-white/5 px-4 text-xs font-semibold text-slate-300 transition-colors hover:border-white/35"
-            >
-              リセット
-            </button>
+            >{jaNode("リセット")}</button>
           </div>
         </div>
 
@@ -392,40 +361,38 @@ export default function DemoInsight() {
               >
                 <div className="flex items-center justify-between gap-2">
                   <p className="font-display text-[11px] font-bold tracking-widest text-slate-400">
-                    {v.label}
+                    {jaNode(v.label)}
                   </p>
                   {isWinner ? (
-                    <span className="rounded-md border border-emerald-400/40 bg-emerald-400/10 px-2 py-0.5 text-[10px] font-bold text-emerald-300">
-                      勝ち
-                    </span>
+                    <span className="rounded-md border border-emerald-400/40 bg-emerald-400/10 px-2 py-0.5 text-[10px] font-bold text-emerald-300">{jaNode("勝ち")}</span>
                   ) : null}
                 </div>
 
                 {/* 案のプレビュー */}
-                <p className="mt-3 text-xs leading-snug font-bold text-white">{v.headline}</p>
+                <p className="mt-3 text-xs leading-snug font-bold text-white">{jaNode(v.headline)}</p>
                 <span
                   className={`mt-3 inline-flex h-8 items-center rounded-lg bg-gradient-to-r px-3 text-[11px] font-bold text-ink ${v.tone}`}
                 >
-                  {v.cta}
+                  {jaNode(v.cta)}
                 </span>
 
                 <dl className="mt-4 space-y-1.5 border-t border-white/10 pt-3 text-[11px]">
                   <div className="flex justify-between">
-                    <dt className="text-slate-500">表示</dt>
+                    <dt className="text-slate-500">{jaNode("表示")}</dt>
                     <dd className="font-display text-slate-300 tabular-nums">
-                      {d.imp.toLocaleString("ja-JP")}
+                      {jaNode(d.imp.toLocaleString("ja-JP"))}
                     </dd>
                   </div>
                   <div className="flex justify-between">
-                    <dt className="text-slate-500">クリック</dt>
+                    <dt className="text-slate-500">{jaNode("クリック")}</dt>
                     <dd className="font-display text-slate-300 tabular-nums">
-                      {d.conv.toLocaleString("ja-JP")}
+                      {jaNode(d.conv.toLocaleString("ja-JP"))}
                     </dd>
                   </div>
                   <div className="flex justify-between">
-                    <dt className="text-slate-500">クリック率</dt>
+                    <dt className="text-slate-500">{jaNode("クリック率")}</dt>
                     <dd className="font-display font-bold text-brand-light tabular-nums">
-                      {(rate * 100).toFixed(2)}%
+                      {jaNode((rate * 100).toFixed(2))}%
                     </dd>
                   </div>
                 </dl>
@@ -441,14 +408,10 @@ export default function DemoInsight() {
 
           {/* 判定 */}
           <div className="rounded-xl border border-gold/25 bg-gold/[0.06] p-4">
-            <p className="font-display text-[10px] font-bold tracking-[0.25em] text-gold uppercase">
-              Verdict / 判定
-            </p>
+            <p className="font-display text-[10px] font-bold tracking-[0.25em] text-gold uppercase">{jaNode("Verdict / 判定")}</p>
 
             {test.total === 0 ? (
-              <p className="mt-3 text-[11px] leading-relaxed text-slate-400">
-                「訪問者を流す」を押すと集計が始まります。どちらの案が優れているかは、この時点では分かりません。
-              </p>
+              <p className="mt-3 text-[11px] leading-relaxed text-slate-400">{jaNode("「訪問者を流す」を押すと集計が始まります。どちらの案が優れているかは、この時点では分かりません。")}</p>
             ) : (
               <>
                 <p
@@ -456,43 +419,40 @@ export default function DemoInsight() {
                     test.decided ? "text-emerald-300" : "text-amber-300"
                   }`}
                 >
-                  {test.decided
+                  {jaNode(test.decided
                     ? `B案の勝ち（${(test.uplift * 100).toFixed(0)}%改善）`
-                    : "まだ判定できません"}
+                    : "まだ判定できません")}
                 </p>
                 <p className="mt-1.5 text-[11px] leading-relaxed text-slate-400">
-                  {test.decided
+                  {jaNode(test.decided
                     ? "偶然では説明しにくい差が出ています。B案に切り替える判断ができます。"
-                    : "差はあるように見えても、この人数では偶然の範囲です。ここで結論を出すのが、最もよくある間違いです。"}
+                    : "差はあるように見えても、この人数では偶然の範囲です。ここで結論を出すのが、最もよくある間違いです。")}
                 </p>
 
                 <dl className="mt-4 space-y-1.5 border-t border-gold/20 pt-3 text-[11px]">
                   <div className="flex justify-between">
-                    <dt className="text-slate-500">累計の訪問者</dt>
+                    <dt className="text-slate-500">{jaNode("累計の訪問者")}</dt>
                     <dd className="font-display text-slate-300 tabular-nums">
-                      {test.total.toLocaleString("ja-JP")}人
+                      {jaNode(test.total.toLocaleString("ja-JP"))}{jaNode("人")}</dd>
+                  </div>
+                  <div className="flex justify-between">
+                    <dt className="text-slate-500">{jaNode("改善率（B対A）")}</dt>
+                    <dd className="font-display text-slate-300 tabular-nums">
+                      {jaNode(test.pa > 0 ? `${test.uplift > 0 ? "+" : ""}${(test.uplift * 100).toFixed(1)}%` : "—")}
                     </dd>
                   </div>
                   <div className="flex justify-between">
-                    <dt className="text-slate-500">改善率（B対A）</dt>
-                    <dd className="font-display text-slate-300 tabular-nums">
-                      {test.pa > 0 ? `${test.uplift > 0 ? "+" : ""}${(test.uplift * 100).toFixed(1)}%` : "—"}
-                    </dd>
+                    <dt className="text-slate-500">{jaNode("Z値")}</dt>
+                    <dd className="font-display text-slate-300 tabular-nums">{jaNode(test.z.toFixed(2))}</dd>
                   </div>
                   <div className="flex justify-between">
-                    <dt className="text-slate-500">Z値</dt>
-                    <dd className="font-display text-slate-300 tabular-nums">{test.z.toFixed(2)}</dd>
-                  </div>
-                  <div className="flex justify-between">
-                    <dt className="text-slate-500">p値</dt>
+                    <dt className="text-slate-500">{jaNode("p値")}</dt>
                     <dd className="font-display text-slate-300 tabular-nums">
-                      {test.p < 0.001 ? "< 0.001" : test.p.toFixed(3)}
+                      {jaNode(test.p < 0.001 ? "< 0.001" : test.p.toFixed(3))}
                     </dd>
                   </div>
                 </dl>
-                <p className="mt-3 text-[10px] leading-relaxed text-slate-500">
-                  p値が0.05を下回り、かつ各案100人以上で「有意差あり」としています。
-                </p>
+                <p className="mt-3 text-[10px] leading-relaxed text-slate-500">{jaNode("p値が0.05を下回り、かつ各案100人以上で「有意差あり」としています。")}</p>
               </>
             )}
           </div>
@@ -502,9 +462,7 @@ export default function DemoInsight() {
           prefetch={false}
           href="/contact"
           className="mt-5 inline-flex items-center gap-1.5 text-xs font-bold text-brand-light transition-colors hover:text-white"
-        >
-          自社サイトの離脱点を見てほしい
-          <Icon name="arrowRight" className="size-3.5" />
+        >{jaNode("自社サイトの離脱点を見てほしい")}<Icon name="arrowRight" className="size-3.5" />
         </Link>
       </div>
     </div>

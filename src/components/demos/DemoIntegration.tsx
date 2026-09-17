@@ -1,4 +1,5 @@
 "use client";
+import { jaNode } from "@/lib/typography";
 
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { ChipButton, DemoStage, RangeControl, SwitchButton } from "./DemoUi";
@@ -278,7 +279,7 @@ export default function DemoIntegration({
                     activeNode === n.key ? "text-white" : "text-slate-400"
                   }`}
                 >
-                  {n.label}
+                  {jaNode(n.label)}
                 </span>
               </div>
               {i < nodes.length - 1 ? (
@@ -317,15 +318,13 @@ export default function DemoIntegration({
                 disabled={busy}
                 className="shrink-0 rounded-lg bg-gradient-to-br from-brand to-accent px-4 text-sm font-bold text-ink transition-opacity disabled:opacity-40"
               >
-                {searching ? "検索中…" : "検索"}
+                {jaNode(searching ? "検索中…" : "検索")}
               </button>
             </form>
 
             <ul className="max-h-[300px] space-y-2 overflow-y-auto">
               {items.length === 0 ? (
-                <li className="rounded-xl border border-dashed border-white/10 p-6 text-center text-sm text-slate-500">
-                  該当する在庫がありません。
-                </li>
+                <li className="rounded-xl border border-dashed border-white/10 p-6 text-center text-sm text-slate-500">{jaNode("該当する在庫がありません。")}</li>
               ) : (
                 items.map((item) => (
                   <li
@@ -334,14 +333,14 @@ export default function DemoIntegration({
                   >
                     <div className="min-w-0 flex-1">
                       {/* 狭い端末では商品名を省略せず折り返す（切れると何の商品か分からない） */}
-                      <p className="text-sm font-bold text-white sm:truncate">{item.name}</p>
+                      <p className="text-sm font-bold text-white sm:truncate">{jaNode(item.name)}</p>
                       <p className="mt-0.5 text-[11px] text-slate-500">
-                        {item.sku} ・ {item.category} ・ {item.location}
+                        {jaNode(item.sku)} ・ {jaNode(item.category)} ・ {jaNode(item.location)}
                       </p>
                     </div>
                     <div className="text-right">
                       <p className="font-display text-sm font-bold text-gold-light">
-                        ¥{item.price.toLocaleString()}
+                        ¥{jaNode(item.price.toLocaleString())}
                       </p>
                       <p
                         className={`text-[11px] ${
@@ -351,8 +350,7 @@ export default function DemoIntegration({
                               ? "text-amber-300"
                               : "text-emerald-300"
                         }`}
-                      >
-                        在庫 {item.stock}
+                      >{jaNode("在庫 ")}{jaNode(item.stock)}
                       </p>
                     </div>
                     <button
@@ -360,9 +358,7 @@ export default function DemoIntegration({
                       disabled={busy || item.stock === 0}
                       onClick={() => runReservation(item)}
                       className="shrink-0 rounded-lg border border-brand/40 bg-brand/10 px-3 py-1.5 text-xs font-semibold text-brand-light transition-colors hover:bg-brand/20 disabled:opacity-30"
-                    >
-                      予約を実行
-                    </button>
+                    >{jaNode("予約を実行")}</button>
                   </li>
                 ))
               )}
@@ -412,9 +408,9 @@ export default function DemoIntegration({
               ["リトライ", stats.retries],
             ].map(([label, value]) => (
               <div key={label as string} className="bg-ink-2/80 px-2 py-3">
-                <dt className="text-[10px] text-slate-500">{label}</dt>
+                <dt className="text-[10px] text-slate-500">{jaNode(label)}</dt>
                 <dd className="font-display mt-1 text-base font-bold text-brand-light tabular-nums">
-                  {value as number}
+                  {jaNode(value as number)}
                 </dd>
               </div>
             ))}
@@ -427,20 +423,16 @@ export default function DemoIntegration({
             aria-live="polite"
           >
             {logs.length === 0 ? (
-              <p className="pt-10 text-center font-sans text-xs text-slate-500">
-                在庫を検索するか「予約を実行」を押すと、
-                <br />
-                API呼び出しとWebhook通知がここに流れます。
-              </p>
+              <p className="pt-10 text-center font-sans text-xs text-slate-500">{jaNode("在庫を検索するか「予約を実行」を押すと、")}<br />{jaNode("API呼び出しとWebhook通知がここに流れます。")}</p>
             ) : (
               logs.map((l) => (
                 <p key={l.id} className="log-line flex gap-2">
-                  <span className="shrink-0 text-slate-600">{l.time}</span>
+                  <span className="shrink-0 text-slate-600">{jaNode(l.time)}</span>
                   <span className={`w-11 shrink-0 font-bold ${LOG_STYLE[l.kind].color}`}>
-                    {LOG_STYLE[l.kind].label}
+                    {jaNode(LOG_STYLE[l.kind].label)}
                   </span>
                   <span className="min-w-0 flex-1 text-slate-400">
-                    <span className="text-slate-300">[{l.system}]</span> {l.message}
+                    <span className="text-slate-300">[{jaNode(l.system)}]</span> {jaNode(l.message)}
                   </span>
                 </p>
               ))

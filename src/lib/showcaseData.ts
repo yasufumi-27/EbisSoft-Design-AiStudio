@@ -3583,7 +3583,7 @@ export const industries: Industry[] = [
       },
       {
         demo: "recommend",
-        title: "コーディネートとして薦める",
+        title: "コーディネートを提案",
         scene: "見ている商品と相性のよいアイテムを、理由つきで提示します。閲覧の傾向も加味します。",
         effect: "セット購入が増え、客単価が上がります。",
       },

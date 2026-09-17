@@ -1,4 +1,5 @@
 "use client";
+import { jaNode } from "@/lib/typography";
 
 import { useCallback, useEffect, useRef, useState, type ComponentType } from "react";
 
@@ -83,27 +84,27 @@ export function DemoSiteFeature({
     <article className="ds-feature">
       <div className="ds-feature-head">
         <div style={{ minWidth: 0, flex: "1 1 20rem" }}>
-          <span className="ds-tag">{DEMO_META[slug].label}</span>
-          <h3 style={{ marginTop: "0.6rem" }}>{title}</h3>
-          <p>{scene}</p>
+          <span className="ds-tag">{jaNode(DEMO_META[slug].label)}</span>
+          <h3 style={{ marginTop: "0.6rem" }}>{jaNode(title)}</h3>
+          <p>{jaNode(scene)}</p>
         </div>
         <div className="ds-feature-actions">
           {!Demo ? (
             <>
               <button type="button" className="ds-btn ds-btn--primary ds-btn--sm" onClick={start}>
-                {booting ? "読み込み中…" : "この機能を動かす"}
+                {jaNode(booting ? "読み込み中…" : "この機能を動かす")}
               </button>
-              <span className="ds-feature-hint">押すまで読み込みません</span>
+              <span className="ds-feature-hint">{jaNode("押すまで読み込みません")}</span>
             </>
           ) : (
-            <span className="ds-feature-hint">実際に操作できます</span>
+            <span className="ds-feature-hint">{jaNode("実際に操作できます")}</span>
           )}
         </div>
       </div>
 
       {failed ? (
         <div className="ds-feature-head" style={{ paddingTop: 0 }}>
-          <p>読み込みに失敗しました。通信環境をご確認のうえ、もう一度お試しください。</p>
+          <p>{jaNode("読み込みに失敗しました。通信環境をご確認のうえ、もう一度お試しください。")}</p>
         </div>
       ) : null}
 

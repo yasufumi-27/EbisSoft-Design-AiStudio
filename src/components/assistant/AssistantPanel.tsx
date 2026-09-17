@@ -3,7 +3,7 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { Icon } from "@/components/ui/icons";
-import { ja } from "@/lib/typography";
+import { ja, jaNode } from "@/lib/typography";
 import { MascotFace } from "./MascotFace";
 import { askKb, suggestedQuestions, type SearchHit } from "@/lib/kb";
 
@@ -145,9 +145,9 @@ export default function AssistantPanel({ onClose }: { onClose: () => void }) {
           <MascotFace className="size-10" />
         </span>
         <div className="min-w-0 flex-1">
-          <p className="truncate text-sm font-bold text-white">クロマ<span className="ml-2 text-xs font-normal text-cyan-200">エビスソフト AI広報</span></p>
+          <p className="truncate text-sm font-bold text-white">{jaNode("クロマ")}<span className="ml-2 text-xs font-normal text-cyan-200">{jaNode("エビスソフト AI広報")}</span></p>
           <p className="truncate text-xs text-slate-400">
-            {thinking ? "調べています…" : "サイトの内容をご案内します"}
+            {jaNode(thinking ? "調べています…" : "サイトの内容をご案内します")}
           </p>
         </div>
         <button
@@ -222,9 +222,7 @@ export default function AssistantPanel({ onClose }: { onClose: () => void }) {
                     href="/contact"
                     onClick={onClose}
                     className="mt-1.5 inline-flex items-center gap-1.5 rounded-md border border-brand/40 bg-brand/10 px-3 py-1 text-[11px] font-semibold text-brand-light transition-colors hover:bg-brand/20"
-                  >
-                    お問い合わせへ
-                    <Icon name="arrowRight" className="size-3" />
+                  >{jaNode("お問い合わせへ")}<Icon name="arrowRight" className="size-3" />
                   </Link>
                 ) : null}
               </div>
@@ -260,7 +258,7 @@ export default function AssistantPanel({ onClose }: { onClose: () => void }) {
             disabled={thinking}
             className="shrink-0 rounded-full border border-brand/20 bg-white/5 px-3 py-1 text-[11px] whitespace-nowrap text-slate-400 transition-colors hover:border-brand/40 hover:text-brand-light disabled:opacity-40"
           >
-            {q}
+            {jaNode(q)}
           </button>
         ))}
       </div>
@@ -291,9 +289,7 @@ export default function AssistantPanel({ onClose }: { onClose: () => void }) {
         </button>
       </form>
 
-      <p className="border-t border-brand/20 px-4 py-2 text-[10px] leading-relaxed text-slate-500">
-        このサイトの掲載内容と、Web・AIの用語解説だけを根拠に回答します。それ以外は答えません。
-      </p>
+      <p className="border-t border-brand/20 px-4 py-2 text-[10px] leading-relaxed text-slate-500">{jaNode("このサイトの掲載内容と、Web・AIの用語解説だけを根拠に回答します。それ以外は答えません。")}</p>
     </div>
   );
 }

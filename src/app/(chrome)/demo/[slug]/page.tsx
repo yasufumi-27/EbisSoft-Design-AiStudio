@@ -3,7 +3,7 @@ import { socialMetadata } from "@/lib/socialMetadata";
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { ja } from "@/lib/typography";
+import { ja, jaNode } from "@/lib/typography";
 
 import { JsonLd } from "@/components/JsonLd";
 import { breadcrumbJsonLd, capabilityJsonLd, faqJsonLd, webPageJsonLd } from "@/lib/jsonld";
@@ -124,10 +124,9 @@ export default async function DemoDetailPage({
         <p className="mt-5 max-w-2xl text-sm leading-relaxed text-slate-300">{ja(cap.impact)}</p>
         <div className="mt-7 flex flex-wrap items-center gap-3">
           <span className="font-display inline-flex items-center gap-2 rounded-none border border-gold/40 bg-gold/10 px-3 py-1.5 text-xs font-bold tracking-wider text-gold-light">
-            <Icon name="bolt" className="size-3.5" />
-            このデモの実装時間 {cap.buildTime}
+            <Icon name="bolt" className="size-3.5" />{jaNode("このデモの実装時間 ")}{jaNode(cap.buildTime)}
           </span>
-          <span className="text-xs text-slate-500">AIを活用した制作体制で構築</span>
+          <span className="text-xs text-slate-500">{jaNode("AIを活用した制作体制で構築")}</span>
         </div>
         <div className="mt-8 flex flex-wrap gap-3">
           <ButtonLink href="/contact" withArrow>
@@ -150,9 +149,9 @@ export default async function DemoDetailPage({
           <div className={`dp-scope dp-${proposal.id} p-4 sm:p-6`}>
             <p className="dp-credit">
               <b>
-                DESIGN {proposal.no} / {proposal.name}
+                DESIGN {jaNode(proposal.no)} / {jaNode(proposal.name)}
               </b>
-              <span>{proposal.jp}｜{proposal.note}</span>
+              <span>{jaNode(proposal.jp)}｜{jaNode(proposal.note)}</span>
             </p>
             <DemoLoader slug={cap.slug} />
           </div>
@@ -190,12 +189,11 @@ export default async function DemoDetailPage({
         <div className="ai-facts mt-12" data-reveal>
           <article>
             <span>COST</span>
-            <b>{plan.price}</b>
+            <b>{jaNode(plan.price)}</b>
             <p className="speakable">
               {ja(`サイト制作に含めてご依頼いただく場合の「${plan.name}」プランが目安です。`)}
             </p>
-            <Link prefetch={false} href="/request#pricing" className="ai-flight-more">
-              3プランの料金表 <span aria-hidden>↗</span>
+            <Link prefetch={false} href="/request#pricing" className="ai-flight-more">{jaNode("3プランの料金表 ")}<span aria-hidden>↗</span>
             </Link>
           </article>
 
@@ -209,7 +207,7 @@ export default async function DemoDetailPage({
 
           <article>
             <span>VARIABLES</span>
-            <b>金額が変わる要素</b>
+            <b>{jaNode("金額が変わる要素")}</b>
             <ul>
               {cap.costFactors.map((f) => (
                 <li key={f}>{ja(f)}</li>
@@ -229,7 +227,7 @@ export default async function DemoDetailPage({
         <div className="ai-facts mt-12" data-reveal>
           {cap.businessValue.map((v, i) => (
             <article key={v.title}>
-              <span>0{i + 1}</span>
+              <span>0{jaNode(i + 1)}</span>
               <b>{ja(v.title)}</b>
               <p className="speakable">{ja(v.body)}</p>
             </article>
@@ -242,7 +240,7 @@ export default async function DemoDetailPage({
         <div className="ai-facts" data-reveal>
           <article>
             <span>CAN DO</span>
-            <b>できること</b>
+            <b>{jaNode("できること")}</b>
             <ul>
               {cap.bullets.map((x) => (
                 <li key={x} className="speakable">
@@ -254,7 +252,7 @@ export default async function DemoDetailPage({
 
           <article>
             <span>WHO FOR</span>
-            <b>こんな企業に</b>
+            <b>{jaNode("こんな企業に")}</b>
             <ul>
               {cap.useCases.map((x) => (
                 <li key={x}>{ja(x)}</li>
@@ -264,10 +262,10 @@ export default async function DemoDetailPage({
 
           <article>
             <span>STACK</span>
-            <b>使用する技術</b>
+            <b>{jaNode("使用する技術")}</b>
             <ul className="ai-facts-tags">
               {cap.tech.map((x) => (
-                <li key={x}>{x}</li>
+                <li key={x}>{jaNode(x)}</li>
               ))}
             </ul>
           </article>

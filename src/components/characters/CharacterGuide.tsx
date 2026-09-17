@@ -1,3 +1,4 @@
+import { jaNode } from "@/lib/typography";
 /* eslint-disable @next/next/no-img-element -- Prebuilt responsive assets support static hosting. */
 import Link from "next/link";
 import type { ReactNode } from "react";
@@ -32,10 +33,10 @@ export function CharacterGuide({ character, children, title, href, linkLabel, co
       {!compact && <span className={styles.artLabel} aria-hidden="true">{person.en}</span>}
     </div>
     <div className={styles.copy}>
-      <p className={styles.byline}><span>{person.role}</span><b>{person.name}</b><i aria-hidden="true"/></p>
-      {title && <Heading>{title}</Heading>}
-      <div className={styles.message}>{children}</div>
-      {href && linkLabel && <Link prefetch={false} href={href} className={styles.link}>{linkLabel}<span aria-hidden="true">↗</span></Link>}
+      <p className={styles.byline}><span>{jaNode(person.role)}</span><b>{jaNode(person.name)}</b><i aria-hidden="true"/></p>
+      {title && <Heading>{jaNode(title)}</Heading>}
+      <div className={styles.message}>{jaNode(children)}</div>
+      {href && linkLabel && <Link prefetch={false} href={href} className={styles.link}>{jaNode(linkLabel)}<span aria-hidden="true">↗</span></Link>}
     </div>
   </aside>;
 }

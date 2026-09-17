@@ -6,7 +6,7 @@ import { BASE_NODES, DEMO_META, OUTCOME_NOTE, type Industry } from "@/lib/showca
 import { demoPropsFor } from "@/lib/demoProps";
 import { LazyDemo } from "@/components/showcase/LazyDemo";
 import { Icon } from "@/components/ui/icons";
-import { ja } from "@/lib/typography";
+import { ja, jaNode } from "@/lib/typography";
 
 /**
  * 職種別デモサイトの本体。
@@ -42,7 +42,7 @@ export function ShowcaseBody({
         <div className="ai-facts mt-8">
           {industry.challenges.map((c, i) => (
             <article key={c}>
-              <span>ISSUE_0{i + 1}</span>
+              <span>ISSUE_0{jaNode(i + 1)}</span>
               <p>{ja(c)}</p>
             </article>
           ))}
@@ -100,13 +100,13 @@ export function ShowcaseBody({
 
         <div className="ai-facts ai-facts-2 mt-8">
           <article>
-            <span>3D / 表示する対象</span>
+            <span>{jaNode("3D / 表示する対象")}</span>
             <b>{ja(industry.product.name)}</b>
             <p>{ja(industry.product.note)}</p>
           </article>
 
           <article>
-            <span>連携先システム</span>
+            <span>{jaNode("連携先システム")}</span>
             <ul>
               {[...BASE_NODES, ...industry.systems].map((s) => (
                 <li key={s.key}>{ja(s.label)}</li>
@@ -115,7 +115,7 @@ export function ShowcaseBody({
           </article>
 
           <div className="panel overflow-hidden lg:col-span-2">
-            <p className="eyebrow px-6 pt-6 pb-4">扱うデータ（システム連携デモの中身）</p>
+            <p className="eyebrow px-6 pt-6 pb-4">{jaNode("扱うデータ（システム連携デモの中身）")}</p>
             <div className="overflow-x-auto">
               <table className="w-full min-w-[32rem] border-collapse text-left text-sm">
                 <thead>

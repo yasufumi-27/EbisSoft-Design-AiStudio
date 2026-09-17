@@ -1,125 +1,51 @@
-import { Children, Fragment, cloneElement, isValidElement } from "react";
+import { Children, Fragment, createElement, cloneElement, isValidElement } from "react";
+import { Parser, jaModel } from "budoux";
 
-/**
- * 日本語の組版ヘルパー。
- *
- * ブラウザは日本語を「どの文字の間でも折り返してよい」と扱うため、放っておくと
- * 「チャット／ボット」「従／来」「いた／だけます」のように語の途中で切れます。
- * 読み手には誤字のように見えるので、文章を語のまとまりに切り、
- * それぞれを .nb で包んで内部で折り返さないようにします（CSSは globals.css）。
- *
- * CSS の `word-break: auto-phrase`（文節での折り返し）は当てにできません。
- * `CSS.supports()` は true を返すのに、実際の折り返し位置は何も変わらず、
- * カタカナすら「ソフトウェ／ア」と割れることを実測で確認しています（2026-08-03）。
- * そのため、どこで切ってよいかはここ（サーバー側）で決めます。
- *
- * - サーバー側で組み立てるだけなので、クライアントJSは増えません。
- * - 文字は一切足さない（U+2060 等を挟まない）ため、コピー・読み上げ・
- *   検索エンジンの読み取りには影響しません。
- */
+// The same bundled model runs during export and hydration, including Safari.
+// Do not use browser-dependent Intl segmentation or split at a character count.
+const parser = new Parser(jaModel);
 
-/**
- * 語のまとまり（おおよその文節）。左から順に試されるので、長いものを先に置くこと。
- *
- * 日本語は「自立語（漢字・カタカナ・英数字）＋付属語（ひらがな）」で1つの塊になるため、
- * 自立語のうしろに続くひらがなを、その語に含めています。
- * 「制作期間は」「開発しています」「お問い合わせください」のように、
- * 読むときに息継ぎする単位でだけ改行されるようになります。
- *
- * 1. スラッシュで並べた略語（SEO / AEO / LLMO、BLE / Wi-Fi / MQTT）。
- *    区切りの前後で改行されると「（AEO /」で行が終わり「LLMO）」だけが次の行に残る。
- * 2. ハイフン・ドット・スラッシュでつながる英数字（Wi-Fi / N-gram / llms.txt / Three.js）。
- * 3. カタカナ語（前後に続く英数字も一続き。AIチャットボット・PWA対応の「AI」など）。
- * 4. 数量と単位（298,000円／約1/3／最短5日／3〜4週間／15領域）。
- * 5. 漢字（熟語・送り仮名つき）。
- * 6. ひらがなだけの語（ください・いただけます・そのもの）。
- * 7. 英数字（上のどれにも当てはまらないもの）。
- */
-const CHUNK = new RegExp(
-  [
-    "[A-Za-z][A-Za-z0-9+#]*(?: / [A-Za-z0-9+#]+)+",
-    "[A-Za-z][A-Za-z0-9+#]*(?:[-./][A-Za-z0-9+#]+)+",
-    "[A-Za-z0-9]*[ァ-ヺー]+[A-Za-z0-9]*[ぁ-ゖ]*",
-    "[0-9][0-9,./〜～-]*[一-鿿々]{0,3}[ぁ-ゖ]*",
-    "[一-鿿々]+[ぁ-ゖ]*",
-    "[ぁ-ゖ]+",
-    "[A-Za-z0-9]+[ぁ-ゖ]*",
-  ].join("|"),
-  "g",
-);
+// Editorial terms and compound endings that the general model can split.
+const KEEP = /そのもの|その日|システムとも|すなわち|手がかり|間取り|に対して|に関する|を通じて|切り出し|まるごと|なくす|その場しのぎ|障がい|として|について|によって|による|により|という|といった|となり|にくい|にくく|もとづく|切り替[えわ][ぁ-ゖ]*|組み込[みむん][ぁ-ゖ]*|問い合わ[せす][ぁ-ゖ]*|打ち合わせ|取り扱[いうわ][ぁ-ゖ]*|エビスソフト|コンフィギュレーター/g;
+const widthOf = (text: string) => [...text].reduce((n, c) => n + (/[\x20-\x7e]/.test(c) ? 0.5 : 1), 0);
 
-/**
- * ひとまとまりの上限（全角の文字数に換算）。
- *
- * これを超える長さを折り返し禁止にすると、狭い画面のカードで行から溢れます。
- * 超えたぶんは次のまとまりへ送るので、長い語は「なるべく後ろで」割れます。
- */
-const MAX_WIDTH = 9;
-
-/** 見た目の幅（全角＝1、半角＝0.5）。 */
-function widthOf(char: string) {
-  return /[\x20-\x7e]/.test(char) ? 0.5 : 1;
-}
-
-/** 先頭から MAX_WIDTH に収まる文字数（最低1文字）。 */
-function takeFit(word: string) {
-  let width = 0;
-  for (let i = 0; i < word.length; i++) {
-    width += widthOf(word[i]);
-    if (width > MAX_WIDTH) return Math.max(1, i);
+export function japanesePhrases(text: string): string[] {
+  const breaks = new Set<number>();
+  let offset = 0;
+  for (const phrase of parser.parse(text)) {
+    offset += phrase.length;
+    if (offset < text.length) breaks.add(offset);
   }
-  return word.length;
-}
-
-/** 文字列を「語のまとまり」に切り、折り返し禁止の span で包んで返します。 */
-export function ja(text: string): React.ReactNode {
-  if (!text) return text;
-
-  const parts: React.ReactNode[] = [];
-  let last = 0;
-  let match: RegExpExecArray | null;
-  CHUNK.lastIndex = 0;
-
-  while ((match = CHUNK.exec(text)) !== null) {
-    if (match.index > last) parts.push(text.slice(last, match.index));
-    // 長すぎるまとまりは、収まる分だけを固定して残りを次へ送る
-    let rest = match[0];
-    let offset = match.index;
-    while (rest.length > 0) {
-      const fit = takeFit(rest);
-      const word = rest.slice(0, fit);
-      // 1文字は割れようがないので、包まずそのまま置く（HTMLを無駄に増やさない）
-      parts.push(
-        word.length > 1 ? (
-          <span key={`${offset}-${word}`} className="nb">
-            {word}
-          </span>
-        ) : (
-          word
-        ),
-      );
-      rest = rest.slice(fit);
-      offset += fit;
+  // Long compound technical terms may break at their component boundary,
+  // never after an arbitrary number of characters.
+  for (const match of text.matchAll(/(?:Web内|商品)(?=アニメーション|カスタマイズ)|アニメーション(?=ライブラリ|制作)|プライバシー(?=ポリシー)|デモサイトを(?=のぞいて)/g)) {
+    breaks.add(match.index + match[0].length);
+  }
+  for (const match of text.matchAll(KEEP)) {
+    for (const position of breaks) {
+      if (position > match.index && position < match.index + match[0].length) breaks.delete(position);
     }
-    last = match.index + match[0].length;
   }
+  const points = [0, ...[...breaks].sort((a, b) => a - b), text.length];
+  const phrases = points.slice(1).map((end, i) => text.slice(points[i], end));
+  const last = phrases.at(-1);
+  if (last && phrases.length > 1 && widthOf(last) <= 3 && widthOf(phrases.at(-2)! + last) <= 12) {
+    phrases.splice(-2, 2, phrases.at(-2)! + last);
+  }
+  return phrases;
+}
 
-  // 守る語が1つもなければ、余計なノードを作らずそのまま返す
-  if (parts.length === 0) return text;
-  if (last < text.length) parts.push(text.slice(last));
-
-  /* 全体をひとつの span にまとめる。
-     ボタンのように親が flex（gap つき）だと、切り分けた語がそれぞれ flex の子になり、
-     語と語のあいだすべてに gap ぶんの隙間が空いてしまうため
-     （「AI活用の中身を見る」で 8px × 3 = 24px の無駄な空白が入っていた）。
-     display は inline なので、文章の流し込みと折り返しには影響しない。 */
-  return (
-    <span className="ja">
-      {parts.map((p, i) => (
-        <Fragment key={i}>{p}</Fragment>
-      ))}
-    </span>
-  );
+/** Keep Japanese phrases together, with real break opportunities between them.
+ * No invisible characters are added: copying, search and screen readers retain
+ * the original text. CSS permits emergency wrapping in unusually narrow boxes.
+ */
+export function ja(text: string): React.ReactNode {
+  if (!/[\p{Script=Han}\p{Script=Hiragana}\p{Script=Katakana}]/u.test(text)) return text;
+  // A neutral inline custom element avoids existing decorative span selectors.
+  // It needs no JavaScript registration and is readable in the static HTML.
+  return createElement("j-text", { class: "ja" }, japanesePhrases(text).map((phrase, i) => (
+    <Fragment key={i}><wbr/>{phrase}</Fragment>
+  )));
 }
 
 /**
@@ -135,9 +61,9 @@ export function jaNode(node: React.ReactNode): React.ReactNode {
   if (Array.isArray(node)) {
     return Children.map(node, (child) => jaNode(child));
   }
-  if (isValidElement<{ children?: React.ReactNode; className?: string }>(node)) {
+  if (isValidElement<{ children?: React.ReactNode; className?: string; class?: string }>(node)) {
     // すでに ja() を通した部分は、二重に包まない
-    const className = node.props.className;
+    const className = node.props.className ?? node.props.class;
     if (className === "ja" || className === "nb") return node;
     const children = node.props.children;
     // 子を持たない要素（<br /> や <Icon />）はそのまま

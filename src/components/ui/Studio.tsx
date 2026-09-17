@@ -69,7 +69,7 @@ export function PageHero({
 
       <div className="studio-hero-inner">
         <div className="studio-hero-copy">
-          <p className="eyebrow">{kicker}</p>
+          <p className="eyebrow">{jaNode(kicker)}</p>
           {/* ファーストビューは reveal を使わない（JSを待たずに描画してLCPを早める） */}
           <h1>{jaNode(title)}</h1>
           {lead ? <p className="speakable studio-hero-lead">{jaNode(lead)}</p> : null}
@@ -82,13 +82,13 @@ export function PageHero({
                   href={a.href}
                   className={`ai-btn ${a.primary ? "ai-btn-solid" : "ai-btn-line"} studio-btn-lg`}
                 >
-                  {a.label} <span aria-hidden>↗</span>
+                  {jaNode(a.label)} <span aria-hidden>↗</span>
                 </Link>
               ))}
             </div>
           ) : null}
 
-          {note ? <p className="studio-hero-note">{note}</p> : null}
+          {note ? <p className="studio-hero-note">{jaNode(note)}</p> : null}
         </div>
 
         <CharacterStage character={/^(emb|co-|req|contact)/.test(figure) ? "ebisu" : "chroma"} figure={figure}/>
@@ -133,22 +133,22 @@ export function FlightList({
   return (
     <section className="ai-flight studio-flight">
       <header>
-        <span>{label}</span>
-        <b>{count ?? `SCROLL / 01—0${items.length}`}</b>
+        <span>{jaNode(label)}</span>
+        <b>{jaNode(count ?? `SCROLL / 01—0${items.length}`)}</b>
       </header>
       {items.map((item, i) => (
         <article key={item.title} data-motion-section data-enter>
-          <div className="studio-flight-visual" data-tilt="soft"><Figure name={item.figure}/><div className="studio-flight-guide"><CharacterPortrait character={i % 2 === 0 ? "chroma" : "ebisu"} avatar decorative/><span>{i % 2 === 0 ? "クロマの注目ポイント" : "エビスさんのチェックポイント"}</span></div></div>
+          <div className="studio-flight-visual" data-tilt="soft"><Figure name={item.figure}/><div className="studio-flight-guide"><CharacterPortrait character={i % 2 === 0 ? "chroma" : "ebisu"} avatar decorative/><span>{jaNode(i % 2 === 0 ? "クロマの注目ポイント" : "エビスさんのチェックポイント")}</span></div></div>
           <div>
             <p className="ai-flight-label">
               <b>{String(i + 1).padStart(2, "0")}</b>
-              {item.en}
+              {jaNode(item.en)}
             </p>
             <h2>{jaNode(item.title)}</h2>
             <p>{jaNode(item.body)}</p>
             {item.href ? (
               <Link prefetch={false} href={item.href} className="ai-flight-more">
-                {item.more ?? "くわしく見る"} <span aria-hidden>↗</span>
+                {jaNode(item.more ?? "くわしく見る")} <span aria-hidden>↗</span>
               </Link>
             ) : null}
           </div>
@@ -191,26 +191,26 @@ export function ModuleBoard({
   return (
     <section className="ai-console studio-board" data-motion-section>
       <div data-enter>
-        <p className="ai-console-label">{label}</p>
+        <p className="ai-console-label">{jaNode(label)}</p>
         <h2 data-enter>{jaNode(title)}</h2>
         {lead ? <p>{jaNode(lead)}</p> : null}
-        <div className="studio-board-guide"><CharacterPortrait character="chroma" avatar/><span>クロマと、できることをチェック。</span></div>
+        <div className="studio-board-guide"><CharacterPortrait character="chroma" avatar/><span>{jaNode("クロマと、できることをチェック。")}</span></div>
       </div>
       <div className="ai-console-grid" data-enter>
         {items.map((m, i) => {
           const cell = (
             <article>
               <span>
-                {prefix}_{String(i + 1).padStart(2, "0")}
+                {jaNode(prefix)}_{String(i + 1).padStart(2, "0")}
               </span>
               <i aria-hidden />
               <b>{jaNode(m.title)}</b>
-              <small>{m.note ?? "READY"}</small>
+              <small>{jaNode(m.note ?? "READY")}</small>
             </article>
           );
           return m.href ? (
             <Link prefetch={false} key={m.title} href={m.href}>
-              {cell}
+              {jaNode(cell)}
             </Link>
           ) : (
             <div key={m.title}>{cell}</div>
@@ -231,8 +231,8 @@ export function StatRow({ items }: { items: { value: string; label: string }[] }
     <section className="studio-stats" data-motion-section data-enter>
       {items.map((s) => (
         <div key={s.label}>
-          <b>{s.value}</b>
-          <span>{s.label}</span>
+          <b>{jaNode(s.value)}</b>
+          <span>{jaNode(s.label)}</span>
         </div>
       ))}
     </section>
@@ -263,14 +263,14 @@ export function ClosingCta({
         <i />
       </div>
       <h2>{jaNode(title)}</h2>
-      {lead ? <p>{lead}</p> : null}
+      {lead ? <p>{jaNode(lead)}</p> : null}
       <div className="studio-actions">
         <Link prefetch={false} href={action.href} className="ai-btn ai-btn-solid studio-btn-lg">
-          {action.label} <span aria-hidden>↗</span>
+          {jaNode(action.label)} <span aria-hidden>↗</span>
         </Link>
         {secondary ? (
           <Link prefetch={false} href={secondary.href} className="ai-btn ai-btn-line studio-btn-lg">
-            {secondary.label} <span aria-hidden>↗</span>
+            {jaNode(secondary.label)} <span aria-hidden>↗</span>
           </Link>
         ) : null}
       </div>

@@ -25,7 +25,7 @@ import { ButtonLink } from "@/components/ui/Button";
 import { ColumnBody } from "@/components/columns/ColumnBody";
 import { AuthorBox } from "@/components/columns/AuthorBox";
 import { ContactCta } from "@/components/sections/ContactCta";
-import { ja } from "@/lib/typography";
+import { ja, jaNode } from "@/lib/typography";
 
 // 静的書き出し（GitHub Pages / さくら）に対応するため、存在するスラッグのみ生成する
 export const dynamicParams = false;
@@ -132,7 +132,7 @@ export default async function ColumnPage({ params }: { params: Promise<{ slug: s
 
               {/* 結論ファーストの要約。AI Overviews・音声回答の抜き出し先になる部分 */}
               <div className="ai-article-summary panel panel-corners">
-                <p className="eyebrow">ANSWER / 結論</p>
+                <p className="eyebrow">{jaNode("ANSWER / 結論")}</p>
                 <p className="ai-article-q">{ja(`Q. ${column.question}`)}</p>
                 <p className="speakable ai-article-a">{ja(column.answer)}</p>
               </div>
@@ -148,7 +148,7 @@ export default async function ColumnPage({ params }: { params: Promise<{ slug: s
             <div className="ai-article min-w-0 max-w-3xl">
               {/* 目次（モバイルでは本文の前、PCでは右に固定表示） */}
               <nav aria-label="目次" className="ai-toc panel mb-10 p-5 lg:hidden">
-                <p className="eyebrow mb-3">INDEX / 目次</p>
+                <p className="eyebrow mb-3">{jaNode("INDEX / 目次")}</p>
                 <ol>
                   {toc.map((h, i) => (
                     <li key={h.id}>
@@ -210,7 +210,7 @@ export default async function ColumnPage({ params }: { params: Promise<{ slug: s
             {/* PC用の目次。スクロールに追従させ、長い記事でも現在地を見失わないようにする */}
             <aside className="hidden lg:block">
               <nav aria-label="目次" className="ai-toc panel sticky top-24 p-5">
-                <p className="eyebrow mb-3">INDEX / 目次</p>
+                <p className="eyebrow mb-3">{jaNode("INDEX / 目次")}</p>
                 <ol>
                   {toc.map((h, i) => (
                     <li key={h.id}>

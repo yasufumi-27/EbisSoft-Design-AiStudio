@@ -1,4 +1,5 @@
 "use client";
+import { jaNode } from "@/lib/typography";
 
 import { useEffect, useMemo, useRef, useState } from "react";
 import * as THREE from "three";
@@ -759,26 +760,26 @@ export default function DemoAr({
 
           {/* 実寸の表示 */}
           <div className="pointer-events-none absolute top-3 left-3 rounded-lg border border-white/10 bg-ink/75 px-3 py-2 backdrop-blur">
-            <p className="text-xs font-bold text-white">{current.name}</p>
+            <p className="text-xs font-bold text-white">{jaNode(current.name)}</p>
             <p className="font-display mt-0.5 text-[11px] text-brand-light tabular-nums">
-              W{w} × D{d} × H{h} mm
+              W{jaNode(w)} × D{jaNode(d)} × H{jaNode(h)} mm
             </p>
             {current.price > 0 ? (
               <p className="mt-0.5 text-[11px] text-gold-light">
-                ¥{current.price.toLocaleString()}
+                ¥{jaNode(current.price.toLocaleString())}
               </p>
             ) : null}
           </div>
 
           {/* モードごとの操作ヒント */}
           <p className="pointer-events-none absolute bottom-3 left-1/2 -translate-x-1/2 rounded-full border border-white/10 bg-ink/70 px-3 py-1 text-center text-[11px] text-slate-300 backdrop-blur">
-            {mode === "camera"
+            {jaNode(mode === "camera"
               ? gyro === "active"
                 ? "端末を動かすと見回せます／ドラッグで商品を回転"
                 : "ドラッグで見回す／下のボタンで商品を回転"
               : mode === "xr"
                 ? "床に置かれています"
-                : "ドラッグで回転・スライダーで距離"}
+                : "ドラッグで回転・スライダーで距離")}
           </p>
 
           {overlay ? (
@@ -786,13 +787,9 @@ export default function DemoAr({
               type="button"
               onClick={stopCamera}
               className="absolute top-3 right-3 rounded-lg border border-white/20 bg-ink/75 px-3 py-1.5 text-[11px] font-semibold text-white backdrop-blur"
-            >
-              終了
-            </button>
+            >{jaNode("終了")}</button>
           ) : human ? (
-            <p className="pointer-events-none absolute right-3 bottom-3 rounded-full border border-brand/30 bg-ink/70 px-3 py-1 text-[11px] text-brand-light backdrop-blur">
-              比較用シルエット：身長170cm
-            </p>
+            <p className="pointer-events-none absolute right-3 bottom-3 rounded-full border border-brand/30 bg-ink/70 px-3 py-1 text-[11px] text-brand-light backdrop-blur">{jaNode("比較用シルエット：身長170cm")}</p>
           ) : null}
         </div>
       </DemoStage>
@@ -805,14 +802,12 @@ export default function DemoAr({
           </p>
 
           {xrSupported === null || cameraSupported === null ? (
-            <p className="mt-2 text-xs text-slate-500">対応状況を確認しています…</p>
+            <p className="mt-2 text-xs text-slate-500">{jaNode("対応状況を確認しています…")}</p>
           ) : (
             <>
               {xrSupported ? (
                 <>
-                  <p className="mt-2 text-xs leading-relaxed text-slate-300">
-                    この端末はWebXRに対応しています。床を検出して、実物大で置けます。
-                  </p>
+                  <p className="mt-2 text-xs leading-relaxed text-slate-300">{jaNode("この端末はWebXRに対応しています。床を検出して、実物大で置けます。")}</p>
                   <button
                     type="button"
                     onClick={() =>
@@ -820,18 +815,10 @@ export default function DemoAr({
                     }
                     className="btn btn-primary mt-3 inline-flex h-10 w-full items-center justify-center text-sm"
                   >
-                    <Icon name="ar" className="size-4" />
-                    ARで実物大表示
-                  </button>
+                    <Icon name="ar" className="size-4" />{jaNode("ARで実物大表示")}</button>
                 </>
               ) : (
-                <p className="mt-2 text-xs leading-relaxed text-slate-300">
-                  この端末はWebXRに非対応ですが、
-                  <strong className="font-bold text-white">
-                    カメラ映像に重ねる方式でARを体験できます
-                  </strong>
-                  （iPhone / iPad / Mac の Safari でも動作します）。
-                </p>
+                <p className="mt-2 text-xs leading-relaxed text-slate-300">{jaNode("この端末はWebXRに非対応ですが、")}<strong className="font-bold text-white">{jaNode("カメラ映像に重ねる方式でARを体験できます")}</strong>{jaNode("（iPhone / iPad / Mac の Safari でも動作します）。")}</p>
               )}
 
               {cameraSupported && mode !== "camera" ? (
@@ -844,31 +831,27 @@ export default function DemoAr({
                       : "bg-gradient-to-r from-brand to-accent text-ink"
                   }`}
                 >
-                  <Icon name="ar" className="size-4" />
-                  カメラに重ねて表示
-                </button>
+                  <Icon name="ar" className="size-4" />{jaNode("カメラに重ねて表示")}</button>
               ) : null}
 
               {!cameraSupported && !xrSupported ? (
-                <p className="mt-2 text-xs text-slate-500">
-                  カメラも利用できないため、実寸プレビューのみ表示しています。
-                </p>
+                <p className="mt-2 text-xs text-slate-500">{jaNode("カメラも利用できないため、実寸プレビューのみ表示しています。")}</p>
               ) : null}
             </>
           )}
 
           {message ? (
             <p className="mt-3 rounded-lg border border-amber-400/30 bg-amber-400/10 px-3 py-2 text-[11px] leading-relaxed text-amber-100">
-              {message}
+              {jaNode(message)}
             </p>
           ) : null}
         </div>
 
         {models && models.length > 0 && productLabel ? (
           <p className="rounded-lg border border-gold/25 bg-gold/[0.06] px-3 py-2 text-xs leading-relaxed text-gold-light">
-            {`この職種向けに組み立てた${models.length}種類（${models
+            {jaNode(`この職種向けに組み立てた${models.length}種類（${models
               .map((m) => INDUSTRY_MODEL_LABEL[m])
-              .join("・")}）を、実寸に直して置いています。実案件では、お客様の「${productLabel}」の3Dデータに差し替えます。`}
+              .join("・")}）を、実寸に直して置いています。実案件では、お客様の「${productLabel}」の3Dデータに差し替えます。`)}
           </p>
         ) : null}
 
@@ -923,9 +906,7 @@ export default function DemoAr({
           </div>
         )}
 
-        <p className="text-xs leading-relaxed text-slate-500">
-          モデルはすべて実寸（mm）で構築しています。カメラに重ねたときも、視野角から逆算した実寸で描画しています。
-        </p>
+        <p className="text-xs leading-relaxed text-slate-500">{jaNode("モデルはすべて実寸（mm）で構築しています。カメラに重ねたときも、視野角から逆算した実寸で描画しています。")}</p>
       </div>
     </div>
   );

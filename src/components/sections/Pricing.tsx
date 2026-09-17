@@ -3,7 +3,7 @@ import { ButtonLink } from "@/components/ui/Button";
 import { Icon } from "@/components/ui/icons";
 import { plans } from "@/lib/content";
 import { EmbeddedPricingNote } from "@/components/sections/EmbeddedPricingNote";
-import { ja } from "@/lib/typography";
+import { ja, jaNode } from "@/lib/typography";
 
 /**
  * 料金プラン。
@@ -30,13 +30,13 @@ export function Pricing() {
           return (
             <article key={plan.name} className="ai-plan" data-featured={featured ? "" : undefined}>
               <p className="ai-plan-index">
-                <span>PLAN_0{i + 1}</span>
+                <span>PLAN_0{jaNode(i + 1)}</span>
                 {featured ? <b>RECOMMENDED</b> : null}
               </p>
 
               <h3>{ja(plan.name)}</h3>
-              <p className="ai-plan-note">{plan.priceNote}</p>
-              <p className="ai-plan-price">{plan.price}</p>
+              <p className="ai-plan-note">{jaNode(plan.priceNote)}</p>
+              <p className="ai-plan-price">{jaNode(plan.price)}</p>
               <p className="ai-plan-desc">{ja(plan.description)}</p>
 
               <ul className="ai-plan-features">

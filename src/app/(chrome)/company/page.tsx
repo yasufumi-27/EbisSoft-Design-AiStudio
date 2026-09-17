@@ -7,7 +7,7 @@ import { siteConfig } from "@/lib/site";
 import { author, hasNamedAuthor, yearsInBusiness } from "@/lib/author";
 import { Breadcrumbs } from "@/components/site/Breadcrumbs";
 import { PageHero, FlightList, StatRow, ClosingCta } from "@/components/ui/Studio";
-import { ja } from "@/lib/typography";
+import { ja, jaNode } from "@/lib/typography";
 
 const title = "会社概要";
 const description = `${siteConfig.legalName}の会社概要です。所在地は${siteConfig.contact.address.region}${siteConfig.contact.address.locality}、京都商工会議所所属。AIを開発プロセスにも成果物にも使うソフトウェア開発事業者として、Web制作と組み込みソフトウェア開発の両方を手がけています。`;
@@ -143,11 +143,8 @@ export default function CompanyPage() {
       <section className="ai-console studio-board">
         <div data-reveal>
           <p className="ai-console-label">PROFILE</p>
-          <h2>会社概要</h2>
-          <p>
-            連絡先とアクセスは、お問い合わせページにまとめています。掲載している電話番号と
-            メールアドレスは、代表者個人ではなく社員が対応する窓口です。
-          </p>
+          <h2>{jaNode("会社概要")}</h2>
+          <p>{jaNode("連絡先とアクセスは、お問い合わせページにまとめています。掲載している電話番号と メールアドレスは、代表者個人ではなく社員が対応する窓口です。")}</p>
         </div>
         <div data-reveal>
           <table className="ai-table panel w-full">

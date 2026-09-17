@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { Container } from "@/components/ui/Container";
-import { ja } from "@/lib/typography";
+import { ja, jaNode } from "@/lib/typography";
 
 export type Crumb = { name: string; path: string };
 
@@ -28,7 +28,7 @@ export function Breadcrumbs({ items }: { items: Crumb[] }) {
                 ) : (
                   <>
                     <Link prefetch={false} href={item.path} className="transition-colors">
-                      {item.name}
+                      {jaNode(item.name)}
                     </Link>
                     <span aria-hidden>/</span>
                   </>

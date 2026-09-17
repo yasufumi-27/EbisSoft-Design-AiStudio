@@ -8,7 +8,7 @@ import { capabilities } from "@/lib/content";
 import { demoProposal, proposalById } from "@/lib/designProposals";
 import { Breadcrumbs } from "@/components/site/Breadcrumbs";
 import { PageHero, StatRow, ClosingCta } from "@/components/ui/Studio";
-import { ja } from "@/lib/typography";
+import { ja, jaNode } from "@/lib/typography";
 import Link from "next/link";
 
 const title = "できること（実際に動くデモ一覧）";
@@ -89,14 +89,8 @@ export default function DemoIndexPage() {
       <section id="modules" className="ai-console studio-board scroll-mt-20">
         <div data-reveal>
           <p className="ai-console-label">ALL MODULES</p>
-          <h2>
-            15の領域。
-            <br />
-            ぜんぶ触れます。
-          </h2>
-          <p>
-            カードは押すとデモに移ります。デモごとに違うデザイン案で作ってあるので、見た目の幅も同時に確かめられます。
-          </p>
+          <h2>{jaNode("15の領域。")}<br />{jaNode("ぜんぶ触れます。")}</h2>
+          <p>{jaNode("カードは押すとデモに移ります。デモごとに違うデザイン案で作ってあるので、見た目の幅も同時に確かめられます。")}</p>
         </div>
         <div className="ai-console-grid" data-reveal>
           {capabilities.map((c, i) => {
@@ -108,7 +102,7 @@ export default function DemoIndexPage() {
                   <i aria-hidden />
                   <b>{ja(c.title)}</b>
                   <small style={{ color: p.tokens.accent }}>
-                    DESIGN {p.no} / {p.name}
+                    DESIGN {jaNode(p.no)} / {jaNode(p.name)}
                   </small>
                 </article>
               </Link>

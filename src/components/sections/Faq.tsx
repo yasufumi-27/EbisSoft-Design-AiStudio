@@ -2,7 +2,7 @@ import Link from "next/link";
 
 import { Section, SectionHeading } from "@/components/ui/Section";
 import { faqs, type Faq as FaqItem } from "@/lib/content";
-import { ja } from "@/lib/typography";
+import { ja, jaNode } from "@/lib/typography";
 
 /**
  * よくある質問。JSなしの <details>/<summary> でアコーディオン化。
@@ -46,8 +46,7 @@ export function Faq({
 
       {moreHref ? (
         <p className="mt-10" data-reveal>
-          <Link prefetch={false} href={moreHref} className="ai-flight-more">
-            すべての質問を見る <span aria-hidden>↗</span>
+          <Link prefetch={false} href={moreHref} className="ai-flight-more">{jaNode("すべての質問を見る ")}<span aria-hidden>↗</span>
           </Link>
         </p>
       ) : null}

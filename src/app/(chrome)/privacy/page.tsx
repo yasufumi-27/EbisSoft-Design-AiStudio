@@ -6,7 +6,7 @@ import { siteConfig } from "@/lib/site";
 import { Section } from "@/components/ui/Section";
 import { PageHero } from "@/components/ui/Studio";
 import { Breadcrumbs } from "@/components/site/Breadcrumbs";
-import { ja } from "@/lib/typography";
+import { ja, jaNode } from "@/lib/typography";
 
 const title = "プライバシーポリシー";
 const description = `${siteConfig.legalName}における個人情報の取り扱い、利用目的、第三者提供、アクセス解析ツールの利用についてご説明します。`;
@@ -122,25 +122,21 @@ export default function PrivacyPage() {
             ))}
 
             <section className="border-t border-brand/20 pt-8">
-              <h2 className="text-lg font-bold text-white">お問い合わせ窓口</h2>
+              <h2 className="text-lg font-bold text-white">{jaNode("お問い合わせ窓口")}</h2>
               <address className="mt-3 space-y-1 text-sm leading-relaxed text-slate-400 not-italic">
-                <p className="text-slate-200">{siteConfig.legalName}</p>
+                <p className="text-slate-200">{jaNode(siteConfig.legalName)}</p>
                 <p>
-                  〒{contact.address.postalCode} {contact.address.region}
+                  〒{jaNode(contact.address.postalCode)} {jaNode(contact.address.region)}
                   {ja(contact.address.locality)}
                   {ja(contact.address.street)}
                 </p>
-                <p>
-                  電話：
-                  <a href={`tel:${contact.telephone}`} className="hover:text-brand-light">
-                    {contact.telephoneDisplay}
+                <p>{jaNode("電話：")}<a href={`tel:${contact.telephone}`} className="hover:text-brand-light">
+                    {jaNode(contact.telephoneDisplay)}
                   </a>
-                  （{contact.openingHoursDisplay}）
+                  （{jaNode(contact.openingHoursDisplay)}）
                 </p>
-                <p>
-                  メール：
-                  <a href={`mailto:${contact.email}`} className="hover:text-brand-light">
-                    {contact.email}
+                <p>{jaNode("メール：")}<a href={`mailto:${contact.email}`} className="hover:text-brand-light">
+                    {jaNode(contact.email)}
                   </a>
                 </p>
               </address>

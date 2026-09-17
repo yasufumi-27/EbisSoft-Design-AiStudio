@@ -1,4 +1,5 @@
 "use client";
+import { jaNode } from "@/lib/typography";
 
 import dynamic from "next/dynamic";
 import { useCallback, useEffect, useState } from "react";
@@ -66,9 +67,7 @@ export function SiteAssistant() {
       {/* 吹き出し（初回の気づき用） */}
       {hint && !open ? (
         <div className="assistant-hint">
-          <button type="button" onClick={toggle} className="assistant-hint-body">
-            AI広報のクロマです！<br/>気になること、聞いてください。
-          </button>
+          <button type="button" onClick={toggle} className="assistant-hint-body">{jaNode("AI広報のクロマです！")}<br/>{jaNode("気になること、聞いてください。")}</button>
           <button
             type="button"
             onClick={dismissHint}
@@ -92,7 +91,7 @@ export function SiteAssistant() {
         className="assistant-launcher"
       >
         <PixelChroma/>
-        <span className="chroma-nameplate">クロマ<span>AI広報</span></span>
+        <span className="chroma-nameplate">{jaNode("クロマ")}<span>{jaNode("AI広報")}</span></span>
         <span className="assistant-launcher-ping" aria-hidden="true" />
       </button>
     </div>

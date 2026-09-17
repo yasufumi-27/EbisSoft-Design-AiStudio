@@ -11,7 +11,7 @@ import { PageHero } from "@/components/ui/Studio";
 import { Breadcrumbs } from "@/components/site/Breadcrumbs";
 import { AuthorBox } from "@/components/columns/AuthorBox";
 import { RelatedPages } from "@/components/sections/RelatedPages";
-import { ja } from "@/lib/typography";
+import { ja, jaNode } from "@/lib/typography";
 
 const title = "コラム｜AI活用のWeb制作を実測で解説";
 const description =
@@ -104,8 +104,7 @@ export default function ColumnsIndexPage() {
               </h2>
               {/* 質問と結論は一覧にも出す（AEO：この単位でそのまま引用される） */}
               <p className="speakable ai-index-answer">{ja(c.answer)}</p>
-              <Link prefetch={false} href={`/columns/${c.slug}`} className="ai-flight-more">
-                続きを読む <span aria-hidden>↗</span>
+              <Link prefetch={false} href={`/columns/${c.slug}`} className="ai-flight-more">{jaNode("続きを読む ")}<span aria-hidden>↗</span>
               </Link>
             </article>
           ))}

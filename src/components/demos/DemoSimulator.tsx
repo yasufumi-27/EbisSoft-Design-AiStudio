@@ -1,4 +1,5 @@
 "use client";
+import { jaNode } from "@/lib/typography";
 
 import { useMemo, useState } from "react";
 import Link from "next/link";
@@ -215,7 +216,7 @@ function WebEstimate() {
           ))}
         </ControlGroup>
 
-        <p className="-mt-3 text-[11px] text-slate-500">{kind.note}</p>
+        <p className="-mt-3 text-[11px] text-slate-500">{jaNode(kind.note)}</p>
 
         <RangeControl
           label="Pages / ページ数"
@@ -233,12 +234,10 @@ function WebEstimate() {
             </ChipButton>
           ))}
         </ControlGroup>
-        <p className="-mt-3 text-[11px] text-slate-500">{design.note}</p>
+        <p className="-mt-3 text-[11px] text-slate-500">{jaNode(design.note)}</p>
 
         <div>
-          <p className="font-display mb-2 text-[10px] font-bold tracking-[0.25em] text-slate-500 uppercase">
-            Features / 必要な機能
-          </p>
+          <p className="font-display mb-2 text-[10px] font-bold tracking-[0.25em] text-slate-500 uppercase">{jaNode("Features / 必要な機能")}</p>
           <div className="grid gap-2 sm:grid-cols-2">
             {FEATURES.map((f) => {
               const on = features.includes(f.key);
@@ -264,13 +263,12 @@ function WebEstimate() {
                   </span>
                   <span className="min-w-0">
                     <span className={`block text-xs font-bold ${on ? "text-white" : "text-slate-300"}`}>
-                      {f.label}
+                      {jaNode(f.label)}
                     </span>
-                    <span className="mt-0.5 block text-[10px] leading-snug text-slate-500">{f.hint}</span>
+                    <span className="mt-0.5 block text-[10px] leading-snug text-slate-500">{jaNode(f.hint)}</span>
                   </span>
                   <span className="ml-auto shrink-0 text-[10px] font-semibold text-slate-500 tabular-nums">
-                    +{Math.round(f.price / 10_000)}万
-                  </span>
+                    +{jaNode(Math.round(f.price / 10_000))}{jaNode("万")}</span>
                 </button>
               );
             })}
@@ -284,23 +282,20 @@ function WebEstimate() {
             </ChipButton>
           ))}
         </ControlGroup>
-        <p className="-mt-3 text-[11px] text-slate-500">{seo.note}</p>
+        <p className="-mt-3 text-[11px] text-slate-500">{jaNode(seo.note)}</p>
       </div>
 
       {/* ---------------- 結果 ---------------- */}
       <div className="space-y-5 min-w-0 lg:col-span-2">
         <DemoStage label="エビスソフト.Estimate" status="LIVE CALC">
           <div className="p-5">
-            <p className="font-display text-[10px] font-bold tracking-[0.25em] text-slate-500 uppercase">
-              Estimated Cost / 概算費用
-            </p>
+            <p className="font-display text-[10px] font-bold tracking-[0.25em] text-slate-500 uppercase">{jaNode("Estimated Cost / 概算費用")}</p>
             <p className="mt-2 text-2xl leading-tight font-bold text-white tabular-nums sm:text-[1.7rem]">
-              {yen(quote.low)}
+              {jaNode(yen(quote.low))}
               <span className="mx-1.5 text-base font-normal text-slate-500">〜</span>
-              {yen(quote.high)}
+              {jaNode(yen(quote.high))}
             </p>
-            <p className="mt-1 text-[11px] text-slate-500">
-              税別・条件による概算です（月額の目安 {yen(quote.monthly)}）
+            <p className="mt-1 text-[11px] text-slate-500">{jaNode("税別・条件による概算です（月額の目安 ")}{jaNode(yen(quote.monthly))}）
             </p>
 
             {/* 内訳の積み上げバー */}
@@ -318,34 +313,31 @@ function WebEstimate() {
               {quote.breakdown.map((b) => (
                 <li key={b.label} className="flex items-center gap-2 text-[11px]">
                   <span aria-hidden className={`size-2 rounded-full ${toneClass[b.tone]}`} />
-                  <span className="flex-1 truncate text-slate-400">{b.label}</span>
-                  <span className="font-semibold text-slate-300 tabular-nums">{yen(b.value)}</span>
+                  <span className="flex-1 truncate text-slate-400">{jaNode(b.label)}</span>
+                  <span className="font-semibold text-slate-300 tabular-nums">{jaNode(yen(b.value))}</span>
                 </li>
               ))}
             </ul>
 
             {/* 期間：AI活用の効果を「従来比」で見せる */}
             <div className="mt-5 rounded-xl border border-white/10 bg-white/[0.03] p-4">
-              <p className="font-display text-[10px] font-bold tracking-[0.25em] text-slate-500 uppercase">
-                Lead Time / 公開までの期間
-              </p>
+              <p className="font-display text-[10px] font-bold tracking-[0.25em] text-slate-500 uppercase">{jaNode("Lead Time / 公開までの期間")}</p>
               <p className="mt-2 flex items-baseline gap-2">
                 <span className="font-display text-xl font-bold text-brand-light tabular-nums">
-                  {formatWeeks(quote.weeks)}
+                  {jaNode(formatWeeks(quote.weeks))}
                 </span>
-                <span className="text-[11px] text-slate-500">
-                  従来の体制なら {formatWeeks(quote.legacyWeeks)}
+                <span className="text-[11px] text-slate-500">{jaNode("従来の体制なら ")}{jaNode(formatWeeks(quote.legacyWeeks))}
                 </span>
               </p>
               <div className="mt-3 space-y-2">
                 <div className="flex items-center gap-2">
-                  <span className="w-14 shrink-0 text-[10px] text-slate-500">従来</span>
+                  <span className="w-14 shrink-0 text-[10px] text-slate-500">{jaNode("従来")}</span>
                   <span className="h-1.5 flex-1 overflow-hidden rounded-full bg-white/5">
                     <span className="block h-full w-full rounded-full bg-slate-600" />
                   </span>
                 </div>
                 <div className="flex items-center gap-2">
-                  <span className="w-14 shrink-0 text-[10px] text-brand-light">AI活用</span>
+                  <span className="w-14 shrink-0 text-[10px] text-brand-light">{jaNode("AI活用")}</span>
                   <span className="h-1.5 flex-1 overflow-hidden rounded-full bg-white/5">
                     <span
                       className="block h-full rounded-full bg-gradient-to-r from-brand to-accent transition-all duration-500"
@@ -360,19 +352,15 @@ function WebEstimate() {
 
         {/* おすすめプランと引き継ぎ */}
         <div className="panel p-5">
-          <p className="font-display text-[10px] font-bold tracking-[0.25em] text-slate-500 uppercase">
-            Recommended / おすすめプラン
-          </p>
+          <p className="font-display text-[10px] font-bold tracking-[0.25em] text-slate-500 uppercase">{jaNode("Recommended / おすすめプラン")}</p>
           <p className="mt-2 flex items-center gap-2 text-lg font-bold text-gold-light">
             <Icon name="award" className="size-5 text-gold" />
-            {quote.plan.name}
+            {jaNode(quote.plan.name)}
           </p>
-          <p className="mt-1.5 text-[11px] leading-relaxed text-slate-400">{quote.plan.reason}</p>
+          <p className="mt-1.5 text-[11px] leading-relaxed text-slate-400">{jaNode(quote.plan.reason)}</p>
 
           <div className="mt-4 flex flex-col gap-2">
-            <Link prefetch={false} href="/contact" className="btn btn-primary inline-flex h-11 items-center justify-center px-5 text-sm">
-              この条件で相談する
-              <Icon name="arrowRight" className="size-4" />
+            <Link prefetch={false} href="/contact" className="btn btn-primary inline-flex h-11 items-center justify-center px-5 text-sm">{jaNode("この条件で相談する")}<Icon name="arrowRight" className="size-4" />
             </Link>
             <button
               type="button"
@@ -380,14 +368,12 @@ function WebEstimate() {
               className="inline-flex h-10 items-center justify-center gap-2 rounded-lg border border-white/15 bg-white/5 text-xs font-semibold text-slate-200 transition-colors hover:border-brand/50"
             >
               <Icon name={copied ? "check" : "layout"} className="size-3.5" />
-              {copied ? "診断結果をコピーしました" : "診断結果をコピー"}
+              {jaNode(copied ? "診断結果をコピーしました" : "診断結果をコピー")}
             </button>
           </div>
 
           <details className="mt-4">
-            <summary className="cursor-pointer text-[11px] text-slate-500 hover:text-slate-300">
-              問い合わせに引き継がれる内容を見る
-            </summary>
+            <summary className="cursor-pointer text-[11px] text-slate-500 hover:text-slate-300">{jaNode("問い合わせに引き継がれる内容を見る")}</summary>
             <pre className="mt-2 max-h-40 overflow-auto rounded-lg border border-white/10 bg-ink/60 p-3 text-[10px] leading-relaxed whitespace-pre-wrap text-slate-400">
               {summary}
             </pre>

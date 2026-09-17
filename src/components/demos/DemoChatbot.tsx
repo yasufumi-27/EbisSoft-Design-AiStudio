@@ -16,7 +16,7 @@ import {
   type KbDoc,
   type SearchHit,
 } from "@/lib/kb";
-import { ja } from "@/lib/typography";
+import { ja, jaNode } from "@/lib/typography";
 
 /** 知識ドキュメント数（表示用）。モジュール読み込み時に確定します。 */
 const KB_DOC_COUNT = kbDocs.length;
@@ -332,14 +332,14 @@ export default function DemoChatbot({
                             href={h.doc.href}
                             className="rounded-md border border-gold/30 bg-gold/10 px-2 py-0.5 text-[11px] text-gold-light transition-colors hover:bg-gold/20"
                           >
-                            {h.doc.source}
+                            {jaNode(h.doc.source)}
                           </Link>
                         ) : (
                           <span
                             key={h.doc.id}
                             className="rounded-md border border-white/10 bg-white/5 px-2 py-0.5 text-[11px] text-slate-400"
                           >
-                            {h.doc.source}
+                            {jaNode(h.doc.source)}
                           </span>
                         ),
                       )}
@@ -358,9 +358,8 @@ export default function DemoChatbot({
                               onClick={() => pickDate(d.value)}
                               className="rounded-lg border border-brand/40 bg-brand/10 px-3 py-2 text-xs font-semibold text-brand-light transition-colors hover:bg-brand/20"
                             >
-                              {d.value}
-                              <span className="ml-1.5 text-[10px] text-slate-500">
-                                空き{d.slots.length}
+                              {jaNode(d.value)}
+                              <span className="ml-1.5 text-[10px] text-slate-500">{jaNode("空き")}{jaNode(d.slots.length)}
                               </span>
                             </button>
                           ))}
@@ -377,7 +376,7 @@ export default function DemoChatbot({
                                 onClick={() => pickTime(t)}
                                 className="font-display rounded-lg border border-brand/40 bg-brand/10 px-3.5 py-2 text-xs font-bold text-brand-light transition-colors hover:bg-brand/20"
                               >
-                                {t}
+                                {jaNode(t)}
                               </button>
                             ),
                           )}
@@ -388,18 +387,18 @@ export default function DemoChatbot({
                         <div className="rounded-xl border border-white/10 bg-white/[0.04] p-3">
                           <dl className="space-y-1 text-xs">
                             <div className="flex gap-2">
-                              <dt className="w-12 shrink-0 text-slate-500">日時</dt>
+                              <dt className="w-12 shrink-0 text-slate-500">{jaNode("日時")}</dt>
                               <dd className="font-bold text-white">
-                                {booking.date} {booking.time}〜
+                                {jaNode(booking.date)} {jaNode(booking.time)}〜
                               </dd>
                             </div>
                             <div className="flex gap-2">
-                              <dt className="w-12 shrink-0 text-slate-500">形式</dt>
-                              <dd className="text-slate-300">オンライン（30〜60分）</dd>
+                              <dt className="w-12 shrink-0 text-slate-500">{jaNode("形式")}</dt>
+                              <dd className="text-slate-300">{jaNode("オンライン（30〜60分）")}</dd>
                             </div>
                             <div className="flex gap-2">
-                              <dt className="w-12 shrink-0 text-slate-500">費用</dt>
-                              <dd className="text-slate-300">無料</dd>
+                              <dt className="w-12 shrink-0 text-slate-500">{jaNode("費用")}</dt>
+                              <dd className="text-slate-300">{jaNode("無料")}</dd>
                             </div>
                           </dl>
                           <div className="mt-3 flex flex-wrap gap-2">
@@ -407,16 +406,12 @@ export default function DemoChatbot({
                               type="button"
                               onClick={confirmBooking}
                               className="rounded-lg bg-gradient-to-r from-brand to-accent px-4 py-2 text-xs font-bold text-ink"
-                            >
-                              この内容で予約する
-                            </button>
+                            >{jaNode("この内容で予約する")}</button>
                             <button
                               type="button"
                               onClick={startBooking}
                               className="rounded-lg border border-white/15 px-3 py-2 text-xs text-slate-400 transition-colors hover:text-white"
-                            >
-                              日時を選び直す
-                            </button>
+                            >{jaNode("日時を選び直す")}</button>
                           </div>
                         </div>
                       ) : null}
@@ -426,9 +421,7 @@ export default function DemoChatbot({
                           prefetch={false}
                           href="/contact"
                           className="inline-flex items-center gap-1.5 rounded-md border border-gold/40 bg-gold/10 px-3 py-1.5 text-[11px] font-semibold text-gold-light transition-colors hover:bg-gold/20"
-                        >
-                          事前にご要望を送っておく
-                          <Icon name="arrowRight" className="size-3" />
+                        >{jaNode("事前にご要望を送っておく")}<Icon name="arrowRight" className="size-3" />
                         </Link>
                       ) : null}
                     </div>
@@ -439,9 +432,7 @@ export default function DemoChatbot({
                       prefetch={false}
                       href="/contact"
                       className="mt-2 inline-flex items-center gap-1.5 rounded-md border border-brand/40 bg-brand/10 px-3 py-1 text-[11px] font-semibold text-brand-light transition-colors hover:bg-brand/20"
-                    >
-                      お問い合わせフォームへ
-                      <Icon name="arrowRight" className="size-3" />
+                    >{jaNode("お問い合わせフォームへ")}<Icon name="arrowRight" className="size-3" />
                     </Link>
                   ) : null}
                 </div>
@@ -527,9 +518,7 @@ export default function DemoChatbot({
       {/* ---------------- 検索プロセスの可視化 ---------------- */}
       <div className="panel space-y-4 p-5 min-w-0 lg:col-span-2">
         <div>
-          <p className="font-display text-[10px] font-bold tracking-[0.25em] text-slate-500 uppercase">
-            Retrieval / 検索プロセス
-          </p>
+          <p className="font-display text-[10px] font-bold tracking-[0.25em] text-slate-500 uppercase">{jaNode("Retrieval / 検索プロセス")}</p>
           <p className="mt-2 text-xs leading-relaxed text-slate-400">
             {ja("AIが「どの情報を根拠に答えたか」をリアルタイムで表示しています。RAG構成では、この検索結果だけを材料にして回答を生成するため、知識源にないことは答えられません。")}
           </p>
@@ -537,41 +526,38 @@ export default function DemoChatbot({
 
         <dl className="grid grid-cols-2 gap-px overflow-hidden rounded-xl border border-white/10 bg-white/5 text-center">
           <div className="bg-ink-2/80 px-3 py-3">
-            <dt className="text-[10px] text-slate-500">知識ドキュメント</dt>
+            <dt className="text-[10px] text-slate-500">{jaNode("知識ドキュメント")}</dt>
             <dd className="font-display mt-1 text-lg font-bold text-brand-light">
-              {custom ? custom.docCount : KB_DOC_COUNT}
+              {jaNode(custom ? custom.docCount : KB_DOC_COUNT)}
             </dd>
           </div>
           <div className="bg-ink-2/80 px-3 py-3">
-            <dt className="text-[10px] text-slate-500">検索時間</dt>
+            <dt className="text-[10px] text-slate-500">{jaNode("検索時間")}</dt>
             <dd className="font-display mt-1 text-lg font-bold text-brand-light">
-              {latency === null ? "—" : `${latency.toFixed(2)}ms`}
+              {jaNode(latency === null ? "—" : `${latency.toFixed(2)}ms`)}
             </dd>
           </div>
         </dl>
 
         {lastQuery ? (
           <div>
-            <p className="text-[11px] text-slate-500">
-              クエリ：<span className="text-slate-300">{lastQuery}</span>
+            <p className="text-[11px] text-slate-500">{jaNode("クエリ：")}<span className="text-slate-300">{jaNode(lastQuery)}</span>
             </p>
             <ul className="mt-3 space-y-3">
               {lastHits.length === 0 ? (
-                <li className="text-xs text-amber-200/80">
-                  一致する知識ドキュメントが見つかりませんでした。
-                </li>
+                <li className="text-xs text-amber-200/80">{jaNode("一致する知識ドキュメントが見つかりませんでした。")}</li>
               ) : (
                 lastHits.map((h, i) => (
                   <li key={h.doc.id}>
                     <div className="flex items-baseline justify-between gap-2">
                       <span className="truncate text-xs text-slate-300">
                         <span className="font-display mr-1.5 text-[10px] text-slate-600">
-                          #{i + 1}
+                          #{jaNode(i + 1)}
                         </span>
-                        {h.doc.source}
+                        {jaNode(h.doc.source)}
                       </span>
                       <span className="font-display shrink-0 text-[10px] text-brand-light tabular-nums">
-                        {h.score.toFixed(2)}
+                        {jaNode(h.score.toFixed(2))}
                       </span>
                     </div>
                     <div className="mt-1 h-1.5 overflow-hidden rounded-full bg-white/10">
@@ -585,23 +571,16 @@ export default function DemoChatbot({
                       />
                     </div>
                     <p className="mt-1 text-[10px] text-slate-600">
-                      {h.doc.category}
-                      <span className="ml-2 tabular-nums">
-                        内容語 {Math.round(h.focus * 100)}%
+                      {jaNode(h.doc.category)}
+                      <span className="ml-2 tabular-nums">{jaNode("内容語 ")}{jaNode(Math.round(h.focus * 100))}%
                       </span>
                     </p>
                   </li>
                 ))
               )}
             </ul>
-            <p className="mt-4 border-t border-white/10 pt-3 text-[11px] text-slate-500">
-              スコアが <span className="text-slate-300">{CONFIDENCE_THRESHOLD}</span> 未満のとき、
-              スコアの <span className="text-slate-300">{Math.round(FOCUS_THRESHOLD * 100)}%</span>{" "}
-              以上が内容語で説明できないとき、質問の内容語の{" "}
-              <span className="text-slate-300">{Math.round(COVERAGE_CONFIDENT * 100)}%</span>{" "}
-              以上が根拠の文書に含まれないときは、回答せず問い合わせへ誘導します。
-              「〜ますか」のような言い回しだけで点が積み上がった一致を弾くための判定です（誤答の抑制）。
-            </p>
+            <p className="mt-4 border-t border-white/10 pt-3 text-[11px] text-slate-500">{jaNode("スコアが ")}<span className="text-slate-300">{jaNode(CONFIDENCE_THRESHOLD)}</span>{jaNode(" 未満のとき、 スコアの ")}<span className="text-slate-300">{jaNode(Math.round(FOCUS_THRESHOLD * 100))}%</span>{" "}{jaNode("以上が内容語で説明できないとき、質問の内容語の")}{" "}
+              <span className="text-slate-300">{jaNode(Math.round(COVERAGE_CONFIDENT * 100))}%</span>{" "}{jaNode("以上が根拠の文書に含まれないときは、回答せず問い合わせへ誘導します。 「〜ますか」のような言い回しだけで点が積み上がった一致を弾くための判定です（誤答の抑制）。")}</p>
           </div>
         ) : (
           <p className="rounded-xl border border-dashed border-white/10 p-4 text-center text-xs text-slate-500">

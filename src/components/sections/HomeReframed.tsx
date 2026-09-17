@@ -1,3 +1,4 @@
+import { jaNode } from "@/lib/typography";
 import Link from "next/link";
 import { CharacterGuide, CharacterPortrait } from "@/components/characters/CharacterGuide";
 import { capabilities } from "@/lib/content";
@@ -29,19 +30,19 @@ export function HomeReframed() {
           </g>
         </svg>
         <p className={styles.eyebrow}>YEBISU SOFT · AI DEVELOPMENT STUDIO</p>
-        <h1 id="home-title">そのアイデアに、<br/><span>動き出す力を。</span></h1>
-        <p className={styles.heroLead}>AIも、Webも、機器の中のソフトウェアも。<br/>「こんなこと、できたら」を、使える仕組みに。</p>
+        <h1 id="home-title">{jaNode("そのアイデアに、")}<br/><span>{jaNode("動き出す力を。")}</span></h1>
+        <p className={styles.heroLead}>{jaNode("AIも、Webも、機器の中のソフトウェアも。")}<br/>{jaNode("「こんなこと、できたら」を、使える仕組みに。")}</p>
         <div className={styles.actions}>
-          <Link prefetch={false} href="/demo" className={styles.primary} data-magnetic>できることを体験する <span aria-hidden="true">↗</span></Link>
-          <Link prefetch={false} href="/contact" className={styles.secondary} data-magnetic>無料で相談する <span aria-hidden="true">→</span></Link>
+          <Link prefetch={false} href="/demo" className={styles.primary} data-magnetic>{jaNode("できることを体験する")}<span aria-hidden="true">↗</span></Link>
+          <Link prefetch={false} href="/contact" className={styles.secondary} data-magnetic>{jaNode("無料で相談する")}<span aria-hidden="true">→</span></Link>
         </div>
         <div className={styles.heroGuides}>
           <div><CharacterPortrait character="chroma" avatar decorative sizes="(max-width: 640px) 72px, 88px"/><CharacterPortrait character="ebisu" avatar decorative sizes="(max-width: 640px) 72px, 88px"/></div>
-          <p>クロマとエビスさんが、ご案内。<span>AI・Web・組み込み開発</span></p>
+          <p>{jaNode("クロマとエビスさんが、ご案内。")}<span>{jaNode("AI・Web・組み込み開発")}</span></p>
         </div>
         <div className={styles.heroFoot}>
-          <span><i/>京都から、アイデアの実装まで。</span>
-          <a href="#possibilities">できることを見てみる <span aria-hidden="true">↓</span></a>
+          <span><i/>{jaNode("京都から、アイデアの実装まで。")}</span>
+          <a href="#possibilities">{jaNode("できることを見てみる")}<span aria-hidden="true">↓</span></a>
           <span>AI / WEB / EMBEDDED</span>
         </div>
       </section>
@@ -49,43 +50,43 @@ export function HomeReframed() {
       <section data-motion-section id="possibilities" className={styles.possibilities} aria-labelledby="possibilities-title">
         <div className={styles.sectionHeading} data-enter>
           <p className={styles.eyebrow}>POSSIBILITIES, MADE REAL</p>
-          <h2 id="possibilities-title">いつもの仕事に、<br/><span>新しい可能性を。</span></h2>
-          <p>技術の名前より、できるようになることから。</p>
+          <h2 id="possibilities-title">{jaNode("いつもの仕事に、")}<br/><span>{jaNode("新しい可能性を。")}</span></h2>
+          <p>{jaNode("技術の名前より、できるようになることから。")}</p>
         </div>
         <CharacterGuide character="chroma" compact>こんにちは、AI広報のクロマです！ 気になるシーンを選んで、仕事がどう変わるか見てみましょう。</CharacterGuide>
         <StudioPreview/>
       </section>
 
       <section data-motion-section className={styles.services} aria-labelledby="services-title">
-        <div className={styles.sectionRow} data-enter><div><p className={styles.eyebrow}>OUR EXPERTISE</p><h2 id="services-title">つくる力を、ひとつに。</h2></div><p>AI・Web・組み込み。<br/>領域をつなぐことで、アイデアを実装する。</p></div>
+        <div className={styles.sectionRow} data-enter><div><p className={styles.eyebrow}>OUR EXPERTISE</p><h2 id="services-title">{jaNode("つくる力を、ひとつに。")}</h2></div><p>{jaNode("AI・Web・組み込み。")}<br/>{jaNode("領域をつなぐことで、アイデアを実装する。")}</p></div>
         <div className={styles.serviceGrid}>
           {services.map((service, index) => <article key={service.no} className={styles.serviceCard} data-enter={index * 130} data-tilt>
-            <div className={styles.serviceTop}><Icon name={service.icon}/><span>{service.no}</span></div>
-            <p className={styles.eyebrow}>{service.en}</p><h3>{service.title}</h3><p>{service.body}</p>
-            <ul>{service.tags.map(tag => <li key={tag}>{tag}</li>)}</ul>
-            <Link prefetch={false} href={service.href} className={styles.textLink}>{service.more}<span aria-hidden="true">↗</span></Link>
+            <div className={styles.serviceTop}><Icon name={service.icon}/><span>{jaNode(service.no)}</span></div>
+            <p className={styles.eyebrow}>{jaNode(service.en)}</p><h3>{jaNode(service.title)}</h3><p>{jaNode(service.body)}</p>
+            <ul>{service.tags.map(tag => <li key={tag}>{jaNode(tag)}</li>)}</ul>
+            <Link prefetch={false} href={service.href} className={styles.textLink}>{jaNode(service.more)}<span aria-hidden="true">↗</span></Link>
           </article>)}
         </div>
         <CharacterGuide character="ebisu" title="AIの速さに、人の確かさを。" href="/ai" linkLabel="開発への考え方">マネージャーのエビスさんです。制作には生成AIを活用し、設計方針・レビュー・公開判断は人が担当します。</CharacterGuide>
       </section>
 
       <section data-motion-section className={styles.demos} aria-labelledby="demos-title">
-        <div className={styles.sectionRow} data-enter><div><p className={styles.eyebrow}>EXPLORE THE POSSIBILITIES</p><h2 id="demos-title">読むより、触れてみる。</h2></div><Link prefetch={false} href="/demo" className={styles.textLink}>15領域のデモを見る <span aria-hidden="true">↗</span></Link></div>
+        <div className={styles.sectionRow} data-enter><div><p className={styles.eyebrow}>EXPLORE THE POSSIBILITIES</p><h2 id="demos-title">{jaNode("読むより、触れてみる。")}</h2></div><Link prefetch={false} href="/demo" className={styles.textLink}>{jaNode("15領域のデモを見る")}<span aria-hidden="true">↗</span></Link></div>
         <div className={styles.demoGrid}>{modules.map((mod, i) => <Link prefetch={false} key={mod.slug} href={`/demo/${mod.slug}`} className={styles.demoCard} data-enter={(i % 3) * 110} data-tilt>
           <div className={styles.demoArt} data-kind={i}><Icon name={mod.icon}/><span aria-hidden="true"/><span aria-hidden="true"/><div className={styles.energyBars} aria-hidden="true">{Array.from({length: 13}, (_, n) => <i key={n} style={{animationDelay: `${n * -.17}s`}}/>)}</div></div>
-          <div className={styles.demoCardCopy}><h3>{mod.title}</h3><p>{moduleDescriptions[i]}</p><span className={styles.demoArrow} aria-hidden="true">↗</span></div>
+          <div className={styles.demoCardCopy}><h3>{jaNode(mod.title)}</h3><p>{jaNode(moduleDescriptions[i])}</p><span className={styles.demoArrow} aria-hidden="true">↗</span></div>
         </Link>)}</div>
         <CharacterGuide character="chroma" title="次は、あなたの業種で見てみませんか？" href="/showcase" linkLabel="業種別デモサイトを見てみる">お店や会社のサイトになったら、どんな体験になる？ クロマと一緒に、実際に動くデモサイトをのぞいてみましょう。</CharacterGuide>
       </section>
 
       <section data-motion-section className={styles.final} aria-labelledby="home-cta-title">
-        <div className={styles.teamWelcome} data-enter><CharacterPortrait character="chroma" avatar/><CharacterPortrait character="ebisu" avatar/><span>クロマとエビスさんが、ご案内します。</span></div>
+        <div className={styles.teamWelcome} data-enter><CharacterPortrait character="chroma" avatar/><CharacterPortrait character="ebisu" avatar/><span>{jaNode("クロマとエビスさんが、ご案内します。")}</span></div>
         <p className={styles.eyebrow}>LET’S MAKE IT REAL</p>
         <div className={styles.finalOrbits} aria-hidden="true"><i/><i/><i/></div>
-        <h2 id="home-cta-title" data-enter>まだ、アイデアの<br/>途中でも。</h2>
-        <p>「こんなこと、できる？」から始めましょう。<br/>初回のご相談・お見積もりは無料です。</p>
-        <Link prefetch={false} href="/contact" className={styles.primary} data-magnetic>一緒に、考えてみる <span aria-hidden="true">↗</span></Link>
-        <span className={styles.finalNote}>京都市伏見区 · エビスソフト · 京都商工会議所所属</span>
+        <h2 id="home-cta-title" data-enter>{jaNode("まだ、アイデアの")}<br/>{jaNode("途中でも。")}</h2>
+        <p>{jaNode("「こんなこと、できる？」から始めましょう。")}<br/>{jaNode("初回のご相談・お見積もりは無料です。")}</p>
+        <Link prefetch={false} href="/contact" className={styles.primary} data-magnetic>{jaNode("一緒に、考えてみる")}<span aria-hidden="true">↗</span></Link>
+        <span className={styles.finalNote}>{jaNode("京都市伏見区 · エビスソフト · 京都商工会議所所属")}</span>
       </section>
     </StudioMotion>
   );

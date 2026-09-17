@@ -111,22 +111,10 @@
     text-wrap: pretty;
   }
 
-  /* ---------------------------------------------------------------
-   * 語の途中で改行させない。どの語を守るかは src/lib/typography.tsx の ja() が決め、
-   * ここではその語を折り返し禁止にするだけ。
-   *
-   * display は inline のままにすること。inline-block にすると語が地の文から
-   * 切り離された「箱」になり、「Webサイト／をつくります」のように助詞だけが
-   * 次の行へ落ちる。狭い画面での溢れは、長すぎる語を包まないことで防いでいる。
-   *
-   * `word-break: auto-phrase`（文節での折り返し）は使わない。CSS.supports() は
-   * true を返すのに折り返し位置は何も変わらず、カタカナすら「ソフトウェ／ア」と
-   * 割れることを実測で確認している（2026-08-03）。
-   * ------------------------------------------------------------- */
-  .nb,
-  .nb-strict {
-    white-space: nowrap;
-  }
+  /* Phrase boundaries are provided by ja(); long unbroken identifiers can
+     still wrap instead of overflowing a small card or zoomed viewport. */
+  .ja { word-break: keep-all; overflow-wrap: anywhere; min-width: 0; }
+  .nb, .nb-strict { white-space: nowrap; }
 
   /* ディスプレイフォントの数値は等幅に（カウントアップや価格が横に揺れない） */
   .font-display {
@@ -4177,3 +4165,15 @@ main :is(h1,h2,h3) { text-wrap: balance; }
   .studio-subpage .studio-hero .studio-actions .ai-btn { justify-content: center; padding: 13px 12px; gap: 8px; min-height: 50px; font-size: .8125rem; text-wrap: balance; }
   .studio-hero .studio-actions .ai-btn > span { flex-shrink: 0; }
 }
+
+/* Keep note copy readable at narrow widths instead of indenting it to a column. */
+@media (max-width: 700px) {
+  .ai-qa p, .ai-usage > details.ai-qa p { padding-inline: 0; }
+  .ai-usage > details.ai-qa p { padding-bottom: 1.25rem; }
+  .ai-facts li, .ai-usage li { text-wrap: balance; }
+}
+@media (max-width: 380px) {
+  .ai-final h2 { font-size: 1.7rem; }
+}
+
+.ai-facts li, .ai-article li > .min-w-0 { text-wrap: balance; }
