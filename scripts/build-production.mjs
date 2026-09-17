@@ -3,4 +3,5 @@ const env = {...process.env, GITHUB_PAGES:'false', STATIC_EXPORT:'true', NEXT_PU
 const run = (file,args) => execFileSync(file,args,{env,stdio:'inherit'});
 run(process.execPath,['node_modules/next/dist/bin/next','build']);
 run(process.execPath,['scripts/fix-image-extensions.mjs']);
+run(process.execPath,['scripts/inline-critical-css.mjs']);
 run(process.execPath,['scripts/audit-export.mjs','out','https://www.yebisusoft.jp']);

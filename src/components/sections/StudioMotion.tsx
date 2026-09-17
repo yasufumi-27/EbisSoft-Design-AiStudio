@@ -39,10 +39,12 @@ export function StudioMotion({ children, variant = "home" }: { children: ReactNo
           el.dataset.visible = String(entry.isIntersecting);
           if (entry.isIntersecting && el.hasAttribute("data-enter") && !el.dataset.entered) {
             el.dataset.entered = "true";
+            const requestedDelay = Number(el.dataset.enter);
+            const delay = Number.isFinite(requestedDelay) ? Math.max(0, requestedDelay) : 0;
             const animation = el.animate([
               { opacity: .1, translate: "0 65px", filter: "blur(8px)" },
               { opacity: 1, translate: "0 0", filter: "blur(0px)" },
-            ], { duration: 1000, delay: Number(el.dataset.enter || 0), easing: "cubic-bezier(.16,1,.3,1)" });
+            ], { duration: 1000, delay, easing: "cubic-bezier(.16,1,.3,1)" });
             animations.add(animation);
             animation.onfinish = () => animations.delete(animation);
           }
