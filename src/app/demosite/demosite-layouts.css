@@ -563,3 +563,6 @@
   .ds[data-industry="hotel"] .ds-hero-copy, .ds[data-industry="hotel"] .ds-hero-visual { grid-area: auto; }
   .ds[data-industry="hotel"] .ds-hero-copy { width: 100%; margin: 0; padding: 2.5rem 1.25rem; background: var(--ds-bg); }
 }
+@media(max-width:699px) {
+  .ds[data-industry="auto"] .ds-block-menu .ds-menu-list { grid-template-columns: minmax(0,1fr); }
+}

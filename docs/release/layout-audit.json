@@ -16,7 +16,8 @@
     "character card / partner overlap",
     "launcher / contact buttons overlap",
     "broken images",
-    "JavaScript page errors"
+    "JavaScript page errors",
+    "document scroll width"
   ],
   "interactions": "motion pause/resume, mobile menu + route navigation, assistant panel bounds, invalid contact form (zero POST), hover, reduced motion passed",
   "limitations": [
