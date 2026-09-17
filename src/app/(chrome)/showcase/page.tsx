@@ -1,3 +1,4 @@
+import { socialMetadata } from "@/lib/socialMetadata";
 import type { Metadata } from "next";
 import Link from "next/link";
 
@@ -27,12 +28,14 @@ export const metadata: Metadata = {
   ],
   alternates: { canonical: "/showcase" },
   openGraph: {
+    ...socialMetadata.openGraph,
     type: "website",
     url: `${siteConfig.url}/showcase`,
     title: `${title}｜${siteConfig.name}`,
     description,
   },
   twitter: {
+    ...socialMetadata.twitter,
     card: "summary_large_image",
     title: `${title}｜${siteConfig.name}`,
     description,

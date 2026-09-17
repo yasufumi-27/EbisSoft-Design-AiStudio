@@ -1,3 +1,4 @@
+import { socialMetadata } from "@/lib/socialMetadata";
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
@@ -44,12 +45,14 @@ export async function generateMetadata({
     keywords: cap.searchTerms,
     alternates: { canonical: `/demo/${cap.slug}` },
     openGraph: {
+    ...socialMetadata.openGraph,
       type: "article",
       url: `${siteConfig.url}/demo/${cap.slug}`,
       title: `${title}｜${siteConfig.name}`,
       description,
     },
     twitter: {
+    ...socialMetadata.twitter,
       card: "summary_large_image",
       title: `${title}｜${siteConfig.name}`,
       description,

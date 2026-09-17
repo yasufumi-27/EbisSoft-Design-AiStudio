@@ -15,7 +15,6 @@ export const metadata: Metadata = {
   title,
   description,
   alternates: { canonical: "/privacy" },
-  robots: { index: true, follow: true },
 };
 
 const crumbs = [

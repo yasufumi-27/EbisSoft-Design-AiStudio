@@ -48,3 +48,6 @@ next-env.d.ts
 
 # claude code（個人のローカル設定はコミットしない）
 .claude/settings.local.json
+
+# Local production handoff archives
+/.release/

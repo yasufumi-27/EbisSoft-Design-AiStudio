@@ -1,3 +1,4 @@
+import { socialMetadata } from "@/lib/socialMetadata";
 import { CharacterGuide } from "@/components/characters/CharacterGuide";
 import type { Metadata } from "next";
 
@@ -17,6 +18,7 @@ export const metadata: Metadata = {
   description,
   alternates: { canonical: "/contact" },
   openGraph: {
+    ...socialMetadata.openGraph,
     type: "website",
     url: `${siteConfig.url}/contact`,
     title: `${title}｜${siteConfig.name}`,

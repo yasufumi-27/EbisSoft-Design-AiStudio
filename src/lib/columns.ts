@@ -334,7 +334,7 @@ export const columns: Column[] = [
       "ChatGPTやAI Overviewsに引用されるために、サイト側で何を変えればよいのか。SEO・AEO・LLMOの違いを整理し、構造化データ・llms.txt・結論ファーストの書き方まで、実装した内容をそのまま公開します。",
     question: "ChatGPTやAI Overviewsに自社サイトを引用させるには、何をすればよいですか？",
     answer:
-      "質問の形で見出しを立て、その直後に100字前後の結論を置くこと。そのうえで、内容を構造化データ（FAQPage・HowTo・LocalBusiness）で機械可読にし、llms.txt でサイトの要点をAI向けに提供します。従来のSEO（クロールできる・速い・信頼できる）はその前提として引き続き必要です。",
+      "まず、クロール・インデックス登録が可能で、サービス内容や根拠が本文のテキストとして読める状態にします。質問に直接答える説明、一次情報、本文と一致する構造化データを整備します。Google の AI 機能に特別なマークアップや llms.txt は必要なく、引用・掲載は保証されません。",
     keywords: [
       "AI検索 対策",
       "AEO とは",
@@ -344,11 +344,14 @@ export const columns: Column[] = [
       "llms.txt",
     ],
     published: "2026-08-03",
-    updated: "2026-08-03",
+    updated: "2026-09-17",
     category: "AI検索対策",
     icon: "search",
     readMinutes: 7,
     body: [
+      { type: "p", text: "2026年9月確認：Google は AI Overviews・AI Mode のための特別な最適化や llms.txt を必要としていません。llms.txt は補助的な案内として提供しています。FAQPage・HowTo の記述も、リッチリザルトや AI への採用を約束するものではありません。" },
+      { type: "link", href: "https://developers.google.com/search/docs/fundamentals/ai-optimization-guide", label: "Google公式：生成AI検索向けのサイト改善ガイド", body: "クロール、本文の品質、一次情報、構造化データの整合性について確認できます。" },
+
       {
         type: "p",
         text: "検索結果の上にAIの回答が出るようになり、「順位は取れているのにクリックされない」という相談が増えました。これから必要なのは、順位を上げることに加えて、AIの回答の中に引用されることです。ここでは用語の整理と、実際にこのサイトへ実装した内容を公開します。",

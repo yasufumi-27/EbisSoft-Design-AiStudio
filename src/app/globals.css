@@ -4129,3 +4129,21 @@ body:has([data-motion='off']) .chroma-pixel, body:has([data-background='true']) 
 @media(prefers-reduced-motion:reduce) { .studio-subpage .studio-hero-copy, .studio-subpage .studio-flight-visual { translate: none; } }
 
 .studio-proposal-guide { max-width: 600px; margin: 60px auto; padding: 24px; }
+
+/* On phones, the assistant shares the contact dock instead of covering content. */
+@media (max-width: 1023px) {
+  :root { --mobile-cta-h: 88px; }
+  .mobile-cta { min-height: calc(var(--mobile-cta-h) + env(safe-area-inset-bottom)); padding-right: max(88px, calc(80px + env(safe-area-inset-right))); align-items: stretch; }
+  .mobile-cta-btn { flex-wrap: wrap; gap: 4px; font-size: .8125rem; }
+  .mobile-cta-sub { font-size: .75rem; }
+  .assistant-chroma { --launcher-w: 64px; --launcher-h: 72px; right: max(10px, env(safe-area-inset-right)); bottom: calc(8px + env(safe-area-inset-bottom)); }
+  .assistant-chroma .chroma-nameplate { padding: 3px 6px; font-size: .75rem; }
+  .assistant-chroma .chroma-nameplate > span { display: none; }
+  .assistant-chroma .assistant-slot { bottom: calc(var(--mobile-cta-h) - 8px); max-height: calc(100dvh - var(--mobile-cta-h) - env(safe-area-inset-bottom) - 80px); }
+  .assistant-chroma .assistant-hint { display: none; }
+  .studio-site-header #mobile-menu { max-height: calc(100dvh - 64px - var(--mobile-cta-h) - env(safe-area-inset-bottom)); overflow-y: auto; }
+}
+@media (max-width: 380px) { .mobile-cta-sub { display: none; } }
+.studio-subpage .studio-flight article:nth-child(even) .studio-flight-visual > .fig { order: 0; }
+.studio-hero-copy, .ai-page-head-copy { min-width: 0; }
+@media(max-width:380px) { .studio-hero h1 .nb, .studio-hero h1 .nb-strict, .ai-page-head h1 .nb, .ai-page-head h1 .nb-strict { white-space: normal; } }

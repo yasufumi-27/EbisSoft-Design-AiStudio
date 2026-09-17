@@ -1,3 +1,4 @@
+import { socialMetadata } from "@/lib/socialMetadata";
 import { CharacterGuide } from "@/components/characters/CharacterGuide";
 import type { Metadata } from "next";
 
@@ -34,12 +35,14 @@ export const metadata: Metadata = {
   ],
   alternates: { canonical: "/ai" },
   openGraph: {
+    ...socialMetadata.openGraph,
     type: "website",
     url: `${siteConfig.url}/ai`,
     title: `${title}｜${siteConfig.name}`,
     description,
   },
   twitter: {
+    ...socialMetadata.twitter,
     card: "summary_large_image",
     title: `${title}｜${siteConfig.name}`,
     description,

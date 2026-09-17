@@ -1,3 +1,4 @@
+import { socialMetadata } from "@/lib/socialMetadata";
 import { CharacterStage } from "@/components/characters/CharacterStage";
 import { StudioParticleField } from "@/components/sections/StudioMotion";
 import type { Metadata } from "next";
@@ -48,6 +49,7 @@ export async function generateMetadata({
     keywords: [...column.keywords],
     alternates: { canonical: `/columns/${column.slug}` },
     openGraph: {
+    ...socialMetadata.openGraph,
       type: "article",
       url: `${siteConfig.url}/columns/${column.slug}`,
       title: `${column.metaTitle}｜${siteConfig.name}`,
@@ -57,6 +59,7 @@ export async function generateMetadata({
       authors: [authorDisplayName],
     },
     twitter: {
+    ...socialMetadata.twitter,
       card: "summary_large_image",
       title: `${column.metaTitle}｜${siteConfig.name}`,
       description: column.description,

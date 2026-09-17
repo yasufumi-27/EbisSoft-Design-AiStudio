@@ -555,3 +555,11 @@
   .ds[data-industry="realestate"] .ds-hero-copy { width: calc(100% - 2rem); margin-top: -2rem; }
   .ds[data-industry="hotel"] .ds-hero-copy { width: calc(100% - 2.5rem); }
 }
+
+/* Keep the hotel headline readable over the decorative reference visual. */
+.ds[data-industry="hotel"] .ds-hero-copy { position: relative; max-width: 700px; margin: 6rem auto; padding: 2rem; background: color-mix(in srgb, var(--ds-bg) 94%, transparent); }
+@media(max-width:899px) {
+  .ds[data-industry="hotel"] .ds-hero-grid { grid-template: none; grid-template-columns: minmax(0,1fr); }
+  .ds[data-industry="hotel"] .ds-hero-copy, .ds[data-industry="hotel"] .ds-hero-visual { grid-area: auto; }
+  .ds[data-industry="hotel"] .ds-hero-copy { width: 100%; margin: 0; padding: 2.5rem 1.25rem; background: var(--ds-bg); }
+}

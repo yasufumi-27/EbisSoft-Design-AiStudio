@@ -52,8 +52,6 @@ export const AUTHOR_ID = `${siteConfig.url}/#author`;
 const OG_IMAGE_PATH = "/opengraph-image.png";
 const OG_LOGO_PATH = "/apple-icon.png";
 
-/** ビルド時点の日付（静的書き出しのため生成時に固定される） */
-const BUILD_DATE = new Date().toISOString().slice(0, 10);
 
 /**
  * 事業者（ProfessionalService = LocalBusiness のサブタイプ）。
@@ -397,7 +395,7 @@ export function webPageJsonLd(opts?: {
     publisher: { "@id": ORGANIZATION_ID },
     primaryImageOfPage: absoluteUrl(OG_IMAGE_PATH),
     datePublished: opts?.datePublished ?? siteConfig.foundingDate,
-    dateModified: opts?.dateModified ?? BUILD_DATE,
+    ...(opts?.dateModified ? { dateModified: opts.dateModified } : {}),
     speakable: {
       "@type": "SpeakableSpecification",
       cssSelector: [".speakable"],

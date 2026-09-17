@@ -14,7 +14,7 @@
  *   Web Push を導入する場合も、受信側の実装はこのファイルの push ハンドラです。
  */
 
-const VERSION = "v3";   // ロゴ画像の差し替えに合わせて更新（古いキャッシュを破棄）
+const VERSION = "v4-studio";   // ロゴ画像の差し替えに合わせて更新（古いキャッシュを破棄）
 const STATIC_CACHE = `ebisusoft-static-${VERSION}`;
 const PAGE_CACHE = `ebisusoft-pages-${VERSION}`;
 

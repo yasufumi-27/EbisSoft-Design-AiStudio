@@ -1,3 +1,4 @@
+import { socialMetadata } from "@/lib/socialMetadata";
 import type { Metadata } from "next";
 
 import { JsonLd } from "@/components/JsonLd";
@@ -20,12 +21,14 @@ export const metadata: Metadata = {
   description,
   alternates: { canonical: "/faq" },
   openGraph: {
+    ...socialMetadata.openGraph,
     type: "website",
     url: `${siteConfig.url}/faq`,
     title: `${title}｜${siteConfig.name}`,
     description,
   },
   twitter: {
+    ...socialMetadata.twitter,
     card: "summary_large_image",
     title: `${title}｜${siteConfig.name}`,
     description,

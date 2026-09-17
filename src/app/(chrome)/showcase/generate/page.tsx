@@ -1,3 +1,4 @@
+import { socialMetadata } from "@/lib/socialMetadata";
 import type { Metadata } from "next";
 
 import { JsonLd } from "@/components/JsonLd";
@@ -20,12 +21,14 @@ export const metadata: Metadata = {
   keywords: ["業種別 Web制作", "デモサイト 自動生成", "AI サイト生成", "業種 テンプレート"],
   alternates: { canonical: "/showcase/generate" },
   openGraph: {
+    ...socialMetadata.openGraph,
     type: "website",
     url: `${siteConfig.url}/showcase/generate`,
     title: `${title}｜${siteConfig.name}`,
     description,
   },
   twitter: {
+    ...socialMetadata.twitter,
     card: "summary_large_image",
     title: `${title}｜${siteConfig.name}`,
     description,

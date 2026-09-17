@@ -1,3 +1,4 @@
+import { socialMetadata } from "@/lib/socialMetadata";
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
@@ -45,12 +46,14 @@ export async function generateMetadata({
     keywords: [`${data.name} ホームページ`, `${data.name} Web制作`, `${data.name} DX`, "業種別 デモ"],
     alternates: { canonical: `/showcase/${data.slug}` },
     openGraph: {
+    ...socialMetadata.openGraph,
       type: "website",
       url: `${siteConfig.url}/showcase/${data.slug}`,
       title: `${title}｜${siteConfig.name}`,
       description,
     },
     twitter: {
+    ...socialMetadata.twitter,
       card: "summary_large_image",
       title: `${title}｜${siteConfig.name}`,
       description,

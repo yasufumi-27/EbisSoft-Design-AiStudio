@@ -179,3 +179,10 @@ ErrorDocument 404 /404.html
   Header always set Permissions-Policy "camera=(self), microphone=(self), geolocation=()"
   Header always set Strict-Transport-Security "max-age=63072000; includeSubDomains; preload"
 </IfModule>
+
+# The service worker has a stable URL; always check for the latest release.
+<IfModule mod_headers.c>
+  <Files "sw.js">
+    Header set Cache-Control "no-cache, must-revalidate"
+  </Files>
+</IfModule>

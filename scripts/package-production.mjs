@@ -1,0 +1,12 @@
+import {execFileSync} from 'node:child_process';
+import fs from 'node:fs';
+import {createHash} from 'node:crypto';
+execFileSync(process.execPath,['scripts/build-production.mjs'],{stdio:'inherit'});
+fs.mkdirSync('.release',{recursive:true});
+const archive='.release/ebissoft-production.tar.gz';
+execFileSync('tar',['-czf',archive,'-C','out','.'],{stdio:'inherit'});
+const sha256=createHash('sha256').update(fs.readFileSync(archive)).digest('hex');
+const commit=execFileSync('git',['rev-parse','HEAD'],{encoding:'utf8'}).trim();
+const dirty=!!execFileSync('git',['status','--porcelain'],{encoding:'utf8'}).trim();
+fs.writeFileSync('.release/manifest.json',JSON.stringify({target:'https://www.yebisusoft.jp',createdAt:new Date().toISOString(),commit,workingTreeHasChanges:dirty,archive,sha256,bytes:fs.statSync(archive).size,productionDeployed:false},null,2)+'\n');
+console.log(`Prepared ${archive}; no production upload has been performed.`);

@@ -12,7 +12,8 @@ export const dynamic = "force-static";
  * ページを追加したら、ここにも URL を足してください。
  */
 export default function sitemap(): MetadataRoute.Sitemap {
-  const lastModified = new Date();
+  // Omit dates for pages without an editorial update date; a build is not a content update.
+  const lastModified = undefined;
 
   return [
     {
@@ -95,7 +96,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     // 「常に全ページが更新されている」という誤った申告になり、信用されなくなる）
     {
       url: absoluteUrl("/columns"),
-      lastModified: new Date(columnsByDate[0]?.updated ?? lastModified),
+      lastModified: columnsByDate[0] ? new Date(columnsByDate[0].updated) : undefined,
       changeFrequency: "weekly",
       priority: 0.8,
     },

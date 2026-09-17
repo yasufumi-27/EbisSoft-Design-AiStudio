@@ -1,0 +1,27 @@
+{
+  "date": "2026-09-17",
+  "browser": "Chromium headless",
+  "widths": [
+    320,
+    390,
+    768,
+    1440
+  ],
+  "routes": 73,
+  "cases": 292,
+  "issues": [],
+  "checks": [
+    "HTTP status",
+    "horizontal text/control overflow",
+    "character card / partner overlap",
+    "launcher / contact buttons overlap",
+    "broken images",
+    "JavaScript page errors"
+  ],
+  "interactions": "motion pause/resume, mobile menu + route navigation, assistant panel bounds, invalid contact form (zero POST), hover, reduced motion passed",
+  "limitations": [
+    "No physical iPhone Safari test",
+    "No mail delivery test",
+    "No Search Console account inspection"
+  ]
+}

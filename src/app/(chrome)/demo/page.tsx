@@ -1,3 +1,4 @@
+import { socialMetadata } from "@/lib/socialMetadata";
 import type { Metadata } from "next";
 
 import { JsonLd } from "@/components/JsonLd";
@@ -21,12 +22,14 @@ export const metadata: Metadata = {
   keywords: Array.from(new Set(capabilities.flatMap((c) => c.searchTerms))),
   alternates: { canonical: "/demo" },
   openGraph: {
+    ...socialMetadata.openGraph,
     type: "website",
     url: `${siteConfig.url}/demo`,
     title: `${title}｜${siteConfig.name}`,
     description,
   },
   twitter: {
+    ...socialMetadata.twitter,
     card: "summary_large_image",
     title: `${title}｜${siteConfig.name}`,
     description,

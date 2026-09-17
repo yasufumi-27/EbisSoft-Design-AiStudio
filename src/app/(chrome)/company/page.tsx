@@ -1,3 +1,4 @@
+import { socialMetadata } from "@/lib/socialMetadata";
 import type { Metadata } from "next";
 
 import { JsonLd } from "@/components/JsonLd";
@@ -16,6 +17,7 @@ export const metadata: Metadata = {
   description,
   alternates: { canonical: "/company" },
   openGraph: {
+    ...socialMetadata.openGraph,
     type: "website",
     url: `${siteConfig.url}/company`,
     title: `${title}｜${siteConfig.name}`,

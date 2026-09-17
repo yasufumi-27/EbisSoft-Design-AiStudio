@@ -1,3 +1,4 @@
+import { socialMetadata } from "@/lib/socialMetadata";
 import type { Metadata, Viewport } from "next";
 import { Geist, Orbitron } from "next/font/google";
 import "./globals.css";
@@ -60,6 +61,7 @@ export const metadata: Metadata = {
     address: false,
   },
   openGraph: {
+    ...socialMetadata.openGraph,
     type: "website",
     locale: siteConfig.locale,
     url: siteConfig.homeUrl,
@@ -69,6 +71,7 @@ export const metadata: Metadata = {
     // og:image は app/opengraph-image.tsx から自動付与されます
   },
   twitter: {
+    ...socialMetadata.twitter,
     card: "summary_large_image",
     title: siteConfig.title,
     description: siteConfig.description,
@@ -110,7 +113,7 @@ export const metadata: Metadata = {
   },
   // プレビュー（GitHub Pages）は本番と同一内容のため、インデックス対象から外す。
   // robots.txt の disallow はクロールを止めるだけで、外部リンク経由のインデックス登録は
-  // 防げない。noindex を各ページの meta にも出して二重に効かせる。
+  // 防げない。各ページの meta noindex を検索除外の基準にする。
   ...(IS_PREVIEW
     ? {
         robots: {

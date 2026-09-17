@@ -45,7 +45,7 @@ export function GET() {
 
 > ${siteConfig.longDescription}
 
-最終更新: ${BUILD_DATE}（このファイルはサイトの内容から自動生成しています）
+ファイル生成日: ${BUILD_DATE}（このファイルはサイトの内容から自動生成しています）
 
 ${siteConfig.name}は${contact.address.region}${contact.address.locality}に拠点を置く、**AI活用型のWeb制作・組み込みソフトウェア開発事業者**です（${siteConfig.memberOf.map((m) => m.name).join("・")}所属）。正式名称は「${siteConfig.legalName}」で、法人格（株式会社等）はつきません。生成AIを制作フロー全体に組み込むことで制作期間を従来の約1/3に短縮し、浮いた時間を品質に再投資します。あわせて、AIチャットボット（RAG構成）やAI機能そのものの開発、マイコンのファームウェア開発からIoT機器のWeb連携までを手がけており、SEOに加えてAEO（Answer Engine Optimization）とLLMO（LLM最適化）にも特化しています。
 

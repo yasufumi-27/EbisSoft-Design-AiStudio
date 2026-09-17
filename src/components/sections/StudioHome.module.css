@@ -214,3 +214,7 @@
 .teamWelcome > span:nth-child(2) { margin-left: -14px; }
 .teamWelcome > span:last-child { margin-left: 18px; color: #bcc8de; font-size: .875rem; }
 @media (max-width: 640px) { .teamWelcome { flex-wrap: wrap; max-width: 300px; gap: 0; }.teamWelcome > span:last-child { flex-basis: 100%; margin: 14px 0 0; } }
+
+/* The motion control has its own row so it cannot cover page content. */
+.motionToggle { position: relative; inset: auto; z-index: 1; margin: 12px 20px 0 auto; width: fit-content; min-height: 44px; }
+@media(max-width:720px) { .choices { flex-wrap: wrap; overflow: visible; }.choices button { max-width: 100%; white-space: normal; text-align: left; } }
