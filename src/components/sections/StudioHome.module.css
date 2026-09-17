@@ -10,7 +10,7 @@
   overflow: clip;
 }
 .home a:focus-visible, .home button:focus-visible { outline: 2px solid #b6c8ff; outline-offset: 6px; }
-.hero { position: relative; min-height: min(900px, calc(100svh - 64px)); padding: 100px 24px 44px; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; }
+.hero { position: relative; min-height: min(780px, calc(100svh - 64px)); padding: 48px 24px 32px; display: flex; flex-direction: column; align-items: center; justify-content: flex-start; text-align: center; }
 .hero::before { content: ''; position: absolute; inset: 0; background: radial-gradient(ellipse at 50% 65%, #27325944, transparent 55%); z-index: -1; }
 .eyebrow { color: #bbc1d1; font-size: .75rem; letter-spacing: .18em; font-weight: 500; }
 .hero h1 { margin: 30px 0 24px; font-size: clamp(2.65rem, 5.9vw, 5.65rem); line-height: 1.24; font-weight: 500; letter-spacing: -.065em; }
@@ -24,12 +24,12 @@
 .secondary:hover { background: #222636; transform: translateY(-2px); }
 .ribbon { position: absolute; inset: 0; width: 100%; height: 100%; z-index: -1; pointer-events: none; opacity: .75; }
 .ribbon g { transform-origin: center; animation: drift 16s ease-in-out infinite alternate; }
-.heroFoot { margin-top: 80px; width: min(1120px, 100%); display: flex; align-items: center; justify-content: space-between; gap: 20px; color: #8f97aa; font-size: .75rem; letter-spacing: .09em; }
+.heroFoot { margin-top: auto; padding-top: 28px; width: min(1120px, 100%); display: flex; align-items: center; justify-content: space-between; gap: 20px; color: #8f97aa; font-size: .75rem; letter-spacing: .09em; }
 .heroFoot a { display: flex; align-items: center; gap: 12px; min-height: 44px; color: #d8ddec; }
 .heroFoot span { display: flex; align-items: center; gap: 10px; }
 .heroFoot i { width: 5px; height: 5px; border-radius: 50%; background: #b0baff; box-shadow: 0 0 10px #b0baff; }
 @keyframes drift { from { transform: translateY(-12px) rotate(-2deg); } to { transform: translateY(15px) rotate(2deg); } }
-@media (max-width: 640px) { .hero { min-height: 720px; padding: 70px 22px 30px; } .hero h1 { font-size: clamp(2.3rem, 9.7vw, 3.8rem); margin-top: 26px; } .heroLead { font-size: 1rem; } .eyebrow { font-size: .75rem; letter-spacing: .12em; } .heroFoot { margin-top: 62px; } .heroFoot > span { display: none; } .heroFoot { justify-content: center; } .ribbon { opacity: .45; } }
+@media (max-width: 640px) { .hero { min-height: 0; padding: 28px 22px 24px; } .hero h1 { font-size: clamp(2.3rem, 9.7vw, 3.8rem); margin-top: 26px; } .heroLead { font-size: 1rem; } .eyebrow { font-size: .75rem; letter-spacing: .12em; } .heroFoot { margin-top: 20px; padding-top: 0; } .heroFoot > span { display: none; } .heroFoot { justify-content: center; } .ribbon { opacity: .45; } }
 @media (prefers-reduced-motion: reduce) { .home *, .home *::before, .home *::after { animation: none !important; transition: none !important; scroll-behavior: auto; } }
 /* The page alternates a quiet dark canvas with one clear, tangible product surface. */
 .possibilities, .services, .demos { padding: 108px max(24px, calc((100% - 1120px) / 2)); }
@@ -224,4 +224,32 @@
 .home > section:not(:first-of-type) {
   content-visibility: auto;
   contain-intrinsic-size: auto 800px;
+}
+
+/* The first view leads with the idea; the guides add a human face below the CTA. */
+.heroGuides { display: flex; align-items: center; justify-content: center; gap: 14px; margin-top: 28px; }
+.heroGuides > div { display: flex; padding-right: 4px; }
+.heroGuides > div > span { width: 44px; height: 44px; border-color: #182031; }
+.heroGuides > div > span + span { margin-left: -10px; }
+.heroGuides p { text-align: left; font-size: .8125rem; color: #d2d8e9; line-height: 1.6; }
+.heroGuides p > span { display: block; color: #939eb5; font-size: .6875rem; letter-spacing: .06em; }
+@media (max-width: 900px) and (min-width: 641px) {
+  .hero { min-height: 0; padding: 40px 28px 28px; }
+  .heroFoot { margin-top: 32px; padding-top: 0; }
+}
+@media (max-width: 640px) {
+  .hero > .eyebrow { font-size: .625rem; letter-spacing: .1em; }
+  .hero h1 { margin: 20px 0 18px; }
+  .heroLead { line-height: 1.8; }
+  .hero .actions { margin-top: 24px; gap: 8px; display: grid; justify-items: center; width: 100%; }
+  .hero .primary { min-height: 50px; width: min(100%, 300px); }
+  .hero .secondary { min-height: 44px; padding-block: 8px; background: transparent; border-color: transparent; }
+  .heroGuides { gap: 10px; margin-top: 18px; }
+  .heroGuides > div > span { width: 36px; height: 36px; }
+  .heroGuides p { font-size: .75rem; }
+  .heroFoot a { font-size: .6875rem; }
+}
+@media (max-width: 640px) {
+  .hero { min-height: calc(100svh - 64px - var(--mobile-cta-h, 88px) - env(safe-area-inset-bottom, 0px)); }
+  .heroFoot { margin-top: auto; padding-top: 20px; }
 }

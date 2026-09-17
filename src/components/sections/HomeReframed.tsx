@@ -35,6 +35,10 @@ export function HomeReframed() {
           <Link prefetch={false} href="/demo" className={styles.primary} data-magnetic>できることを体験する <span aria-hidden="true">↗</span></Link>
           <Link prefetch={false} href="/contact" className={styles.secondary} data-magnetic>無料で相談する <span aria-hidden="true">→</span></Link>
         </div>
+        <div className={styles.heroGuides}>
+          <div><CharacterPortrait character="chroma" avatar decorative sizes="(max-width: 640px) 72px, 88px"/><CharacterPortrait character="ebisu" avatar decorative sizes="(max-width: 640px) 72px, 88px"/></div>
+          <p>クロマとエビスさんが、ご案内。<span>AI・Web・組み込み開発</span></p>
+        </div>
         <div className={styles.heroFoot}>
           <span><i/>京都から、アイデアの実装まで。</span>
           <a href="#possibilities">できることを見てみる <span aria-hidden="true">↓</span></a>

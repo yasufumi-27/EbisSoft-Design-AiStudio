@@ -577,3 +577,37 @@
   .ds[data-industry="apparel"] .ds-hero h1 { font-size: clamp(2.3rem,9vw,3rem); }
 }
 .ds-title-line { display: block; text-wrap: balance; }
+
+/* A visible, concise demo notice, with the full disclosure one tap away. */
+.ds .ds-bar-inner { display: flex; align-items: flex-start; justify-content: space-between; flex-wrap: wrap; gap: 6px 16px; padding-block: 8px; }
+.ds-disclosure { flex: 1; min-width: 220px; }
+.ds-disclosure summary { display: flex; align-items: center; gap: 8px; cursor: pointer; font-size: .6875rem; line-height: 1.7; list-style: none; min-height: 28px; }
+.ds-disclosure summary::-webkit-details-marker { display: none; }
+.ds-disclosure summary strong { color: #bde8ff; white-space: nowrap; }
+.ds-disclosure summary small { font-size: .625rem; text-decoration: underline; white-space: nowrap; }
+.ds-disclosure summary:focus-visible { outline: 2px solid #bde8ff; outline-offset: 3px; }
+.ds-disclosure-body { max-width: 720px; padding: 12px 0; font-size: .75rem; line-height: 1.8; }
+.ds-disclosure-body .ds-bar-design { display: inline-block; margin-top: 10px; }
+.ds .ds-bar-link { margin-top: 4px; }
+@media (max-width: 899px) {
+  .ds[data-industry] .ds-hero { min-height: 0; padding: 24px 0 36px; }
+  .ds[data-industry] .ds-hero-grid { display: flex; flex-direction: column; width: min(680px, calc(100% - 40px)); margin-inline: auto; gap: 28px; }
+  .ds[data-industry] .ds-hero-copy { position: relative; order: 0; grid-area: auto; width: 100%; max-width: none; margin: 0; padding: 0; }
+  .ds[data-industry] .ds-hero-visual { position: relative; order: 1; grid-area: auto; width: 100%; min-height: 0; height: 300px; aspect-ratio: auto; margin: 0; }
+  .ds[data-industry] .ds-hero h1 { margin-top: 12px; font-size: clamp(2rem,8.5vw,3.4rem); line-height: 1.2; }
+  .ds[data-industry] .ds-hero-kicker { margin-bottom: 12px; font-size: .625rem; }
+  .ds[data-industry] .ds-hero-copy > p { margin-top: 20px; }
+  .ds[data-industry="clinic"] .ds-hero-copy,
+  .ds[data-industry="manufacturing"] .ds-hero-copy,
+  .ds[data-industry="logistics"] .ds-hero-copy { padding: 20px; }
+  .ds[data-industry="legal"] .ds-hero h1 { padding-block: 16px; }
+  .ds[data-industry="hotel"] .ds-points { position: static; padding: 16px; margin-inline: 20px; }
+}
+@media (max-width: 380px) {
+  .ds-disclosure { min-width: 100%; }
+  .ds-disclosure summary { font-size: .625rem; gap: 6px; }
+  .ds[data-industry] .ds-hero-grid { width: calc(100% - 32px); }
+  .ds[data-industry] .ds-hero h1 { font-size: 1.9rem; }
+}
+.ds .ds-menu { flex-shrink: 0; }
+.ds .ds-menu > summary { white-space: nowrap; }

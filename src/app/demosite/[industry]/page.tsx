@@ -87,25 +87,17 @@ export default async function DemoSitePage({ params }: { params: Promise<{ indus
       {/* ---------- デモであることの明示（全ページ共通・常時表示） ---------- */}
       <div className="ds-bar">
         <div className="ds-wrap ds-bar-inner">
-          <span>
-            <strong>これはデモサイトです。</strong>
-            {site.brand}
-            は架空の事業者で、住所・電話番号・お客様の声もすべて架空です。
-            {siteConfig.name}が「{data.name}
-            のホームページを作るとこうなる」を見せるために制作しました。
-          </span>
-          <a
-            className="ds-bar-design"
-            href={`https://yasufumi-27.github.io/EbisSoft-Design-Proposals/proposal/${proposal.id}/`}
-            target="_blank"
-            rel="noopener"
-          >
-            DESIGN {proposal.no} / {proposal.name}
-            <i>{proposal.jp}</i>
-          </a>
-          <a className="ds-bar-link" href={`${siteConfig.url}/showcase/${data.slug}`}>
-            この構成の説明を見る →
-          </a>
+          <details className="ds-disclosure">
+            <summary><strong>デモサイト</strong><span>事業者・掲載情報は架空です</span><small>詳細</small></summary>
+            <div className="ds-disclosure-body">
+              <p>{site.brand}は架空の事業者で、住所・電話番号・お客様の声もすべて架空です。
+                {siteConfig.name}が「{data.name}のホームページを作るとこうなる」を見せるために制作しました。</p>
+              <a className="ds-bar-design" href={`https://yasufumi-27.github.io/EbisSoft-Design-Proposals/proposal/${proposal.id}/`} target="_blank" rel="noopener">
+                DESIGN {proposal.no} / {proposal.name}<i>{proposal.jp}</i>
+              </a>
+            </div>
+          </details>
+          <a className="ds-bar-link" href={`${siteConfig.url}/showcase/${data.slug}`}>構成を見る →</a>
         </div>
       </div>
 

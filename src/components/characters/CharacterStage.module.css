@@ -23,3 +23,22 @@
 .card { max-width: 100%; min-width: 0; }
 .caption b { flex-wrap: wrap; }
 .partner > span:last-child { min-width: 0; overflow-wrap: anywhere; }
+
+/* On compact screens the character becomes a short editorial card, not a second full-height hero. */
+@media (max-width: 700px) {
+  .stage { min-height: 0; width: min(100%, 380px); margin-top: 0; padding-block: 4px; gap: 14px; }
+  .card { display: grid; grid-template-columns: 112px minmax(0,1fr); align-items: center; width: 100%; border-radius: 24px; }
+  .card > span { height: 164px; }
+  .card > span img { object-position: center 12%; }
+  .caption { padding: 18px 16px; }
+  .caption > span { font-size: .625rem; line-height: 1.7; }
+  .caption b { display: block; font-size: 1.125rem; margin-top: 10px; }
+  .caption small { display: block; margin-top: 4px; }
+  .partner { padding: 6px 12px 6px 6px; gap: 8px; }
+  .partner > span:first-child { width: 32px; height: 32px; }
+  .partner b { font-size: .75rem; }
+  .orbits i { width: 95%; }
+  .orbits i:nth-child(3) { width: 110%; }
+  .spark { font-size: 1.25rem; }
+}
+@media (min-width:701px) and (max-width:900px) { .stage { margin-top: 0; min-height: 0; } }
