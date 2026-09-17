@@ -62,3 +62,5 @@ npm run package:production
 ## 追加の品質点検
 
 [2026-09-17のLighthouse・E-E-A-T点検](site-quality-review.md)を参照。スマホ性能は改善余地があり、常駐クロマ等の配信用画像の軽量化と、実測値・実案件の根拠資料の充実を優先する。改行は全73ページ×4幅で別途点検し、検出箇所を修正した。
+
+追加の高速化と公開版の再計測結果は [Lighthouse最適化記録](lighthouse-optimization.md) を参照。本番の圧縮配信は別途検証が必要。

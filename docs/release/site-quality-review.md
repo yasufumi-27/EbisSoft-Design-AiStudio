@@ -56,3 +56,7 @@ Search Consoleの登録・検索パフォーマンス、28日間の実ユーザ�
 - [Google: helpful, reliable, people-first content / E-E-A-T](https://developers.google.com/search/docs/fundamentals/creating-helpful-content)
 - [Chrome: Lighthouse performance scoring and variability](https://developer.chrome.com/docs/lighthouse/performance/performance-scoring)
 - [Google: AI検索向けの最適化](https://developers.google.com/search/docs/fundamentals/ai-optimization-guide)
+
+## 追加の高速化
+
+この初回点検後に画像・描画・CSS配信を改善した。最新の結果と制約は [Lighthouse最適化記録](lighthouse-optimization.md) を参照。上の初回実測表を現在の点数として引用しない。
