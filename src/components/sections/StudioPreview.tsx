@@ -22,7 +22,7 @@ export function StudioPreview() {
       <div id="studio-example" className={styles.example} data-tilt="soft">
         <div className={styles.exampleCopy} aria-live="polite" aria-atomic="true">
           <p className={styles.eyebrow}>{item.tag}</p><h3>{item.title}</h3><p>{item.description}</p>
-          <Link href={item.href} className={styles.textLink}>{item.link}<span aria-hidden="true">↗</span></Link>
+          <Link prefetch={false} href={item.href} className={styles.textLink}>{item.link}<span aria-hidden="true">↗</span></Link>
         </div>
         <div key={selected} className={`${styles.exampleVisual} ${styles[`scene${selected}`]}`}>
           <span className={styles.sampleLabel}>活用イメージ / サンプルデータ</span>

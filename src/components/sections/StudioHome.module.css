@@ -218,3 +218,10 @@
 
 
 @media(max-width:720px) { .choices { flex-wrap: wrap; overflow: visible; }.choices button { max-width: 100%; white-space: normal; text-align: left; } }
+
+/* Keep below-the-fold scenes in the document while deferring their paint/layout.
+   The browser renders them before they enter the viewport; animations stay intact. */
+.home > section:not(:first-of-type) {
+  content-visibility: auto;
+  contain-intrinsic-size: auto 800px;
+}

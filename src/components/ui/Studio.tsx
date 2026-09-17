@@ -147,7 +147,7 @@ export function FlightList({
             <h2>{jaNode(item.title)}</h2>
             <p>{jaNode(item.body)}</p>
             {item.href ? (
-              <Link href={item.href} className="ai-flight-more">
+              <Link prefetch={false} href={item.href} className="ai-flight-more">
                 {item.more ?? "くわしく見る"} <span aria-hidden>↗</span>
               </Link>
             ) : null}
@@ -209,7 +209,7 @@ export function ModuleBoard({
             </article>
           );
           return m.href ? (
-            <Link key={m.title} href={m.href}>
+            <Link prefetch={false} key={m.title} href={m.href}>
               {cell}
             </Link>
           ) : (
@@ -265,11 +265,11 @@ export function ClosingCta({
       <h2>{jaNode(title)}</h2>
       {lead ? <p>{lead}</p> : null}
       <div className="studio-actions">
-        <Link href={action.href} className="ai-btn ai-btn-solid studio-btn-lg">
+        <Link prefetch={false} href={action.href} className="ai-btn ai-btn-solid studio-btn-lg">
           {action.label} <span aria-hidden>↗</span>
         </Link>
         {secondary ? (
-          <Link href={secondary.href} className="ai-btn ai-btn-line studio-btn-lg">
+          <Link prefetch={false} href={secondary.href} className="ai-btn ai-btn-line studio-btn-lg">
             {secondary.label} <span aria-hidden>↗</span>
           </Link>
         ) : null}

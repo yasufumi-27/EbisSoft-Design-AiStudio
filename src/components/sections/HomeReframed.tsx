@@ -32,8 +32,8 @@ export function HomeReframed() {
         <h1 id="home-title">そのアイデアに、<br/><span>動き出す力を。</span></h1>
         <p className={styles.heroLead}>AIも、Webも、機器の中のソフトウェアも。<br/>「こんなこと、できたら」を、使える仕組みに。</p>
         <div className={styles.actions}>
-          <Link href="/demo" className={styles.primary} data-magnetic>できることを体験する <span aria-hidden="true">↗</span></Link>
-          <Link href="/contact" className={styles.secondary} data-magnetic>無料で相談する <span aria-hidden="true">→</span></Link>
+          <Link prefetch={false} href="/demo" className={styles.primary} data-magnetic>できることを体験する <span aria-hidden="true">↗</span></Link>
+          <Link prefetch={false} href="/contact" className={styles.secondary} data-magnetic>無料で相談する <span aria-hidden="true">→</span></Link>
         </div>
         <div className={styles.heroFoot}>
           <span><i/>京都から、アイデアの実装まで。</span>
@@ -59,15 +59,15 @@ export function HomeReframed() {
             <div className={styles.serviceTop}><Icon name={service.icon}/><span>{service.no}</span></div>
             <p className={styles.eyebrow}>{service.en}</p><h3>{service.title}</h3><p>{service.body}</p>
             <ul>{service.tags.map(tag => <li key={tag}>{tag}</li>)}</ul>
-            <Link href={service.href} className={styles.textLink}>{service.more}<span aria-hidden="true">↗</span></Link>
+            <Link prefetch={false} href={service.href} className={styles.textLink}>{service.more}<span aria-hidden="true">↗</span></Link>
           </article>)}
         </div>
         <CharacterGuide character="ebisu" title="AIの速さに、人の確かさを。" href="/ai" linkLabel="開発への考え方">マネージャーのエビスさんです。制作には生成AIを活用し、設計方針・レビュー・公開判断は人が担当します。</CharacterGuide>
       </section>
 
       <section data-motion-section className={styles.demos} aria-labelledby="demos-title">
-        <div className={styles.sectionRow} data-enter><div><p className={styles.eyebrow}>EXPLORE THE POSSIBILITIES</p><h2 id="demos-title">読むより、触れてみる。</h2></div><Link href="/demo" className={styles.textLink}>15領域のデモを見る <span aria-hidden="true">↗</span></Link></div>
-        <div className={styles.demoGrid}>{modules.map((mod, i) => <Link key={mod.slug} href={`/demo/${mod.slug}`} className={styles.demoCard} data-enter={(i % 3) * 110} data-tilt>
+        <div className={styles.sectionRow} data-enter><div><p className={styles.eyebrow}>EXPLORE THE POSSIBILITIES</p><h2 id="demos-title">読むより、触れてみる。</h2></div><Link prefetch={false} href="/demo" className={styles.textLink}>15領域のデモを見る <span aria-hidden="true">↗</span></Link></div>
+        <div className={styles.demoGrid}>{modules.map((mod, i) => <Link prefetch={false} key={mod.slug} href={`/demo/${mod.slug}`} className={styles.demoCard} data-enter={(i % 3) * 110} data-tilt>
           <div className={styles.demoArt} data-kind={i}><Icon name={mod.icon}/><span aria-hidden="true"/><span aria-hidden="true"/><div className={styles.energyBars} aria-hidden="true">{Array.from({length: 13}, (_, n) => <i key={n} style={{animationDelay: `${n * -.17}s`}}/>)}</div></div>
           <div className={styles.demoCardCopy}><h3>{mod.title}</h3><p>{moduleDescriptions[i]}</p><span className={styles.demoArrow} aria-hidden="true">↗</span></div>
         </Link>)}</div>
@@ -80,7 +80,7 @@ export function HomeReframed() {
         <div className={styles.finalOrbits} aria-hidden="true"><i/><i/><i/></div>
         <h2 id="home-cta-title" data-enter>まだ、アイデアの<br/>途中でも。</h2>
         <p>「こんなこと、できる？」から始めましょう。<br/>初回のご相談・お見積もりは無料です。</p>
-        <Link href="/contact" className={styles.primary} data-magnetic>一緒に、考えてみる <span aria-hidden="true">↗</span></Link>
+        <Link prefetch={false} href="/contact" className={styles.primary} data-magnetic>一緒に、考えてみる <span aria-hidden="true">↗</span></Link>
         <span className={styles.finalNote}>京都市伏見区 · エビスソフト · 京都商工会議所所属</span>
       </section>
     </StudioMotion>

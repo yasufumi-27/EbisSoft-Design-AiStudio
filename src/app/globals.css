@@ -1,7 +1,4 @@
 @import "tailwindcss";
-/* デザイン案15種のテーマ（scripts/proposal-themes.py が生成）。
-   できることのデモを案ごとの見た目に切り替えるために読み込む。 */
-@import "./proposal-themes.css";
 
 /*
  * デザイントークン（Tailwind v4 @theme）。

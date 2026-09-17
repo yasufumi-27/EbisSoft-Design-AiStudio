@@ -35,7 +35,7 @@ export function CharacterGuide({ character, children, title, href, linkLabel, co
       <p className={styles.byline}><span>{person.role}</span><b>{person.name}</b><i aria-hidden="true"/></p>
       {title && <Heading>{title}</Heading>}
       <div className={styles.message}>{children}</div>
-      {href && linkLabel && <Link href={href} className={styles.link}>{linkLabel}<span aria-hidden="true">↗</span></Link>}
+      {href && linkLabel && <Link prefetch={false} href={href} className={styles.link}>{linkLabel}<span aria-hidden="true">↗</span></Link>}
     </div>
   </aside>;
 }

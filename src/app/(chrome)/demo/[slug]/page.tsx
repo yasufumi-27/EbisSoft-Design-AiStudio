@@ -1,3 +1,4 @@
+import "../../../proposal-themes.css";
 import { socialMetadata } from "@/lib/socialMetadata";
 import type { Metadata } from "next";
 import Link from "next/link";
