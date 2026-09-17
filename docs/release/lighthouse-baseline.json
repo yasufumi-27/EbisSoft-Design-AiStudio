@@ -1,0 +1,110 @@
+[
+  {
+    "report": "home-desktop.report.json",
+    "url": "https://yasufumi-27.github.io/EbisSoft-Design-AiStudio/",
+    "timestamp": "2026-09-17T03:14:21.795Z",
+    "lighthouse": "13.4.1",
+    "scores": {
+      "performance": 99,
+      "accessibility": 100,
+      "best-practices": 100,
+      "seo": 66
+    },
+    "LCP": "0.6 s",
+    "TBT": "0 ms",
+    "CLS": "0",
+    "settings": {
+      "formFactor": "desktop",
+      "throttlingMethod": "simulate",
+      "throttling": {
+        "rttMs": 40,
+        "throughputKbps": 10240,
+        "requestLatencyMs": 0,
+        "downloadThroughputKbps": 0,
+        "uploadThroughputKbps": 0,
+        "cpuSlowdownMultiplier": 1
+      }
+    }
+  },
+  {
+    "report": "contact-mobile.report.json",
+    "url": "https://yasufumi-27.github.io/EbisSoft-Design-AiStudio/contact",
+    "timestamp": "2026-09-17T03:14:50.440Z",
+    "lighthouse": "13.4.1",
+    "scores": {
+      "performance": 94,
+      "accessibility": 95,
+      "best-practices": 100,
+      "seo": 66
+    },
+    "LCP": "3.1 s",
+    "TBT": "0 ms",
+    "CLS": "0",
+    "settings": {
+      "formFactor": "mobile",
+      "throttlingMethod": "simulate",
+      "throttling": {
+        "rttMs": 150,
+        "throughputKbps": 1638.4,
+        "requestLatencyMs": 562.5,
+        "downloadThroughputKbps": 1474.5600000000002,
+        "uploadThroughputKbps": 675,
+        "cpuSlowdownMultiplier": 4
+      }
+    }
+  },
+  {
+    "report": "ai-mobile.report.json",
+    "url": "https://yasufumi-27.github.io/EbisSoft-Design-AiStudio/ai",
+    "timestamp": "2026-09-17T03:14:37.394Z",
+    "lighthouse": "13.4.1",
+    "scores": {
+      "performance": 77,
+      "accessibility": 100,
+      "best-practices": 100,
+      "seo": 66
+    },
+    "LCP": "5.3 s",
+    "TBT": "30 ms",
+    "CLS": "0",
+    "settings": {
+      "formFactor": "mobile",
+      "throttlingMethod": "simulate",
+      "throttling": {
+        "rttMs": 150,
+        "throughputKbps": 1638.4,
+        "requestLatencyMs": 562.5,
+        "downloadThroughputKbps": 1474.5600000000002,
+        "uploadThroughputKbps": 675,
+        "cpuSlowdownMultiplier": 4
+      }
+    }
+  },
+  {
+    "report": "home-mobile.report.json",
+    "url": "https://yasufumi-27.github.io/EbisSoft-Design-AiStudio/",
+    "timestamp": "2026-09-17T03:13:38.623Z",
+    "lighthouse": "13.4.1",
+    "scores": {
+      "performance": 73,
+      "accessibility": 100,
+      "best-practices": 100,
+      "seo": 66
+    },
+    "LCP": "5.9 s",
+    "TBT": "10 ms",
+    "CLS": "0",
+    "settings": {
+      "formFactor": "mobile",
+      "throttlingMethod": "simulate",
+      "throttling": {
+        "rttMs": 150,
+        "throughputKbps": 1638.4,
+        "requestLatencyMs": 562.5,
+        "downloadThroughputKbps": 1474.5600000000002,
+        "uploadThroughputKbps": 675,
+        "cpuSlowdownMultiplier": 4
+      }
+    }
+  }
+]

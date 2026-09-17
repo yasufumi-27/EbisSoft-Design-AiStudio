@@ -330,7 +330,7 @@ export function InquiryForm() {
           ) : (
             <span />
           )}
-          <span className="text-[11px] text-slate-600">{goalLength} / 2000</span>
+          <span className="text-xs text-slate-400">{goalLength} / 2000</span>
         </div>
 
         <label htmlFor={`${uid}-reference`} className="mt-6 block text-sm font-semibold text-slate-200">

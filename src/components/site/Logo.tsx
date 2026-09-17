@@ -26,24 +26,22 @@ export function Logo() {
       prefetch={false}
       href="/"
       className="group inline-flex items-center whitespace-nowrap"
-      aria-label={`${siteConfig.name} ホームへ`}
     >
       <CompanyLogo
         alt=""
         className="mr-2 h-11 w-auto shrink-0 transition-[filter] group-hover:brightness-110 sm:mr-2.5 sm:h-14"
       />
       <span
-        aria-hidden
         className="text-lg font-extrabold tracking-[0.1em] text-white transition-colors group-hover:text-[#a5f3fc] sm:text-xl"
       >
-        YEBISU
+        YEBISU{" "}
       </span>
       <span
-        aria-hidden
         className="ml-2 text-lg font-extrabold tracking-[0.1em] text-[#22d3ee] sm:text-xl"
       >
         SOFT
       </span>
+      <span className="sr-only">（{siteConfig.name}）ホームへ</span>
     </Link>
   );
 }

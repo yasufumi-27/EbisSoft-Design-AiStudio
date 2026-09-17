@@ -1,0 +1,19 @@
+{
+  "date": "2026-09-17",
+  "routes": 73,
+  "widths": [
+    320,
+    390,
+    768,
+    1440
+  ],
+  "cases": 292,
+  "checks": [
+    "headings/buttons/paragraphs/labels overflow",
+    "leading punctuation",
+    "short orphan heading endings",
+    "isolated one-character H1 lines"
+  ],
+  "issues": [],
+  "note": "Vertical Japanese writing in the restaurant demo is intentional and excluded from horizontal line rules. Representative mobile and desktop screenshots inspected."
+}

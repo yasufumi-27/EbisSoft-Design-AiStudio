@@ -4146,4 +4146,6 @@ body:has([data-motion='off']) .chroma-pixel, body:has([data-background='true']) 
 @media (max-width: 380px) { .mobile-cta-sub { display: none; } }
 .studio-subpage .studio-flight article:nth-child(even) .studio-flight-visual > .fig { order: 0; }
 .studio-hero-copy, .ai-page-head-copy { min-width: 0; }
-@media(max-width:380px) { .studio-hero h1 .nb, .studio-hero h1 .nb-strict, .ai-page-head h1 .nb, .ai-page-head h1 .nb-strict { white-space: normal; } }
+@media(max-width:380px) { .studio-hero h1, .ai-page-head h1 { font-size: 1.8rem; } }
+
+main :is(h1,h2,h3) { text-wrap: balance; }

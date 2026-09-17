@@ -159,9 +159,8 @@ export default async function DemoSitePage({ params }: { params: Promise<{ indus
             <div className="ds-hero-copy">
               <span className="ds-hero-kicker">{data.name} WEBSITE CONCEPT</span>
               <h1>
-                {site.hero[0]}
-                <br />
-                {site.hero[1]}
+                <span className="ds-title-line">{site.hero[0]}</span>
+                <span className="ds-title-line">{site.hero[1]}</span>
               </h1>
               <p className="ds-hero-lead">{site.lead}</p>
               <div className="ds-hero-actions">

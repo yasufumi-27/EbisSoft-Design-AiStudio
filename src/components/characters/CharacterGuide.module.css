@@ -15,7 +15,7 @@
 .byline > span { color: var(--character-accent); font-size: .75rem; padding: 4px 9px; border: 1px solid color-mix(in srgb, var(--character-accent) 30%, transparent); border-radius: 100px; }
 .byline b { color: #f4f2f9; font-size: .9375rem; font-weight: 500; }
 .byline i { width: 5px; height: 5px; border-radius: 50%; background: var(--character-accent); box-shadow: 0 0 10px var(--character-accent); }
-.copy h3 { color: #f3f4fc; font-size: clamp(1.25rem, 2.3vw, 1.75rem); font-weight: 500; line-height: 1.6; letter-spacing: -.035em; margin: 0 0 12px; }
+.copy :is(h2,h3) { color: #f3f4fc; font-size: clamp(1.25rem, 2.3vw, 1.75rem); font-weight: 500; line-height: 1.6; letter-spacing: -.035em; margin: 0 0 12px; }
 .message { color: #b9c2d5; font-size: 1rem; line-height: 1.95; max-width: 44rem; }
 .link { display: inline-flex; align-items: center; gap: 24px; min-height: 44px; margin-top: 12px; font-size: .9375rem; color: var(--character-accent); }
 .link:hover { color: white; }.link span { transition: translate .2s; }.link:hover span { translate: 3px -3px; }.link:focus-visible { outline: 2px solid var(--character-accent); outline-offset: 5px; }
@@ -26,7 +26,7 @@
 .compact .copy { padding: 0; }.compact .byline { margin-bottom: 8px; }.compact .message { font-size: .9375rem; }.compact .link { margin-top: 6px; }
 .standalone { width: min(1120px, calc(100% - 3rem)); margin: 32px auto 56px; }
 @media (max-width: 640px) {
-  .guide { grid-template-columns: 110px 1fr; gap: 20px; border-radius: 18px; }.copy { padding: 24px 18px 24px 0; }.art > .portrait { min-height: 280px; }.art > .portrait img { object-position: 50% 10%; }.artLabel { font-size: .75rem; padding: 6px; letter-spacing: .08em; left: 6px; right: 6px; }.copy h3 { font-size: 1.2rem; }.message { font-size: .9375rem; }.byline { gap: 7px; }.link { gap: 10px; font-size: .875rem; }
+  .guide { grid-template-columns: 110px 1fr; gap: 20px; border-radius: 18px; }.copy { padding: 24px 18px 24px 0; }.art > .portrait { min-height: 280px; }.art > .portrait img { object-position: 50% 10%; }.artLabel { font-size: .75rem; padding: 6px; letter-spacing: .08em; left: 6px; right: 6px; }.copy :is(h2,h3) { font-size: 1.2rem; }.message { font-size: .9375rem; }.byline { gap: 7px; }.link { gap: 10px; font-size: .875rem; }
   .compact { grid-template-columns: 48px 1fr; padding: 20px 18px; gap: 14px; }.compact .art > .avatar { width: 48px; height: 48px; }.standalone { width: calc(100% - 2rem); }
 }
 @media (max-width: 380px) { .guide:not(.compact) { grid-template-columns: 1fr; }.guide:not(.compact) .art { max-height: 210px; }.guide:not(.compact) .art > .portrait img { object-position: 50% 16%; height: 280px; }.guide:not(.compact) .copy { padding: 0 22px 24px; } }

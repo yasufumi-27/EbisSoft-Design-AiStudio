@@ -49,7 +49,7 @@ const INITIAL_POSTS: Post[] = [
     platform: "x",
     author: "エビスソフト",
     handle: "@ebisusoft",
-    body: "AIエージェントで実装を並列化したら、LPの制作が5日で公開まで完了。空いた時間はCore Web Vitalsの詰めに使えました。Lighthouse は100点。",
+    body: "AIエージェントで実装を並列化したら、LPの制作が5日で公開まで完了。空いた時間はCore Web Vitalsの詰めに使えました。Lighthouseで表示速度と操作性を確認しました。",
     tags: ["AI開発", "Nextjs"],
     likes: 512,
     comments: 38,

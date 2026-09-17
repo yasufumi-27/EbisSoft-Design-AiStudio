@@ -22,6 +22,7 @@ export function CharacterGuide({ character, children, title, href, linkLabel, co
   character: Character; children: ReactNode; title?: string; href?: string; linkLabel?: string; compact?: boolean; standalone?: boolean;
 }) {
   const person = people[character];
+  const Heading = standalone ? "h2" : "h3";
   return <aside className={`${styles.guide} ${compact ? styles.compact : ""} ${standalone ? styles.standalone : ""}`} data-character={character} data-enter aria-label={`${person.role}・${person.name}からのご案内`}>
     <div className={styles.art}>
       <CharacterPortrait character={character} avatar={compact} decorative/>
@@ -29,7 +30,7 @@ export function CharacterGuide({ character, children, title, href, linkLabel, co
     </div>
     <div className={styles.copy}>
       <p className={styles.byline}><span>{person.role}</span><b>{person.name}</b><i aria-hidden="true"/></p>
-      {title && <h3>{title}</h3>}
+      {title && <Heading>{title}</Heading>}
       <div className={styles.message}>{children}</div>
       {href && linkLabel && <Link href={href} className={styles.link}>{linkLabel}<span aria-hidden="true">↗</span></Link>}
     </div>

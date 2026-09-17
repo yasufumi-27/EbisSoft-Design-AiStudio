@@ -566,3 +566,14 @@
 @media(max-width:699px) {
   .ds[data-industry="auto"] .ds-block-menu .ds-menu-list { grid-template-columns: minmax(0,1fr); }
 }
+
+/* Balance Japanese headlines without leaving a verb ending alone on the last line. */
+.ds :is(h1,h2,h3) { text-wrap: balance; }
+.ds[data-industry="apparel"] .ds-hero-copy { padding: clamp(2rem,4vw,4.5rem); }
+.ds[data-industry="apparel"] .ds-hero h1 { font-size: clamp(2.5rem,4.6vw,5rem); line-height: 1.2; }
+@media(max-width:899px) {
+  .ds[data-industry="clinic"] .ds-block-about .ds-card:first-child { display: block; grid-column: auto; }
+  .ds[data-industry="apparel"] .ds-hero-copy { padding: 2.5rem 1.25rem; }
+  .ds[data-industry="apparel"] .ds-hero h1 { font-size: clamp(2.3rem,9vw,3rem); }
+}
+.ds-title-line { display: block; text-wrap: balance; }

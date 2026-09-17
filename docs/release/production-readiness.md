@@ -58,3 +58,7 @@ npm run package:production
 ブラウザー検査はローカルChromiumでの表示、レイアウト寸法、スクロール後の表示、画像読み込み、JavaScriptエラーを対象とする。実機iPhone Safari、メール配送、Search Console内の登録結果、実ユーザーのCore Web Vitals、検索順位・AI引用の結果は未検証。
 
 参考: [GoogleのAI検索ガイド](https://developers.google.com/search/docs/fundamentals/ai-optimization-guide)、[noindexとクロール](https://developers.google.com/search/docs/crawling-indexing/robots-meta-tag)。
+
+## 追加の品質点検
+
+[2026-09-17のLighthouse・E-E-A-T点検](site-quality-review.md)を参照。スマホ性能は改善余地があり、常駐クロマ等の配信用画像の軽量化と、実測値・実案件の根拠資料の充実を優先する。改行は全73ページ×4幅で別途点検し、検出箇所を修正した。

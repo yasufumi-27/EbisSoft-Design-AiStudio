@@ -85,7 +85,7 @@ export const columns: Column[] = [
       "AI Web制作 できること",
     ],
     published: "2026-08-03",
-    updated: "2026-08-03",
+    updated: "2026-09-17",
     category: "AI活用",
     icon: "sparkles",
     readMinutes: 6,
@@ -152,7 +152,7 @@ export const columns: Column[] = [
       {
         type: "ul",
         items: [
-          "表示速度（Core Web Vitals）の作り込み。当サイト自身が性能スコア100点で動いています",
+          "表示速度の検証と改善。Lighthouseのラボ計測と、公開後のCore Web Vitalsの実ユーザーデータを区別して確認します",
           "アクセシビリティ（キーボード操作・読み上げ・色のコントラスト）の確認",
           "文章の精度。初稿はAIでも、事実確認と言い切り方の調整は人が行います",
         ],

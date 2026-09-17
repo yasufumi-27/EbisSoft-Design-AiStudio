@@ -112,9 +112,9 @@ export default async function IndustryShowcasePage({
         eyebrow={data.eyebrow}
         title={
           <>
-            <span className="text-gradient">{data.name}</span>の
+            <span className="text-gradient">{`${data.name}の`}</span>
             <br />
-            Webサイトでできること
+            Webサイトで<span className="nb">できること</span>
           </>
         }
         lead={data.tagline}
