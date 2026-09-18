@@ -6,7 +6,7 @@ import styles from "./CharacterGuide.module.css";
 
 const people = {
   chroma: { name: "クロマ", role: "AI広報", en: "CHROMA", src: "chroma-official-v2.jpg", alt: "赤いボブヘアとシアンの衣装が特徴のAI広報キャラクター、クロマ" },
-  ebisu: { name: "エビスさん", role: "マネージャー", en: "EBISU", src: "ebisu-original.jpg", alt: "釣り竿と赤い鯛を伴う、エビスソフトのマネージャーキャラクター、エビスさん" },
+  ebisu: { name: "エビスさん", role: "マネージャー", en: "YEBISU", src: "ebisu-original.jpg", alt: "釣り竿と赤い鯛を伴う、エビスソフトのマネージャーキャラクター、エビスさん" },
 } as const;
 export type Character = keyof typeof people;
 const basePath = process.env.NEXT_PUBLIC_BASE_PATH ?? "";

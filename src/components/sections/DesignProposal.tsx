@@ -21,12 +21,12 @@ export function DesignProposal({ variant }: { variant: ProposalVariant }) {
   return (
     <div className={`design-proposal ${data.tone}`}>
       <div className="proposal-switcher" aria-label="デザイン案を切り替える">
-        <Link href="/proposal" className="proposal-switcher-home">DESIGN STUDY / EBISU SOFT</Link>
+        <Link href="/proposal" className="proposal-switcher-home">DESIGN STUDY / YEBISU SOFT</Link>
         <div className="proposal-switcher-links">{links.map(([key, letter, title, color]) => <Link key={key} className={key === variant ? "is-current" : ""} href={`/proposal/${key}`}><b>{jaNode(letter)}</b><span>{jaNode(title)}</span><small>{jaNode(color)}</small></Link>)}</div>
       </div>
       <section className="proposal-hero">
         <div className="proposal-hero-copy">
-          <p className="proposal-label">{jaNode(data.label)} / EBISU SOFT / KYOTO</p>
+          <p className="proposal-label">{jaNode(data.label)} / YEBISU SOFT / KYOTO</p>
           <h1>{data.title.split("\n").map((line) => <span key={line}>{jaNode(line)}</span>)}</h1>
           <p className="proposal-accent">{jaNode(data.accent)}</p>
           <p className="proposal-intro">{jaNode(data.intro)}</p>
@@ -41,5 +41,5 @@ export function DesignProposal({ variant }: { variant: ProposalVariant }) {
 }
 
 export function ProposalIndex() {
-  return <div className="proposal-index"><p className="proposal-index-kicker">EBISU SOFT / DESIGN STUDY</p><h1>{jaNode("3つの方向から、")}<br /><em>{jaNode("エビスソフト")}</em>{jaNode("を考える。")}</h1><p>{jaNode("同じ事業内容を、異なる温度と見せ方でデザインしました。カードを選ぶと各案の詳細を確認できます。")}</p><div className="proposal-index-grid">{links.map(([key, letter, title, color]) => <Link key={key} href={`/proposal/${key}`} className={`proposal-index-card proposal-index-${key}`}><b>{jaNode(letter)}</b><span>{jaNode(title)}</span><small>{jaNode(color)}</small><i>↗</i></Link>)}</div><Link className="proposal-index-back" href="/">{jaNode("通常のトップページへ戻る")}</Link></div>;
+  return <div className="proposal-index"><p className="proposal-index-kicker">YEBISU SOFT / DESIGN STUDY</p><h1>{jaNode("3つの方向から、")}<br /><em>{jaNode("エビスソフト")}</em>{jaNode("を考える。")}</h1><p>{jaNode("同じ事業内容を、異なる温度と見せ方でデザインしました。カードを選ぶと各案の詳細を確認できます。")}</p><div className="proposal-index-grid">{links.map(([key, letter, title, color]) => <Link key={key} href={`/proposal/${key}`} className={`proposal-index-card proposal-index-${key}`}><b>{jaNode(letter)}</b><span>{jaNode(title)}</span><small>{jaNode(color)}</small><i>↗</i></Link>)}</div><Link className="proposal-index-back" href="/">{jaNode("通常のトップページへ戻る")}</Link></div>;
 }
