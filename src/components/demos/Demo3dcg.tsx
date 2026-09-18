@@ -5,7 +5,6 @@ import { useEffect, useRef, useState } from "react";
 import * as THREE from "three";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls.js";
 import { RoomEnvironment } from "three/examples/jsm/environments/RoomEnvironment.js";
-import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader.js";
 import { ChipButton, ControlGroup, DemoStage, RangeControl, SwitchButton } from "./DemoUi";
 import { createLogo3d, LOGO_BLUE, type Logo3d } from "@/components/fx/logo3d";
 import {
@@ -35,7 +34,6 @@ const modelKeyOf = (s: ShapeKey): IndustryModelKey | null =>
 
 /** 職種が決まっていないとき（`/demo/3dcg`）に見せる、仕組み確認用の形状 */
 const SHAPES: { key: ShapeKey; label: string }[] = [
-  { key: "m:audi-r8", label: "Audi R8 Spyder" },
   { key: "logo", label: "会社ロゴ" },
   { key: "knot", label: "トーラスノット" },
   { key: "icosa", label: "多面体" },
@@ -53,14 +51,8 @@ const MATERIALS: { key: MaterialKey; label: string }[] = [
 
 /** 既定のカラー（基本形状のとき） */
 const CYAN = "#22d3ee";
-const R8_RED = "#d90817";
-const R8_FRAME_COUNT = 8;
-const R8_SPRITE_URL = `${process.env.NEXT_PUBLIC_BASE_PATH ?? ""}/images/audi-r8-type42-360-sprite.png`;
-const R8_MODEL_URL = `${process.env.NEXT_PUBLIC_BASE_PATH ?? ""}/models/audi-r8-type42-hunyuan.glb?v=4`;
-const R8_VIEW_LABELS = ["正面", "右前", "右側", "右後", "後面", "左後", "左側", "左前"] as const;
 
 const COLORS = [
-  { hex: R8_RED, label: "R8 レッド" },
   { hex: LOGO_BLUE, label: "ロゴブルー" },
   { hex: CYAN, label: "シアン" },
   { hex: "#8b5cf6", label: "バイオレット" },
@@ -156,22 +148,13 @@ export default function Demo3dcg({
 
   const [shape, setShape] = useState<ShapeKey>(initialShape);
   const [material, setMaterial] = useState<MaterialKey>("metal");
-  const [color, setColor] = useState(initialShape === "m:audi-r8" ? R8_RED : CYAN);
+  const [color, setColor] = useState(CYAN);
   const [light, setLight] = useState(120);
   const [autoRotate, setAutoRotate] = useState(true);
   const [ready, setReady] = useState(false);
   const [unsupported, setUnsupported] = useState(false);
   const [fps, setFps] = useState(0);
   const [triangles, setTriangles] = useState(0);
-  const [r8Frame, setR8Frame] = useState(7);
-  const [r8Display, setR8Display] = useState<"model" | "photo">("model");
-  const r8DragRef = useRef<{ x: number; frame: number } | null>(null);
-  const isR8 = shape === "m:audi-r8";
-  const showR8Photo = isR8 && (r8Display === "photo" || unsupported);
-
-  const normalizeR8Frame = (frame: number) =>
-    ((frame % R8_FRAME_COUNT) + R8_FRAME_COUNT) % R8_FRAME_COUNT;
-
   /* ------------------------------------------------------------------
    * シーンの構築（マウント時に一度だけ）
    * ---------------------------------------------------------------- */
@@ -249,39 +232,6 @@ export default function Demo3dcg({
     const pendingProducts = new Map<IndustryModelKey, Promise<IndustryModel>>();
     let requestedShape: ShapeKey = initialShape;
     let disposed = false;
-    let r8Model: THREE.Group | null = null;
-    let r8ModelPromise: Promise<THREE.Group> | null = null;
-
-    const ensureR8Model = () => {
-      if (r8Model) return Promise.resolve(r8Model);
-      if (r8ModelPromise) return r8ModelPromise;
-      r8ModelPromise = new GLTFLoader().loadAsync(R8_MODEL_URL).then(({ scene: loaded }) => {
-        const bounds = new THREE.Box3().setFromObject(loaded);
-        const center = bounds.getCenter(new THREE.Vector3());
-        loaded.position.sub(center);
-        loaded.position.y += bounds.getSize(new THREE.Vector3()).y * 0.04;
-        loaded.rotation.y = -Math.PI / 5;
-        loaded.visible = false;
-        let count = 0;
-        loaded.traverse((object) => {
-          if (!(object instanceof THREE.Mesh)) return;
-          object.castShadow = true;
-          object.receiveShadow = true;
-          const index = object.geometry.getIndex();
-          count += index ? index.count / 3 : object.geometry.getAttribute("position").count / 3;
-        });
-        if (disposed) return loaded;
-        r8Model = loaded;
-        scene.add(loaded);
-        if (requestedShape === "m:audi-r8") {
-          loaded.visible = true;
-          setTriangles(Math.round(count));
-        }
-        return loaded;
-      });
-      return r8ModelPromise;
-    };
-
     const applyMaterial = () => {
       const next = createMaterial(matKind, matColor);
       mesh.material = next;
@@ -357,7 +307,6 @@ export default function Demo3dcg({
     apiRef.current = {
       setShape: (s) => {
         requestedShape = s;
-        if (r8Model) r8Model.visible = false;
         const modelKey = modelKeyOf(s);
         if (s === "logo") {
           ensureLogo();
@@ -369,11 +318,6 @@ export default function Demo3dcg({
           mesh.visible = false;
           if (logo) logo.group.visible = false;
           products.forEach((p) => (p.group.visible = false));
-          if (modelKey === "audi-r8") {
-            setTriangles(0);
-            void ensureR8Model();
-            return;
-          }
           void ensureProduct(modelKey).then((current) => {
             if (disposed || requestedShape !== s) return;
             products.forEach((p) => (p.group.visible = p === current));
@@ -408,8 +352,7 @@ export default function Demo3dcg({
         controls.autoRotate = v && !prefersReducedMotion;
       },
       reset: () => {
-        const r8Active = requestedShape === "m:audi-r8";
-        camera.position.set(r8Active ? 0.2 : 0, r8Active ? 1.0 : 0.6, 6.2);
+        camera.position.set(0, 0.6, 6.2);
         controls.target.set(0, 0, 0);
         controls.update();
       },
@@ -483,14 +426,6 @@ export default function Demo3dcg({
       mat.dispose();
       logo?.dispose();
       products.forEach((p) => p.dispose());
-      if (r8Model) {
-        r8Model.traverse((object) => {
-          if (!(object instanceof THREE.Mesh)) return;
-          object.geometry.dispose();
-          const materials = Array.isArray(object.material) ? object.material : [object.material];
-          materials.forEach((item) => item.dispose());
-        });
-      }
       glow.geometry.dispose();
       (glow.material as THREE.Material).dispose();
       envRT.dispose();
@@ -521,20 +456,10 @@ export default function Demo3dcg({
     apiRef.current?.setAutoRotate(autoRotate);
   }, [autoRotate]);
 
-  useEffect(() => {
-    if (!isR8 || !autoRotate) return;
-    const timer = window.setInterval(() => {
-      setR8Frame((frame) => normalizeR8Frame(frame + 1));
-    }, 900);
-    return () => window.clearInterval(timer);
-  }, [isR8, autoRotate, r8Display]);
-
   /** 会社ロゴ（画像テクスチャ）表示中は、素材・カラーの切替が効かない */
   const isLogo = shape === "logo";
-  const r8Column = r8Frame % 4;
-  const r8Row = Math.floor(r8Frame / 4);
 
-  if (unsupported && !isR8) {
+  if (unsupported) {
     return (
       <DemoStage label="エビスソフト.WebGL_Viewer">
         <div className="p-10 text-center text-sm text-slate-400">
@@ -550,61 +475,16 @@ export default function Demo3dcg({
     <div className="grid gap-5 [&>*]:min-w-0 lg:grid-cols-5">
       <DemoStage
         className="min-w-0 lg:col-span-3"
-        label={showR8Photo ? "エビスソフト.Photo360_Viewer" : "エビスソフト.WebGL_Viewer"}
-        status={showR8Photo ? "8 VIEW · PHOTO 360" : ready ? `${fps} FPS · ${triangles.toLocaleString()} TRI` : "LOADING…"}
+        label="エビスソフト.WebGL_Viewer"
+        status={ready ? `${fps} FPS · ${triangles.toLocaleString()} TRI` : "LOADING…"}
       >
         <div className="relative h-[300px] overflow-hidden sm:h-[420px]">
           {/* 実際のWebGLキャンバスがここに描画されます */}
           <div
             ref={mountRef}
-            className={`absolute inset-0 h-full w-full cursor-grab bg-[radial-gradient(circle_at_50%_35%,rgba(34,211,238,0.10),transparent_60%)] active:cursor-grabbing ${showR8Photo ? "invisible" : "visible"}`}
+            className="absolute inset-0 h-full w-full cursor-grab bg-[radial-gradient(circle_at_50%_35%,rgba(34,211,238,0.10),transparent_60%)] active:cursor-grabbing"
           />
-          {showR8Photo ? (
-            <div
-              className="absolute inset-0 grid cursor-ew-resize touch-pan-y place-items-center bg-[#d8d8d8] select-none"
-              role="img"
-              tabIndex={0}
-              aria-label={`Audi R8 Spyder 360度ビュー：${R8_VIEW_LABELS[r8Frame]}`}
-              onPointerDown={(event) => {
-                event.currentTarget.setPointerCapture(event.pointerId);
-                r8DragRef.current = { x: event.clientX, frame: r8Frame };
-              }}
-              onPointerMove={(event) => {
-                const drag = r8DragRef.current;
-                if (!drag) return;
-                const steps = Math.round((event.clientX - drag.x) / 34);
-                setR8Frame(normalizeR8Frame(drag.frame - steps));
-              }}
-              onPointerUp={() => {
-                r8DragRef.current = null;
-              }}
-              onPointerCancel={() => {
-                r8DragRef.current = null;
-              }}
-              onKeyDown={(event) => {
-                if (event.key === "ArrowRight") {
-                  event.preventDefault();
-                  setR8Frame((frame) => normalizeR8Frame(frame + 1));
-                }
-                if (event.key === "ArrowLeft") {
-                  event.preventDefault();
-                  setR8Frame((frame) => normalizeR8Frame(frame - 1));
-                }
-              }}
-            >
-              <div
-                className="aspect-square h-full max-w-full bg-no-repeat"
-                style={{
-                  backgroundImage: `url(${R8_SPRITE_URL})`,
-                  backgroundPosition: `${(r8Column * 100) / 3}% ${r8Row * 100}%`,
-                  backgroundSize: "400% 200%",
-                }}
-              />
-              <span className="pointer-events-none absolute left-3 top-3 rounded-full border border-black/10 bg-white/85 px-3 py-1 text-[10px] font-bold tracking-[0.16em] text-slate-700 shadow-sm backdrop-blur">
-                {String(r8Frame + 1).padStart(2, "0")} / 08 · {jaNode(R8_VIEW_LABELS[r8Frame])}
-              </span>
-            </div>
-          ) : !ready ? (
+          {!ready ? (
             <div className="absolute inset-0 grid place-items-center">
               <span className="font-display animate-pulse text-xs tracking-[0.3em] text-slate-500">
                 INITIALIZING WEBGL…
@@ -612,7 +492,7 @@ export default function Demo3dcg({
             </div>
           ) : null}
           <p className="pointer-events-none absolute bottom-3 left-1/2 -translate-x-1/2 rounded-full border border-white/10 bg-ink/70 px-3 py-1 text-[11px] text-slate-400 backdrop-blur">
-            {jaNode(showR8Photo ? "左右ドラッグ・矢印キーで回転 / 8方向フォトビュー" : "ドラッグで回転 / ホイール・ピンチで拡大")}
+            {jaNode("ドラッグで回転 / ホイール・ピンチで拡大")}
           </p>
         </div>
       </DemoStage>
@@ -651,28 +531,7 @@ export default function Demo3dcg({
           ))}
         </ControlGroup>
 
-        {isR8 ? (
-          <ControlGroup label="Display / 表示方式">
-            <ChipButton active={r8Display === "model" && !unsupported} onClick={() => setR8Display("model")}>
-              3Dモデル
-            </ChipButton>
-            <ChipButton active={r8Display === "photo" || unsupported} onClick={() => setR8Display("photo")}>
-              8方向写真
-            </ChipButton>
-          </ControlGroup>
-        ) : null}
-
-        {showR8Photo ? (
-          <ControlGroup label="View / 角度">
-            {R8_VIEW_LABELS.map((label, index) => (
-              <ChipButton key={label} active={r8Frame === index} onClick={() => setR8Frame(index)}>
-                {label}
-              </ChipButton>
-            ))}
-          </ControlGroup>
-        ) : null}
-
-        {!isR8 ? <ControlGroup label="Material / 素材">
+        <ControlGroup label="Material / 素材">
           {MATERIALS.map((m) => (
             <ChipButton
               key={m.key}
@@ -682,9 +541,9 @@ export default function Demo3dcg({
               {m.label}
             </ChipButton>
           ))}
-        </ControlGroup> : null}
+        </ControlGroup>
 
-        {!isR8 ? <ControlGroup label="Color / カラー">
+        <ControlGroup label="Color / カラー">
           {COLORS.map((c) => (
             <button
               key={c.hex}
@@ -700,21 +559,13 @@ export default function Demo3dcg({
               style={{ backgroundColor: c.hex }}
             />
           ))}
-        </ControlGroup> : null}
+        </ControlGroup>
 
         {isLogo ? (
           <p className="rounded-lg border border-brand/25 bg-brand/[0.07] px-3 py-2 text-xs leading-relaxed text-brand-light">{jaNode("画像ではなく実物の3Dモデルです。「YEBISU」は押し出した立体文字、リングは別オブジェクトで文字の周りを回り、「Soft」は固定。素材とカラーは文字に反映されます。")}</p>
         ) : null}
 
-        {shape === "m:audi-r8" ? (
-          <p className="rounded-lg border border-rose-400/25 bg-rose-500/[0.06] px-3 py-2 text-xs leading-relaxed text-rose-100">{jaNode("人手制作のType 42高密度メッシュをベースに、BlenderでSpyder化・4.440m実寸補正。添付写真に合わせた赤い車体、分割Yスポーク、社外グリル、黒いリアパネル、右後部の給油口を反映し、ホイール／タイヤ／ライトは独立部品です。Audi公式CADではありません。ベースモデル：")}{" "}
-            <a className="underline underline-offset-2 hover:text-white" href="https://sketchfab.com/3d-models/audi-r8-v10-type-42-7463fcd44a00428486c09487f7fcda0c" target="_blank" rel="noreferrer">
-              Mona x Supercars / Car2022（CC BY 4.0）
-            </a>
-          </p>
-        ) : null}
-
-        {!showR8Photo ? <RangeControl
+        <RangeControl
           label="Light / 光量"
           value={light}
           min={20}
@@ -722,26 +573,21 @@ export default function Demo3dcg({
           step={5}
           suffix="%"
           onChange={setLight}
-        /> : null}
+        />
 
         <div className="flex flex-wrap gap-2 border-t border-white/10 pt-4">
           <SwitchButton checked={autoRotate} onChange={setAutoRotate}>
             自動回転
           </SwitchButton>
           <ChipButton active={false} onClick={() => {
-            if (showR8Photo) setR8Frame(7);
-            else apiRef.current?.reset();
+            apiRef.current?.reset();
           }}>
             視点をリセット
           </ChipButton>
         </div>
 
         <p className="text-xs leading-relaxed text-slate-500">
-          {jaNode(showR8Photo
-            ? "R8の8方向写真をドラッグ量に応じて切り替える比較表示です。3Dモデル表示へ戻すと、自由回転・拡大と独立パーツ構成を確認できます。"
-            : isR8
-              ? "Type 42の高密度ベースをBlenderでオーナー仕様のSpyderへ再構築し、ホイール／タイヤ／ライト／給油口を別部品化したWebGLモデルです。"
-            : "描画はブラウザ上のリアルタイムWebGLです。環境マップ（映り込み）・トーンマッピングを、追加のプラグインなしで実装しています。")}
+          {jaNode("描画はブラウザ上のリアルタイムWebGLです。環境マップ（映り込み）・トーンマッピングを、追加のプラグインなしで実装しています。")}
         </p>
       </div>
     </div>
