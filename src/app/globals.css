@@ -4040,8 +4040,8 @@ main h3 {
 .assistant-chroma .assistant-launcher-ping { top: 10%; left: 12%; background: #95e6ef; box-shadow: 0 0 10px #95e6ef; }
 .chroma-nameplate { position: absolute; bottom: -2px; left: 50%; transform: translateX(-50%); white-space: nowrap; display: inline-flex; align-items: center; gap: 6px; border: 1px solid #93dcea55; border-radius: 100px; padding: 4px 8px; background: #101827ef; color: #f4f6fc; font-size: .75rem; }
 .chroma-nameplate > span { color: #9bdee9; font-size: .75rem; }
-.chroma-chat-face { display: inline-block; overflow: hidden; position: relative; flex-shrink: 0; border-radius: 50%; background: #f0dfd5; }
-.chroma-chat-face img { position: absolute; width: 200%; max-width: none; height: auto; left: -50%; top: -4%; }
+.chroma-chat-face { display: inline-block; overflow: hidden; position: relative; flex-shrink: 0; border-radius: 25%; background: #17263a; }
+.chroma-chat-face img { position: absolute; width: 180%; max-width: none; height: auto; left: -40%; top: -5%; image-rendering: pixelated; }
 .assistant-chroma .assistant-slot { max-height: calc(100dvh - var(--launcher-h) - 3rem); }
 @keyframes chroma-idle { 0%,100% { transform: translateY(0) rotate(-1deg); } 50% { transform: translateY(-4px) rotate(1deg); } }
 @keyframes chroma-greet { 0%,100% { transform: translateY(0) rotate(0); } 35% { transform: translateY(-9px) rotate(-5deg); } 70% { transform: translateY(-3px) rotate(4deg); } }
