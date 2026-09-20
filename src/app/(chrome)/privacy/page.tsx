@@ -9,7 +9,7 @@ import { Breadcrumbs } from "@/components/site/Breadcrumbs";
 import { ja, jaNode } from "@/lib/typography";
 
 const title = "プライバシーポリシー";
-const description = `${siteConfig.legalName}における個人情報の取り扱い、利用目的、第三者提供、アクセス解析ツールの利用についてご説明します。`;
+const description = `${siteConfig.legalName}のプライバシーポリシー。お客様からお預かりする個人情報の取得・利用目的・第三者への提供・委託、アクセス解析ツールの利用、生成AIを用いる際の取り扱い、開示等のご請求方法をご説明します。`;
 
 export const metadata: Metadata = {
   title,
