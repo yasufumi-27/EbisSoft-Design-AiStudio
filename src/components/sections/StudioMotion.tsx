@@ -32,6 +32,12 @@ export function StudioMotion({ children, variant = "home" }: { children: ReactNo
 
       const sections = Array.from(root.querySelectorAll<HTMLElement>("[data-motion-section]"));
       const enterElements = Array.from(root.querySelectorAll<HTMLElement>("[data-enter]"));
+      // First-view copy must not fade out again when hydration finishes.
+      // Later scroll entrances and all particle/scroll motion remain unchanged.
+      for (const el of enterElements) {
+        const rect = el.getBoundingClientRect();
+        if (rect.top < window.innerHeight && rect.bottom > 0) el.dataset.entered = "true";
+      }
       const animations = new Set<Animation>();
       const observed = new IntersectionObserver(entries => {
         for (const entry of entries) {

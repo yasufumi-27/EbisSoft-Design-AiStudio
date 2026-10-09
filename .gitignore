@@ -51,3 +51,10 @@ next-env.d.ts
 
 # Local production handoff archives
 /.release/
+
+# Local performance evidence
+/.performance-review/
+
+# Local automation state and migration evidence
+/.column-automation/
+/output/

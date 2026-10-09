@@ -79,6 +79,7 @@ export function PageHero({
               {actions.map((a) => (
                 <Link
                   key={a.href + a.label}
+                  prefetch={false}
                   href={a.href}
                   className={`ai-btn ${a.primary ? "ai-btn-solid" : "ai-btn-line"} studio-btn-lg`}
                 >

@@ -1,4 +1,6 @@
 "use client";
+
+import "@/components/demos/demos.css";
 import { jaNode } from "@/lib/typography";
 
 import type { ReactNode } from "react";

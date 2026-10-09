@@ -1,38 +1,19 @@
 import { Children, Fragment, createElement, cloneElement, isValidElement } from "react";
-import { Parser, jaModel } from "budoux";
+import boundaries from "./generated/japanese-boundaries.json";
+import { phraseKey } from "./phrase-key.mjs";
+import { segmentJapanese } from "./japanese-segmentation.mjs";
 
-// The same bundled model runs during export and hydration, including Safari.
-// Do not use browser-dependent Intl segmentation or split at a character count.
-const parser = new Parser(jaModel);
-
-// Editorial terms and compound endings that the general model can split.
-const KEEP = /そのもの|その日|システムとも|すなわち|手がかり|間取り|に対して|に関する|を通じて|切り出し|まるごと|なくす|その場しのぎ|障がい|として|について|によって|による|により|という|といった|となり|にくい|にくく|もとづく|切り替[えわ][ぁ-ゖ]*|組み込[みむん][ぁ-ゖ]*|問い合わ[せす][ぁ-ゖ]*|打ち合わせ|取り扱[いうわ][ぁ-ゖ]*|エビスソフト|コンフィギュレーター/g;
-const widthOf = (text: string) => [...text].reduce((n, c) => n + (/[\x20-\x7e]/.test(c) ? 0.5 : 1), 0);
-
+// Static copy is segmented during build. Both SSR and hydration use identical
+// boundaries; new dynamic input uses the same pure model, never a DOM parser.
 export function japanesePhrases(text: string): string[] {
-  const breaks = new Set<number>();
-  let offset = 0;
-  for (const phrase of parser.parse(text)) {
-    offset += phrase.length;
-    if (offset < text.length) breaks.add(offset);
-  }
-  // Long compound technical terms may break at their component boundary,
-  // never after an arbitrary number of characters.
-  for (const match of text.matchAll(/(?:Web内|商品)(?=アニメーション|カスタマイズ)|アニメーション(?=ライブラリ|制作)|プライバシー(?=ポリシー)|デモサイトを(?=のぞいて)/g)) {
-    breaks.add(match.index + match[0].length);
-  }
-  for (const match of text.matchAll(KEEP)) {
-    for (const position of breaks) {
-      if (position > match.index && position < match.index + match[0].length) breaks.delete(position);
-    }
-  }
-  const points = [0, ...[...breaks].sort((a, b) => a - b), text.length];
-  const phrases = points.slice(1).map((end, i) => text.slice(points[i], end));
-  const last = phrases.at(-1);
-  if (last && phrases.length > 1 && widthOf(last) <= 3 && widthOf(phrases.at(-2)! + last) <= 12) {
-    phrases.splice(-2, 2, phrases.at(-2)! + last);
-  }
-  return phrases;
+  const cached = (boundaries as Record<string, number[]>)[phraseKey(text)];
+  if (!cached) return segmentJapanese(text);
+  let start = 0;
+  return [...cached, text.length].map(end => {
+    const phrase = text.slice(start, end);
+    start = end;
+    return phrase;
+  });
 }
 
 /** Keep Japanese phrases together, with real break opportunities between them.

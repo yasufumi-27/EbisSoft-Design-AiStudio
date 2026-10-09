@@ -14,6 +14,7 @@ loaded.paths = Module._nodeModulePaths(process.cwd());
 loaded._compile(ts.transpileModule(fs.readFileSync(filename, 'utf8'), {
   compilerOptions: {
     jsx: ts.JsxEmit.ReactJSX,
+    esModuleInterop: true,
     module: ts.ModuleKind.CommonJS,
     target: ts.ScriptTarget.ES2022,
   },

@@ -7,7 +7,8 @@ import { ContactLinkTracker } from "./ContactLinkTracker";
  * - `NEXT_PUBLIC_GA_ID`（例: G-XXXXXXXXXX）が設定されているビルドでだけ出力されます。
  *   未設定のローカル開発では何も読み込まないので、自分のアクセスで数字が汚れません。
  * - プレビュー（GitHub Pages）でも読み込みません。本番と同じ計測IDで二重に数えないためです。
- * - `afterInteractive`（既定）で読み込むため、初期表示・LCP はブロックしません。
+ * - 外部タグは load 後の idle に読み込み、本文描画との競合を減らします。
+ * - 初期化とイベントのキューは先に用意し、ロード前の操作も保持します。
  *
  * 設定方法は `docs/集客セットアップ.md` を参照。
  */
@@ -22,7 +23,7 @@ export function Analytics() {
     <>
       <Script
         src={`https://www.googletagmanager.com/gtag/js?id=${GA_ID}`}
-        strategy="afterInteractive"
+        strategy="lazyOnload"
       />
       {/* インラインスクリプトには id が必須（Next.js が重複読み込みを防ぐために使う） */}
       <Script id="ga4-init" strategy="afterInteractive">

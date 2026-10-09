@@ -1,0 +1,232 @@
+/* ===============================================================
+ * デモ（できること）用のスタイル。
+ * 外部アニメーションライブラリを使わず、CSSのみで実装しています。
+ * ============================================================= */
+
+/* --- 折りたたみの注記（デモの前提・補足）。読みたい人だけが開く --- */
+.demo-note {
+  border-radius: 0.75rem;
+  border: 1px solid rgba(170, 255, 220, 0.25);
+  background: rgba(170, 255, 220, 0.06);
+  padding: 0.9rem 1.1rem;
+}
+.demo-note > summary {
+  cursor: pointer;
+  list-style: none;
+  font-size: 0.75rem;
+  color: #94a3b8;
+  transition: color 0.2s ease;
+}
+.demo-note > summary::-webkit-details-marker {
+  display: none;
+}
+.demo-note > summary::after {
+  content: "＋";
+  float: right;
+  color: var(--color-gold);
+}
+.demo-note[open] > summary::after {
+  content: "−";
+}
+.demo-note > summary:hover {
+  color: #e2e8f0;
+}
+
+/* --- スライダー（レンジ入力） --- */
+.demo-range {
+  -webkit-appearance: none;
+  appearance: none;
+  height: 4px;
+  border-radius: 999px;
+  background: linear-gradient(90deg, rgba(182, 126, 255, 0.7), rgba(196, 160, 255, 0.6));
+  outline: none;
+}
+.demo-range::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 16px;
+  height: 16px;
+  border-radius: 999px;
+  background: #e6f6ff;
+  border: 2px solid var(--color-brand);
+  box-shadow: 0 0 12px rgba(182, 126, 255, 0.7);
+  cursor: pointer;
+}
+.demo-range::-moz-range-thumb {
+  width: 14px;
+  height: 14px;
+  border-radius: 999px;
+  background: #e6f6ff;
+  border: 2px solid var(--color-brand);
+  box-shadow: 0 0 12px rgba(182, 126, 255, 0.7);
+  cursor: pointer;
+}
+
+/* --- SVGパスの描画アニメーション --- */
+.svg-draw {
+  stroke-dasharray: 400;
+  stroke-dashoffset: 400;
+  animation: svg-draw 2s cubic-bezier(0.25, 0.8, 0.35, 1) forwards;
+}
+@keyframes svg-draw {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+.svg-dot {
+  opacity: 0;
+  animation: svg-dot 0.45s ease-out forwards;
+}
+@keyframes svg-dot {
+  from {
+    opacity: 0;
+    transform: scale(0.2);
+    transform-origin: center;
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* --- クリック時の波紋 --- */
+.demo-ripple {
+  position: absolute;
+  width: 12px;
+  height: 12px;
+  margin: -6px 0 0 -6px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.85);
+  transform: scale(0);
+  animation: demo-ripple 0.65s ease-out forwards;
+  pointer-events: none;
+}
+@keyframes demo-ripple {
+  to {
+    transform: scale(22);
+    opacity: 0;
+  }
+}
+
+/* --- 3Dフリップカード --- */
+.demo-flip {
+  perspective: 900px;
+}
+.demo-flip-inner {
+  position: relative;
+  display: block;
+  width: 100%;
+  height: 100%;
+  transform-style: preserve-3d;
+  transition: transform 0.7s cubic-bezier(0.2, 0.7, 0.3, 1);
+}
+.demo-flip-inner.is-flipped {
+  transform: rotateY(180deg);
+}
+.demo-flip-face {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  border-radius: 0.9rem;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+}
+.demo-flip-back {
+  transform: rotateY(180deg);
+}
+
+/* --- 時間差で現れるブロック --- */
+.stagger-item {
+  opacity: 0;
+  animation: stagger-in 0.55s cubic-bezier(0.2, 0.7, 0.3, 1) forwards;
+}
+@keyframes stagger-in {
+  from {
+    opacity: 0;
+    transform: translateY(14px) scale(0.9);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* --- 有機的に変形し続けるブロブ --- */
+.blob-morph {
+  border-radius: 62% 38% 46% 54% / 55% 42% 58% 45%;
+  animation: blob-morph 9s ease-in-out infinite;
+}
+@keyframes blob-morph {
+  0%,
+  100% {
+    border-radius: 62% 38% 46% 54% / 55% 42% 58% 45%;
+    transform: rotate(0deg);
+  }
+  33% {
+    border-radius: 38% 62% 63% 37% / 41% 63% 37% 59%;
+    transform: rotate(16deg);
+  }
+  66% {
+    border-radius: 55% 45% 33% 67% / 62% 35% 65% 38%;
+    transform: rotate(-12deg);
+  }
+}
+
+/* --- SNSフィードに新着が差し込まれるときの出現 --- */
+.sns-post {
+  animation: sns-in 0.5s cubic-bezier(0.2, 0.7, 0.3, 1);
+}
+@keyframes sns-in {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* --- 連携パイプラインを流れるデータ --- */
+.pipe-flow {
+  background-image: linear-gradient(
+    90deg,
+    rgba(182, 126, 255, 0.15) 0%,
+    var(--color-brand) 50%,
+    rgba(182, 126, 255, 0.15) 100%
+  );
+  background-size: 200% 100%;
+  animation: pipe-flow 1.1s linear infinite;
+}
+@keyframes pipe-flow {
+  to {
+    background-position: -200% 0;
+  }
+}
+
+/* --- イベントログの行が流れ込む --- */
+.log-line {
+  animation: log-in 0.3s ease-out;
+}
+@keyframes log-in {
+  from {
+    opacity: 0;
+    transform: translateX(-6px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+
+@media (prefers-reduced-motion: reduce) {
+  .blob-morph, .pipe-flow, .sns-post, .log-line, .stagger-item, .svg-draw, .svg-dot, .demo-ripple { animation: none; transition: none; }
+  .stagger-item, .svg-dot { opacity: 1; }
+  .svg-draw { stroke-dashoffset: 0; }
+  .demo-flip-inner { transition: none; }
+}

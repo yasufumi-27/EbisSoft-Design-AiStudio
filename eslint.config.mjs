@@ -12,6 +12,11 @@ const eslintConfig = defineConfig([
     "out/**",
     "build/**",
     "next-env.d.ts",
+    // Local audit snapshots and release artifacts are generated output.
+    ".performance-review/**",
+    ".release/**",
+    ".column-automation/**",
+    "output/**",
   ]),
 ]);
 

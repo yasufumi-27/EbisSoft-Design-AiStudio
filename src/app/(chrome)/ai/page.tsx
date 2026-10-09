@@ -1,3 +1,4 @@
+import { AiAssistant } from "@/components/sections/AiAssistant";
 import { socialMetadata } from "@/lib/socialMetadata";
 import { CharacterGuide } from "@/components/characters/CharacterGuide";
 import type { Metadata } from "next";
@@ -16,15 +17,17 @@ import { Breadcrumbs } from "@/components/site/Breadcrumbs";
 import { PageHero, FlightList, ModuleBoard, StatRow, ClosingCta } from "@/components/ui/Studio";
 import { Faq } from "@/components/sections/Faq";
 
-const title = "AI活用｜生成AIによる開発とAI機能の受託";
+const title = "AI社長秘書・AI秘書の作成｜業務に合わせたAI開発";
 const description =
-  "エビスソフトのAI活用について。生成AIを制作フロー全体に組み込んで期間を約1/3に短縮し、AIチャットボット（RAG）・音声AI・AIエージェント対応などのAI機能開発も手がけます。AI検索（AEO / LLMO）最適化にも対応。京都市伏見区。";
+  "社長専属のAI秘書から、社員の業務を支えるAI秘書まで作成。朝の予定・重要メールの整理、商談準備、指示や宿題の管理を支援します。連携ツールや承認フローの設計からご相談いただけます。AIチャットボット（RAG）やAI機能の開発にも対応。京都市伏見区のエビスソフト。";
 
 export const metadata: Metadata = {
   title,
   description,
   keywords: [
     "AI活用 Web制作",
+    "AI秘書 作成",
+    "AI 社長秘書",
     "生成AI 開発",
     "AIチャットボット 開発",
     "RAG 構築",
@@ -128,7 +131,7 @@ export default function AiPage() {
             作る側でも。
           </>
         }
-        lead="生成AIで制作期間を約1/3に。同時に、AI機能そのものの開発も受けています。"
+        lead="生成AIで制作期間を約1/3に。社長専属のAI秘書や、業務に合わせたAI機能も開発します。"
         actions={[
           { href: "/contact", label: "AI活用を相談する", primary: true },
           { href: "/demo", label: "動くデモを見る" },
@@ -138,6 +141,8 @@ export default function AiPage() {
 
       <CharacterGuide character="chroma" compact standalone>AIって、どこから使えばいい？ まずは「減らしたい手間」や「できたら便利なこと」から、一緒に見つけましょう。</CharacterGuide>
 
+      <AiAssistant />
+
       <StatRow items={stats} />
 
       <FlightList label="THREE SIDES OF AI" items={sides} />
@@ -146,9 +151,9 @@ export default function AiPage() {
         label="LIVE MODULES"
         title={
           <>
-            つくれるAI機能。
+            AI機能の一部を、
             <br />
-            すべて動かせます。
+            実際に試す。
           </>
         }
         lead="カタログではなく、その場で操作して確かめてください。"
