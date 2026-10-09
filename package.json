@@ -7,7 +7,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
-    "build:pages": "node scripts/prepare-typography.mjs && GITHUB_PAGES=true NEXT_PUBLIC_SITE_URL=https://yasufumi-27.github.io/EbisSoft-Design-AiStudio next build && node scripts/fix-image-extensions.mjs && node scripts/inline-critical-css.mjs --preview && node scripts/prepare-export.mjs --preview && node scripts/audit-export.mjs out https://yasufumi-27.github.io/EbisSoft-Design-AiStudio",
+    "build:pages": "node scripts/prepare-typography.mjs && GITHUB_PAGES=true NEXT_PUBLIC_SITE_URL=https://yasufumi-27.github.io/EbisSoft-Design-AiStudio next build && node scripts/fix-image-extensions.mjs && node scripts/inline-critical-css.mjs --preview && node scripts/prepare-export.mjs --preview && node scripts/prepare-secretary-page.mjs --preview && node scripts/audit-export.mjs out https://yasufumi-27.github.io/EbisSoft-Design-AiStudio",
     "size": "node scripts/bundle-size.mjs",
     "analyze": "GITHUB_PAGES=true next experimental-analyze",
     "build:sakura": "node scripts/build-production.mjs",

@@ -54,6 +54,14 @@ export function SiteFooter() {
               ))}
               {subNav.map((item) => (
                 <li key={item.href}>
+                  {item.href === "/ai-secretary" ? (
+                    <a
+                      href={`${process.env.NEXT_PUBLIC_BASE_PATH ?? ""}${item.href}`}
+                      className="text-slate-400 transition-colors hover:text-brand-light"
+                    >
+                      {jaNode(item.label)}
+                    </a>
+                  ) : (
                   <Link
                     prefetch={false}
                     href={item.href}
@@ -61,6 +69,7 @@ export function SiteFooter() {
                   >
                     {jaNode(item.label)}
                   </Link>
+                  )}
                 </li>
               ))}
             </ul>

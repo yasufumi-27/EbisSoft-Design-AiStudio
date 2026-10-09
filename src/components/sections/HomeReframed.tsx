@@ -1,4 +1,3 @@
-import { AiAssistant } from "./AiAssistant";
 import { jaNode } from "@/lib/typography";
 import Link from "next/link";
 import { CharacterGuide, CharacterPortrait } from "@/components/characters/CharacterGuide";
@@ -9,7 +8,7 @@ import { StudioPreview } from "./StudioPreview";
 import styles from "./StudioHome.module.css";
 
 const services = [
-  { no: "01", en: "AI DEVELOPMENT", title: <>AIを、<br/>仕事のパートナーに。</>, body: "社長専属のAI秘書から、社内の知識で答えるチャットボットまで。現場に合わせたAIを、設計から実装まで。", href: "/ai", more: "AI活用について", icon: "sparkles", tags: ["AI社長秘書", "RAG・チャットボット", "音声AI"] },
+  { no: "01", en: "AI DEVELOPMENT", title: <>AIを、<br/>仕事のパートナーに。</>, body: "社内の知識で答えるチャットボット。話しかけて使える音声AI。現場に合わせたAIを、設計から実装まで。", href: "/ai", more: "AI活用について", icon: "sparkles", tags: ["RAG・チャットボット", "音声AI", "AIエージェント"] },
   { no: "02", en: "WEB EXPERIENCE", title: <>見た目の、その先の<br/>成果まで。</>, body: "伝わるデザインと、使いやすい仕組み。コーポレートサイトからWebアプリまで、公開後の運用も見据えてつくります。", href: "/web", more: "Web制作について", icon: "layout", tags: ["Webサイト・EC", "Webアプリ", "SEO・AI検索対策"] },
   { no: "03", en: "EMBEDDED SYSTEMS", title: <>小さな機器から、<br/>大きな仕組みへ。</>, body: "ファームウェア、通信、クラウド連携。機器の中とWebの向こうをつなぎ、現場で動くシステムを実装します。", href: "/embedded", more: "組み込み開発について", icon: "cpu", tags: ["C / C++・RTOS", "BLE・Wi-Fi・CAN", "IoT・クラウド連携"] },
 ] as const;
@@ -70,8 +69,6 @@ export function HomeReframed() {
         </div>
         <CharacterGuide character="ebisu" title="AIの速さに、人の確かさを。" href="/ai" linkLabel="開発への考え方">マネージャーのエビスさんです。制作には生成AIを活用し、設計方針・レビュー・公開判断は人が担当します。</CharacterGuide>
       </section>
-
-      <AiAssistant compact />
 
       <section data-motion-section className={styles.demos} aria-labelledby="demos-title">
         <div className={styles.sectionRow} data-enter><div><p className={styles.eyebrow}>EXPLORE THE POSSIBILITIES</p><h2 id="demos-title">{jaNode("読むより、触れてみる。")}</h2></div><Link prefetch={false} href="/demo" className={styles.textLink}>{jaNode("15領域のデモを見る")}<span aria-hidden="true">↗</span></Link></div>

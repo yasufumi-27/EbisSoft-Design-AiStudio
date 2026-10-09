@@ -28,6 +28,7 @@ export const nav: NavItem[] = [
 
 /** フッター用の補助リンク（グローバルナビに載せない下層ページ）。 */
 export const subNav: NavItem[] = [
+  { label: "AI秘書", href: "/ai-secretary" },
   { label: "よくある質問", href: "/faq" },
   { label: "お問い合わせ", href: "/contact" },
   { label: "プライバシーポリシー", href: "/privacy" },

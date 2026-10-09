@@ -110,6 +110,9 @@ ${businessLines
   )
   .join("\n")}
 
+## AI秘書の開発・導入（${absoluteUrl("/ai-secretary")}）
+社長秘書・業務秘書をAIで支援する受託開発。朝の予定・メール整理、商談準備、議事録・タスク整理、社内資料検索が対象。参照権限・承認・操作履歴を設計し、小規模な試行から導入する。費用・期間は個別見積もり。画面例は架空データであり、顧客実績や提供済み完成品ではない。
+
 ## 提供サービス
 ${services
   .map(
@@ -174,6 +177,7 @@ ${faqs.map((f) => `### ${f.question}\n${f.answer}`).join("\n\n")}
 ## リンク
 - [トップページ](${siteConfig.homeUrl})
 - [AI活用](${absoluteUrl("/ai")})
+- [AI秘書の開発・導入](${absoluteUrl("/ai-secretary")})
 - [Web制作](${absoluteUrl("/web")})
 - [組み込み開発](${absoluteUrl("/embedded")})
 - [よくある質問](${absoluteUrl("/faq")})

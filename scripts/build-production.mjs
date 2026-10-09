@@ -5,4 +5,5 @@ run(process.execPath,['scripts/prepare-typography.mjs']);
 run(process.execPath,['node_modules/next/dist/bin/next','build']);
 run(process.execPath,['scripts/fix-image-extensions.mjs']);
 run(process.execPath,['scripts/inline-critical-css.mjs']);
+run(process.execPath,['scripts/prepare-secretary-page.mjs']);
 run(process.execPath,['scripts/audit-export.mjs','out','https://www.yebisusoft.jp']);

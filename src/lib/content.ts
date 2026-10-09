@@ -1082,16 +1082,6 @@ export function servicesByCategory(category: ServiceCategory): Service[] {
 
 export const services: Service[] = [
   {
-    slug: "ai-assistant",
-    title: "AI社長秘書・業務向けAI秘書",
-    description:
-      "朝の予定・重要メールの整理、商談準備、指示や宿題の管理を支えるAI社長秘書を構築。社長専属のサポートから社員の日常業務まで、仕事の進め方に合わせて設計します。",
-    icon: "bot",
-    features: ["社長の報告形式・優先順位に合わせて設計", "メール・カレンダー・社内資料との連携相談", "承認フロー・アクセス権限の設計"],
-    categories: ["ai"],
-  },
-
-  {
     slug: "ai-web-production",
     title: "AI活用型Web制作",
     description:
@@ -1514,27 +1504,6 @@ export type FaqCategory = "ai" | "web" | "embedded" | "price" | "company";
 export type Faq = { question: string; answer: string; category: FaqCategory };
 export const faqs: Faq[] = [
   {
-    question: "社長専属のAI秘書も作れますか？",
-    answer: "はい。朝の予定と重要メールの整理、商談や会議の事前準備、指示・宿題の管理、返信の下書きなどを支援するAI社長秘書を構築します。報告のタイミングや形式、優先順位の基準を社長の仕事の進め方に合わせて設計。経営判断は社長が行い、送信や予定の確定は人の承認を挟むことを基本にします。",
-    category: "ai",
-  },
-  {
-    question: "自社の業務に合わせたAI秘書を作れますか？",
-    answer: "はい。メールの下書き、予定の整理、議事録からのタスク抽出、社内資料の検索など、任せたい業務に合わせて構築します。まずはひとつの業務で試し、使い勝手を確認しながら対象を広げられます。連携の可否は、ご利用中のツールのAPI・契約プラン・権限を確認して判断します。",
-    category: "ai",
-  },
-  {
-    question: "AI秘書が勝手にメールを送信したり、予定を変更したりしませんか？",
-    answer: "外部への送信や予定の確定・変更は、人の確認・承認を挟む設計を基本にします。参照できる資料や操作できる範囲、操作履歴の記録、データの保存先と取り扱いを導入前に整理します。AIの出力には誤りが含まれる可能性があるため、重要な内容は担当者が確認する運用を組み込みます。",
-    category: "ai",
-  },
-  {
-    question: "AI秘書の作成費用と導入期間はどのくらいですか？",
-    answer: "対象業務、連携するツール、社内資料の整備状況、承認フローによって異なるため、個別にお見積もりします。Webサイト制作の料金プランとは別のご相談です。初回相談で実現したいことを伺い、小規模な試行の範囲と、開発費・運用費・AIや外部サービスの利用料を整理してご案内します。",
-    category: "ai",
-  },
-
-  {
     question: "AIを使うと、制作はどれくらい速くなりますか？",
     answer:
       "制作期間は従来の約1/3が目安です。小規模サイトなら最短5日、標準的なコーポレートサイトで3〜4週間で公開できます。要件整理・コピー・実装・テストの各工程にAIエージェントを組み込み、人は設計判断と品質のレビューに集中するためです。",
@@ -1873,7 +1842,7 @@ export const pageSummaries: Record<"ai" | "web" | "embedded" | "request", PageSu
     },
     {
       q: "作れるAI機能は？",
-      a: "社長専属のAI秘書や業務向けAI秘書、RAGチャットボット、音声AIなどを開発します。一部の機能は実動デモで確認できます。",
+      a: "自社データで答えるRAGチャットボット、音声AI、AIレコメンド、行動解析、AIエージェント対応。すべて実動デモで確認できます。",
     },
     {
       q: "品質はどう担保する？",
@@ -2229,6 +2198,12 @@ export type PageLink = {
 
 /** サイト内の主要ページ。各ページ末尾の「次に見るページ」に使用します。 */
 export const pageLinks: PageLink[] = [
+  {
+    href: "/ai-secretary",
+    title: "AI秘書",
+    description: "社長秘書・業務秘書をAIで支援。用途・導入手順・費用・確認の仕組み。",
+    icon: "bot",
+  },
   {
     href: "/ai",
     title: "AI活用",

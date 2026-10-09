@@ -23,6 +23,11 @@ export default function sitemap(): MetadataRoute.Sitemap {
       changeFrequency: "weekly",
       priority: 1,
     },
+    {
+      url: absoluteUrl("/ai-secretary"),
+      changeFrequency: "monthly",
+      priority: 0.9,
+    },
     // 3本柱（AI活用 → Web制作 → 組み込み開発の順に重要度を置く）
     {
       url: absoluteUrl("/ai"),
