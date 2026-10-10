@@ -4,11 +4,11 @@ import { CompanyLogo } from "@/components/site/CompanyLogo";
 import { breadcrumbJsonLd, faqJsonLd, webPageJsonLd } from "@/lib/jsonld";
 import { absoluteUrl, siteConfig } from "@/lib/site";
 import { socialMetadata } from "@/lib/socialMetadata";
-import { secretaryFaqs, secretaryTasks } from "@/lib/ai-secretary";
+import { secretaryFaqs, secretaryTasks, secretaryPricing, secretaryInitialYen, secretaryInitialLabel, secretaryMonthlyLabel } from "@/lib/ai-secretary";
 import styles from "./secretary.module.css";
 
 const title = "AI秘書の開発・導入｜社長秘書の業務をAIで支援";
-const description = "AI秘書・AI社長秘書を御社の業務に合わせて開発。メールの下書き、予定調整、会議準備、議事録、社内資料検索を支援します。できること・導入手順・費用・権限と承認の設計を解説。京都のエビスソフトが、小規模な試行から導入まで対応します。";
+const description = `AI秘書の開発・導入は初期費用の目安${secretaryInitialLabel}〜、運用保守は月額${secretaryMonthlyLabel}（いずれも税別）。朝の報告・日程調整・議事録と宿題の整理の3機能を基本構成に含みます。御社の業務に合わせて、連携・権限・承認まで設計するエビスソフトのAI秘書サービス。`;
 const prefix = process.env.NEXT_PUBLIC_BASE_PATH ?? "";
 const href = (path: string) => `${prefix}${path}`;
 const crumbs = [{ name: "ホーム", path: "/" }, { name: "AI秘書", path: "/ai-secretary" }];
@@ -27,7 +27,10 @@ export default function SecretaryPage() {
       <JsonLd data={[
         webPageJsonLd({ path: "/ai-secretary", name: `${title}｜${siteConfig.name}`, description }),
         breadcrumbJsonLd(crumbs), faqJsonLd(secretaryFaqs),
-        { "@context": "https://schema.org", "@type": "Service", "@id": `${absoluteUrl("/ai-secretary")}#service`, name: "AI秘書の開発・導入", serviceType: "AI秘書・AI社長秘書の受託開発", description, url: absoluteUrl("/ai-secretary"), provider: { "@type": "Organization", name: siteConfig.legalName, url: siteConfig.homeUrl }, areaServed: "日本", availableChannel: { "@type": "ServiceChannel", serviceUrl: absoluteUrl("/contact") } },
+        { "@context": "https://schema.org", "@type": "Service", "@id": `${absoluteUrl("/ai-secretary")}#service`, name: "AI秘書の開発・導入", serviceType: "AI秘書・AI社長秘書の受託開発", description, url: absoluteUrl("/ai-secretary"), provider: { "@type": "Organization", name: siteConfig.legalName, url: siteConfig.homeUrl }, areaServed: "日本", offers: [
+          { "@type": "Offer", name: "初期費用（3機能の基本構成）", priceSpecification: { "@type": "PriceSpecification", minPrice: secretaryInitialYen, priceCurrency: "JPY", valueAddedTaxIncluded: false }, description: "朝の報告・日程調整・議事録と宿題の整理。1人分、メール・カレンダー各1サービスを想定した概算。正式見積もりは連携範囲を確認して提示。", url: `${absoluteUrl("/ai-secretary")}#cost` },
+          { "@type": "Offer", name: "運用保守（月額）", priceSpecification: { "@type": "UnitPriceSpecification", price: secretaryPricing.monthlyMaintenanceYen, priceCurrency: "JPY", valueAddedTaxIncluded: false, unitText: "月" }, description: "運用保守の月額費用。追加開発・AIや外部サービスの利用料は別途。" },
+        ], availableChannel: { "@type": "ServiceChannel", serviceUrl: absoluteUrl("/contact") } },
       ]} />
       <a className={styles.skip} href="#main">本文へ移動する</a>
       <header className={styles.header}>
@@ -44,6 +47,7 @@ export default function SecretaryPage() {
             <p className={styles.heroText}>社長専属の秘書から、社員の業務サポートまで。使っているツールと仕事の進め方に合わせて、AI秘書を設計・開発します。</p>
             <div className={styles.actions}><a className={styles.primary} href={href("/contact")}>AI秘書の導入を相談する <span aria-hidden="true">↗</span></a><a className={styles.secondary} href="#use-cases">できることを見る <span aria-hidden="true">↓</span></a></div>
             <p className={styles.note}>初回相談・お見積もり無料 ／ オンライン相談対応</p>
+            <p className={styles.heroPrice}><a href="#cost">初期費用の目安 {secretaryInitialLabel}〜 ／ 運用保守 月額{secretaryMonthlyLabel}</a><small>税別・AI等の利用料は別途</small></p>
           </div>
           <aside className={styles.brief} aria-label="AI秘書の朝の報告イメージ">
             <div className={styles.briefTop}><span>YOUR DAILY BRIEF</span><span className={styles.status}>確認用</span></div>
@@ -61,7 +65,7 @@ export default function SecretaryPage() {
         </section>
         <section id="use-cases" className={styles.section}>
           <p className={styles.eyebrow}>WHAT YOUR AI SECRETARY CAN DO</p><h2>AI秘書に任せたい、<br /><span>6つの仕事。</span></h2><p className={styles.intro}>必要な機能を選び、ひとつの業務から試せます。連携先・権限・データの準備状況を確認して、実現する範囲を決めます。</p>
-          <div className={styles.taskGrid}>{secretaryTasks.map(task => <article key={task.number}><span className={styles.number}>{task.number}</span><h3>{task.title}</h3><p>{task.body}</p><small>{task.output}</small></article>)}</div>
+          <div className={styles.taskGrid}>{secretaryTasks.map(task => <article key={task.number}><span className={styles.number}>{task.number}</span><h3>{task.title}</h3><span className={styles.planTag}>{secretaryPricing.includedTaskNumbers.some(number => number === task.number) ? "基本構成に含む" : "追加機能・別途見積もり"}</span><p>{task.body}</p><small>{task.output}</small></article>)}</div>
         </section>
         <section id="executive" className={`${styles.section} ${styles.executive}`}>
           <div><p className={styles.eyebrow}>AI EXECUTIVE ASSISTANT</p><h2>社長のそばに、<br /><span>専属のAI秘書を。</span></h2></div>
@@ -74,7 +78,21 @@ export default function SecretaryPage() {
         </section>
         <section id="cost" className={styles.section}>
           <p className={styles.eyebrow}>START SMALL, BUILD TOGETHER</p><h2>AI秘書の費用と、<br /><span>導入までの進め方。</span></h2>
-          <div className={styles.cost}><div><span>開発費・導入期間</span><h3>業務の範囲に応じて、<br />個別にお見積もり。</h3><p>メール整理だけか、資料検索や予定調整まで含めるか。必要な連携と確認の流れを伺い、無理のない試行範囲からご提案します。</p></div><ul><li><b>開発費</b><span>対象業務・連携先・データ整備・権限の設計</span></li><li><b>運用保守費</b><span>資料の更新・連携の保守・使い方の改善</span></li><li><b>外部サービス利用料</b><span>AI・メール・カレンダーなどの契約や利用量</span></li></ul></div>
+          <div className={styles.cost}>
+            <div>
+              <span>初期費用の目安</span>
+              <h3 className={styles.price}>{secretaryInitialLabel}<small>〜（税別）</small></h3>
+              <p>「朝の報告」「日程調整」「議事録と宿題の整理」の3機能を基本構成に含みます。共通の設計・連携設定・試行・調整・納品も含めた概算です。</p>
+              <ul className={styles.included}><li>朝の予定・重要メールをまとめる報告</li><li>候補日時の整理と、承認を挟む予定登録</li><li>会議メモ・文字起こしから議事録とタスクを整理</li></ul>
+            </div>
+            <div>
+              <span>運用保守</span>
+              <h3 className={styles.price}>月額{secretaryMonthlyLabel}<small>（税別）</small></h3>
+              <p>連携の保守、運用上の不具合対応、設定調整など。対象範囲と対応方法は、ご契約前に確認します。</p>
+              <ul><li><b>追加機能・追加開発</b><span>メールの返信案、商談準備、社内資料検索などは別途お見積もり</span></li><li><b>AI・外部サービス利用料</b><span>AIの利用量、メール・カレンダー等の契約に応じて別途</span></li></ul>
+            </div>
+          </div>
+          <p className={styles.note}>基本構成は1人分、メール・カレンダー各1サービス、既存の会議メモ・文字起こしデータの利用を想定しています。複数人・複数サービスの連携、録音・自動文字起こし、独自画面や複雑な権限設定などは別途ご相談ください。正式な金額・納期は対象業務と連携先を確認して提示します。</p>
           <ol className={styles.steps}><li><b>01</b><div><h3>業務を伺う</h3><p>任せたい仕事、今使っているツール、困っている点を整理します。</p></div></li><li><b>02</b><div><h3>小さく試す</h3><p>対象データ・権限・承認を決め、ひとつの業務で使い勝手を確認します。</p></div></li><li><b>03</b><div><h3>評価して導入する</h3><p>精度と確認負担を評価。運用方法を決めて対象業務を広げます。</p></div></li></ol>
           <p className={styles.note}>連携の可否は、各サービスのAPI・契約プラン・管理者設定を確認して判断します。Webサイト制作の料金プランとは別のお見積もりです。</p>
         </section>

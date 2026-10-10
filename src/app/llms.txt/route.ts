@@ -1,3 +1,4 @@
+import { secretaryInitialLabel, secretaryMonthlyLabel } from "@/lib/ai-secretary";
 import { siteConfig, absoluteUrl } from "@/lib/site";
 import {
   businessLines,
@@ -111,7 +112,7 @@ ${businessLines
   .join("\n")}
 
 ## AI秘書の開発・導入（${absoluteUrl("/ai-secretary")}）
-社長秘書・業務秘書をAIで支援する受託開発。朝の予定・メール整理、商談準備、議事録・タスク整理、社内資料検索が対象。参照権限・承認・操作履歴を設計し、小規模な試行から導入する。費用・期間は個別見積もり。画面例は架空データであり、顧客実績や提供済み完成品ではない。
+社長秘書・業務秘書をAIで支援する受託開発。朝の予定・メール整理、商談準備、議事録・タスク整理、社内資料検索が対象。参照権限・承認・操作履歴を設計し、小規模な試行から導入する。初期費用の目安${secretaryInitialLabel}〜・運用保守月額${secretaryMonthlyLabel}（税別）。基本構成は朝の報告・日程調整・議事録と宿題の整理の3機能で、1人分・メールとカレンダー各1サービス・既存メモや文字起こしを想定。追加機能とAI等の利用料は別途。正式な金額・期間は連携先を確認して見積もる。画面例は架空データであり、顧客実績や提供済み完成品ではない。
 
 ## 提供サービス
 ${services
