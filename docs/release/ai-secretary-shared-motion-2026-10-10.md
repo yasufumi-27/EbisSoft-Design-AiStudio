@@ -31,3 +31,8 @@ Lighthouseは本番形式の成果物をローカルHTTP・無圧縮で配信し
 Lighthouse 13.5.0。モバイル3回とも Performance **99** / Accessibility **100** / Best Practices **100** / SEO **100**。PC3回とも4項目 **100**。
 
 モバイルのPerformance 100は未達。以前の独自演出より見た目を優先し、既存ページと同じ粒子・キャラクター・フォントを維持した。未達を100点と扱わない。追加で試したスタイルの非同期分割は速度が悪化したため撤回。再ビルドした最終HTMLが上記の6回計測済みHTMLとバイト単位で一致することを確認した。該当レポートは `before-critical-style-split/`、採用しなかった分割案は `abandoned-critical-style-split/` に区別して保存している。
+
+
+### 既存タブのキャッシュ更新対応
+
+公開確認で以前のJavaScriptが既存タブに残ることを確認したため、エントリーと共通エンジンのURLに内容ハッシュを付加した。最終HTML SHA-256：`c8c2493f758b435f708b1aee6ad588f705c7c75dd59dd36b4688b269839462ea`。この修正後にモバイル・PCを各1回追加測定。モバイルは **98 / 100 / 100 / 100**、PCは **100 / 100 / 100 / 100**（Performance / Accessibility / Best Practices / SEO）。これが最終成果物の実測であり、前段階の99点と区別する。モバイルの100点は未達のまま。

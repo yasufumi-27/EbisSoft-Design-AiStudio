@@ -1,5 +1,6 @@
 import fs from 'node:fs';
 import path from 'node:path';
+import { createHash } from 'node:crypto';
 import postcss from 'postcss';
 import selectorParser from 'postcss-selector-parser';
 
@@ -99,5 +100,12 @@ if (!preview) {
     html = html.replace('</body>', `<script src="${basePath}/secretary-analytics.js" data-ga-id="${gaId}" defer></script></body>`);
   }
 }
+// Version both modules by content so already-open preview tabs cannot retain
+// the previous motion engine after an HTML update.
+const digest = content => createHash('sha256').update(content).digest('hex').slice(0, 12);
+const engineVersion = digest(fs.readFileSync('out/studio-motion.js'));
+const entry = fs.readFileSync('public/secretary-motion.js', 'utf8').replace("'./studio-motion.js'", `'./studio-motion.js?v=${engineVersion}'`);
+fs.writeFileSync('out/secretary-motion.js', entry);
+html = html.replace(`src="${basePath}/secretary-motion.js"`, `src="${basePath}/secretary-motion.js?v=${digest(entry)}"`);
 fs.writeFileSync(file, html);
 console.log(`AI secretary: static HTML + ${Buffer.byteLength(css)} bytes of CSS; native interactions and analytics retained.`);
