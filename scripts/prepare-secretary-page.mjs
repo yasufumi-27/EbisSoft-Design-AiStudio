@@ -2,7 +2,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 
 // This service landing page is authored as server-rendered HTML: native anchors
-// and details, no client components. Ship its CSS and real analytics directly;
+// and details, no client components. Ship its CSS, motion and analytics directly;
 // React hydration, RSC bootstrap and the unrelated site-wide styles are unused.
 // This is the delivery format in both production and preview, not an audit mode.
 const file = 'out/ai-secretary.html';
@@ -16,7 +16,7 @@ const pageSheets = cssFiles.map(file => fs.readFileSync(file, 'utf8')).filter(cs
 if (pageSheets.length !== 1) throw new Error(`Expected one secretary stylesheet, found ${pageSheets.length}`);
 const css = 'html{scroll-behavior:smooth}body{margin:0}@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}}' + pageSheets[0];
 html = html.replace(/<script\b([^>]*)>[\s\S]*?<\/script>/g, (tag, attributes) =>
-  /type="application\/ld\+json"/.test(attributes) ? tag : '');
+  /type="application\/ld\+json"/.test(attributes) || attributes.includes(`src="${basePath}/secretary-motion.js"`) ? tag : '');
 html = html.replace(/<style\b[^>]*>[\s\S]*?<\/style>/g, '');
 html = html.replace(/<link\b[^>]*>/g, tag =>
   /rel="stylesheet"/.test(tag) || (/rel="preload"/.test(tag) && /as="(?:font|script)"/.test(tag)) ? '' : tag);
