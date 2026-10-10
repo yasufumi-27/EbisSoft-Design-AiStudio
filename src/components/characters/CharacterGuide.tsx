@@ -12,13 +12,13 @@ export type Character = keyof typeof people;
 const basePath = process.env.NEXT_PUBLIC_BASE_PATH ?? "";
 
 /** Display the supplied original artwork without changing the character design. */
-export function CharacterPortrait({ character, avatar = false, className = "", decorative = false, sizes }: { character: Character; avatar?: boolean; className?: string; decorative?: boolean; sizes?: string }) {
+export function CharacterPortrait({ character, avatar = false, className = "", decorative = false, sizes, priority = false }: { character: Character; avatar?: boolean; className?: string; decorative?: boolean; sizes?: string; priority?: boolean }) {
   const person = people[character];
   return <span className={`${styles.portrait} ${avatar ? styles.avatar : ""} ${className}`} data-character={character}>
     <img src={`${basePath}/images/characters/optimized/${character}-320.webp`}
       srcSet={[160, 320, 640].map(width => `${basePath}/images/characters/optimized/${character}-${width}.webp ${width}w`).join(", ")}
       sizes={sizes ?? (avatar ? "128px" : "(max-width: 640px) 260px, 320px")}
-      width={720} height={1280} alt={decorative ? "" : person.alt} loading="lazy" decoding="async"/>
+      width={720} height={1280} alt={decorative ? "" : person.alt} loading={priority ? "eager" : "lazy"} fetchPriority={priority ? "high" : undefined} decoding="async"/>
   </span>;
 }
 

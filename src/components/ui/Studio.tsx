@@ -92,7 +92,7 @@ export function PageHero({
           {note ? <p className="studio-hero-note">{jaNode(note)}</p> : null}
         </div>
 
-        <CharacterStage character={/^(emb|co-|req|contact)/.test(figure) ? "ebisu" : "chroma"} figure={figure}/>
+        <CharacterStage character={/^(emb|co-|req|contact)/.test(figure) ? "ebisu" : "chroma"} figure={figure} priority/>
       </div>
     </section>
   );

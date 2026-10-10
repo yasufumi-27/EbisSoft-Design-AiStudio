@@ -1,4 +1,3 @@
-/* eslint-disable @next/next/no-img-element -- Responsive prebuilt WebP assets for static hosting. */
 import type { Metadata } from "next";
 import { JsonLd } from "@/components/JsonLd";
 import { CompanyLogo } from "@/components/site/CompanyLogo";
@@ -6,6 +5,10 @@ import { breadcrumbJsonLd, faqJsonLd, webPageJsonLd } from "@/lib/jsonld";
 import { absoluteUrl, siteConfig } from "@/lib/site";
 import { socialMetadata } from "@/lib/socialMetadata";
 import { secretaryFaqs, secretaryTasks, secretaryPricing, secretaryInitialYen, secretaryInitialLabel, secretaryMonthlyLabel, secretaryPagePublished, secretaryPageUpdated } from "@/lib/ai-secretary";
+import { CharacterStage } from "@/components/characters/CharacterStage";
+import { CharacterGuide, CharacterPortrait } from "@/components/characters/CharacterGuide";
+import { Figure } from "@/components/ui/Figure";
+import motionStyles from "@/components/sections/StudioHome.module.css";
 import styles from "./secretary.module.css";
 
 const title = "AI秘書の開発・導入・費用｜社長秘書の業務を支援";
@@ -24,7 +27,8 @@ export const metadata: Metadata = {
 
 export default function SecretaryPage() {
   return (
-    <div className={styles.page} data-secretary-page>
+    <div className={`${motionStyles.home} studio-subpage ${styles.page}`} data-secretary-page data-motion="off">
+      <div className={motionStyles.readingProgress} aria-hidden="true" />
       <JsonLd data={[
         { ...webPageJsonLd({ path: "/ai-secretary", name: `${title}｜${siteConfig.name}`, description, datePublished: secretaryPagePublished, dateModified: secretaryPageUpdated }), mainEntity: { "@id": `${absoluteUrl("/ai-secretary")}#service` } },
         breadcrumbJsonLd(crumbs), faqJsonLd(secretaryFaqs),
@@ -40,29 +44,22 @@ export default function SecretaryPage() {
       </header>
       <main id="main">
         <nav className={styles.crumbs} aria-label="パンくず"><a href={href("/")}>ホーム</a><span aria-hidden="true">/</span><span aria-current="page">AI秘書</span></nav>
-        <section className={styles.hero} aria-labelledby="secretary-title">
-          <div>
-            <p className={styles.eyebrow}>YOUR WORK, WITH AI</p>
-            <h1 id="secretary-title">AI秘書で、<br /><span>仕事に余白を。</span></h1>
-            <p className={styles.heroLead}>朝の確認、メール、会議の準備。<br />毎日の細かな仕事を、御社に合ったAI秘書が支える。</p>
-            <p className={styles.heroText}>社長専属の秘書から、社員の業務サポートまで。使っているツールと仕事の進め方に合わせて、AI秘書を設計・開発します。</p>
-            <div className={styles.actions}><a className={styles.primary} href={href("/contact")}>AI秘書の導入を相談する <span aria-hidden="true">↗</span></a><a className={styles.secondary} href="#use-cases">できることを見る <span aria-hidden="true">↓</span></a></div>
-            <p className={styles.note}>初回相談・お見積もり無料 ／ オンライン相談対応</p>
-            <p className={styles.heroPrice}><a href="#cost">初期費用の目安 {secretaryInitialLabel}〜 ／ 運用保守 月額{secretaryMonthlyLabel}</a><small>税別・AI等の利用料は別途</small></p>
-          </div>
-          <aside className={styles.scene} data-motion-scene aria-label="AI広報クロマと、AI秘書の業務イメージ" data-nosnippet>
-            <div className={styles.orbits} aria-hidden="true"><i /><i /><i /></div>
-            <div className={styles.stars} aria-hidden="true"><i /><i /><i /><i /><i /><i /></div>
-            <div className={styles.characterCard} data-float>
-              <img src={href("/images/characters/optimized/chroma-320.webp")} srcSet={`${href("/images/characters/optimized/chroma-320.webp")} 320w, ${href("/images/characters/optimized/chroma-640.webp")} 640w`} sizes="(max-width: 620px) 180px, 230px" width={320} height={569} alt="赤い髪とシアンの衣装のAI広報キャラクター、クロマ" decoding="async" />
-              <div><span>YOUR AI GUIDE</span><b>クロマ<small>AI広報</small></b></div>
+        <section className="studio-hero" data-motion-section aria-labelledby="secretary-title">
+          <canvas className={motionStyles.particleField} data-studio-particles aria-hidden="true" />
+          <div className="ai-stars" aria-hidden="true">{Array.from({length:8},(_,i)=><i key={i}/>)}</div>
+          <div className="studio-hero-inner">
+            <div className="studio-hero-copy">
+              <p className="eyebrow">AI SECRETARY</p>
+              <h1 id="secretary-title">AI秘書で、<br /><em>仕事に余白を。</em></h1>
+              <p className="speakable studio-hero-lead">朝の報告、日程調整、議事録。<br />社長と社員の毎日を、御社に合ったAI秘書が支える。</p>
+              <div className="studio-actions"><a className="ai-btn ai-btn-solid studio-btn-lg" href={href("/contact")}>導入を相談する <span aria-hidden="true">↗</span></a><a className="ai-btn ai-btn-line studio-btn-lg" href="#cost">費用を見る <span aria-hidden="true">↓</span></a></div>
+              <p className="studio-hero-note">初回相談・お見積もり無料 ／ オンライン相談対応</p>
+              <p className={styles.heroPrice}><a href="#cost">初期費用の目安 {secretaryInitialLabel}〜 ／ 運用保守 月額{secretaryMonthlyLabel}</a><small>税別・AI等の利用料は別途</small></p>
             </div>
-            <div className={`${styles.floatingTask} ${styles.morning}`} data-float><span aria-hidden="true">☀</span><div><small>09:00 / DAILY BRIEF</small><b>今日の要点を、お届け。</b><p>予定・重要メール・判断待ち</p></div></div>
-            <div className={`${styles.floatingTask} ${styles.schedule}`} data-float><span aria-hidden="true">↗</span><div><small>SCHEDULE</small><b>次の予定も、スムーズに。</b><p>候補日時を確認してから登録</p></div></div>
-            <div className={styles.partner}><img src={href("/images/characters/optimized/ebisu-160.webp")} width={40} height={40} alt="" decoding="async" /><span>エビスさんと一緒に<b>仕事の進め方から、考えます。</b></span></div>
-            <p className={styles.sceneNote}>導入検討用の画面イメージ・架空データ</p>
-          </aside>
+            <CharacterStage character="chroma" figure="ai-hero" priority />
+          </div>
         </section>
+        <CharacterGuide character="chroma" compact standalone>朝の確認から、会議のあとまで。今の仕事の進め方に合わせて、AI秘書と人が受け持つ役割を一緒に考えましょう。</CharacterGuide>
         <div className={styles.motionBar}><span aria-hidden="true">SCROLL TO EXPLORE <span>↓</span></span><button type="button" data-motion-toggle aria-pressed="false">動きを止める <span aria-hidden="true">Ⅱ</span></button></div>
         <nav className={styles.toc} aria-label="このページの目次"><span>このページで分かること</span><a href="#about">AI秘書とは</a><a href="#choose">選び方</a><a href="#use-cases">できること</a><a href="#workflow">基本3機能</a><a href="#executive">社長秘書</a><a href="#design">安全な設計</a><a href="#cost">費用・導入</a><a href="#faq">FAQ</a></nav>
         <section data-motion-section id="about" className={styles.section}>
@@ -77,15 +74,15 @@ export default function SecretaryPage() {
         </section>
         <section data-motion-section id="use-cases" className={styles.section}>
           <p className={styles.eyebrow}>WHAT YOUR AI SECRETARY CAN DO</p><h2>AI秘書に任せたい、<br /><span>6つの仕事。</span></h2><p className={styles.intro}>必要な機能を選び、ひとつの業務から試せます。連携先・権限・データの準備状況を確認して、実現する範囲を決めます。</p>
-          <div className={styles.taskGrid}>{secretaryTasks.map(task => <article key={task.number} data-enter><div className={styles.taskTop}><span className={styles.number}>{task.number} /</span><svg className={styles.taskIcon} viewBox="0 0 48 48" fill="none" stroke="currentColor" strokeWidth="1.5" aria-hidden="true"><rect x="7" y="9" width="34" height="30" rx="8" /><path d={task.number === "01" ? "M15 24h18M15 30h12M15 18h7" : task.number === "02" ? "m10 15 14 12 14-12" : task.number === "03" ? "M7 19h34M17 6v7M31 6v7M17 27h4M27 27h4M17 33h4" : task.number === "04" ? "M16 31V21M24 31V16M32 31V24" : task.number === "05" ? "m14 24 6 6 14-13" : "M27 21a6 6 0 1 1-12 0 6 6 0 0 1 12 0Zm-1 5 8 8"} /></svg></div><h3>{task.title}</h3><span className={styles.planTag}>{secretaryPricing.includedTaskNumbers.some(number => number === task.number) ? "基本構成に含む" : "追加機能・別途見積もり"}</span><p>{task.body}</p><small>{task.output}</small></article>)}</div>
+          <div className={styles.taskGrid}>{secretaryTasks.map(task => <article key={task.number} data-enter data-tilt="soft"><div className={styles.taskTop}><span className={styles.number}>{task.number} /</span><svg className={styles.taskIcon} viewBox="0 0 48 48" fill="none" stroke="currentColor" strokeWidth="1.5" aria-hidden="true"><rect x="7" y="9" width="34" height="30" rx="8" /><path d={task.number === "01" ? "M15 24h18M15 30h12M15 18h7" : task.number === "02" ? "m10 15 14 12 14-12" : task.number === "03" ? "M7 19h34M17 6v7M31 6v7M17 27h4M27 27h4M17 33h4" : task.number === "04" ? "M16 31V21M24 31V16M32 31V24" : task.number === "05" ? "m14 24 6 6 14-13" : "M27 21a6 6 0 1 1-12 0 6 6 0 0 1 12 0Zm-1 5 8 8"} /></svg></div><h3>{task.title}</h3><span className={styles.planTag}>{secretaryPricing.includedTaskNumbers.some(number => number === task.number) ? "基本構成に含む" : "追加機能・別途見積もり"}</span><p>{task.body}</p><small>{task.output}</small></article>)}</div>
         </section>
         <section data-motion-section id="workflow" className={styles.section}>
           <p className={styles.eyebrow}>YOUR FIRST THREE WORKFLOWS</p><h2>基本3機能で、<br /><span>何を受け取り、何ができる？</span></h2>
           <p className={styles.intro}>初期費用に含む業務の設計例です。導入前に、実際の資料で出力と確認方法をすり合わせます。</p>
-          <div className={styles.workflows}>
-            <article><h3>朝の報告</h3><dl><dt>使う情報</dt><dd>当日の予定と、閲覧を許可したメール。重要とみなす相手や期限を事前に決めます。</dd><dt>受け取るもの</dt><dd>今日の予定、優先して読むメール、判断待ちの事項を参照元とともに整理した報告。</dd><dt>確認する点</dt><dd>重要メールの抜けと、不要な項目の混入を確認。取得できない情報は未確認として扱います。</dd></dl></article>
-            <article><h3>日程調整</h3><dl><dt>使う情報</dt><dd>連携したカレンダー、会議の所要時間、参加者から共有された希望日時・条件。</dd><dt>受け取るもの</dt><dd>候補日時と、確定前に確認が必要な条件。承認後に予定を登録する流れを設計します。</dd><dt>確認する点</dt><dd>他の予定との重複、移動時間、時差など。参照権限のない参加者の空き時間は断定しません。</dd></dl></article>
-            <article><h3>議事録と宿題の整理</h3><dl><dt>使う情報</dt><dd>提供された会議メモ・文字起こし。録音・自動文字起こしの仕組みは別途相談です。</dd><dt>受け取るもの</dt><dd>決定事項、未決事項、タスクの担当者と期限を整理した議事録案。</dd><dt>確認する点</dt><dd>決まっていない担当者・期限を補完せず「要確認」に。元の記録と照合してから確定します。</dd></dl></article>
+          <div className={`ai-flight studio-flight ${styles.workflows}`}>
+            <article data-motion-section data-enter><div className="studio-flight-visual" data-tilt="soft"><Figure name="ai-parallel" /><div className="studio-flight-guide"><CharacterPortrait character="chroma" avatar decorative /><span>基本構成 / 朝の報告</span></div></div><div><p className="ai-flight-label"><b>01</b> YOUR DAILY WORK</p><h3>朝の報告</h3><dl><dt>使う情報</dt><dd>当日の予定と、閲覧を許可したメール。重要とみなす相手や期限を事前に決めます。</dd><dt>受け取るもの</dt><dd>今日の予定、優先して読むメール、判断待ちの事項を参照元とともに整理した報告。</dd><dt>確認する点</dt><dd>重要メールの抜けと、不要な項目の混入を確認。取得できない情報は未確認として扱います。</dd></dl></div></article>
+            <article data-motion-section data-enter><div className="studio-flight-visual" data-tilt="soft"><Figure name="ai-rag" /><div className="studio-flight-guide"><CharacterPortrait character="ebisu" avatar decorative /><span>基本構成 / 日程調整</span></div></div><div><p className="ai-flight-label"><b>02</b> YOUR DAILY WORK</p><h3>日程調整</h3><dl><dt>使う情報</dt><dd>連携したカレンダー、会議の所要時間、参加者から共有された希望日時・条件。</dd><dt>受け取るもの</dt><dd>候補日時と、確定前に確認が必要な条件。承認後に予定を登録する流れを設計します。</dd><dt>確認する点</dt><dd>他の予定との重複、移動時間、時差など。参照権限のない参加者の空き時間は断定しません。</dd></dl></div></article>
+            <article data-motion-section data-enter><div className="studio-flight-visual" data-tilt="soft"><Figure name="ai-cited" /><div className="studio-flight-guide"><CharacterPortrait character="chroma" avatar decorative /><span>基本構成 / 議事録と宿題の整理</span></div></div><div><p className="ai-flight-label"><b>03</b> YOUR DAILY WORK</p><h3>議事録と宿題の整理</h3><dl><dt>使う情報</dt><dd>提供された会議メモ・文字起こし。録音・自動文字起こしの仕組みは別途相談です。</dd><dt>受け取るもの</dt><dd>決定事項、未決事項、タスクの担当者と期限を整理した議事録案。</dd><dt>確認する点</dt><dd>決まっていない担当者・期限を補完せず「要確認」に。元の記録と照合してから確定します。</dd></dl></div></article>
           </div>
           <p className={styles.limit}>試行では、導入前後の作業時間に加え、確認・修正にかかる時間、情報の抜けや誤り、連携エラーを確認します。時間削減率などの成果は業務によって異なるため、実際の試行で判断します。</p>
         </section>
@@ -127,10 +124,11 @@ export default function SecretaryPage() {
           <p className={styles.eyebrow}>FAQ</p><h2>AI秘書について、<br /><span>よくあるご質問。</span></h2>
           <div className={styles.faq}>{secretaryFaqs.map(faq => <details key={faq.question}><summary>{faq.question}<span aria-hidden="true">＋</span></summary><p>{faq.answer}</p></details>)}</div>
         </section>
-        <section data-motion-section className={styles.closing} aria-labelledby="consult-title"><div className={styles.closingGuide}><img src={href("/images/characters/optimized/ebisu-160.webp")} width={80} height={80} alt="マネージャーキャラクターのエビスさん" loading="lazy" decoding="async" /><span>エビスさんが、ご相談をお待ちしています。</span></div><p className={styles.eyebrow}>LET’S MAKE YOUR WORK EASIER</p><h2 id="consult-title">その仕事、<br /><span>AI秘書に任せられるかも。</span></h2><p>「何から始める？」という相談から。<br />任せたい作業を、ひとつ教えてください。</p><a className={styles.primary} href={href("/contact")}>AI秘書について無料で相談する <span aria-hidden="true">↗</span></a></section>
-        <aside className={styles.editorial} aria-label="掲載情報について"><p>提供・編集：エビスソフト ／ 最終更新：<time dateTime={secretaryPageUpdated}>2026年10月10日</time></p><p>生成AIを活用して作成し、公開デモの実装とサービスの設計方針をもとに内容を整理しています。掲載する機能はご相談に応じた開発範囲の例です。画面イメージは架空データを使用しています。</p><p>連携サービスのデータ取り扱いを確認する一次資料：<a href="https://learn.microsoft.com/en-us/microsoft-365/copilot/microsoft-365-copilot-privacy">Microsoft公式：Copilotのデータ・プライバシー・セキュリティ</a>。Microsoft製品を用いる場合の確認資料であり、当サービス全体の仕様を示すものではありません。</p></aside>
+        <section data-motion-section className={styles.closing} aria-labelledby="consult-title"><p className={styles.eyebrow}>LET’S MAKE YOUR WORK EASIER</p><h2 id="consult-title">その仕事、<br /><span>AI秘書に任せられるかも。</span></h2><p>「何から始める？」という相談から。<br />任せたい作業を、ひとつ教えてください。</p><a className={styles.primary} href={href("/contact")}>AI秘書について無料で相談する <span aria-hidden="true">↗</span></a></section>
+        <CharacterGuide character="ebisu" standalone title="任せたい仕事を、ひとつから。" href="/contact" linkLabel="無料で相談する">マネージャーのエビスさんです。今のツールや仕事の流れを伺いながら、導入する範囲と費用を一緒に整理します。</CharacterGuide>
+        <aside className={styles.editorial} aria-label="掲載情報について"><p>提供・編集：エビスソフト ／ 最終更新：<time dateTime={secretaryPageUpdated}>2026年10月10日</time></p><p>生成AIを活用して作成し、公開デモの実装とサービスの設計方針をもとに内容を整理しています。掲載する機能はご相談に応じた開発範囲の例です。</p><p>連携サービスのデータ取り扱いを確認する一次資料：<a href="https://learn.microsoft.com/en-us/microsoft-365/copilot/microsoft-365-copilot-privacy">Microsoft公式：Copilotのデータ・プライバシー・セキュリティ</a>。Microsoft製品を用いる場合の確認資料であり、当サービス全体の仕様を示すものではありません。</p></aside>
       </main>
-      <script src={href("/secretary-motion.js")} defer />
+      <script type="module" src={href("/secretary-motion.js")} defer />
       <footer className={styles.footer}><a href={href("/")}>エビスソフト</a><nav aria-label="フッターナビゲーション"><a href={href("/ai")}>AI活用</a><a href={href("/company")}>会社概要</a><a href={href("/privacy")}>プライバシーポリシー</a><a href={href("/contact")}>お問い合わせ</a></nav><p>© 2026 {siteConfig.legalName}</p></footer>
     </div>
   );
