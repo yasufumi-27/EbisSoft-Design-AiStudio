@@ -136,7 +136,7 @@ export default function AiPage() {
         note="初回相談・お見積もり無料／最短2営業日で構成案"
       />
 
-      <CharacterGuide character="chroma" compact standalone>AIって、どこから使えばいい？ まずは「減らしたい手間」や「できたら便利なこと」から、一緒に見つけましょう。</CharacterGuide>
+      <CharacterGuide character="chroma" compact standalone>AIって、どこから使えばいい？ まずは「減らしたい手間」や「できたら便利なこと」から、一緒に見つけましょう。<br /><a className="underline underline-offset-4" href={`${process.env.NEXT_PUBLIC_BASE_PATH ?? ""}/ai-secretary`}>AI秘書・AI社長秘書の機能と導入費用を見る</a></CharacterGuide>
 
       <StatRow items={stats} />
 

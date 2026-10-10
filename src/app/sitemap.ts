@@ -2,6 +2,7 @@ import type { MetadataRoute } from "next";
 import { siteConfig, absoluteUrl } from "@/lib/site";
 import { capabilities } from "@/lib/content";
 import { columnsByDate } from "@/lib/columns";
+import { secretaryPageUpdated } from "@/lib/ai-secretary";
 import { industries } from "@/lib/showcaseData";
 
 // output: "export"（GitHub Pages）でも静的生成できるよう明示
@@ -25,6 +26,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     },
     {
       url: absoluteUrl("/ai-secretary"),
+      lastModified: secretaryPageUpdated,
       changeFrequency: "monthly",
       priority: 0.9,
     },

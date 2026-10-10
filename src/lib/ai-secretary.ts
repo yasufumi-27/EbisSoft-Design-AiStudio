@@ -19,9 +19,15 @@ export const secretaryInitialYen = secretaryEstimatedHours * secretaryPricing.ho
 export const secretaryInitialLabel = `${secretaryInitialYen / 10_000}万円`;
 export const secretaryMonthlyLabel = `${secretaryPricing.monthlyMaintenanceYen / 10_000}万円`;
 
+// Editorial dates, never the build time or the company founding date.
+export const secretaryPagePublished = "2026-10-10";
+export const secretaryPageUpdated = "2026-10-10";
+
 /** First-party service scope and sample scenarios; no customer results are claimed. */
 export const secretaryFaqs = [
   { question: "AI秘書とは何ですか？", answer: "AI秘書は、メールや予定、議事録、社内資料をもとに、情報の整理・検索・下書きを支援する仕組みです。エビスソフトでは、社長や担当者の業務、利用中のツール、確認のルールに合わせて設計・開発します。" },
+  { question: "既製のAI秘書アプリと、個別開発はどう選べばよいですか？", answer: "まず、必要な業務を既製アプリの機能・連携先・権限設定で扱えるか確認します。自社固有の報告形式、複数の業務をつなぐ処理、承認ルールに合わせる必要がある場合は、個別開発を検討します。当サービスは業務に合わせた受託開発で、アプリの月額利用契約とは費用の構成が異なります。" },
+  { question: "AI秘書は人の秘書の代わりになりますか？", answer: "情報を集める、要点をまとめる、候補を用意する作業を支援します。相手への配慮が必要な交渉、曖昧な指示の最終判断、経営判断などは人が担います。既存の秘書や担当者と役割を分け、確認の手間も含めて導入効果を評価します。" },
   { question: "社長秘書としてAIを使えますか？", answer: "朝の予定と重要メールの整理、商談前の資料準備、会議で決まった宿題の管理、返信の下書きなどを支援できます。重要とみなす情報や報告のタイミングを社長の仕事に合わせ、判断が必要な事項は社長や担当者に戻します。" },
   { question: "秘書業務をAIに任せると、何が変わりますか？", answer: "複数の画面や資料を行き来して確認する作業を、要点と参照元をまとめて確認する流れに変えられます。どれだけ時間を減らせるかは業務や資料の状態で異なるため、試行で確認してから対象を広げます。" },
   { question: "AI秘書の開発・導入には、いくらかかりますか？", answer: `初期費用の目安は${secretaryInitialLabel}〜（税別）、運用保守は月額${secretaryMonthlyLabel}（税別）です。基本構成には「朝の報告」「日程調整」「議事録と宿題の整理」の3機能を含みます。1人分、メール・カレンダー各1サービス、既存の会議メモや文字起こしデータの利用を想定した概算です。連携先や対象業務により正式なお見積もりを提示します。追加機能、AI・外部サービスの利用料は別途です。` },
