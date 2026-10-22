@@ -41,11 +41,6 @@ const nextConfig: NextConfig = {
   // 末尾スラッシュなしのURLに統一（canonical との一貫性）
   trailingSlash: false,
 
-  // ページ遷移をブラウザの View Transitions API でクロスフェードさせる
-  experimental: {
-    viewTransition: true,
-  },
-
   // next/link を通さない生の <a href="/..."> 用。basePath をクライアントからも参照できるようにする
   env: {
     NEXT_PUBLIC_BASE_PATH: isGithubPages ? repoBasePath : "",
