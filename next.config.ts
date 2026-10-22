@@ -36,6 +36,7 @@ const securityHeaders = [
 ];
 
 const nextConfig: NextConfig = {
+  experimental: { globalNotFound: true },
   // レスポンスから X-Powered-By を除去
   poweredByHeader: false,
   // 末尾スラッシュなしのURLに統一（canonical との一貫性）
